@@ -1,0 +1,10 @@
+.calendarioBody{
+    text-align: center;
+}
+
+.calendarioBody .titulo{
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+}

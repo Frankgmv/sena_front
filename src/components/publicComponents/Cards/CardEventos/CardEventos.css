@@ -1,0 +1,35 @@
+.cardEventos{
+    width: 95%;
+    border: 1px solid;
+    display: flex;
+    margin: 40px 0;
+    border-radius: 20px;
+}
+
+.cardEventos .eventos-img{
+    width: 50%;
+}
+
+.cardEventos .eventos-img img{
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.cardEventos .textoEventos{
+    width: 50%;
+    text-align: center;
+}
+
+.cardEventos .textoEventos .tituloEvento{
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.cardEventos .textoEventos .descripcionEvento{
+    font-size: 15px;
+    font-weight: 400;
+    margin: 30px;
+}

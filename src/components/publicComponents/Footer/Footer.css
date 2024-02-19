@@ -1,0 +1,68 @@
+.footerBody{
+    width: 95%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.footerBody .encabezado{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+}
+
+.footerBody .encabezado img{
+    width: 120px;
+    height: 120px;
+    margin: 0 60px;
+}
+
+.footerBody .encabezado p{
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.footerBody .footerInfo{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footerBody .footerInfo .containerUbicacion{
+    width: 50%;
+}
+
+.footerBody .footerInfo .ubicacionText{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 30px 0;
+}
+
+.footerBody .footerInfo .ubicacionText h4{
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.footerBody .footerInfo .ubicacionText p{
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.footerBody .footerInfo .footerContacto{
+    width: 50%;
+} 
+
+.footerBody .footerInfo .junto{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 50px 0;
+}
+
+.footerBody .footerInfo .junto h4{
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.footerBody .footerInfo .junto p{
+    font-size: 15px;
+    font-weight: 400;
+}

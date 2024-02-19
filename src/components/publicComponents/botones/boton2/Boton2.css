@@ -1,0 +1,50 @@
+.cta {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.cta .boton-text {
+    padding-bottom: 7px;
+    font-size: 12px;
+    padding-right: 15px;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.cta svg {
+    transform: translateX(-4px);
+    transition: all 0.3s ease;
+}
+
+.cta:hover svg {
+    transform: translateX(0);
+}
+
+.cta:active svg {
+    transform: scale(0.9);
+}
+
+.hover-underline-animation {
+    position: relative;
+    color: var(--black-text);
+    padding-bottom: 20px;
+}
+
+.hover-underline-animation:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--black-text);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.cta:hover .hover-underline-animation:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}

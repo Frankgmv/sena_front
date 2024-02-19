@@ -1,0 +1,17 @@
+.homeBody{
+    position: relative;
+}
+
+.calendario-eventos{
+    width: 95%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.calendario{
+    width: 45%;
+}
+
+.eventos{
+    width: 45%;
+}

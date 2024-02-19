@@ -1,0 +1,16 @@
+.menuBody{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.menuBody .menuCards{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 50px 0px;
+}
+
+.menuBody .titulo{
+    text-align: center;
+    font-size: 28px;
+}

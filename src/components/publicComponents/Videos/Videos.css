@@ -1,0 +1,26 @@
+.videoBody{
+    width: 95%;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.videoBody .titulo{
+    text-align: center;
+    font-size: 28px;
+}
+
+.videoBody .videoPrincipal{
+    margin: 50px auto;
+    font-size: 18px;
+}
+
+.videoBody .videoComplemento{
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.videoBody .videoComplemento h3{
+    font-size: 15px;
+    text-align: left;
+}

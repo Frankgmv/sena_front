@@ -1,0 +1,44 @@
+.containerMenuCard{
+    width: 170px;
+    height: 190px;
+    border: 1px solid;
+    border-radius: 15px;
+    margin: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.containerMenuCard .cardImagen{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.containerMenuCard .cardImagen img{
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+}
+
+.containerMenuCard .menuLinks{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.containerMenuCard .menuLinks h3{
+    font-size: 17px;
+    color: var(--black-text);
+    font-weight: 600;
+}
+
+.containerMenuCard .menuLink{
+    text-decoration: none;
+}
+
+.containerMenuCard:hover{
+    scale: 1.05;
+    background: var(--black);
+}
+
+.containerMenuCard:hover .menuLinks h3{
+    color: var(--white);
+}

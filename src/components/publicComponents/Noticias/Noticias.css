@@ -1,0 +1,26 @@
+.newsBody{
+    width: 95%;
+    margin: 80px auto 0;
+}
+
+.newsBody .encabezado{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.newsBody .encabezado .titulo{
+    text-align: center;
+    width: 60%;
+}
+
+.newsBody .encabezado .boton{
+    width: 20%;
+}
+
+.containerCard{
+    width: 95%;
+    margin: 80px auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
