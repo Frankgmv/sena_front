@@ -37,7 +37,7 @@
     color: var(--white);
 }
 
-.containerInput {
+.registerBody .containerInput {
     width: 50%;
     height: 100vh;
     background-color: var(--white);
@@ -45,7 +45,7 @@
     z-index: 100;
 }
 
-.textoRegister {
+.registerBody .textoRegister {
     padding: 0 30px;
 }
 
@@ -60,12 +60,12 @@
 
 .registerBody .containerInput .encabezadoRegister {
     width: 80%;
-    margin: 0 50px;
+    margin: 0 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    padding: 20px 0 50px;
+    padding: 20px 0 10px;
 }
 
 .registerBody .containerInput .encabezadoRegister h3 {
@@ -88,27 +88,24 @@
 
 .registerBody .containerInput form{
     width: 90%;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
-.registerBody .containerInput .junto{
+.registerBody .containerInput .form .junto{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    margin: 0 auto;
 }
 
-.input-container {
+.registerBody .input-container {
     position: relative;
-    margin: 50px auto;
+    margin: 20px auto;
     width: 40%;
 }
 
-.input-container input[type="text"],
-.input-container input[type="password"] {
-    font-size: 20px;
-    width: 90%;
+.registerBody .input-container input {
+    font-size: 20px;  width: 90%;
     border: none;
     border-bottom: 2px solid var(--black);
     padding: 5px 0;
@@ -116,7 +113,11 @@
     outline: none;
 }
 
-.input-container .label {
+.registerBody .input-container input[type="date"]{
+    margin-left: 35px;
+}
+
+.registerBody .input-container .label {
     position: absolute;
     top: 0;
     left: 0;
@@ -125,16 +126,30 @@
     pointer-events: none;
 }
 
-.input-container input[type="text"]:focus~.label,
-.input-container input[type="text"]:valid~.label,
-.input-container input[type="password"]:focus~.label,
-.input-container input[type="password"]:valid~.label {
+.registerBody .input-container input[type="date"]~.label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: var(--black);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    margin-left: 35px;
+}
+
+.registerBody .input-container input[type="text"]:focus~.label,
+.registerBody .input-container input[type="text"]:valid~.label,
+.registerBody .input-container input[type="password"]:focus~.label,
+.registerBody .input-container input[type="password"]:valid~.label,
+.registerBody .input-container input[type="email"]:focus~.label,
+.registerBody .input-container input[type="email"]:valid~.label,
+.registerBody .input-container input[type="number"]:focus~.label,
+.registerBody .input-container input[type="number"]:valid~.label  {
     top: -20px;
     font-size: 16px;
     color: var(--black);
 }
 
-.input-container .underline {
+.registerBody .input-container .underline {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -145,28 +160,32 @@
     transition: all 0.3s ease;
 }
 
-.input-container input[type="text"]:focus~.underline,
-.input-container input[type="text"]:valid~.underline,
-.input-container input[type="password"]:focus~.underline,
-.input-container input[type="password"]:valid~.underline {
+.registerBody .input-container input[type="text"]:focus~.underline,
+.registerBody .input-container input[type="text"]:valid~.underline,
+.registerBody .input-container input[type="password"]:focus~.underline,
+.registerBody .input-container input[type="password"]:valid~.underline {
     transform: scaleX(1);
 }
 
 .registerBody .select-container{
     text-align: center;
-    margin: 0 20px 50px 0;
+    width: 40%;
 }
 
-.select-container select{
-    width: 80%;
+.registerBody .select-container select{
     /* border-bottom: 1px solid var(--black); */
+    width: 90%;
     outline: 0;
     height: 40px;
+    margin-left: 35px;
+    font-size: 16px;
+    border: 0px;
+    border-bottom: 2px solid var(--black);
+    outline: 0px;
 }
 
-.select-container select option{
+.registerBody .select-container select option{
     font-size: 15px;
-    /* border-bottom: 1px solid var(--black); */
     outline: 0;
     height: 40px;
 }
@@ -181,7 +200,7 @@
     outline: 0;
 } */
 
-.botonRegister{
+.registerBody .botonRegister{
     margin-top: 60px;
     margin-right: 20px;
     text-align: center;

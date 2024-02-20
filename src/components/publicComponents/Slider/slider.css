@@ -21,7 +21,7 @@
     height: 62px;
     width: 80%;
     background-color: var(--white);
-    border-radius: 20px;
+    border-radius: 10px;
     left: 145px;
     z-index: 100;
 }

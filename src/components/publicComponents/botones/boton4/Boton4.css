@@ -1,19 +1,35 @@
 .button {
-    --color: var(--succes);
     padding: 0.8em 1.7em;
     background-color: transparent;
     border-radius: .3em;
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    transition: .5s;
+    transition: 2s;
     font-weight: 400;
     font-size: 17px;
     border: 1px solid;
     font-family: inherit;
     text-transform: uppercase;
-    color: var(--color);
     z-index: 1;
+}
+
+button[type="button"]{
+    color: var(--white);
+}
+
+button[type="button"]::before,
+button[type="button"]::after {
+    background-color: var(--black);
+}
+
+button[type="submit"]{
+    color: var(--success);
+}
+
+button[type="submit"]::before,
+button[type="submit"]::after {
+    background-color: var(--success);
 }
 
 .button::before,
@@ -26,8 +42,7 @@
     position: absolute;
     border-radius: 50%;
     z-index: -1;
-    background-color: var(--color);
-    transition: 1s ease;
+    transition: 1.5s ease;
 }
 
 .button::before {
@@ -48,6 +63,15 @@
 
 .button:hover {
     color: var(--black);
+}
+
+button[type="button"]:hover{
+    color: var(--white);
+}
+
+button[type="submit"]:hover{
+    color: var(--white);
+    transition: 1s ease;
 }
 
 .button:active {

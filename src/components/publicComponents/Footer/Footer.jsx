@@ -5,11 +5,11 @@ import './Footer.css'
 const Footer = () => {
     return (
         <div className='footerBody'>
-            <div className="encabezado">
-                <img src={f1} alt="Logo.png" />
-                <p className="footerText">Formando para la gente</p>
-            </div>
             <div className="footerInfo">
+                <div className="encabezado">
+                    <img src={f1} alt="Logo.png" />
+                    <p className="footerText">Formando para la gente</p>
+                </div>
                 <div className="containerUbicacion">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13372.83792864169!2d-75.68337918806108!3d4.809765844113124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e38873a60db98b9%3A0x33b5b34c5d8d2f81!2sInstituci%C3%B3n%20Educativa%20Centenario!5e0!3m2!1ses!2sco!4v1707898494913!5m2!1ses!2sco"
@@ -34,9 +34,9 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="footerContacto">
-                        <div className="footerTitulo">
-                            <h3>Contáctenos</h3>
-                        </div>
+                    <div className="footerTitulo">
+                        <h3>Contáctenos</h3>
+                    </div>
                     <div className="junto">
                         <div className="telefonos">
                             <h4>Telefonos</h4>
