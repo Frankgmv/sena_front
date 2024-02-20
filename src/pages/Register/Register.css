@@ -104,8 +104,16 @@
     width: 40%;
 }
 
+
 .registerBody .input-container input {
     font-size: 20px;  width: 90%;
+}
+
+.input-container input[type="text"],
+.input-container input[type="number"],
+.input-container input[type="password"] {
+    font-size: 20px;
+    width: 90%;
     border: none;
     border-bottom: 2px solid var(--black);
     padding: 5px 0;
@@ -143,7 +151,7 @@
 .registerBody .input-container input[type="email"]:focus~.label,
 .registerBody .input-container input[type="email"]:valid~.label,
 .registerBody .input-container input[type="number"]:focus~.label,
-.registerBody .input-container input[type="number"]:valid~.label  {
+.registerBody .input-container input[type="number"]:valid~.label {
     top: -20px;
     font-size: 16px;
     color: var(--black);
@@ -182,6 +190,10 @@
     border: 0px;
     border-bottom: 2px solid var(--black);
     outline: 0px;
+    outline: 0px;
+    border:0px;
+    height: 40px;
+    border-bottom: 2px solid var(--black);
 }
 
 .registerBody .select-container select option{
@@ -190,15 +202,6 @@
     height: 40px;
 }
 
-/* .select-container select:focus{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-}
-
-.select-container select:disabled{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-} */
 
 .registerBody .botonRegister{
     margin-top: 60px;

@@ -7,13 +7,11 @@ import Login from './pages/login/Login'
 function App() {
 
   return (
-    <>
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
       </Routes>
-    </>
   )
 }
 
