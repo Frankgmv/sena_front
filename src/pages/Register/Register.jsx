@@ -2,8 +2,39 @@ import './Register.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton3 from '../../components/publicComponents/botones/boton3/Boton3'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
-
+import { useCredentialContext } from '../../context/CredentialContext'
+import { useState } from 'react'
+import toastr from '../../assets/includes/Toastr';
 const Register = () => {
+    const [dataLogin, setdataLogin] = useState({});
+    const { roles, login } = useCredentialContext();
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        login(dataLogin)
+        console.log(dataLogin)
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'id' || name === 'RolId') {
+            setdataLogin({
+                ...dataLogin,
+                [name]: parseInt(value)
+            });
+        } else {
+            setdataLogin({
+                ...dataLogin,
+                [name]: value
+            });
+        }
+    };
+
+    if(1===1){
+        toastr.error('Error en el registro');
+    }
+
     return (
         <div className='registerBody'>
             <div className="img">
@@ -26,30 +57,29 @@ const Register = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="form">
-                    <form action="" method="post">
+                    <form onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input required id="input" type="text" />
+                                <input id="id" name='id' type="number" onChange={handleChange} maxLength={10} />
                                 <label className="label" htmlFor="input">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="password" />
+                                <input id="password" name='password' type="password" onChange={handleChange} />
                                 <label className="label" htmlFor="input">Contraseña</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="select-container">
-                            <select name="" id="">
-                                <option value="">Estudiante Especial</option>
-                                <option value="">Docente</option>
-                                <option value="">Personal Administrativo</option>
-                                <option value="">Coordinador</option>
-                                <option value="">Rector</option>
+                            <select name="RolId" id="RolId" onChange={handleChange}>
+                                {roles.map((rol) => {
+                                    return <option value={rol.id} key={rol.id} >{rol.rol}</option>
+                                })
+                                }
                             </select>
                         </div>
                         <div className="botonRegister">
-                            <Boton4 
+                            <Boton4
                                 name='Registrarse'
                             />
                         </div>

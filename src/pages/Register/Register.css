@@ -106,6 +106,7 @@
 }
 
 .input-container input[type="text"],
+.input-container input[type="number"],
 .input-container input[type="password"] {
     font-size: 20px;
     width: 90%;
@@ -125,6 +126,8 @@
     pointer-events: none;
 }
 
+.input-container input[type="number"]:focus~.label,
+.input-container input[type="number"]:valid~.label,
 .input-container input[type="text"]:focus~.label,
 .input-container input[type="text"]:valid~.label,
 .input-container input[type="password"]:focus~.label,
