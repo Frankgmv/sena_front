@@ -15,21 +15,29 @@ export const useCredentialContext = () => {
 export const CredentialProvider = ({ children }) => {
 
     const [errorsCredential, setErrorsCredential] = useState([]);
-    const [responseMessage, setResponseMessage] = useState('');
+    const [responseMessage, setResponseMessage] = useState([]);
     const [isLogged, setisLogged] = useState(false);
     const [roles, setRoles] = useState([]);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         getRoles();
     }, [])
+    
 
-
-    useEffect(()=>{
+    useEffect(() => {
         const timer = setTimeout(() => {
             setErrorsCredential([]);
         }, 10000);
         return () => clearTimeout(timer);
     }, [errorsCredential])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setResponseMessage([]);
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [responseMessage])
+
 
     const getRoles = async () => {
         try {
@@ -39,8 +47,25 @@ export const CredentialProvider = ({ children }) => {
                 setRoles(data.data)
             }
         } catch (error) {
-            setErrorsCredential(error)
-            console.log(error)
+            if (error.zodError) {
+                const arrayMessage = error.zodError.issues.map(error => error.message)
+
+                setErrorsCredential((prevent) => {
+                    return {
+                        ...prevent,
+                        ...arrayMessage
+                    }
+                })
+            }
+
+            if(error.message){
+                setErrorsCredential((prevent) => {
+                    return {
+                        ...prevent,
+                         ...error.message
+                    }
+                })
+            }
         }
     }
 
@@ -49,15 +74,41 @@ export const CredentialProvider = ({ children }) => {
         try {
             const response = await api.post('/validacion/login', dataLogin);
             const data = await response.data
-            setResponseMessage(data.message);
-
-            if (data.status === 200) {
+            
+            if (data.ok && data.status === 200) {
+                setResponseMessage(data.data.message)
                 setisLogged(true);
+            } else {
+                setErrorsCredential((prevent) => {
+                    return {
+                        ...prevent, ...data.message
+                    }
+                })
             }
+
+            setResponseMessage(data.message);
             console.log(response);
         } catch (error) {
-            setErrorsCredential(error)
             console.log(error)
+            if (error.zodError) {
+                const arrayMessage = error.zodError.issues.map(error => error.message)
+                
+                setErrorsCredential((prevent) => {
+                    return {
+                        ...prevent,
+                        ...arrayMessage
+                    }
+                })
+            }
+
+            if(error.message){
+                setErrorsCredential((prevent) => {
+                    return {
+                        ...prevent,
+                         ...error.message
+                    }
+                })
+            }
         }
     }
 

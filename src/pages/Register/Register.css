@@ -163,26 +163,18 @@
 .select-container select{
     width: 80%;
     /* border-bottom: 1px solid var(--black); */
-    outline: 0;
+    outline: 0px;
+    border:0px;
     height: 40px;
+    border-bottom: 2px solid var(--black);
 }
 
 .select-container select option{
     font-size: 15px;
-    /* border-bottom: 1px solid var(--black); */
     outline: 0;
     height: 40px;
 }
 
-/* .select-container select:focus{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-}
-
-.select-container select:disabled{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-} */
 
 .botonRegister{
     margin-top: 60px;

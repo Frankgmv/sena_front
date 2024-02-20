@@ -6,13 +6,13 @@ import { useCredentialContext } from '../../context/CredentialContext'
 import { useState } from 'react'
 import toastr from '../../assets/includes/Toastr';
 const Register = () => {
-    const [dataLogin, setdataLogin] = useState({});
-    const { roles, login } = useCredentialContext();
+    const [dataLogin, setdataLogin] = useState({'id': 0, 'password': '', 'RolId': 0 });
+    const { roles, login, errorsCredential, responseMessage } = useCredentialContext();
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        login(dataLogin)
         console.log(dataLogin)
+        login(dataLogin)
     }
 
     const handleChange = (e) => {
@@ -31,8 +31,11 @@ const Register = () => {
         }
     };
 
-    if(1===1){
-        toastr.error('Error en el registro');
+    if(errorsCredential.length > 0){
+        errorsCredential.map(error => toastr.error(error))
+    }
+    if(responseMessage.length > 0){
+        responseMessage.map(error => toastr.success(error))
     }
 
     return (
@@ -61,12 +64,12 @@ const Register = () => {
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' type="number" onChange={handleChange} maxLength={10} />
-                                <label className="label" htmlFor="input">Identificacion</label>
+                                <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
                                 <input id="password" name='password' type="password" onChange={handleChange} />
-                                <label className="label" htmlFor="input">Contraseña</label>
+                                <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
@@ -79,9 +82,7 @@ const Register = () => {
                             </select>
                         </div>
                         <div className="botonRegister">
-                            <Boton4
-                                name='Registrarse'
-                            />
+                            <Boton4 name='Registrarse'/>
                         </div>
                     </form>
                 </div>
