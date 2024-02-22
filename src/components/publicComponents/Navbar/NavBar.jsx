@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import logo from '../../../assets/img/logo.png'
 import './NavBar.css'
+import BurgerButton from '../botones/burgerButton/BurgerButton'
 
 const NavBar = () => {
     return (
@@ -18,6 +19,9 @@ const NavBar = () => {
                 <Link className='link' to='/'>Institución</Link>
                 <Link className='link' to='/'>Plataformas Académicas</Link>
                 <Link className='link' to='/'>Noticias</Link>
+            </div>
+            <div className="burgerButton">
+                <BurgerButton />
             </div>
         </div>
     )

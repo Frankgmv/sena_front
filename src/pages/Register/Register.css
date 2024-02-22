@@ -111,7 +111,9 @@
 
 .input-container input[type="text"],
 .input-container input[type="number"],
-.input-container input[type="password"] {
+.input-container input[type="password"],
+.input-container input[type="email"],
+.input-container input[type="date"] {
     font-size: 20px;
     width: 90%;
     border: none;
@@ -171,7 +173,11 @@
 .registerBody .input-container input[type="text"]:focus~.underline,
 .registerBody .input-container input[type="text"]:valid~.underline,
 .registerBody .input-container input[type="password"]:focus~.underline,
-.registerBody .input-container input[type="password"]:valid~.underline {
+.registerBody .input-container input[type="password"]:valid~.underline,
+.registerBody .input-container input[type="number"]:focus~.underline,
+.registerBody .input-container input[type="number"]:valid~.underline,
+.registerBody .input-container input[type="email"]:focus~.underline,
+.registerBody .input-container input[type="email"]:valid~.underline {
     transform: scaleX(1);
 }
 
@@ -208,4 +214,130 @@
     margin-right: 20px;
     text-align: center;
     align-items: center;
+}
+
+.registerBody .footerInputsRegister{
+    margin-top: 60px;
+    margin-right: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+.registerBody .footerInputsRegister .linkRegister{
+    display: none;
+}
+
+@media (width >=768px) and (width <=1200px) {
+    .registerBody .textoRegister {
+        position: absolute;
+        top: 300px;
+        right: 25px;
+        color: var(--white);
+    }
+
+    .registerBody .textoRegister h2 {
+        font-size: 18px;
+    }
+
+    .registerBody .containerInput {
+        width: 60%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 80% 0, 100% 29%, 90% 100%, 0 100%);
+        z-index: 100;
+    }
+}
+
+@media (width <=768px) and (width > 400px) {
+    .registerBody .encabezadoRegister {
+        width: 50%;
+        margin: 0 auto;
+        border-bottom: 1px solid var(--black);
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .registerBody .containerInput {
+        width: 100%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+        z-index: 100;
+    }
+
+    .footerInputsRegister {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .registerBody .footerInputsRegister .linkRegister {
+        display: block;
+    }
+
+    .registerBody .footerInputsRegister .linkRegister .linkInput {
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 2px solid var(--black);
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+
+    .registerBody .img,
+    .registerBody .img img,
+    .registerBody .fondo,
+    .registerBody .textoRegister {
+        display: none;
+    }
+}
+
+@media (width <=400px) {
+    .registerBody .containerInput{
+        height: auto;
+        width: 100%;
+    }
+
+    .registerBody .encabezadoRegister {
+        width: 50%;
+        border-bottom: 1px solid var(--black);
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .registerBody .textoRegister {
+        display: none;
+    }
+
+    .registerBody .containerInput {
+        width: 100%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+        z-index: 100;
+    }
+
+    .footerInputsRegister {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        margin: 40px 0;
+    }
+
+    .RegisterBody .footerInputsRegister .linkRegister {
+        display: block;
+        margin-top: 50px;
+    }
+
+    .RegisterBody .footerInputsRegister .linkRegister .linkInput {
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 2px solid var(--black);
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+
+    .registerBody .junto{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
 }

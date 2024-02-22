@@ -35,6 +35,7 @@
     top: 300px;
     right: 200px;
     color: var(--white);
+    padding: 0 30px;
 }
 
 .loginBody .containerInput {
@@ -43,10 +44,6 @@
     background-color: var(--white);
     clip-path: polygon(0 0, 80% 0, 100% 29%, 90% 100%, 0 100%);
     z-index: 100;
-}
-
-.loginBody .textoRegister {
-    padding: 0 30px;
 }
 
 .loginBody .textoRegister h2 {
@@ -86,12 +83,12 @@
 
 }
 
-.loginBody .containerInput form{
+.loginBody .containerInput form {
     width: 90%;
     margin: 50px auto;
 }
 
-.loginBody .containerInput .junto{
+.loginBody .containerInput .junto {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -152,12 +149,12 @@
     transform: scaleX(1);
 }
 
-.loginBody .select-container{
+.loginBody .select-container {
     text-align: center;
     margin: 0 20px 50px 0;
 }
 
-.loginBody .select-container select{
+.loginBody .select-container select {
     width: 80%;
     border: 0px;
     outline: 0px;
@@ -167,7 +164,7 @@
     height: 40px;
 }
 
-.loginBody .select-container select option{
+.loginBody .select-container select option {
     font-size: 15px;
     outline: 0;
     height: 40px;
@@ -183,9 +180,117 @@
     outline: 0;
 } */
 
-.loginBody .botonRegister{
+.loginBody .footerInputsLogin {
     margin-top: 60px;
     margin-right: 20px;
     text-align: center;
     align-items: center;
+}
+
+.loginBody .footerInputsLogin .linkRegister {
+    display: none;
+}
+
+@media (width >=768px) and (width <=1200px) {
+    .loginBody .textoRegister {
+        position: absolute;
+        top: 300px;
+        right: 25px;
+        color: var(--white);
+    }
+
+    .loginBody .textoRegister h2 {
+        font-size: 18px;
+    }
+
+    .loginBody .containerInput {
+        width: 60%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 80% 0, 100% 29%, 90% 100%, 0 100%);
+        z-index: 100;
+    }
+}
+
+@media (width <=768px) and (width > 400px) {
+    .loginBody .encabezadoRegister {
+        width: 50%;
+        margin: 0 auto;
+        border-bottom: 1px solid var(--black);
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .loginBody .containerInput {
+        width: 100%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+        z-index: 100;
+    }
+
+    .footerInputsLogin {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .loginBody .footerInputsLogin .linkRegister {
+        display: block;
+    }
+
+    .loginBody .footerInputsLogin .linkRegister .linkInput {
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 2px solid var(--black);
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+
+    .loginBody .img,
+    .loginBody .img img,
+    .loginBody .fondo,
+    .loginBody .textoRegister {
+        display: none;
+    }
+}
+
+@media (width <=400px) {
+    .loginBody .encabezadoRegister {
+        width: 50%;
+        border-bottom: 1px solid var(--black);
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .loginBody .textoRegister {
+        display: none;
+    }
+
+    .loginBody .containerInput {
+        width: 100%;
+        height: 100vh;
+        background-color: var(--white);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+        z-index: 100;
+    }
+
+    .footerInputsLogin {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        margin: 40px 0;
+    }
+
+    .loginBody .footerInputsLogin .linkRegister {
+        display: block;
+        margin-top: 50px;
+    }
+
+    .loginBody .footerInputsLogin .linkRegister .linkInput {
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 2px solid var(--black);
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
 }

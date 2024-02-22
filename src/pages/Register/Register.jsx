@@ -4,9 +4,10 @@ import fondo from '../../assets/img/f1.jpg'
 import { useCredentialContext } from '../../context/CredentialContext'
 import { useState } from 'react'
 import toastr from '../../assets/includes/Toastr';
+import { Link } from 'react-router-dom'
 const Register = () => {
     const [dataLogin, setdataLogin] = useState({ 'id': 0, 'password': '', 'RolId': 0 });
-    const { roles, login, errorsCredential, responseMessage } = useCredentialContext();
+    const { login, errorsCredential, responseMessage } = useCredentialContext();
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -59,7 +60,7 @@ const Register = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="id" name='id' type="number" onChange={handleChange} maxLength={10} />
+                                <input id="id" name='id' type="text" onChange={handleChange} maxLength={10} />
                                 <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
@@ -121,25 +122,16 @@ const Register = () => {
                                 <div className="underline"></div>
                             </div>
                         </div>
-                        <div className="botonRegister">
-                            <Boton4
-                                type='submit'
-                                name='Registrarse'
-                            />
-                            <input id="password" name='password' type="password" onChange={handleChange} />
-                            <label className="label" htmlFor="password">Contraseña</label>
-                            <div className="underline"></div>
-                        </div>
-                        <div className="select-container">
-                            <select name="RolId" id="RolId" onChange={handleChange}>
-                                {roles.map((rol) => {
-                                    return <option value={rol.id} key={rol.id} >{rol.rol}</option>
-                                })
-                                }
-                            </select>
-                        </div>
-                        <div className="botonRegister">
-                            <Boton4 name='Registrarse' />
+                        <div className="footerInputsRegister">
+                            <div className="botonRegister">
+                                <Boton4
+                                    type='submit'
+                                    name='Iniciar Sesion'
+                                />
+                            </div>
+                            <div className="linkRegister">
+                                <Link className='linkInput' to='/register'>Crea una cuenta</Link>
+                            </div>
                         </div>
                     </form>
                 </div>

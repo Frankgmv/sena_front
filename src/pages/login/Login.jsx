@@ -1,6 +1,7 @@
 import './Login.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     return (
@@ -47,11 +48,16 @@ const Login = () => {
                                 <option value="">Rector</option>
                             </select>
                         </div>
-                        <div className="botonRegister">
-                            <Boton4
-                                type='submit'
-                                name='Iniciar Sesion'
-                            />
+                        <div className="footerInputsLogin">
+                            <div className="botonRegister">
+                                <Boton4
+                                    type='submit'
+                                    name='Iniciar Sesion'
+                                />
+                            </div>
+                            <div className="linkRegister">
+                                <Link className='linkInput' to='/register'>Crea una cuenta</Link>
+                            </div>
                         </div>
                     </form>
                 </div>

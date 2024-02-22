@@ -1,26 +1,38 @@
-.newsBody{
+.newsBody {
     width: 95%;
     margin: 80px auto 0;
 }
 
-.newsBody .encabezado{
+.newsBody .encabezado {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    border: 1px solid;
 }
 
-.newsBody .encabezado .titulo{
+.newsBody .encabezado .titulo {
     text-align: center;
     width: 60%;
 }
 
-.newsBody .encabezado .boton{
+.newsBody .encabezado .boton {
     width: 20%;
 }
 
-.containerCard{
+.containerCard {
     width: 95%;
     margin: 80px auto;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+@media (min-width: 360px) {
+    .newsBody .encabezado {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid;
+    }
 }
