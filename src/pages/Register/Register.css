@@ -195,11 +195,6 @@
     font-size: 16px;
     border: 0px;
     border-bottom: 2px solid var(--black);
-    outline: 0px;
-    outline: 0px;
-    border:0px;
-    height: 40px;
-    border-bottom: 2px solid var(--black);
 }
 
 .registerBody .select-container select option{
@@ -268,6 +263,8 @@
     .footerInputsRegister {
         display: flex;
         justify-content: space-evenly;
+        align-items: center;
+        margin-top: 20px;
     }
 
     .registerBody .footerInputsRegister .linkRegister {
@@ -282,6 +279,12 @@
         padding-bottom: 10px;
     }
 
+    .registerBody .botonRegister{
+        margin-top: 0;
+        text-align: center;
+        align-items: center;
+    }
+
     .registerBody .img,
     .registerBody .img img,
     .registerBody .fondo,
@@ -292,7 +295,7 @@
 
 @media (width <=400px) {
     .registerBody .containerInput{
-        height: auto;
+        height: 100vh;
         width: 100%;
     }
 
@@ -318,7 +321,6 @@
     .footerInputsRegister {
         display: flex;
         justify-content: space-evenly;
-        flex-direction: column;
         margin: 40px 0;
     }
 
@@ -337,7 +339,64 @@
 
     .registerBody .junto{
         display: flex;
-        flex-direction: column;
         width: 100%;
+    }
+
+    .registerBody .select-container select{
+        width: 90%;
+        outline: 0;
+        height: 40px;
+        margin-left: 15px;
+        font-size: 12px;
+        border: 0px;
+        border-bottom: 2px solid var(--black);
+    }
+
+    .registerBody .input-container input[type="date"]{
+        margin-left: 15px;
+    }
+
+    .registerBody .input-container input[type="date"]~.label {
+        position: absolute;
+        top: -20px;
+        left: 0;
+        color: var(--black);
+        transition: all 0.3s ease;
+        pointer-events: none;
+        margin-left: 15px;
+    }
+
+    /* s */
+
+    .registerBody .select-container select option,
+    .registerBody .input-container{
+        font-size: 12px;
+    }
+
+    .footerInputsRegister {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .registerBody .footerInputsRegister .linkRegister {
+        display: block;
+    }
+
+    .registerBody .footerInputsRegister .linkRegister .linkInput {
+        color: var(--black);
+        text-decoration: none;
+        border-bottom: 2px solid var(--black);
+        font-size: 12px;
+        margin-right: 20px;
+    }
+
+    .registerBody .botonRegister{
+        margin-top: 0px;
+        margin-bottom: 15px;
+        font-size: 12px;
+        text-align: center;
+        align-items: center;
     }
 }

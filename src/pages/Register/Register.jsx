@@ -105,7 +105,7 @@ const Register = () => {
                                 </select>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="date" />
+                                <input required id="input" type="date" value="2018–07–22"/>
                                 <label className="label" htmlFor="input">Fecha de nacimiento</label>
                                 <div className="underline"></div>
                             </div>
