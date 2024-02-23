@@ -1,42 +1,66 @@
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
 import './Register.css'
 import fondo from '../../assets/img/f1.jpg'
-import { useCredentialContext } from '../../context/CredentialContext'
-import { useState } from 'react'
-import toastr from '../../assets/includes/Toastr';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useCredentialContext } from '../../context/AuthContext'
+import toastr from '../../assets/includes/Toastr'
 const Register = () => {
-    const [dataLogin, setdataLogin] = useState({ 'id': 0, 'password': '', 'RolId': 0 });
-    const { login, errorsCredential, responseMessage } = useCredentialContext();
+    const { roles, setErrors, errors, responseMessage, register } = useCredentialContext();
+    const [dataRegister, setDataRegister] = useState({});
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (errors.length != 0) {
+            errors.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errors]);
+
+
+    useEffect(() => {
+        if (responseMessage.length != 0) {
+            responseMessage.map(msg => {
+                toastr.success(msg)
+                document.querySelector('form').reset();
+                navigate("/login")
+            })
+        }
+    }, [responseMessage]);
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(dataLogin)
-        login(dataLogin)
+
+        if (dataRegister?.password !== dataRegister?.repetirPassword) {
+            setErrors((prevent) => {
+                return [
+                    ...prevent,
+                    'Las contraseñas no coninciden'
+                ]
+            })
+            console.log("credenciales no son iguales")
+        } else {
+            console.log(dataRegister)
+            register(dataRegister)
+        }
     }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         if (name === 'id' || name === 'RolId') {
-            setdataLogin({
-                ...dataLogin,
+            setDataRegister({
+                ...dataRegister,
                 [name]: parseInt(value)
             });
         } else {
-            setdataLogin({
-                ...dataLogin,
+            setDataRegister({
+                ...dataRegister,
                 [name]: value
             });
         }
     };
-
-    if (errorsCredential.length > 0) {
-        errorsCredential.map(error => toastr.error(error))
-    }
-    if (responseMessage.length > 0) {
-        responseMessage.map(error => toastr.success(error))
-    }
 
     return (
         <div className='registerBody'>
@@ -60,74 +84,71 @@ const Register = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="id" name='id' type="text" onChange={handleChange} maxLength={10} />
+                                <input id="id" name='id' type="text" maxLength={10} onChange={handleChange} />
                                 <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="password" />
-                                <label className="label" htmlFor="input">Clave Especial</label>
+                                <input id="claveEspecial" name='claveEspecial' type="password" onChange={handleChange} />
+                                <label className="label" htmlFor="claveEspecila">Clave Especial</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input required id="input" type="text" />
-                                <label className="label" htmlFor="input">Nombre</label>
+                                <input id="nombre" name='nombre' type="text" onChange={handleChange} />
+                                <label className="label" htmlFor="nombre">Nombre</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="text" />
-                                <label className="label" htmlFor="input">Apellido</label>
+                                <input id="apellido" name='apellido' type="text" onChange={handleChange} />
+                                <label className="label" htmlFor="apellido">Apellido</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input required id="input" type="email" />
-                                <label className="label" htmlFor="input">Correo</label>
+                                <input id="correo" name='correo' type="email" onChange={handleChange} />
+                                <label className="label" htmlFor="correo">Correo</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="number" />
-                                <label className="label" htmlFor="input">Numero de celular</label>
+                                <input id="celular" name='celular' type="text" maxLength={10} onChange={handleChange} />
+                                <label className="label" htmlFor="celular">Numero de celular</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="junto">
                             <div className="select-container">
-                                <select name="" id="">
-                                    <option value="">Estudiante Especial</option>
-                                    <option value="">Docente</option>
-                                    <option value="">Personal Administrativo</option>
-                                    <option value="">Coordinador</option>
-                                    <option value="">Rector</option>
+                                <select name="RolId" id="RolId" onChange={handleChange}>
+                                    <option value="10"></option>
+                                    {roles.map((rol) => {
+                                        return <option value={rol.id} key={rol.id} >{rol.rol}</option>
+                                    })
+                                    }
                                 </select>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="date" value="2018–07–22"/>
-                                <label className="label" htmlFor="input">Fecha de nacimiento</label>
+                                <input id="fechaNacimiento" name='fechaNacimiento' type="date" onChange={handleChange} />
+                                <label className="label" htmlFor="fechaNacimiento">Fecha de nacimiento</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input required id="input" type="password" />
-                                <label className="label" htmlFor="input">Contraseña</label>
+                                <input id="password" name='password' type="password" onChange={handleChange} />
+                                <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="password" />
-                                <label className="label" htmlFor="input">Repetir Contraseña</label>
+                                <input id="repetirPassword" name='repetirPassword' type="password" onChange={handleChange} />
+                                <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="footerInputsRegister">
                             <div className="botonRegister">
-                                <Boton4
-                                    type='submit'
-                                    name='Iniciar Sesion'
-                                />
+                                <button type='submit' id='nut' className='button success'>Registrar</button>
                             </div>
                             <div className="linkRegister">
                                 <Link className='linkInput' to='/register'>Crea una cuenta</Link>

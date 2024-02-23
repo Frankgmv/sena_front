@@ -2,8 +2,56 @@ import './Login.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useCredentialContext } from '../../context/AuthContext'
+import toastr from '../../assets/includes/Toastr'
 
 const Login = () => {
+    const [dataLogin, setDataLogin] = useState({});
+    const { roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
+
+    useEffect(() => {
+        if (errors.length != 0) {
+            errors.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errors]);
+
+    useEffect(() => {
+        if (responseMessage.length != 0) {
+            responseMessage.map(msg => {
+                toastr.success(msg)
+                if (isAuthenticate) {
+                    //TODO direccionar a la ruta navigate("/");
+                    toastr.info('Redireccionando')
+                }
+            })
+        }
+
+    }, [responseMessage, isAuthenticate]);
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        login(dataLogin);
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'id' || name === 'RolId') {
+            setDataLogin({
+                ...dataLogin,
+                [name]: parseInt(value)
+            });
+        } else {
+            setDataLogin({
+                ...dataLogin,
+                [name]: value
+            });
+        }
+    };
     return (
         <div className='loginBody'>
             <div className="img">
@@ -26,26 +74,27 @@ const Login = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="form">
-                    <form action="" method="post">
+                    <form onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input required id="input" type="text" />
-                                <label className="label" htmlFor="input">Identificacion</label>
+                                <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
+                                <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input required id="input" type="password" />
-                                <label className="label" htmlFor="input">Contraseña</label>
+                                <input id="password" name='password' onChange={handleChange} type="password" />
+                                <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
                         <div className="select-container">
-                            <select name="" id="">
-                                <option value="">Estudiante Especial</option>
-                                <option value="">Docente</option>
-                                <option value="">Personal Administrativo</option>
-                                <option value="">Coordinador</option>
-                                <option value="">Rector</option>
+                            <select name="RolId" id="RolId" onChange={handleChange}>
+                                <option value="10"></option>
+                                {
+                                    roles.map((rol) => {
+                                        return <option value={rol.id} key={rol.id} >{rol.rol}</option>
+                                    })
+                                }
                             </select>
                         </div>
                         <div className="footerInputsLogin">

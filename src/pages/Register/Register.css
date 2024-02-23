@@ -146,14 +146,14 @@
     margin-left: 35px;
 }
 
-.registerBody .input-container input[type="text"]:focus~.label,
-.registerBody .input-container input[type="text"]:valid~.label,
-.registerBody .input-container input[type="password"]:focus~.label,
-.registerBody .input-container input[type="password"]:valid~.label,
-.registerBody .input-container input[type="email"]:focus~.label,
-.registerBody .input-container input[type="email"]:valid~.label,
-.registerBody .input-container input[type="number"]:focus~.label,
-.registerBody .input-container input[type="number"]:valid~.label {
+.registerBody .input-container input:focus~.label,
+.registerBody .input-container input:valid~.label,
+.registerBody .input-container input:focus~.label,
+.registerBody .input-container input:valid~.label,
+.registerBody .input-container input:focus~.label,
+.registerBody .input-container input:valid~.label,
+.registerBody .input-container input:focus~.label,
+.registerBody .input-container input:valid~.label {
     top: -20px;
     font-size: 16px;
     color: var(--black);
