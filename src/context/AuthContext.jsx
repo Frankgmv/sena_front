@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookie from "js-cookie";
 import { loginRequest, registroRequest } from "../api/auth";
-import { getRolesRequest, getUsuarioRequest } from "../api/data";
+import { getRolesRequest} from "../api/data";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/includes/localStorage";
 
 const CredentialContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCredentialContext = () => {
     const context = useContext(CredentialContext);
     if (!context) {
@@ -20,6 +21,7 @@ export const CredentialProvider = ({ children }) => {
     const [responseMessage, setResponseMessage] = useState([]);
     const [isAuthenticate, setIsAuthenticate] = useState(false);
     const [roles, setRoles] = useState([]);
+    const [token, setToken] = useState('');
 
     useEffect(() => {
         getRoles();
@@ -62,38 +64,10 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
-    const getUsers = async () => {
-        try {
-            const response = await getUsuarioRequest()
-            const data = await response.data
-            if (data.ok) {
-                console.log(data.data)
-            }
-        } catch (error) {
-            if (error.message) {
-                setErrors((prevent) => {
-                    if (!errors.includes(error.message)) {
-                        return [
-                            ...prevent,
-                            error.message
-                        ]
-                    }
-                    return prevent
-                })
-            }
-
-            if (error.response.data.message) {
-                setErrors((prevent) => {
-                    if (!errors.includes(error.response.data.message)) {
-                        return [
-                            ...prevent,
-                            error.response.data.message
-                        ]
-                    }
-                    return prevent
-                })
-            }
-        }
+    const logout = async () => {
+        setIsAuthenticate(false)
+        setToken(null)
+        removeLocalStorage('token')
     }
 
     const login = async (dataLogin) => {
@@ -102,7 +76,7 @@ export const CredentialProvider = ({ children }) => {
             const data = await response.data
             if (data.ok && response.status === 200) {
 
-                if (!data.cookie) {
+                if (!data.token) {
                     setErrors((prevent) => {
                         if (!errors.includes('Error al obtener cookie')) {
                             return [
@@ -112,15 +86,15 @@ export const CredentialProvider = ({ children }) => {
                         }
                         return prevent
                     })
-
-                    setIsAuthenticate(false);
                 } else {
 
                     setIsAuthenticate(true);
-                    if (!Cookie.get('accessToken')) {
-                        Cookie.set('accessToken', data.cookie)
+                    setToken(data.token)
+                    if (!getLocalStorage('token')) {
+                        setLocalStorage('token', data.token)
                     } else {
-                        console.log(Cookie.get('accessToken'))
+                        removeLocalStorage('token')
+                        setLocalStorage('token', data.token)
                     }
                 }
             }
@@ -222,7 +196,9 @@ export const CredentialProvider = ({ children }) => {
         responseMessage,
         roles,
         register,
-        getUsers
+        token,
+        setToken,
+        logout
     }
 
     return (

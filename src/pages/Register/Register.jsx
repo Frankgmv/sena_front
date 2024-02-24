@@ -27,7 +27,7 @@ const Register = () => {
                 navigate("/login")
             })
         }
-    }, [responseMessage]);
+    }, [navigate, responseMessage]);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -81,7 +81,7 @@ const Register = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="form">
-                    <form onSubmit={handleSubmit}>
+                    <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' type="text" maxLength={10} onChange={handleChange} />

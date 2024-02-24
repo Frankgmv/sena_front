@@ -1,15 +1,15 @@
 import './Login.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const { roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
-
+    const {roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
+    const navigate = useNavigate()
     useEffect(() => {
         if (errors.length != 0) {
             errors.map(error => {
@@ -24,12 +24,16 @@ const Login = () => {
                 toastr.success(msg)
                 if (isAuthenticate) {
                     //TODO direccionar a la ruta navigate("/");
+                    
+                    setTimeout(() => {
+                        navigate('/test')
+                    }, 5000);
                     toastr.info('Redireccionando')
                 }
             })
         }
 
-    }, [responseMessage, isAuthenticate]);
+    }, [responseMessage, isAuthenticate, navigate]);
 
 
     const handleSubmit = (e) => {
@@ -74,7 +78,7 @@ const Login = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="form">
-                    <form onSubmit={handleSubmit}>
+                    <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
