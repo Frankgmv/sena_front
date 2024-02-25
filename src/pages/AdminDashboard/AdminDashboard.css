@@ -1,0 +1,88 @@
+.adminBody{
+    height: 100vh;
+}
+
+.adminBody .contenido{
+    background: var(--white);
+    display: flex;
+}
+
+.adminBody .contenido .contenidoSidebar{
+    width: 20%;
+}
+
+.adminBody .contenido .adminContent{
+    width: 60%;
+    height: 80vh;
+    margin: 45px auto 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--black-background);
+}
+
+.Navbar-Body{
+    padding: 1rem 2rem;
+    background-color: var(--black-background);
+    height:  70px;
+    color: var(--white);
+}
+
+.Navbar-Body nav{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.Navbar-Body nav .encabezado{
+    font-size: clamp(.9rem, 2vw, 1.2rem);
+    display: flex;
+    align-items: center;
+}
+
+.Navbar-Body nav .encabezado h3{
+    margin-left: 20px;
+}
+
+.Navbar-Body nav .info{
+    display: flex;
+    align-items: center;
+}
+
+.Navbar-Body nav .icon{
+    margin-left: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.Navbar-Body nav .text h4{
+    font-size: clamp(.9rem, 2vw, 1.2rem);
+}
+
+.Navbar-Body nav .text p{
+    font-size: clamp(.4rem, 2vw, .7rem);
+    color: #b6b6b6;
+}
+
+@media (width <=450px){
+    .Navbar-Body .info .icon{
+        margin-left: 15px;
+    }
+
+    .Navbar-Body nav .encabezado h3{
+        display: none;
+    }
+
+    .adminBody .containerSidebar{
+        display: none;
+    }
+
+    .adminBody .contenido .adminContent{
+        width: 90%;
+        height: 80vh;
+        margin: 45px auto 0px;
+        background-color: var(--black-background);
+    }
+}
