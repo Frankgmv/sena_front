@@ -64,7 +64,7 @@ const Login = () => {
             <div className="fondo"></div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
-                <div className="boton">
+                <div className="boton" onClick={() => navigate("/register")}>
                     <Boton4
                         link='/register'
                         name='Registrate'

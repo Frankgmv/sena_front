@@ -1,0 +1,160 @@
+.infoUsuario-Body {
+    color: var(--white);
+    text-align: center;
+}
+
+.infoUsuario-Body .encabezado {
+    font-size: clamp(1rem, 2vw,  1.5rem);
+}
+
+.infoUsuario-Body .input-group {
+    width: 90%;
+    margin: 60px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.infoUsuario-Body form .input-container {
+    position: relative;
+    margin: 20px auto;
+    width: 40%;
+}
+
+.infoUsuario-Body .input-container input {
+    width: 90%;
+}
+
+.input-container input[type="text"],
+.input-container input[type="number"],
+.input-container input[type="password"],
+.input-container input[type="email"],
+.input-container input[type="date"] {
+    font-size: clamp(.8rem, 2vw,  1.2rem);
+    width: 90%;
+    border: none;
+    border-bottom: 2px solid var(--white);
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
+    color: var(--white);
+    margin: 5px 0;
+}
+
+.input-container input[type="date"] {
+    font-size: clamp(.7rem, 2vw,  1.2rem);
+    padding: 10px 0;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.input-container input[type="date"],
+.infoUsuario-Body .input-container input[type="date"]~.label {
+    margin-top: 20px;
+}
+
+.infoUsuario-Body .input-container .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--white);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.infoUsuario-Body .input-container input[type="date"]~.label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: var(--white);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.infoUsuario-Body .input-container input:focus~.label,
+.infoUsuario-Body .input-container input:valid~.label {
+    top: -20px;
+    font-size: clamp(.7rem, 2vw,  1.2rem);
+    color: var(--white);
+}
+
+.infoUsuario-Body .input-container .underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transition: all 0.3s ease;
+    margin: 5px 0;
+}
+
+.infoUsuario-Body .input-container input[type="text"]:focus~.underline,
+.infoUsuario-Body .input-container input[type="text"]:valid~.underline,
+.infoUsuario-Body .input-container input[type="password"]:focus~.underline,
+.infoUsuario-Body .input-container input[type="password"]:valid~.underline,
+.infoUsuario-Body .input-container input[type="number"]:focus~.underline,
+.infoUsuario-Body .input-container input[type="number"]:valid~.underline,
+.infoUsuario-Body .input-container input[type="email"]:focus~.underline,
+.infoUsuario-Body .input-container input[type="email"]:valid~.underline,
+.infoUsuario-Body .input-container input[type="date"]:focus~.underline,
+.infoUsuario-Body .input-container input[type="date"]:valid~.underline {
+    transform: scaleX(1);
+}
+
+.infoUsuario-Body .input-container input[type="date"]::placeholder {
+    color: white;
+}
+
+.infoUsuario-Body .botones{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.infoUsuario-Body .botones .btn{
+    width: 33%;
+}
+
+.infoUsuario-Body .botones .btn .button{
+    width: 90%;
+    font-size: clamp(.7rem, 2vw,  1.2rem);
+}
+
+.infoUsuario-Body .botones .btn  .edit{
+    border: 1px solid var(--warning);
+    color: var(--warning);
+}
+
+.infoUsuario-Body .botones .btn  .delete{
+    border: 1px solid var(--alert);
+    color: var(--alert);
+}
+
+.infoUsuario-Body .botones .btn  .delete::before,
+.infoUsuario-Body .botones .btn  .delete::after {
+    background-color: var(--alert);
+}
+
+.infoUsuario-Body .botones .btn  .edit::before,
+.infoUsuario-Body .botones .btn  .edit::after {
+    background-color: var(--warning);
+}
+
+.infoUsuario-Body .botones .btn  .success::before,
+.infoUsuario-Body .botones .btn  .success::after {
+    background-color: var(--success);
+}
+
+.infoUsuario-Body .botones .btn .delete:hover{
+    color: var(--white);
+}
+
+.infoUsuario-Body .botones .btn .edit:hover{
+    color: var(--white);
+}
+
+.infoUsuario-Body .botones .btn .sucess:hover{
+    color: var(--white);
+}

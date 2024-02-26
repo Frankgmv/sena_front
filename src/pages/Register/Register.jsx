@@ -70,7 +70,7 @@ const Register = () => {
             <div className="fondo"></div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
-                <div className="boton">
+                <div className="boton"  onClick={() => navigate("/login")}>
                     <Boton4 link='/login' name='Iniciar Sesion' />
                 </div>
             </div>

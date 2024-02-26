@@ -1,0 +1,128 @@
+.sliderFotos-Body {
+    color: var(--white);
+    text-align: center;
+}
+
+.sliderFotos-Body .encabezado {
+    font-size: clamp(1rem, 2vw,  1.5rem);
+}
+
+.sliderFotos-Body .input-group {
+    width: 90%;
+    margin: 60px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sliderFotos-Body form .input-container,
+.sliderFotos-Body form .textArea-container {
+    position: relative;
+    margin: 20px auto;
+    width: 40%;
+}
+
+.input-container input[type="text"],
+.input-container input[type="file"],
+.textArea-container textarea{
+    font-size: clamp(.8rem, 2vw, 1rem);
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--white);
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
+    color: var(--white);
+    margin: 5px 0;
+}
+
+.textArea-container textarea{
+    width: 100%;
+}
+
+.sliderFotos-Body .input-container .label,
+.sliderFotos-Body .textArea-container label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--white);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.sliderFotos-Body .input-container input:focus~.label,
+.sliderFotos-Body .input-container input:valid~.label,
+.sliderFotos-Body .textArea-container textarea:focus~.label,
+.sliderFotos-Body .textArea-container textarea:valid~.label {
+    top: -20px;
+    font-size: clamp(.7rem, 2vw,  1rem);
+    color: var(--white);
+}
+
+.sliderFotos-Body .input-container .underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transition: all 0.3s ease;
+    margin: 5px 0;
+}
+
+.sliderFotos-Body .textArea-container{
+    width: 100%;
+}
+
+.sliderFotos-Body .botones{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sliderFotos-Body .botones .btn{
+    width: 33%;
+}
+
+.sliderFotos-Body .botones .btn .button{
+    width: 90%;
+    font-size: clamp(.7rem, 2vw,  1.2rem);
+}
+
+.sliderFotos-Body .botones .btn  .edit{
+    border: 1px solid var(--warning);
+    color: var(--warning);
+}
+
+.sliderFotos-Body .botones .btn  .delete{
+    border: 1px solid var(--alert);
+    color: var(--alert);
+}
+
+.sliderFotos-Body .botones .btn  .delete::before,
+.sliderFotos-Body .botones .btn  .delete::after {
+    background-color: var(--alert);
+}
+
+.sliderFotos-Body .botones .btn  .edit::before,
+.sliderFotos-Body .botones .btn  .edit::after {
+    background-color: var(--warning);
+}
+
+.sliderFotos-Body .botones .btn  .success::before,
+.sliderFotos-Body .botones .btn  .success::after {
+    background-color: var(--success);
+}
+
+.sliderFotos-Body .botones .btn .delete:hover{
+    color: var(--white);
+}
+
+.sliderFotos-Body .botones .btn .edit:hover{
+    color: var(--white);
+}
+
+.sliderFotos-Body .botones .btn .sucess:hover{
+    color: var(--white);
+}

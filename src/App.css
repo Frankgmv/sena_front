@@ -1,8 +1,9 @@
 /* Variables de colores */
 
 :root{
-    --white: #fff;
+    --white:  #FBFBFB;
     --black-text: #000;
+    --black-background: #1E1E1E;
     --black: #282936;
     --success: #00A97F;
     --warning: #D4B301;
