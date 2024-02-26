@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getRolesRequest, getUsuarioRequest } from "../api/data";
+import toastr from "../assets/includes/Toastr";
 
 const UserContext = createContext();
 
@@ -66,6 +67,9 @@ export const UserProvider = ({ children }) => {
             const data = await response.data
             if (data.ok) {
                 console.log(data.data)
+                data.data.map((user)=>{
+                    toastr.info(JSON.stringify(user.nombre, user.apellido))
+                })
             }
         } catch (error) {
             console.log(error)

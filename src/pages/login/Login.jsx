@@ -27,7 +27,7 @@ const Login = () => {
                     
                     setTimeout(() => {
                         navigate('/test')
-                    }, 5000);
+                    }, 3000);
                     toastr.info('Redireccionando')
                 }
             })
