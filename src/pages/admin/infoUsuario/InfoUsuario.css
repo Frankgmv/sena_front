@@ -29,7 +29,7 @@
 .input-container input[type="password"],
 .input-container input[type="email"],
 .input-container input[type="date"] {
-    font-size: clamp(.8rem, 2vw,  1.2rem);
+    font-size: clamp(.8rem, 2vw, 1rem);
     width: 90%;
     border: none;
     border-bottom: 2px solid var(--white);
@@ -70,8 +70,7 @@
     pointer-events: none;
 }
 
-.infoUsuario-Body .input-container input:focus~.label,
-.infoUsuario-Body .input-container input:valid~.label {
+.infoUsuario-Body .input-container input:focus~.label {
     top: -20px;
     font-size: clamp(.7rem, 2vw,  1.2rem);
     color: var(--white);
@@ -90,15 +89,10 @@
 }
 
 .infoUsuario-Body .input-container input[type="text"]:focus~.underline,
-.infoUsuario-Body .input-container input[type="text"]:valid~.underline,
 .infoUsuario-Body .input-container input[type="password"]:focus~.underline,
-.infoUsuario-Body .input-container input[type="password"]:valid~.underline,
 .infoUsuario-Body .input-container input[type="number"]:focus~.underline,
-.infoUsuario-Body .input-container input[type="number"]:valid~.underline,
 .infoUsuario-Body .input-container input[type="email"]:focus~.underline,
-.infoUsuario-Body .input-container input[type="email"]:valid~.underline,
-.infoUsuario-Body .input-container input[type="date"]:focus~.underline,
-.infoUsuario-Body .input-container input[type="date"]:valid~.underline {
+.infoUsuario-Body .input-container input[type="date"]:focus~.underline {
     transform: scaleX(1);
 }
 

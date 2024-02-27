@@ -7,7 +7,6 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    border: 1px solid;
 }
 
 .newsBody .encabezado .titulo {
@@ -27,12 +26,11 @@
     flex-wrap: wrap;
 }
 
-@media (min-width: 360px) {
+/* @media (min-width: 360px) {
     .newsBody .encabezado {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 1px solid;
     }
-}
+} */

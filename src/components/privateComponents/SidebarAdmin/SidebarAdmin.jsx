@@ -32,7 +32,7 @@ const SidebarAdmin = ({ show }) => {
                     </NavLink>
                 </li>
                 <li key="menu-interactivo">
-                    <NavLink to="/menu-interactivo" className="link">
+                    <NavLink to="/menu" className="link">
                         <CgMenuGridR className="icon" />
                         Menu Interactivo
                     </NavLink>

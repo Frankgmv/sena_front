@@ -13,4 +13,5 @@
 .menuBody .titulo{
     text-align: center;
     font-size: 28px;
+    color: var(--black);
 }

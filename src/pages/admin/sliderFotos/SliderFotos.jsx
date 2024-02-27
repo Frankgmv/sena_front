@@ -21,7 +21,6 @@ const SliderFotos = () => {
                         </div>
                         <div className="textArea-container">
                             <textarea name="" id="" cols="100" rows="5"></textarea>
-                            {/* <input id="nombre" name='nombre' type="text" /> */}
                             <label className="label" htmlFor="nombre">Nombre</label>
                             <div className="underline"></div>
                         </div>

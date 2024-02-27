@@ -1,12 +1,12 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import SidebarAdmin from '../../components/privateComponents/SidebarAdmin/SidebarAdmin';
-// import InfoUsuario from '../admin/infoUsuario/InfoUsuario';
-// import MenuInteractivo from '../admin/menuInteractivo/MenuInteractivo';
 import './AdminDashboard.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from 'react';
-import SliderFotos from '../admin/sliderFotos/SliderFotos';
+// import SliderFotos from '../admin/sliderFotos/SliderFotos';
+import InfoUsuario from '../admin/infoUsuario/InfoUsuario';
+import MenuInteractivoAdmin from '../admin/menuInteractivo/MenuInteractivoAdmin';
 
 const AdminDashboard = () => {
     const [showSide, setShowSide] = useState(false)
@@ -35,8 +35,8 @@ const AdminDashboard = () => {
                 </div>
                 <div className="adminContent">
                     <Routes>
-                        <Route path='/' element={<SliderFotos />} />
-                        {/* <Route path='admin/ menu-interactivo' exact={true} component={MenuInteractivo} /> */}
+                        <Route exact path='/' element={<InfoUsuario />} />
+                        <Route path='/menu' element={<MenuInteractivoAdmin />} />
                     </Routes>
                     <Outlet />
                 </div>

@@ -36,9 +36,5 @@
 
 .containerMenuCard:hover{
     scale: 1.05;
-    background: var(--black);
-}
-
-.containerMenuCard:hover .menuLinks h3{
-    color: var(--white);
+    box-shadow: 12px 18px 32px -14px rgba(0,0,0,0.75);
 }
