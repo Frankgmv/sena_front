@@ -3,8 +3,10 @@
 :root{
     --white:  #FBFBFB;
     --black-text: #000;
-    --black-background: #1E1E1E;
-    --black: #282936;
+    --black-background: #292929;
+    --black: #1E1E1E;
+    --secondary-blue: #dbeaee;
+    --hover: #3d747f;
     --success: #00A97F;
     --warning: #D4B301;
     --alert: #EB0000;

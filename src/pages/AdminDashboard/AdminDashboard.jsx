@@ -4,9 +4,8 @@ import './AdminDashboard.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from 'react';
-// import SliderFotos from '../admin/sliderFotos/SliderFotos';
-import InfoUsuario from '../admin/infoUsuario/InfoUsuario';
 import MenuInteractivoAdmin from '../admin/menuInteractivo/MenuInteractivoAdmin';
+import UsersList from '../../components/privateComponents/Table/UsersList/UsersList';
 
 const AdminDashboard = () => {
     const [showSide, setShowSide] = useState(false)
@@ -35,8 +34,8 @@ const AdminDashboard = () => {
                 </div>
                 <div className="adminContent">
                     <Routes>
-                        <Route exact path='/' element={<InfoUsuario />} />
-                        <Route path='/menu' element={<MenuInteractivoAdmin />} />
+                        <Route exact path='/' element={<UsersList />} />
+                        <Route path='./menu' element={<MenuInteractivoAdmin />} />
                     </Routes>
                     <Outlet />
                 </div>

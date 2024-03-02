@@ -81,7 +81,7 @@ const Login = () => {
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
+                                <input  id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
                                 <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
@@ -92,6 +92,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="select-container">
+                            <label htmlFor="">Selecciona tu Rol</label>
                             <select name="RolId" id="RolId" onChange={handleChange}>
                                 <option value="10"></option>
                                 {

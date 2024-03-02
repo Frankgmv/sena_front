@@ -7,19 +7,21 @@
     display: flex;
 }
 
-.adminBody .contenido .contenidoSidebar{
-    width: 20%;
+.adminBody .contenido .containerSidebar{
+    /* width: 5%; */
+    display: none;
 }
 
 .adminBody .contenido .adminContent{
-    width: 60%;
-    height: 80vh;
-    margin: 45px auto 0px;
+    width: 95%;
+    height: 90vh;
+    margin: 5px auto 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--black-background);
+    overflow: auto;
+    color: var(--white);
 }
 
 .Navbar-Body{
@@ -83,6 +85,5 @@
         width: 90%;
         height: 80vh;
         margin: 45px auto 0px;
-        background-color: var(--black-background);
     }
 }
