@@ -1,4 +1,4 @@
-import './Table.css'
+import './Table.css';
 import {
     useReactTable,
     getCoreRowModel,
@@ -6,15 +6,13 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     getFilteredRowModel,
-} from '@tanstack/react-table'
-
-import { useState } from 'react'
+} from '@tanstack/react-table';
+import { useState } from 'react';
 
 // eslint-disable-next-line react/prop-types
 function Table({ data, columns }) {
-
     const [sorting, setSorting] = useState([]);
-    const [filtering, setFiltering] = useState("");
+    const [filtering, setFiltering] = useState('');
 
     const table = useReactTable({
         data,
@@ -34,14 +32,13 @@ function Table({ data, columns }) {
     return (
         <div className='tableBody'>
             <div className="encabezadoTabla">
-            <input
-                placeholder='Buscar'
-                type="text"
-                value={filtering}
-                onChange={(e) => setFiltering(e.target.value)}
-            />
+                <input
+                    placeholder='Buscar'
+                    type="text"
+                    value={filtering}
+                    onChange={(e) => setFiltering(e.target.value)}
+                />
             </div>
-
             <table>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -69,16 +66,20 @@ function Table({ data, columns }) {
                     ))}
                 </thead>
                 <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                // eslint-disable-next-line react/jsx-key
-                                <td>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    {!filtering ?
+                        (
+                                table.getRowModel().rows.map((row, i) => (
+                                    <tr key={i}>
+                                        {row.getVisibleCells().map((cell, j) => (
+                                            <td key={j}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))
+                        ) : (
+                            <tr>No    hay resultados</tr>
+                        )}
                 </tbody>
             </table>
 
