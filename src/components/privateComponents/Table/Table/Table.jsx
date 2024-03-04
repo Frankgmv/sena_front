@@ -69,7 +69,7 @@ function Table({ data, columns }) {
                     {!filtering ?
                         (
                                 table.getRowModel().rows.map((row, i) => (
-                                    <tr key={i}>
+                                    <tr key={i} className=''>
                                         {row.getVisibleCells().map((cell, j) => (
                                             <td key={j}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
