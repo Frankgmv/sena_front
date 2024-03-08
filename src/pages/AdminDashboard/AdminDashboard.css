@@ -59,6 +59,11 @@
     cursor: pointer;
 }
 
+.Navbar-Body .bodyMenuNavbar{
+    background: var(--black-background);
+    color: var(--white);
+}
+
 .Navbar-Body nav .text h4{
     font-size: clamp(.9rem, 2vw, 1.2rem);
 }

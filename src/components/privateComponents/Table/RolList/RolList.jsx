@@ -1,6 +1,5 @@
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
@@ -14,7 +13,7 @@ import { VscCheckAll, VscMail } from "react-icons/vsc";
 import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 
-function UserList() {
+function RolList() {
 
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -67,29 +66,15 @@ function UserList() {
         },
         { field: "id", headerName: "ID", width: 90 },
         {
-            field: "nombre",
-            headerName: "Nombres",
+            field: "rol",
+            headerName: "Rol",
             width: 150,
             headerAlign: "center",
             align: "center",
         },
         {
-            field: "apellido",
-            headerName: "Apellido",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "correo",
-            headerName: "Correo",
-            width: 200,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "celular",
-            headerName: "Número de Celular",
+            field: "rolKey",
+            headerName: "Indicador de Rol",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -97,38 +82,15 @@ function UserList() {
         {
             field: "estado",
             headerName: "Estado",
-            width: 100,
+            width: 150,
             headerAlign: "center",
             align: "center",
-        },
-        {
-            field: "RolId",
-            headerName: "Rol ID",
-            width: 100,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "fechaNacimiento",
-            headerName: "Fecha de Nacimiento",
-            width: 200,
-            headerAlign: "center",
-            align: "center",
-            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
-        },
-        {
-            field: "createdAt",
-            headerName: "Fecha de Creación",
-            width: 200,
-            headerAlign: "center",
-            align: "center",
-            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"), 
         },
     ];
 
     const [rows, setRows] = useState([]);
 
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/usuarios";
+    const endPoint = "https://sena-project.onrender.com/api/v1/data/roles";
 
     const getData = async () => {
         const response = await axios.get(endPoint);
@@ -195,7 +157,7 @@ function UserList() {
 
     return (
         <>
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 400, width: 692 }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -371,4 +333,4 @@ function UserList() {
     );
 }
 
-export default UserList;
+export default RolList;

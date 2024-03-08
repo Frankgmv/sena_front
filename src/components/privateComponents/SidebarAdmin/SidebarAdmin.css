@@ -1,20 +1,20 @@
-::-webkit-scrollbar-thumb {
-    background: var(--black-background);
-}
 
 .Sidebar-body {
-    width: 20vw;
-    height: calc(100vh - 70px);
-    background-color: var(--black-background);
-    overflow: auto;
-    /* position: absolute;
-    left: -100%;
-    transition: all 1s ease-in-out; */
+    background-color: var(--black);
 }
 
-/* .active{
-    left: 0;
-} */
+.Sidebar-body .subtitleSide{
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--white);
+    padding-bottom: 5px;
+}
+
+.icon_menu {
+    cursor: pointer;
+}
 
 .Sidebar-body ul {
     list-style: none;
@@ -29,7 +29,6 @@
 .Sidebar-body .link {
     text-decoration: none;
     color: var(--white);
-
     font-size: clamp(.6rem, 1.5vw, 1rem);
     position: relative;
     text-transform: capitalize;
@@ -38,7 +37,7 @@
     transition-property: color;
 }
 
-.Sidebar-body .icon{
+.Sidebar-body .icon {
     margin-right: 10px;
 }
 

@@ -5,7 +5,6 @@ import Register from './pages/Register/Register';
 import Login from './pages/login/Login';
 import Test from './pages/test/Test';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard'; 
-import SliderFotos from './pages/admin/sliderFotos/SliderFotos';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/admin/*' element={<AdminDashboard />} />
-        <Route path='/slider' component={<SliderFotos />} />
         <Route path='/Test' element={<Test />} />
       </Routes>
       <Outlet />
