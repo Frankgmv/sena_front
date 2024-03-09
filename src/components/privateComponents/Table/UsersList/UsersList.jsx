@@ -21,11 +21,48 @@ function UserList() {
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
-    const [rol, setRol] = useState('');
+
+    //  !Logica guardar usuarios
+
+    const [id, setId] = useState('')
+    const [nombre, setNombre] = useState('')
+    const [apellido, setApellido] = useState('')
+    const [correo, setCorreo] = useState('')
+    const [celular, setCelular] = useState('')
+    const [password, setPassword] = useState('')
+    const [estado, setEstado] = useState('')
+    const [RolId, setRolId] = useState('')
+    const [fechaNacimiento, setFechaNacimiento] = useState('')
 
     const handleChange = (event) => {
-        setRol(event.target.value);
+        setRolId(event.target.value);
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const dataForm = {
+            id,
+            nombre,
+            apellido,
+            correo,
+            celular,
+            password,
+            estado,
+            RolId,
+            fechaNacimiento
+        }
+
+        console.log(dataForm)
+
+        axios.post('http://localhost:9000/api/v1/data/usuarios', dataForm)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
 
     const columns = [
@@ -128,9 +165,9 @@ function UserList() {
 
     const [rows, setRows] = useState([]);
 
-    // const endPoint = "http://localhost:9000/api/v1/data/usuarios";
+    const endPoint = "http://localhost:9000/api/v1/data/usuarios";
 
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/usuarios";
+    // const endPoint = "https://sena-project.onrender.com/api/v1/data/usuarios";
 
     const getData = async () => {
         const response = await axios.get(endPoint);
@@ -201,7 +238,7 @@ function UserList() {
 
     return (
         <>
-            <div style={{ height: 400, width: "100%", marginTop: '-200px' }}>
+            <div style={{ height: 500, width: "100%", marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -226,8 +263,7 @@ function UserList() {
                     disablePageSizeSelector
                     editMode='row'
                     hideFooterSelectedRowCount
-                    ignoreDiacritics
-                    disableColumnSelector
+                    ignoreDiacritic
                     disableDensitySelector
                     slots={{
                         toolbar: GridToolbar,
@@ -263,8 +299,29 @@ function UserList() {
                             color: "var(--white)",
                             borderRadius: 0
                         },
+                        ".MuiToolbar-root": {
+                            background: "var(--black-background)",
+                            color: "var(--white)",
+                            textAlign: 'center',
+                            display: 'flex',
+                            alignItems: 'center'
+                        },
                         '.MuiTablePagination-actions': {
                             color: "var(--white)",
+                        },
+                        '.MuiTablePagination-selectLabel': {
+                            color: "var(--white)",
+                            marginTop: '14px',
+                            textAlign: 'center'
+                        },
+                        '.MuiTablePagination-displayedRows': {
+                            color: "var(--white)",
+                            marginTop: '14px',
+                        },
+                        '.MuiDataGrid-footerContainer': {
+                            background: "var(--black-background)",
+                            color: "var(--white)",
+                            textAlign: 'center'
                         },
                         "& .MuiDataGrid-row:hover": {
                             backgroundColor: "var(--hover)",
@@ -287,131 +344,130 @@ function UserList() {
                         component="form"
                         noValidate
                         autoComplete="off"
+                        onSubmit={handleSubmit}
                     >
-                        <h1 style={{ textAlign: 'center' }} >Crea un nuevo Usuario</h1>
-                        <Grid
-                            container
-                            direction="row"
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                        >
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscCheckAll
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="Id" label="Identificación" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="nomfechaNacimientobre" label="Fecha de Nacimiento" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-                                <InputLabel id="rol">Rol</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
-                                    value={rol}
-                                    onChange={handleChange}
-                                    label="Age"
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value={1}>Estudiante Especial</MenuItem>
-                                    <MenuItem value={2}>Docente</MenuItem>
-                                    <MenuItem value={3}>Personal Administrativo</MenuItem>
-                                    <MenuItem value={3}>Coordinador</MenuItem>
-                                    <MenuItem value={5} disabled>Web Master</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscCheckAll
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="status" label="Estado" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="nombre" label="Nombre" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="apellido" label="Apellido" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscMail
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="correo" label="Correo" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <IoPhonePortraitOutline
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="celular" label="Celular" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
-                                    <PiPasswordThin
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
+                        <h1 style={{ textAlign: 'center' }}>Crea un nuevo Usuario</h1>
+                            <Grid container spacing={2}> {/* Apply spacing between form fields */}
+                                <Grid item xs={6}>
                                     <TextField
-                                        id="password"
-                                        label="Contraseña"
+                                        id="Id"
+                                        label="Identificación"
                                         variant="standard"
-                                        type="password" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
-                                    <PiPasswordThin
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                        type="number"
+                                        maxLength="20"
+                                        value={id}
+                                        onChange={(e) => setId(e.target.value)}
                                     />
+                                </Grid>
+                                <Grid item xs={6}>
+                                <InputLabel id="fechaNacimiento">Fecha Nacimiento</InputLabel>
                                     <TextField
-                                        id="password"
-                                        label="Repetir Contraseña"
+                                        id="fechaNacimiento"
                                         variant="standard"
-                                        type="password" />
-                                </Box>
-                            </FormControl>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px' }}
-                                fullWidth
-                            >
-                                Guardar
-                            </Button>
-                        </Grid>
+                                        value={fechaNacimiento}
+                                        type="date"
+                                        onChange={(e) => setFechaNacimiento(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl variant="standard" sx={{ width: '100%' }}>
+                                        <InputLabel id="rol">Rol</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={RolId}
+                                            onChange={(e) => setRolId(e.target.value)}
+                                            label="Rol"
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value={1}>Estudiante Especial</MenuItem>
+                                            <MenuItem value={2}>Docente</MenuItem>
+                                            <MenuItem value={3}>Personal Administrativo</MenuItem>
+                                            <MenuItem value={4}>Coordinador</MenuItem>
+                                            <MenuItem value={5} disabled>
+                                                Web Master
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl variant="standard" sx={{ width: '100%' }}>
+                                        <InputLabel id="estado">Estado</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={estado}
+                                            onChange={(e) => setEstado(e.target.value)}
+                                            label="Estado"
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value={true}>Activo</MenuItem>
+                                            <MenuItem value={false}>Inactivo</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        id="nombre"
+                                        label="Nombre"
+                                        variant="standard"
+                                        value={nombre}
+                                        onChange={(e) => setNombre(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        id="apellido"
+                                        label="Apellido"
+                                        variant="standard"
+                                        value={apellido}
+                                        onChange={(e) => setApellido(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        id="correo"
+                                        label="Correo"
+                                        variant="standard"
+                                        type="email"
+                                        value={correo}
+                                        onChange={(e) => setCorreo(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        id="celular"
+                                        label="Celular"
+                                        variant="standard"
+                                        type="number"
+                                        value={celular}
+                                        onChange={(e) => setCelular(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl variant="standard" sx={{ display: 'flex', alignItems: 'flex-end', marginBottom: '20px' }}>
+                                        {/* <PiPasswordThin sx={{ color: 'action.active', mr: 1, fontSize: '40px' }} /> */}
+                                        <TextField
+                                            id="password"
+                                            label="Contraseña"
+                                            variant="standard"
+                                            type="password"
+                                            value={password}
+                                            fullWidth
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button variant="contained" color="success" type="submit" fullWidth>
+                                        Guardar
+                                    </Button>
+                                </Grid>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>
@@ -440,7 +496,7 @@ function UserList() {
                                 <Select
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
-                                    value={rol}
+                                    value={RolId}
                                     onChange={handleChange}
                                     label="Age"
                                 >
