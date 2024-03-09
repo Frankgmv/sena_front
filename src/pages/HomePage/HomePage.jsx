@@ -13,7 +13,7 @@ const HomePage = () => {
     return (
         <div className="homeBody">
             <Slider />
-            {/* <Noticias />
+            <Noticias />
             <MenuInteractivo />
             <Videos />
             <div className="calendario-eventos">
@@ -24,7 +24,7 @@ const HomePage = () => {
                     <Eventos />
                 </div>
             </div>
-            <Footer /> */}
+            <Footer />
         </div>
     )
 }

@@ -3,9 +3,21 @@
 :root{
     --white:  #FBFBFB;
     --black-text: #000;
-    --black-background: #1E1E1E;
-    --black: #282936;
+    --black-background: #292929;
+    --black: #1E1E1E;
+    --grey: #dddddd;
+    --hover: #97c7d0;
     --success: #00A97F;
     --warning: #D4B301;
     --alert: #EB0000;
+}
+
+::-webkit-scrollbar {
+    background-color: transparent;
+    height: 1px;
+    width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--black);
 }

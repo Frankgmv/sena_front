@@ -8,7 +8,6 @@ const NavBar = () => {
         <div className='navbarBody'>
             <div className="logo">
                 <img src={logo} alt="" />
-                <div className="barra" />
                 <div className="text">
                     <p>Institución Educativa</p>
                     <h3>Centenario Pereira</h3>

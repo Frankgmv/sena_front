@@ -7,19 +7,21 @@
     display: flex;
 }
 
-.adminBody .contenido .contenidoSidebar{
-    width: 20%;
+.adminBody .contenido .containerSidebar{
+    /* width: 5%; */
+    display: none;
 }
 
 .adminBody .contenido .adminContent{
-    width: 60%;
-    height: 80vh;
-    margin: 45px auto 0px;
+    width: 95%;
+    height: 90vh;
+    margin: 5px auto 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--black-background);
+    overflow: auto;
+    color: var(--white);
 }
 
 .Navbar-Body{
@@ -27,6 +29,9 @@
     background-color: var(--black-background);
     height:  70px;
     color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Navbar-Body nav{
@@ -57,6 +62,11 @@
     cursor: pointer;
 }
 
+.Navbar-Body .bodyMenuNavbar{
+    background: var(--black-background);
+    color: var(--white);
+}
+
 .Navbar-Body nav .text h4{
     font-size: clamp(.9rem, 2vw, 1.2rem);
 }
@@ -83,6 +93,5 @@
         width: 90%;
         height: 80vh;
         margin: 45px auto 0px;
-        background-color: var(--black-background);
     }
 }

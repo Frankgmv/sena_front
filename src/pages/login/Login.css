@@ -111,6 +111,7 @@
     padding: 5px 0;
     background-color: transparent;
     outline: none;
+    color: var(--black);
 }
 
 .loginBody .input-container .label {
@@ -133,7 +134,7 @@
 
 .loginBody .input-container .underline {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     left: 0;
     height: 2px;
     width: 100%;
@@ -142,16 +143,21 @@
     transition: all 0.3s ease;
 }
 
+.loginBody .input-container input[type="password"] ~ .underline {
+    bottom: 0px;
+}
+
 .loginBody .input-container input[type="text"]:focus~.underline,
-.loginBody .input-container input[type="text"]:valid~.underline,
-.loginBody .input-container input[type="password"]:focus~.underline,
-.loginBody .input-container input[type="password"]:valid~.underline {
+.loginBody .input-container input[type="password"]:focus~.underline {
     transform: scaleX(1);
 }
 
 .loginBody .select-container {
     text-align: center;
-    margin: 0 20px 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .loginBody .select-container select {
@@ -162,6 +168,8 @@
     font-size: 16px;
     outline: 0;
     height: 40px;
+    margin-top: 10px;
+    background: transparent;
 }
 
 .loginBody .select-container select option {
@@ -289,7 +297,7 @@
     .loginBody .footerInputsLogin .linkRegister .linkInput {
         color: var(--black);
         text-decoration: none;
-        border-bottom: 2px solid var(--black);
+        /* border-bottom: 2px solid var(--black); */
         font-size: 18px;
         padding-bottom: 10px;
     }

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Boton4.css";
 
-const Boton4 = ({ link, type, id, name }) => {
+const Boton4 = ({ type, id, name }) => {
     return (
         <div>
             {/* <Link to={link}> */}
