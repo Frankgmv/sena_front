@@ -29,6 +29,9 @@
     background-color: var(--black-background);
     height:  70px;
     color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Navbar-Body nav{

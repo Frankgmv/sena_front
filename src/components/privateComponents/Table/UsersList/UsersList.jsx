@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -13,6 +13,8 @@ import { FiEdit2 } from "react-icons/fi";
 import { VscCheckAll, VscMail } from "react-icons/vsc";
 import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
 import { IoPhonePortraitOutline } from "react-icons/io5";
+// import AddIcon from '@mui/icons-material/Add';
+import SendIcon from '@mui/icons-material/Send';
 
 function UserList() {
 
@@ -21,9 +23,9 @@ function UserList() {
 
     const [rol, setRol] = useState('');
 
-  const handleChange = (event) => {
-    setRol(event.target.value);
-  };
+    const handleChange = (event) => {
+        setRol(event.target.value);
+    };
 
 
     const columns = [
@@ -65,7 +67,7 @@ function UserList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 90 },
+        { field: "id", headerName: "ID", width: 100 },
         {
             field: "nombre",
             headerName: "Nombres",
@@ -83,7 +85,7 @@ function UserList() {
         {
             field: "correo",
             headerName: "Correo",
-            width: 200,
+            width: 150,
             headerAlign: "center",
             align: "center",
         },
@@ -97,14 +99,12 @@ function UserList() {
         {
             field: "estado",
             headerName: "Estado",
-            width: 100,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "RolId",
             headerName: "Rol ID",
-            width: 100,
             headerAlign: "center",
             align: "center",
         },
@@ -122,11 +122,13 @@ function UserList() {
             width: 200,
             headerAlign: "center",
             align: "center",
-            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"), 
+            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         },
     ];
 
     const [rows, setRows] = useState([]);
+
+    // const endPoint = "http://localhost:9000/api/v1/data/usuarios";
 
     const endPoint = "https://sena-project.onrender.com/api/v1/data/usuarios";
 
@@ -142,6 +144,10 @@ function UserList() {
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
+
+    const [openNew, setOpenNew] = useState(false);
+    const handleOpenNew = () => setOpenNew(true);
+    const handleCloseNew = () => setOpenNew(false);
 
     const style = {
         position: 'absolute',
@@ -195,7 +201,23 @@ function UserList() {
 
     return (
         <>
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 400, width: "100%", marginTop: '-200px' }}>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center', marginBottom: '30px', }}
+                >
+                    <Button
+                        variant="contained"
+                        color="success"
+                        endIcon={<SendIcon />}
+                        onClick={handleOpenNew}
+                    >
+                        Añadir
+                    </Button>
+                </Grid>
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -205,6 +227,16 @@ function UserList() {
                     editMode='row'
                     hideFooterSelectedRowCount
                     ignoreDiacritics
+                    disableColumnSelector
+                    disableDensitySelector
+                    slots={{
+                        toolbar: GridToolbar,
+                    }}
+                    slotProps={{
+                        toolbar: {
+                            showQuickFilter: true,
+                        },
+                    }}
                     initialState={{
                         sorting: {
                             sortModel: [{ field: "id", sort: "asc" }],
@@ -216,9 +248,20 @@ function UserList() {
                     scrollbarThumbColor="#ff0000"
                     style={{ color: "var(--black)", border: "1px solid var(--black)" }}
                     sx={{
+                        "..MuiDataGrid": {
+                            borderRadius: 0
+                        },
+                        ".MuiDataGrid-toolbarContainer": {
+                            background: "var(--black-background)",
+                            color: "var(--white)",
+                        },
+                        ".MuiInputBase-root": {
+                            color: "var(--white)",
+                        },
                         ".MuiDataGrid-columnHeader": {
                             background: "var(--black-background)",
                             color: "var(--white)",
+                            borderRadius: 0
                         },
                         '.MuiTablePagination-actions': {
                             color: "var(--white)",
@@ -232,6 +275,147 @@ function UserList() {
                     }}
                 />
             </div>
+            <div>
+                {/* //! Modal Crear */}
+                <Modal
+                    open={openNew}
+                    onClose={handleCloseNew}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}
+                        component="form"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h1 style={{ textAlign: 'center' }} >Crea un nuevo Usuario</h1>
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="space-evenly"
+                            alignItems="center"
+                        >
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <VscCheckAll
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="Id" label="Identificación" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <PiUserPlusLight
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="nomfechaNacimientobre" label="Fecha de Nacimiento" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+                                <InputLabel id="rol">Rol</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={rol}
+                                    onChange={handleChange}
+                                    label="Age"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={1}>Estudiante Especial</MenuItem>
+                                    <MenuItem value={2}>Docente</MenuItem>
+                                    <MenuItem value={3}>Personal Administrativo</MenuItem>
+                                    <MenuItem value={3}>Coordinador</MenuItem>
+                                    <MenuItem value={5} disabled>Web Master</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <VscCheckAll
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="status" label="Estado" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <PiUserPlusLight
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="nombre" label="Nombre" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <PiUserPlusLight
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="apellido" label="Apellido" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <VscMail
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="correo" label="Correo" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
+                                    <IoPhonePortraitOutline
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField id="celular" label="Celular" variant="standard" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
+                                    <PiPasswordThin
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField
+                                        id="password"
+                                        label="Contraseña"
+                                        variant="standard"
+                                        type="password" />
+                                </Box>
+                            </FormControl>
+                            <FormControl variant="standard">
+                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
+                                    <PiPasswordThin
+                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
+                                        style={{ marginBottom: '10', marginRight: '10' }}
+                                    />
+                                    <TextField
+                                        id="password"
+                                        label="Repetir Contraseña"
+                                        variant="standard"
+                                        type="password" />
+                                </Box>
+                            </FormControl>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                style={{ marginTop: '20px' }}
+                                fullWidth
+                            >
+                                Guardar
+                            </Button>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            {/* //! Modal Editar */}
             <div>
                 <Modal
                     open={openEdit}
@@ -272,7 +456,7 @@ function UserList() {
                             </FormControl>
                             <FormControl variant="standard">
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscCheckAll 
+                                    <VscCheckAll
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
@@ -281,7 +465,7 @@ function UserList() {
                             </FormControl>
                             <FormControl variant="standard">
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                <PiUserPlusLight 
+                                    <PiUserPlusLight
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
@@ -290,7 +474,7 @@ function UserList() {
                             </FormControl>
                             <FormControl variant="standard">
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight 
+                                    <PiUserPlusLight
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />

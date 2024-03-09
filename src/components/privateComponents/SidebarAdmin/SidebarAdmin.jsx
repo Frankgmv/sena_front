@@ -25,6 +25,11 @@ export default function Sidebar() {
                             Mi Perfil
                         </NavLink>
                     </li>
+                    <li key="rol">
+                        <NavLink to="./rol-list" className="link">
+                            Roles
+                        </NavLink>
+                    </li>
                     <li key="slider-fotos">
                         <NavLink to="/slider-fotos" className="link">
                             Slider Fotos

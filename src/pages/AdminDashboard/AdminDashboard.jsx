@@ -7,7 +7,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import UserList from '../../components/privateComponents/Table/UsersList/UsersList';
 import RolList from '../../components/privateComponents/Table/RolList/RolList';
-// import UserList from '../../components/privateComponents/Table/userList/UserList';
 
 const AdminDashboard = () => {
 
