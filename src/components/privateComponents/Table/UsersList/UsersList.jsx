@@ -1,26 +1,25 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-
+import toastr from '../../../../assets/includes/Toastr'
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import { VscCheckAll, VscMail } from "react-icons/vsc";
 import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
 import { IoPhonePortraitOutline } from "react-icons/io5";
-// import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
+import { useUserContext } from "../../../../context/UserContext";
 
 function UserList() {
 
+    const { usuarios, roles, getUsers, errorsUser, responseMessageUser, registrarUsuario } = useUserContext();
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
-
 
     //  !Logica guardar usuarios
 
@@ -40,29 +39,44 @@ function UserList() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const datosUsuario = {
+            id: parseInt(id),
+            nombre, apellido, correo, celular, password, estado, RolId, fechaNacimiento
+        }
+        registrarUsuario(datosUsuario)
+    }
 
-        const dataForm = {
-            id,
-            nombre,
-            apellido,
-            correo,
-            celular,
-            password,
-            estado,
-            RolId,
-            fechaNacimiento
+    const resetForm = () => {
+        setId('');
+        setNombre('');
+        setApellido('');
+        setCorreo('');
+        setCelular('');
+        setPassword('');
+        setEstado('');
+        setRolId('');
+        setFechaNacimiento('');
+
+    }
+
+    useEffect(() => {
+        if (errorsUser.length != 0) {
+            errorsUser.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsUser]);
+
+    useEffect(() => {
+        if (responseMessageUser.length != 0) {
+            responseMessageUser.map(msg => {
+                toastr.success(msg)
+            })
+            getUsers()
+            resetForm();
         }
 
-        console.log(dataForm)
-
-        axios.post('http://localhost:9000/api/v1/data/usuarios', dataForm)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    }, [responseMessageUser]);
 
 
     const columns = [
@@ -160,22 +174,11 @@ function UserList() {
             headerAlign: "center",
             align: "center",
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
-        },
+        }
     ];
 
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "http://localhost:9000/api/v1/data/usuarios";
-
-    // const endPoint = "https://sena-project.onrender.com/api/v1/data/usuarios";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
     useEffect(() => {
-        getData();
+        getUsers();
     }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -256,7 +259,7 @@ function UserList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={usuarios}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -342,132 +345,129 @@ function UserList() {
                 >
                     <Box sx={style}
                         component="form"
+                        id="crearUsuario"
                         noValidate
                         autoComplete="off"
                         onSubmit={handleSubmit}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Usuario</h1>
-                            <Grid container spacing={2}> {/* Apply spacing between form fields */}
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="Id"
-                                        label="Identificación"
-                                        variant="standard"
-                                        type="number"
-                                        maxLength="20"
-                                        value={id}
-                                        onChange={(e) => setId(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                <InputLabel id="fechaNacimiento">Fecha Nacimiento</InputLabel>
-                                    <TextField
-                                        id="fechaNacimiento"
-                                        variant="standard"
-                                        value={fechaNacimiento}
-                                        type="date"
-                                        onChange={(e) => setFechaNacimiento(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <FormControl variant="standard" sx={{ width: '100%' }}>
-                                        <InputLabel id="rol">Rol</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-standard-label"
-                                            id="demo-simple-select-standard"
-                                            value={RolId}
-                                            onChange={(e) => setRolId(e.target.value)}
-                                            label="Rol"
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={1}>Estudiante Especial</MenuItem>
-                                            <MenuItem value={2}>Docente</MenuItem>
-                                            <MenuItem value={3}>Personal Administrativo</MenuItem>
-                                            <MenuItem value={4}>Coordinador</MenuItem>
-                                            <MenuItem value={5} disabled>
-                                                Web Master
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <FormControl variant="standard" sx={{ width: '100%' }}>
-                                        <InputLabel id="estado">Estado</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-standard-label"
-                                            id="demo-simple-select-standard"
-                                            value={estado}
-                                            onChange={(e) => setEstado(e.target.value)}
-                                            label="Estado"
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={true}>Activo</MenuItem>
-                                            <MenuItem value={false}>Inactivo</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="nombre"
-                                        label="Nombre"
-                                        variant="standard"
-                                        value={nombre}
-                                        onChange={(e) => setNombre(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="apellido"
-                                        label="Apellido"
-                                        variant="standard"
-                                        value={apellido}
-                                        onChange={(e) => setApellido(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="correo"
-                                        label="Correo"
-                                        variant="standard"
-                                        type="email"
-                                        value={correo}
-                                        onChange={(e) => setCorreo(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="celular"
-                                        label="Celular"
-                                        variant="standard"
-                                        type="number"
-                                        value={celular}
-                                        onChange={(e) => setCelular(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl variant="standard" sx={{ display: 'flex', alignItems: 'flex-end', marginBottom: '20px' }}>
-                                        {/* <PiPasswordThin sx={{ color: 'action.active', mr: 1, fontSize: '40px' }} /> */}
-                                        <TextField
-                                            id="password"
-                                            label="Contraseña"
-                                            variant="standard"
-                                            type="password"
-                                            value={password}
-                                            fullWidth
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant="contained" color="success" type="submit" fullWidth>
-                                        Guardar
-                                    </Button>
-                                </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="Id"
+                                    label="Identificación"
+                                    variant="standard"
+                                    type="number"
+                                    maxLength="20"
+                                    value={id}
+                                    onChange={(e) => setId(e.target.value)}
+                                />
                             </Grid>
+                            <Grid item xs={6}>
+                                <InputLabel id="fechaNacimiento">Fecha Nacimiento</InputLabel>
+                                <TextField
+                                    id="fechaNacimiento"
+                                    variant="standard"
+                                    value={fechaNacimiento}
+                                    type="date"
+                                    onChange={(e) => setFechaNacimiento(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="standard" sx={{ width: '100%' }}>
+                                    <InputLabel id="rol">Rol</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        value={RolId}
+                                        onChange={(e) => setRolId(e.target.value)}
+                                        label="Rol"
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        {
+                                            roles.map((rol, i) => {
+                                                const disabled = rol.rolKey === 'WM'
+                                                return (
+                                                    <MenuItem key={i} value={rol.id} disabled={disabled}>{rol.rol}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="standard" sx={{ width: '100%' }}>
+                                    <InputLabel id="estado">Estado</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        value={estado}
+                                        onChange={(e) => setEstado(e.target.value)}
+                                        label="Estado"
+                                    >
+                                        <MenuItem value={false}>Inactivo</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="nombre"
+                                    label="Nombre"
+                                    variant="standard"
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="apellido"
+                                    label="Apellido"
+                                    variant="standard"
+                                    value={apellido}
+                                    onChange={(e) => setApellido(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="correo"
+                                    label="Correo"
+                                    variant="standard"
+                                    type="email"
+                                    value={correo}
+                                    onChange={(e) => setCorreo(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="celular"
+                                    label="Celular"
+                                    variant="standard"
+                                    type="number"
+                                    value={celular}
+                                    onChange={(e) => setCelular(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl variant="standard" sx={{ display: 'flex', alignItems: 'flex-end', marginBottom: '20px' }}>
+                                    <TextField
+                                        id="password"
+                                        label="Contraseña"
+                                        variant="standard"
+                                        type="password"
+                                        value={password}
+                                        fullWidth
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button variant="contained" color="success" type="submit" fullWidth>
+                                    Guardar
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>
@@ -587,7 +587,7 @@ function UserList() {
                                                 style={{ marginBottom: '10', marginRight: '10' }}
                                             />
                                             <TextField
-                                                id="password"
+                                                id="password_valid"
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 type="password" />

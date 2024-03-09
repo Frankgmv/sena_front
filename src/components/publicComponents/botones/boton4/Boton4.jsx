@@ -4,11 +4,9 @@ import "./Boton4.css";
 const Boton4 = ({ type, id, name }) => {
     return (
         <div>
-            {/* <Link to={link}> */}
-                <button type={type} className="button" id={id}>
-                    {name}
-                </button>
-            {/* </Link> */}
+            <button type={type} className="button" id={id}>
+                {name}
+            </button>
         </div>
     );
 };

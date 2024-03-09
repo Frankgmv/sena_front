@@ -68,6 +68,7 @@ const Login = () => {
                     <Boton4
                         link='/register'
                         name='Registrate'
+                        id='irARegitro'
                     />
                 </div>
             </div>
@@ -107,6 +108,7 @@ const Login = () => {
                                 <Boton4
                                     type='submit'
                                     name='Iniciar Sesion'
+                                    id="botonEnviar"
                                 />
                             </div>
                             <div className="linkRegister">

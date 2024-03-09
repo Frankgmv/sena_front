@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRolesRequest, getUsuarioRequest } from "../api/data";
-import toastr from "../assets/includes/Toastr";
+import { getRolesRequest, getUsuarioRequest, postUsuarioRequest } from "../api/data";
 
 const UserContext = createContext();
 
@@ -19,6 +18,7 @@ export const UserProvider = ({ children }) => {
     const [errorsUser, setErrorsUser] = useState([]);
     const [responseMessageUser, setResponseMessageUser] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [usuarios, setUsuarios] = useState([]);
 
     useEffect(() => {
         getRoles();
@@ -66,10 +66,7 @@ export const UserProvider = ({ children }) => {
             const response = await getUsuarioRequest()
             const data = await response.data
             if (data.ok) {
-                console.log(data.data)
-                data.data.map((user)=>{
-                    toastr.info(JSON.stringify(user.nombre, user.apellido))
-                })
+                setUsuarios(data.data)
             }
         } catch (error) {
             console.log(error)
@@ -98,14 +95,62 @@ export const UserProvider = ({ children }) => {
             }
         }
     }
+    const registrarUsuario = async (dataUsuario) => {
+        try {
+            const response = await postUsuarioRequest(dataUsuario)
+            const data = await response.data
+            if (data.ok) {
+                setResponseMessageUser([...responseMessageUser, data.message])
+            }else{
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        } catch (error) {
+            const datos = error.response.data
+            if (datos.zodError) {
+                error.response.data.zodError.issues.map(error => {
+                    setErrorsUser((prevent) => {
+                        if (!prevent.includes(error.message)) {
+                            return [
+                                ...prevent,
+                                error.message
+                            ]
+                        }
+                        return prevent
+                    })
+                })
+            }
 
+            if (datos.message) {
+
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(datos.message)) {
+                        return [
+                            ...prevent,
+                            datos.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
 
     const allMethods = {
         errorsUser,
         setErrorsUser,
         responseMessageUser,
         roles,
-        getUsers
+        getUsers,
+        usuarios,
+        registrarUsuario
     }
 
     return (

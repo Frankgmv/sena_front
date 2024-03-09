@@ -71,7 +71,7 @@ const Register = () => {
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
                 <div className="boton"  onClick={() => navigate("/login")}>
-                    <Boton4 link='/login' name='Iniciar Sesion' />
+                    <Boton4 link='/login' name='Iniciar Sesion' id="irALogin" />
                 </div>
             </div>
             <div className="containerInput">
