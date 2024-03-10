@@ -100,7 +100,7 @@ export const UserProvider = ({ children }) => {
             const data = await response.data
             if (data.ok) {
                 setResponseMessageUser((prevent) => {
-                    if (!errorsUser.includes(data.message)) {
+                    if (!responseMessageUser.includes(data.message)) {
                         return [
                             ...prevent,
                             data.message

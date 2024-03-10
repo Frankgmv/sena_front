@@ -15,6 +15,7 @@ import { IoPhonePortraitOutline } from "react-icons/io5";
 import SendIcon from '@mui/icons-material/Send';
 import { useUserContext } from "../../../../context/UserContext";
 import { getLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
+import { formateFecha } from "../../../../assets/includes/funciones";
 
 function UserList() {
 
@@ -24,6 +25,7 @@ function UserList() {
 
     //  !Logica guardar usuarios
     const [usuarioEdit, setUsuarioEdit] = useState({})
+    const [dataUsuarioEdit, setDataUsuarioEdit] = useState({})
 
     const [id, setId] = useState('')
     const [nombre, setNombre] = useState('')
@@ -35,8 +37,25 @@ function UserList() {
     const [RolId, setRolId] = useState('')
     const [fechaNacimiento, setFechaNacimiento] = useState('')
 
-    const handleChange = (event) => {
-        setRolId(event.target.value);
+    const submitUpdateUsuario = (event) => {
+        event.preventDefault()
+        console.log(dataUsuarioEdit)
+    };
+
+    const handlerChangeUpdate = (event) => {
+        const { name, value } = event.target
+        setDataUsuarioEdit(prevent => {
+            if (name === RolId) {
+                return {
+                    ...prevent,
+                    [name]: parseInt(value)
+                }
+            }
+            return {
+                ...prevent,
+                [name]: value
+            }
+        })
     };
 
     const handleSubmit = (e) => {
@@ -78,7 +97,7 @@ function UserList() {
             resetForm();
         }
 
-    }, [responseMessageUser]);
+    }, [responseMessageUser])
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)
@@ -284,7 +303,21 @@ function UserList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={usuarios}
+                    rows={usuarios.map((user) => {
+                        if (user.estado) return { ...user, estado: 'activo' }
+                        return { ...user, estado: 'inactivo' }
+                    }).map(user => {
+                        for (let rol of roles) {
+                            if (rol.id === user.RolId) {
+                                return { ...user, RolId: rol.rol }
+                            }
+                        }
+                        return user
+                    }).map(user => {
+                        const createdAt = formateFecha(user.createdAt);
+                        const fechaNacimiento = formateFecha(user.fechaNacimiento);
+                        return { ...user, createdAt, fechaNacimiento }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -508,8 +541,9 @@ function UserList() {
                         component="form"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitUpdateUsuario}
                     >
-                        <h1 style={{ textAlign: 'center' }} >Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
                         <Grid
                             container
                             direction="row"
@@ -521,9 +555,9 @@ function UserList() {
                                 <Select
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
-                                    onChange={handleChange}
                                     label="RolId"
                                     name="RolId"
+                                    onChange={handlerChangeUpdate}
                                 >
                                     {
                                         usuarioEdit && (
@@ -553,8 +587,8 @@ function UserList() {
                                 <Select
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
-                                    onChange={handleChange}
                                     name="estado"
+                                    onChange={handlerChangeUpdate}
                                 >
                                     {<MenuItem value={usuarioEdit.estado}><em><b>{usuarioEdit.estado ? 'Activo' : 'Inactivo'} por Defecto</b></em> </MenuItem>}
                                     {<MenuItem value={!usuarioEdit.estado}>{!usuarioEdit.estado ? 'Activo' : 'Inactivo'}</MenuItem>}
@@ -566,7 +600,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="nombre" value={usuarioEdit.nombre} name="nombre" label="Nombre" variant="standard" />
+                                    <TextField id="nombre" value={usuarioEdit.nombre} onChange={handlerChangeUpdate} name="nombre" label="Nombre" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -575,7 +609,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="apellido" value={usuarioEdit.apellido} name="apellido" label="Apellido" variant="standard" />
+                                    <TextField id="apellido" value={usuarioEdit.apellido} onChange={handlerChangeUpdate} name="apellido" label="Apellido" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -584,7 +618,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="correo" value={usuarioEdit.correo} name="correo" label="Correo" variant="standard" />
+                                    <TextField id="correo" onChange={handlerChangeUpdate} value={usuarioEdit.correo} name="correo" label="Correo" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -593,7 +627,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="celular" value={usuarioEdit.celular} name="celular" label="Celular" variant="standard" />
+                                    <TextField id="celular" onChange={handlerChangeUpdate} value={usuarioEdit.celular} name="celular" label="Celular" variant="standard" />
                                 </Box>
                             </FormControl>
 
@@ -621,7 +655,10 @@ function UserList() {
                                                 id="password"
                                                 label="Contraseña"
                                                 variant="standard"
-                                                type="password" />
+                                                name="password"
+                                                type="password"
+                                                onChange={handlerChangeUpdate}
+                                            />
 
                                             <PiPasswordThin
                                                 sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
@@ -631,7 +668,10 @@ function UserList() {
                                                 id="password_valid"
                                                 label="Repetir Contraseña"
                                                 variant="standard"
-                                                type="password" />
+                                                name="password_valid"
+                                                type="password" 
+                                                onChange={handlerChangeUpdate}
+                                            />
                                         </Box>
                                     </FormControl>
                                 )}
@@ -642,7 +682,7 @@ function UserList() {
                                 style={{ marginTop: '20px' }}
                                 fullWidth
                             >
-                                Guardar
+                                Actualizar
                             </Button>
                         </Grid>
                     </Box>
