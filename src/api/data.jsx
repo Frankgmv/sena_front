@@ -1,7 +1,9 @@
 
 import axios from "./instance";
 
-export const getUsuarioRequest = () => axios.get(`/data/usuarios`);
+export const getUsuariosRequest = () => axios.get(`/data/usuarios`);
+
+export const getUsuarioRequest = (id) => axios.get(`/data/usuarios/${id}`);
 
 export const postUsuarioRequest = (usuario) => axios.post(`/data/usuarios`, usuario);
 

@@ -9,19 +9,21 @@ import toastr from '../../../../assets/includes/Toastr'
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { VscCheckAll, VscMail } from "react-icons/vsc";
+import { VscMail } from "react-icons/vsc";
 import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import SendIcon from '@mui/icons-material/Send';
 import { useUserContext } from "../../../../context/UserContext";
+import { getLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
 
 function UserList() {
 
-    const { usuarios, roles, getUsers, errorsUser, responseMessageUser, registrarUsuario } = useUserContext();
+    const { usuarios, roles, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario } = useUserContext();
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
     //  !Logica guardar usuarios
+    const [usuarioEdit, setUsuarioEdit] = useState({})
 
     const [id, setId] = useState('')
     const [nombre, setNombre] = useState('')
@@ -78,13 +80,17 @@ function UserList() {
 
     }, [responseMessageUser]);
 
+    const navegarAUsuario = (usuarioId) => {
+        setLocalStorage('UsuarioIdEdit', usuarioId)
+    }
+
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -92,13 +98,17 @@ function UserList() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    navegarAUsuario(params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
                                     borderRadius: "5px",
                                     color: "#000",
                                 }}
+
                             />
                         </Button>
                     </Tooltip>
@@ -238,6 +248,21 @@ function UserList() {
         });
     }
 
+    const buscarUsuario = async () => {
+        const idUsuario = parseInt(getLocalStorage('UsuarioIdEdit'));
+        const usuario = await getUsuario(idUsuario);
+        if (!usuario.ok || !idUsuario) {
+            setOpenEdit(false)
+        } else {
+            setUsuarioEdit(usuario.data)
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            buscarUsuario()
+        }
+    }, [openEdit])
 
     return (
         <>
@@ -492,31 +517,56 @@ function UserList() {
                             alignItems="center"
                         >
                             <FormControl variant="standard" sx={{ m: 1, minWidth: 210 }}>
-                                <InputLabel id="rol">Rol</InputLabel>
+                                <InputLabel id="RolId">Rol</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
-                                    value={RolId}
                                     onChange={handleChange}
-                                    label="Age"
+                                    label="RolId"
+                                    name="RolId"
                                 >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value={1}>Estudiante Especial</MenuItem>
-                                    <MenuItem value={2}>Docente</MenuItem>
-                                    <MenuItem value={3}>Personal Administrativo</MenuItem>
-                                    <MenuItem value={3}>Coordinador</MenuItem>
-                                    <MenuItem value={5} disabled>Web Master</MenuItem>
+                                    {
+                                        usuarioEdit && (
+
+                                            roles.filter(rol => rol.id === usuarioEdit.RolId).map((rol, i) => {
+                                                return (
+                                                    <MenuItem value={rol.id} key={i}><em><b>{rol.rol} por Defecto</b></em> </MenuItem>
+                                                )
+                                            })
+                                        )
+                                    }
+                                    {
+                                        usuarioEdit && (
+                                            roles.map((rol, i) => {
+                                                const disabled = rol.rolKey === 'WM'
+                                                const hidden = usuarioEdit.RolId === rol.id
+                                                return (
+                                                    <MenuItem key={i} value={rol.id} hidden={hidden} disabled={disabled}>{rol.rol}</MenuItem>
+                                                )
+                                            })
+                                        )
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 210 }}>
+                                <InputLabel id="estado">estado</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    onChange={handleChange}
+                                    name="estado"
+                                >
+                                    {<MenuItem value={usuarioEdit.estado}><em><b>{usuarioEdit.estado ? 'Activo' : 'Inactivo'} por Defecto</b></em> </MenuItem>}
+                                    {<MenuItem value={!usuarioEdit.estado}>{!usuarioEdit.estado ? 'Activo' : 'Inactivo'}</MenuItem>}
                                 </Select>
                             </FormControl>
                             <FormControl variant="standard">
                                 <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscCheckAll
+                                    <PiUserPlusLight
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="status" label="Estado" variant="standard" />
+                                    <TextField id="nombre" value={usuarioEdit.nombre} name="nombre" label="Nombre" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -525,16 +575,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="nombre" label="Nombre" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="apellido" label="Apellido" variant="standard" />
+                                    <TextField id="apellido" value={usuarioEdit.apellido} name="apellido" label="Apellido" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -543,7 +584,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="correo" label="Correo" variant="standard" />
+                                    <TextField id="correo" value={usuarioEdit.correo} name="correo" label="Correo" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -552,7 +593,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="celular" label="Celular" variant="standard" />
+                                    <TextField id="celular" value={usuarioEdit.celular} name="celular" label="Celular" variant="standard" />
                                 </Box>
                             </FormControl>
 

@@ -109,7 +109,6 @@ export const CredentialProvider = ({ children }) => {
                 return prevent
             });
         } catch (error) {
-            console.log(error)
             const datos = error.response.data
             if (datos.zodError) {
                 error.response.data.zodError.issues.map(error => {

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRolesRequest, getUsuarioRequest, postUsuarioRequest } from "../api/data";
+import { getRolesRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest } from "../api/data";
 
 const UserContext = createContext();
 
@@ -63,13 +63,55 @@ export const UserProvider = ({ children }) => {
 
     const getUsers = async () => {
         try {
-            const response = await getUsuarioRequest()
+            const response = await getUsuariosRequest()
             const data = await response.data
             if (data.ok) {
                 setUsuarios(data.data)
             }
         } catch (error) {
-            console.log(error)
+            if (error.message) {
+                setErrorsUser((prevent) => {
+                    if (!errorsUser.includes(error.message)) {
+                        return [
+                            ...prevent,
+                            error.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+
+            if (error.response.data.message) {
+                setErrorsUser((prevent) => {
+                    if (!errorsUser.includes(error.response.data.message)) {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
+    const getUsuario = async (id) => {
+        try {
+            const response = await getUsuarioRequest(id)
+            const data = await response.data
+            if (data.ok) {
+                setResponseMessageUser((prevent) => {
+                    if (!errorsUser.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+
+            return data
+        } catch (error) {
             if (error.message) {
                 setErrorsUser((prevent) => {
                     if (!errorsUser.includes(error.message)) {
@@ -150,7 +192,8 @@ export const UserProvider = ({ children }) => {
         roles,
         getUsers,
         usuarios,
-        registrarUsuario
+        registrarUsuario,
+        getUsuario
     }
 
     return (

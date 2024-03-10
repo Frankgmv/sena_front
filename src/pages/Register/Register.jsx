@@ -36,12 +36,10 @@ const Register = () => {
             setErrors((prevent) => {
                 return [
                     ...prevent,
-                    'Las contraseñas no coninciden'
+                    'Las contraseñas no coinciden'
                 ]
             })
-            console.log("credenciales no son iguales")
         } else {
-            console.log(dataRegister)
             register(dataRegister)
         }
     }
