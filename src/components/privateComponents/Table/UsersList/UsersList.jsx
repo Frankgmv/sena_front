@@ -14,19 +14,17 @@ import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import SendIcon from '@mui/icons-material/Send';
 import { useUserContext } from "../../../../context/UserContext";
-import { getLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../assets/includes/funciones";
+import { useCredentialContext } from "../../../../context/AuthContext";
 
 function UserList() {
-
-    const { usuarios, roles, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario } = useUserContext();
+    const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
+    const { roles } = useCredentialContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
     //  !Logica guardar usuarios
-    const [usuarioEdit, setUsuarioEdit] = useState({})
-    const [dataUsuarioEdit, setDataUsuarioEdit] = useState({})
-
     const [id, setId] = useState('')
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
@@ -37,25 +35,41 @@ function UserList() {
     const [RolId, setRolId] = useState('')
     const [fechaNacimiento, setFechaNacimiento] = useState('')
 
+    const [nombreUpt, setNombreUpt] = useState('')
+    const [apellidoUpt, setApellidoUpt] = useState('')
+    const [correoUpt, setCorreoUpt] = useState('')
+    const [celularUpt, setCelularUpt] = useState('')
+    const [estadoUpt, setEstadoUpt] = useState('')
+    const [RolIdUpt, setRolIdUpt] = useState('')
+
+    const [passwordUpt, setPasswordUpt] = useState('')
+    const [passwordValidUpt, setPasswordValidUpt] = useState('')
+
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
-        console.log(dataUsuarioEdit)
-    };
+        let dataUpdated = {
+            nombre: nombreUpt,
+            apellido: apellidoUpt,
+            correo: correoUpt,
+            celular: celularUpt,
+            estado: estadoUpt,
+            RolId: RolIdUpt
+        }
 
-    const handlerChangeUpdate = (event) => {
-        const { name, value } = event.target
-        setDataUsuarioEdit(prevent => {
-            if (name === RolId) {
-                return {
-                    ...prevent,
-                    [name]: parseInt(value)
+        if (showPasswordInput) {
+            if (passwordUpt === passwordValidUpt) {
+                dataUpdated = {
+                    ...dataUpdated,
+                    'password': passwordUpt
                 }
+            } else {
+                toastr.error('Las contraseñas no coinciden')
             }
-            return {
-                ...prevent,
-                [name]: value
-            }
-        })
+        }
+        setOpenEdit(false);
+        setShowPasswordInput(false);
+        const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
+        updateUsuario(idUser, dataUpdated);
     };
 
     const handleSubmit = (e) => {
@@ -65,6 +79,7 @@ function UserList() {
             nombre, apellido, correo, celular, password, estado, RolId, fechaNacimiento
         }
         registrarUsuario(datosUsuario)
+
     }
 
     const resetForm = () => {
@@ -77,7 +92,6 @@ function UserList() {
         setEstado('');
         setRolId('');
         setFechaNacimiento('');
-
     }
 
     useEffect(() => {
@@ -93,7 +107,8 @@ function UserList() {
             responseMessageUser.map(msg => {
                 toastr.success(msg)
             })
-            getUsers()
+            getUsers();
+            setOpenNew(false);
             resetForm();
         }
 
@@ -101,6 +116,10 @@ function UserList() {
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)
+    }
+
+    const deleteUser = (usuarioId) => {
+        setLocalStorage('UsuarioIdDelete', usuarioId)
     }
 
 
@@ -134,7 +153,10 @@ function UserList() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    deleteUser(params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -184,7 +206,7 @@ function UserList() {
         },
         {
             field: "RolId",
-            headerName: "Rol ID",
+            headerName: "Rol",
             headerAlign: "center",
             align: "center",
         },
@@ -254,16 +276,17 @@ function UserList() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
-            } else if (
 
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
+                const id = parseInt(getLocalStorage('UsuarioIdDelete'))
+                deleteUsuario(id)
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire({
                     title: "Cancelado",
                     text: "Acción cancelada",
                     icon: "error"
                 });
             }
+            removeLocalStorage('UsuarioIdDelete')
         });
     }
 
@@ -273,7 +296,13 @@ function UserList() {
         if (!usuario.ok || !idUsuario) {
             setOpenEdit(false)
         } else {
-            setUsuarioEdit(usuario.data)
+            let { apellido, nombre, RolId, estado, celular, correo } = usuario.data
+            setApellidoUpt(apellido)
+            setNombreUpt(nombre)
+            setRolIdUpt(RolId),
+                setEstadoUpt(estado)
+            setCelularUpt(celular)
+            setCorreoUpt(correo)
         }
     }
 
@@ -557,28 +586,16 @@ function UserList() {
                                     id="demo-simple-select-standard"
                                     label="RolId"
                                     name="RolId"
-                                    onChange={handlerChangeUpdate}
+                                    onChange={(e) => setRolIdUpt(parseInt(e.target.value))}
                                 >
                                     {
-                                        usuarioEdit && (
-
-                                            roles.filter(rol => rol.id === usuarioEdit.RolId).map((rol, i) => {
-                                                return (
-                                                    <MenuItem value={rol.id} key={i}><em><b>{rol.rol} por Defecto</b></em> </MenuItem>
-                                                )
-                                            })
-                                        )
-                                    }
-                                    {
-                                        usuarioEdit && (
-                                            roles.map((rol, i) => {
-                                                const disabled = rol.rolKey === 'WM'
-                                                const hidden = usuarioEdit.RolId === rol.id
-                                                return (
-                                                    <MenuItem key={i} value={rol.id} hidden={hidden} disabled={disabled}>{rol.rol}</MenuItem>
-                                                )
-                                            })
-                                        )
+                                        roles.map((rol, i) => {
+                                            const disabled = rol.rolKey === 'WM'
+                                            const texto = RolIdUpt === rol.id
+                                            return (
+                                                <MenuItem key={i} value={rol.id} disabled={disabled}>{rol.rol} {texto ? 'por defecto' : ''}</MenuItem>
+                                            )
+                                        })
                                     }
                                 </Select>
                             </FormControl>
@@ -588,10 +605,10 @@ function UserList() {
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     name="estado"
-                                    onChange={handlerChangeUpdate}
+                                    onChange={(e) => setEstadoUpt(e.target.value)}
                                 >
-                                    {<MenuItem value={usuarioEdit.estado}><em><b>{usuarioEdit.estado ? 'Activo' : 'Inactivo'} por Defecto</b></em> </MenuItem>}
-                                    {<MenuItem value={!usuarioEdit.estado}>{!usuarioEdit.estado ? 'Activo' : 'Inactivo'}</MenuItem>}
+                                    {<MenuItem value={estadoUpt}><em><b>{estadoUpt ? 'Activo' : 'Inactivo'} por Defecto</b></em> </MenuItem>}
+                                    {<MenuItem value={!estadoUpt}>{!estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>}
                                 </Select>
                             </FormControl>
                             <FormControl variant="standard">
@@ -600,7 +617,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="nombre" value={usuarioEdit.nombre} onChange={handlerChangeUpdate} name="nombre" label="Nombre" variant="standard" />
+                                    <TextField id="nombre" value={nombreUpt} onChange={(e) => setNombreUpt(e.target.value)} name="nombre" label="Nombre" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -609,7 +626,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="apellido" value={usuarioEdit.apellido} onChange={handlerChangeUpdate} name="apellido" label="Apellido" variant="standard" />
+                                    <TextField id="apellido" value={apellidoUpt} onChange={(e) => setApellidoUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -618,7 +635,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="correo" onChange={handlerChangeUpdate} value={usuarioEdit.correo} name="correo" label="Correo" variant="standard" />
+                                    <TextField id="correo" onChange={(e) => setCorreoUpt(e.target.value)} value={correoUpt} name="correo" label="Correo" variant="standard" />
                                 </Box>
                             </FormControl>
                             <FormControl variant="standard">
@@ -627,7 +644,7 @@ function UserList() {
                                         sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
                                         style={{ marginBottom: '10', marginRight: '10' }}
                                     />
-                                    <TextField id="celular" onChange={handlerChangeUpdate} value={usuarioEdit.celular} name="celular" label="Celular" variant="standard" />
+                                    <TextField id="celular" onChange={(e) => setCelularUpt(e.target.value)} value={celularUpt} name="celular" label="Celular" variant="standard" />
                                 </Box>
                             </FormControl>
 
@@ -657,7 +674,7 @@ function UserList() {
                                                 variant="standard"
                                                 name="password"
                                                 type="password"
-                                                onChange={handlerChangeUpdate}
+                                                onChange={(e) => setPasswordUpt(e.target.value)}
                                             />
 
                                             <PiPasswordThin
@@ -669,8 +686,8 @@ function UserList() {
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 name="password_valid"
-                                                type="password" 
-                                                onChange={handlerChangeUpdate}
+                                                type="password"
+                                                onChange={(e) => setPasswordValidUpt(e.target.value)}
                                             />
                                         </Box>
                                     </FormControl>
@@ -681,6 +698,7 @@ function UserList() {
                                 color="success"
                                 style={{ marginTop: '20px' }}
                                 fullWidth
+                                type="submit"
                             >
                                 Actualizar
                             </Button>

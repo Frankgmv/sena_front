@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRolesRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest } from "../api/data";
+import { deleteUsuarioRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest, putUsuarioRequest } from "../api/data";
 
 const UserContext = createContext();
 
@@ -17,12 +17,7 @@ export const useUserContext = () => {
 export const UserProvider = ({ children }) => {
     const [errorsUser, setErrorsUser] = useState([]);
     const [responseMessageUser, setResponseMessageUser] = useState([]);
-    const [roles, setRoles] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
-
-    useEffect(() => {
-        getRoles();
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -41,25 +36,6 @@ export const UserProvider = ({ children }) => {
         }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessageUser])
-
-    const getRoles = async () => {
-        try {
-            const response = await getRolesRequest()
-            const data = await response.data
-            if (data.ok) {
-                setRoles(data.data)
-            }
-        } catch (error) {
-            if (error.response.message) {
-                setErrorsUser((prevent) => {
-                    return [
-                        ...prevent,
-                        error.message
-                    ]
-                })
-            }
-        }
-    }
 
     const getUsers = async () => {
         try {
@@ -137,6 +113,7 @@ export const UserProvider = ({ children }) => {
             }
         }
     }
+    
     const registrarUsuario = async (dataUsuario) => {
         try {
             const response = await postUsuarioRequest(dataUsuario)
@@ -185,15 +162,108 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+    const updateUsuario = async (id, dataUsuario) => {
+        try {
+            const response = await putUsuarioRequest(id, dataUsuario)
+            const data = await response.data
+            if (data.ok) {
+                setResponseMessageUser([...responseMessageUser, data.message])
+            }else{
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+            getUsers()
+        } catch (error) {
+            const datos = error.response.data
+            if (datos.zodError) {
+                error.response.data.zodError.issues.map(error => {
+                    setErrorsUser((prevent) => {
+                        if (!prevent.includes(error.message)) {
+                            return [
+                                ...prevent,
+                                error.message
+                            ]
+                        }
+                        return prevent
+                    })
+                })
+            }
+
+            if (datos.message) {
+
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(datos.message)) {
+                        return [
+                            ...prevent,
+                            datos.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
+
+    const deleteUsuario = async (id) => {
+        try {
+            const response = await deleteUsuarioRequest(id)
+            const data = await response.data
+            if (data.ok) {
+                setResponseMessageUser((prevent) => {
+                    if (!responseMessageUser.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                getUsers()
+            }
+        } catch (error) {
+            if (error.message) {
+                setErrorsUser((prevent) => {
+                    if (!errorsUser.includes(error.message)) {
+                        return [
+                            ...prevent,
+                            error.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+
+            if (error.response.data.message) {
+                setErrorsUser((prevent) => {
+                    if (!errorsUser.includes(error.response.data.message)) {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
+
     const allMethods = {
         errorsUser,
         setErrorsUser,
         responseMessageUser,
-        roles,
         getUsers,
         usuarios,
         registrarUsuario,
-        getUsuario
+        getUsuario,
+        updateUsuario,
+        deleteUsuario
     }
 
     return (
