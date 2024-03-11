@@ -6,7 +6,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import UserList from '../../components/privateComponents/Table/UsersList/UsersList';
-import RolList from '../../components/privateComponents/Table/RolList/RolList';
+// import RolList from '../../components/privateComponents/Table/RolList/RolList';
+import AnunciosList from '../../components/privateComponents/Table/AnunciosList/AnunciosList';
 
 const AdminDashboard = () => {
 
@@ -70,7 +71,9 @@ const AdminDashboard = () => {
                 <div className="adminContent">
                     <Routes>
                         <Route path='/' element={<UserList />}/>
-                        <Route path='/rol-list' element={<RolList />}/>
+                        {/* <Route path='/rol-list' element={<RolList />}/> */}
+                        <Route path='/anuncios-list' element={<AnunciosList />}/>
+                        {/* <Route path='/seccion-list' element={<SeccionList />}/> */}
                     </Routes>
                     <Outlet />
                 </div>

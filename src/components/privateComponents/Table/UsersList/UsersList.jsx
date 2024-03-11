@@ -6,23 +6,23 @@ import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import toastr from '../../../../assets/includes/Toastr'
-
-import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
-import { VscMail } from "react-icons/vsc";
-import { PiPasswordThin, PiUserPlusLight } from "react-icons/pi";
-import { IoPhonePortraitOutline } from "react-icons/io5";
-import SendIcon from '@mui/icons-material/Send';
+import { useMediaQuery } from '@mui/material';
 import { useUserContext } from "../../../../context/UserContext";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../assets/includes/funciones";
 import { useCredentialContext } from "../../../../context/AuthContext";
+
+import { BsTrash3 } from "react-icons/bs";
+import { FiEdit2 } from "react-icons/fi";
+import SendIcon from '@mui/icons-material/Send';
 
 function UserList() {
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
     const { roles } = useCredentialContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
+
+    const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
     //  !Logica guardar usuarios
     const [id, setId] = useState('')
@@ -207,13 +207,14 @@ function UserList() {
         {
             field: "RolId",
             headerName: "Rol",
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "fechaNacimiento",
             headerName: "Fecha de Nacimiento",
-            width: 200,
+            width: 150,
             headerAlign: "center",
             align: "center",
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
@@ -221,7 +222,7 @@ function UserList() {
         {
             field: "createdAt",
             headerName: "Fecha de Creación",
-            width: 200,
+            width: 150,
             headerAlign: "center",
             align: "center",
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
@@ -245,7 +246,6 @@ function UserList() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -310,7 +310,7 @@ function UserList() {
         if (openEdit) {
             buscarUsuario()
         }
-    }, [openEdit])
+    }, [openEdit,])
 
     return (
         <>
@@ -439,8 +439,9 @@ function UserList() {
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Usuario</h1>
                         <Grid container spacing={2}>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
+                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
                                     id="Id"
                                     label="Identificación"
                                     variant="standard"
@@ -450,9 +451,10 @@ function UserList() {
                                     onChange={(e) => setId(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="fechaNacimiento">Fecha Nacimiento</InputLabel>
                                 <TextField
+                                sx={{ width: '90%' }}
                                     id="fechaNacimiento"
                                     variant="standard"
                                     value={fechaNacimiento}
@@ -460,8 +462,8 @@ function UserList() {
                                     onChange={(e) => setFechaNacimiento(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
-                                <FormControl variant="standard" sx={{ width: '100%' }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="rol">Rol</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
@@ -484,8 +486,8 @@ function UserList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
-                                <FormControl variant="standard" sx={{ width: '100%' }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="estado">Estado</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
@@ -498,8 +500,9 @@ function UserList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
+                                sx={{ width: '90%' }}
                                     id="nombre"
                                     label="Nombre"
                                     variant="standard"
@@ -507,8 +510,9 @@ function UserList() {
                                     onChange={(e) => setNombre(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
+                                sx={{ width: '90%' }}
                                     id="apellido"
                                     label="Apellido"
                                     variant="standard"
@@ -516,8 +520,9 @@ function UserList() {
                                     onChange={(e) => setApellido(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
+                                sx={{ width: '90%' }}
                                     id="correo"
                                     label="Correo"
                                     variant="standard"
@@ -526,8 +531,9 @@ function UserList() {
                                     onChange={(e) => setCorreo(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
+                                sx={{ width: '90%' }}
                                     id="celular"
                                     label="Celular"
                                     variant="standard"
@@ -544,7 +550,7 @@ function UserList() {
                                         variant="standard"
                                         type="password"
                                         value={password}
-                                        fullWidth
+                                        sx={{ width: '100%' }}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </FormControl>
@@ -568,24 +574,23 @@ function UserList() {
                 >
                     <Box sx={style}
                         component="form"
+                        id="editarUsuario"
                         noValidate
                         autoComplete="off"
                         onSubmit={submitUpdateUsuario}
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
-                        <Grid
-                            container
-                            direction="row"
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                        >
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 210 }}>
+                        <Grid container spacing={2} sx={{ width: '100%' }}>
+                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="RolId">Rol</InputLabel>
                                 <Select
+                                sx={{ width: '90%' }}
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     label="RolId"
+                                    variant="standard"
                                     name="RolId"
+                                    defaultValue={1}
                                     onChange={(e) => setRolIdUpt(parseInt(e.target.value))}
                                 >
                                     {
@@ -598,55 +603,34 @@ function UserList() {
                                         })
                                     }
                                 </Select>
-                            </FormControl>
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 210 }}>
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="estado">estado</InputLabel>
                                 <Select
+                                sx={{ width: '90%' }}
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     name="estado"
+                                    variant="standard"
+                                    defaultValue={false} 
                                     onChange={(e) => setEstadoUpt(e.target.value)}
                                 >
-                                    {<MenuItem value={estadoUpt}><em><b>{estadoUpt ? 'Activo' : 'Inactivo'} por Defecto</b></em> </MenuItem>}
-                                    {<MenuItem value={!estadoUpt}>{!estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>}
+                                    <MenuItem value={false}>Inactivo</MenuItem>
+                                    <MenuItem value={true}>Activo</MenuItem>
                                 </Select>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="nombre" value={nombreUpt} onChange={(e) => setNombreUpt(e.target.value)} name="nombre" label="Nombre" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <PiUserPlusLight
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="apellido" value={apellidoUpt} onChange={(e) => setApellidoUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <VscMail
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="correo" onChange={(e) => setCorreoUpt(e.target.value)} value={correoUpt} name="correo" label="Correo" variant="standard" />
-                                </Box>
-                            </FormControl>
-                            <FormControl variant="standard">
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end', }}>
-                                    <IoPhonePortraitOutline
-                                        sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                        style={{ marginBottom: '10', marginRight: '10' }}
-                                    />
-                                    <TextField id="celular" onChange={(e) => setCelularUpt(e.target.value)} value={celularUpt} name="celular" label="Celular" variant="standard" />
-                                </Box>
-                            </FormControl>
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                    <TextField sx={{ width: '90%' }} id="nombre" value={nombreUpt} onChange={(e) => setNombreUpt(e.target.value)} name="nombre" label="Nombre" variant="standard"/>
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                    <TextField sx={{ width: '90%' }} id="apellido" value={apellidoUpt} onChange={(e) => setApellidoUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                    <TextField sx={{ width: '90%' }} id="correo" onChange={(e) => setCorreoUpt(e.target.value)} value={correoUpt} name="correo" label="Correo" variant="standard" />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                    <TextField sx={{ width: '90%' }} id="celular" onChange={(e) => setCelularUpt(e.target.value)} value={celularUpt} name="celular" label="Celular" variant="standard"/>
+                            </Grid>
 
                             {/* //! Esconder Cambiar contraseña */}
 
@@ -662,32 +646,27 @@ function UserList() {
                                     label="Cambiar Contraseña"
                                 />
                                 {showPasswordInput && (
-                                    <FormControl variant="standard">
-                                        <Box sx={{ display: 'flex', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
-                                            <PiPasswordThin
-                                                sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                                style={{ marginBottom: '10', marginRight: '10' }}
-                                            />
+                                    <FormControl variant="standard" sx={{ width: '100%' }}>
+                                        <Box sx={{ display: 'flex',  flexDirection: isSmallScreen ? 'column' : 'row' ,alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
                                             <TextField
+                                            sx={{ width: '90%' }}
                                                 id="password"
                                                 label="Contraseña"
                                                 variant="standard"
                                                 name="password"
                                                 type="password"
                                                 onChange={(e) => setPasswordUpt(e.target.value)}
-                                            />
-
-                                            <PiPasswordThin
-                                                sx={{ color: 'action.active', mr: 1, fontSize: '40px' }}
-                                                style={{ marginBottom: '10', marginRight: '10' }}
+                                                style={{ marginLeft: '12px'}}
                                             />
                                             <TextField
+                                            sx={{ width: '90%' }}
                                                 id="password_valid"
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 name="password_valid"
                                                 type="password"
                                                 onChange={(e) => setPasswordValidUpt(e.target.value)}
+                                                style={{ marginLeft: '12px'}}
                                             />
                                         </Box>
                                     </FormControl>

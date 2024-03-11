@@ -35,8 +35,13 @@ export default function Sidebar() {
                             Slider Fotos
                         </NavLink>
                     </li>
+                    <li key="seccion-list">
+                        <NavLink to="./seccion-list" className="link">
+                            Seccion
+                        </NavLink>
+                    </li>
                     <li key="anuncios">
-                        <NavLink to="/anuncios" className="link">
+                        <NavLink to="./anuncios-list" className="link">
                             Anuncios
                         </NavLink>
                     </li>

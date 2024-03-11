@@ -26,7 +26,7 @@ const Login = () => {
                     //TODO direccionar a la ruta navigate("/");
                     
                     setTimeout(() => {
-                        navigate('/test')
+                        navigate('/admin')
                     }, 3000);
                     toastr.info('Redireccionando')
                 }

@@ -147,6 +147,10 @@
     bottom: 0px;
 }
 
+.loginBody .input-container input[type="text"] ~ .underline {
+    bottom: 0px;
+}
+
 .loginBody .input-container input[type="text"]:focus~.underline,
 .loginBody .input-container input[type="password"]:focus~.underline {
     transform: scaleX(1);
