@@ -18,7 +18,7 @@ export default function Sidebar() {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
         >
             <List>
-                <h4 className='subtitleSide'>Opciones</h4>
+                <h4 className='subtitleSide'>Data</h4>
                 <ul>
                     <li key="mi-perfil">
                         <NavLink to="/mi-perfil" className="link">
@@ -28,11 +28,6 @@ export default function Sidebar() {
                     <li key="rol">
                         <NavLink to="./rol-list" className="link">
                             Roles
-                        </NavLink>
-                    </li>
-                    <li key="slider-fotos">
-                        <NavLink to="/slider-fotos" className="link">
-                            Slider Fotos
                         </NavLink>
                     </li>
                     <li key="seccion-list">
@@ -45,69 +40,89 @@ export default function Sidebar() {
                             Anuncios
                         </NavLink>
                     </li>
+                    <li key="categorias">
+                        <NavLink to="./categorias" className="link">
+                            Categorias
+                        </NavLink>
+                    </li>
                     <li key="menu-interactivo">
-                        <NavLink to="/menu" className="link">
+                        <NavLink to="./item-list" className="link">
                             Menu Interactivo
                         </NavLink>
                     </li>
-                    <li key="galeria-eventos">
-                        <NavLink to="/galeria-eventos" className="link">
-                            Galeria y Eventos
+                    <li key="eventos">
+                        <NavLink to="./eventos-list" className="link">
+                            Eventos
                         </NavLink>
                     </li>
-                    <li key="videos">
-                        <NavLink to="/videos" className="link">
-                            Videos
+                    <li key="permisos">
+                        <NavLink to="./permisos-list" className="link">
+                            Permisos
                         </NavLink>
                     </li>
-                    <li key="magazine">
-                        <NavLink to="/magazine" className="link">
-                            Magazine
-                        </NavLink>
-                    </li>
-                    <li key="blogs">
-                        <NavLink to="/blogs" className="link">
-                            Blogs
-                        </NavLink>
-                    </li>
-                    <li key="gobierno-escolar">
-                        <NavLink to="/gobierno-escolar" className="link">
-                            Gobierno Escolar
-                        </NavLink>
-                    </li>
-                    <li key="estudiantes">
-                        <NavLink to="/estudiantes" className="link">
-                            Estudiantes
-                        </NavLink>
-                    </li>
-                    <li key="plataformas-academicas">
-                        <NavLink to="/plataformas-academicas" className="link">
-                            Plataformas Academicas
+                    <li key="usuarios">
+                        <NavLink to="./usuarios" className="link">
+                            Usuarios
                         </NavLink>
                     </li>
                     <li key="noticias">
-                        <NavLink to="/noticias" className="link">
+                        <NavLink to="./noticias" className="link">
                             Noticias
                         </NavLink>
                     </li>
-                    <li key="link-archivos">
-                        <NavLink to="/link-archivos" className="link">
-                            Link Archivos
+                    <li key="links">
+                        <NavLink to="./link" className="link">
+                            Links
+                        </NavLink>
+                    </li>
+                    <li key="token">
+                        <NavLink to="./token" className="link">
+                            Token
+                        </NavLink>
+                    </li>
+                </ul>
+                <Divider />
+                {/* // !Multimedia */}
+                <h4 className='subtitleSide'>Multimedia</h4>
+                <ul>
+                    <li key="archivos">
+                        <NavLink to="./archivos" className="link">
+                            Archivos
+                        </NavLink>
+                    </li>
+                    <li key="galeria">
+                        <NavLink to="./galeria" className="link">
+                            Galeria
+                        </NavLink>
+                    </li>
+                    <li key="videos">
+                        <NavLink to="./videos" className="link">
+                            Videos
+                        </NavLink>
+                    </li>
+                    <li key="slider">
+                        <NavLink to="./slider" className="link">
+                            Slider
+                        </NavLink>
+                    </li>
+                </ul>
+                <Divider />
+                {/* // !Informacion */}
+                <h4 className='subtitleSide'>Información</h4>
+                <ul>
+                    <li key="pqrs">
+                        <NavLink to="./pqrs" className="link">
+                            Pqrs
+                        </NavLink>
+                    </li>
+                    <li key="notificaciones">
+                        <NavLink to="./notificacion" className="link">
+                            Notificaciones
                         </NavLink>
                     </li>
                     <li key="historial">
-                        <NavLink to="/historial" className="link">
+                        <NavLink to="./historial" className="link">
                             Historial
-                        </NavLink>
-                    </li>
-                    <li key="pqrs">
-                        <NavLink to="/pqrs" className="link">
-                            PQRS
-                        </NavLink>
-                    </li>
-                    <li key="actualizar-clave">
-                        <NavLink to="/actualizar-clave" className="link">
-                            Actualizar Clave Especial
                         </NavLink>
                     </li>
                 </ul>
@@ -116,13 +131,13 @@ export default function Sidebar() {
             <List>
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
-                <li>
-                    <NavLink to="/logout" className="link">
+                    <li>
+                        <NavLink to="/logout" className="link">
                             Home Page
                         </NavLink>
                     </li>
                     <li>
-                    <NavLink to="/logout" className="link">
+                        <NavLink to="/logout" className="link">
                             Cerrar Sesion
                         </NavLink>
                     </li>

@@ -5,17 +5,17 @@ import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Menu
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import toastr from '../../../../assets/includes/Toastr'
+import toastr from '../../../../../assets/includes/Toastr'
 import { useMediaQuery } from '@mui/material';
 
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
-import { formateFecha } from "../../../../assets/includes/funciones";
-import { useCredentialContext } from "../../../../context/AuthContext";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useCredentialContext } from "../../../../../context/AuthContext";
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useAnunciosContext } from "../../../../context/AnunciosContext";
+import { useAnunciosContext } from "../../../../../context/AnunciosContext";
 
 function AnunciosList() {
     const { 
@@ -408,17 +408,6 @@ function AnunciosList() {
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Registro</h1>
                         <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="Id"
-                                    label="ID"
-                                    variant="standard"
-                                    type="number"
-                                    maxLength="20"
-                                    value={id}
-                                    onChange={(e) => setId(e.target.value)}
-                                />
-                            </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="titulo">Titulo</InputLabel>
                                 <TextField

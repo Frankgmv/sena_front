@@ -5,12 +5,12 @@ import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Menu
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import toastr from '../../../../assets/includes/Toastr'
+import toastr from '../../../../../assets/includes/Toastr'
 import { useMediaQuery } from '@mui/material';
-import { useUserContext } from "../../../../context/UserContext";
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../assets/includes/localStorage";
-import { formateFecha } from "../../../../assets/includes/funciones";
-import { useCredentialContext } from "../../../../context/AuthContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useCredentialContext } from "../../../../../context/AuthContext";
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -348,8 +348,8 @@ function UserList() {
                         return { ...user, createdAt, fechaNacimiento }
                     })}
                     columns={columns}
-                    pageSize={5}
-                    pageSizeOptions={[5, 10, 25, 100]}
+                    pageSize={8}
+                    pageSizeOptions={[8, 10, 25, 100]}
                     disablePageSizeSelector
                     editMode='row'
                     hideFooterSelectedRowCount
