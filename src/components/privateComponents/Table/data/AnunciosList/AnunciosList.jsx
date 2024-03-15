@@ -1,7 +1,7 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { Button, Grid, InputLabel, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, InputLabel, FormControl, Select, TextField, Tooltip, MenuItem } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -16,9 +16,13 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useAnunciosContext } from "../../../../../context/AnunciosContext";
+import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useUserContext } from "../../../../../context/UserContext";
 
 function AnunciosList() {
-    const {  anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio} = useAnunciosContext();
+    const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
+    const { secciones } = useGeneralContext()
+    const { usuarios } = useUserContext()
     const { roles } = useCredentialContext()
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
@@ -39,29 +43,17 @@ function AnunciosList() {
 
     const submitUpdate = (event) => {
         event.preventDefault()
-        let dataUpdated = {
-            titulo: tituloUpt,
-            descripcion: setDescripcionUpt,
-            imgPath: setImgPathUpt,
-            UsuarioId: setUsuarioIdUpt,
-            SeccionId: setSeccionIdUpt,
-        }
-
+        const formularioDataUpdate = new FormData(event.currentTarget);
         setOpenEdit(false);
         const idAnuncio = parseInt(getLocalStorage('AnuncioIdEdit'));
-        putAnuncio(idAnuncio, dataUpdated);
+        putAnuncio(idAnuncio, formularioDataUpdate);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const dataList = {
-            id: parseInt(id),
-            titulo, descripcion, imgPath, UsuarioId, SeccionId
-        }
-        postAnuncio(dataList)
-
+    const handleSubmitCreate = (e) => {
+        e.preventDefault()
+        const formularioData = new FormData(e.currentTarget);
+        postAnuncio(formularioData)
     }
-
     const resetForm = () => {
         setId('');
         setTitulo('');
@@ -98,7 +90,6 @@ function AnunciosList() {
     const deleteUse = (anuncioId) => {
         setLocalStorage('AnuncioIdDelete', anuncioId)
     }
-
 
     const columns = [
         {
@@ -146,11 +137,11 @@ function AnunciosList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
+        { field: "id", headerName: "ID", width: 80 },
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
@@ -164,20 +155,27 @@ function AnunciosList() {
         {
             field: "imgPath",
             headerName: "Imagen",
-            width: 210,
+            width: 100,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "UsuarioId",
-            headerName: "Id del Usuario",
+            headerName: "Usuario Id",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "Creador",
+            headerName: "Creador",
             width: 150,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "SeccionId",
-            headerName: "Id de la Sección",
+            headerName: "Sección",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -273,7 +271,7 @@ function AnunciosList() {
         if (openEdit) {
             buscarAnuncio()
         }
-    }, [openEdit,])
+    }, [openEdit])
 
     return (
         <>
@@ -295,19 +293,36 @@ function AnunciosList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={anuncios.map((user) => {
-                        if (user.estado) return { ...user, estado: 'activo' }
-                        return { ...user, estado: 'inactivo' }
-                    }).map(user => {
+                    rows={anuncios.map((anuncio) => {
+                        if (anuncio.estado) return { ...anuncio, estado: 'activo' }
+                        return { ...anuncio, estado: 'inactivo' }
+                    }).map(anuncio => {
                         for (let rol of roles) {
-                            if (rol.id === user.RolId) {
-                                return { ...user, RolId: rol.rol }
+                            if (rol.id === anuncio.RolId) {
+                                return { ...anuncio, RolId: rol.rol }
                             }
                         }
-                        return user
-                    }).map(user => {
-                        const createdAt = formateFecha(user.createdAt);
-                        return { ...user, createdAt }
+                        return anuncio
+                    }).map(anuncio => {
+                        const createdAt = formateFecha(anuncio.createdAt);
+                        return { ...anuncio, createdAt }
+                    }).map(anuncio => {
+                        for (let seccion of secciones) {
+                            if (seccion.id === anuncio.SeccionId) {
+                                return { ...anuncio, SeccionId: seccion.seccion }
+                            }
+                        }
+                        return anuncio
+                    }).map(anuncio => {
+                        for (let user of usuarios) {
+                            if (user.id === anuncio.UsuarioId) {
+                                return { ...anuncio, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return anuncio
+                    }).map(anuncio => {
+                        if (anuncio.imgPath) return { ...anuncio, imgPath: 'Imagen' }
+                        return { ...anuncio, imgPath: 'No Imagen' }
                     })}
                     columns={columns}
                     pageSize={5}
@@ -397,63 +412,66 @@ function AnunciosList() {
                         id="crearData"
                         noValidate
                         autoComplete="off"
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmitCreate}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Registro</h1>
                         <Grid container spacing={2}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="titulo">Titulo</InputLabel>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="titulo"
+                                    name="titulo"
                                     variant="standard"
                                     value={titulo}
                                     type="text"
                                     onChange={(e) => setTitulo(e.target.value)}
                                 />
-                            </Grid>                           
+                            </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="descripcion"
+                                    name="descripcion"
                                     label="Descripcion"
                                     variant="standard"
                                     value={descripcion}
                                     onChange={(e) => setDescripcion(e.target.value)}
+
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
-                                    id="imgPath"
-                                    label="Imagen"
+                                    sx={{ width: '90%' }}
+                                    id="imagen"
+                                    label="imagen"
                                     variant="standard"
-                                    value={imgPath}
                                     type="file"
+                                    name="imagen"
+                                    value={imgPath}
                                     onChange={(e) => setImgPath(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                sx={{ width: '90%' }}
-                                    id="usuario"
-                                    label="Usuario"
-                                    variant="standard"
-                                    type="number"
-                                    value={UsuarioId}
-                                    onChange={(e) => setUsuarioId(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                sx={{ width: '90%' }}
-                                    id="seccion"
-                                    label="Seccion"
-                                    variant="standard"
-                                    type="number"
-                                    value={SeccionId}
-                                    onChange={(e) => setSeccionId(e.target.value)}
-                                />
+                                <FormControl variant="standard" sx={{ width: '90%' }}>
+                                    <InputLabel id="SeccionId">Sección</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="SeccionId"
+                                        name="SeccionId"
+                                        value={SeccionId}
+                                        onChange={(e) => setSeccionId(e.target.value)}
+                                    >
+                                        {
+                                            secciones.map((seccion, i) => {
+                                                return (
+                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12}>
                                 <Button variant="contained" color="success" type="submit" fullWidth>
@@ -482,19 +500,35 @@ function AnunciosList() {
                         <h1 style={{ textAlign: 'center' }}>Actualizar Registros</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="titulo" value={tituloUpt} onChange={(e) => setTituloUpt(e.target.value)} name="titulo" label="Titulo" variant="standard"/>
+                                <TextField sx={{ width: '90%' }} id="titulo" name="titulo" value={tituloUpt} onChange={(e) => setTituloUpt(e.target.value)} label="Titulo" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="apellido" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="apellido" name="descripcion" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} label="Apellido" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="correo" onChange={(e) => setImgPath(e.target.value)}  name="image" label="Imagen" variant="standard" type="file"/>
+                                <TextField sx={{ width: '90%' }} id="imagen" name="imagen" onChange={(e) => setImgPath(e.target.value)} label="Imagen" variant="standard" type="file" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="celular" onChange={(e) => setUsuarioId(e.target.value)} value={UsuarioIdUpt} name="celular" label="Usuario" variant="standard"/>
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="celular" onChange={(e) => setSeccionId(e.target.value)} value={SeccionIdUpt} name="celular" label="Seccion" variant="standard"/>
+                                <FormControl variant="standard" sx={{ width: '90%' }}>
+                                    <InputLabel id="SeccionId">Sección</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="SeccionId"
+                                        name="SeccionId"
+                                        value={SeccionIdUpt}
+                                        onChange={(e) => setSeccionId(e.target.value)}
+                                    >
+                                        {
+                                            secciones.map((seccion, i) => {
+                                                const isSelect = seccion.id === SeccionIdUpt
+                                                return (
+                                                    <MenuItem  style={{color:isSelect? 'red': ''}} value={seccion.id} key={i}>{seccion.seccion}{isSelect? <>&nbsp;Por defecto</>:''}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Button
                                 variant="contained"

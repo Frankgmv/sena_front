@@ -8,4 +8,4 @@ export const logoutRequest = () => axios.post(`/validacion/logout`);
 
 export const verificarTokenRequest = () => axios.get(`/validacion/verificar`)
 
-export const perfil = () => axios.get(`/validacion/perfil`)
+export const perfilRequest = () => axios.get(`/validacion/perfil`)

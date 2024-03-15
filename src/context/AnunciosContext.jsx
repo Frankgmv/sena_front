@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllAnunciosRequest, getAnuncioRequest, postAnuncioRequest, putAnuncioRequest, deleteAnuncioRequest } from "../api/data";
+import { perfilRequest } from "../api/auth";
 
 const AnunciosContext = createContext();
 
 export const useAnunciosContext = () => {
     const context = useContext(AnunciosContext);
     if (!context) {
-        throw new Error("Error en el credential Anuncios context"); 
+        throw new Error("Error en el credential Anuncios context");
     }
 
     return context;
@@ -115,7 +116,10 @@ export const DataProvider = ({ children }) => {
 
     const postAnuncio = async (dataAnuncio) => {
         try {
-            const response = await postAnuncioRequest(dataAnuncio)
+            const perfilUsuario = await perfilRequest()
+            const datosAnuncio = dataAnuncio
+            datosAnuncio.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
+            const response = await postAnuncioRequest(datosAnuncio)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -180,6 +184,7 @@ export const DataProvider = ({ children }) => {
             }
             getAnuncios()
         } catch (error) {
+            console.log(error)
             const datos = error.response.data
             if (datos.zodError) {
                 error.response.data.zodError.issues.map(error => {

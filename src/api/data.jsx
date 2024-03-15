@@ -87,9 +87,13 @@ export const getAllAnunciosRequest = () => axios.get(`/data/anuncios`);
 
 export const getAnuncioRequest = (id) => axios.get(`/data/anuncios/${id}`);
 
-export const postAnuncioRequest = (anuncio) => axios.post(`/data/anuncios`, anuncio);
+export const postAnuncioRequest = (anuncio) => axios.post(`/data/anuncios`, anuncio, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
 
-export const putAnuncioRequest = (id, anuncio) => axios.put(`/data/anuncios/${id}`, anuncio);
+export const putAnuncioRequest = (id, anuncio) => axios.put(`/data/anuncios/${id}`, anuncio, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
 
 export const deleteAnuncioRequest = (id) => axios.delete(`/data/anuncios/${id}`);
 

@@ -28,6 +28,10 @@ export const UserProvider = ({ children }) => {
         return () => clearTimeout(timer);
     }, [errorsUser])
 
+    useEffect(()=>{
+        getUsers()
+    }, [])
+
     useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageUser.length != 0) {
