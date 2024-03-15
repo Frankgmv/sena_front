@@ -1,20 +1,46 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
-
+import toastr from "../../../../../assets/includes/Toastr";
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { useEventContext } from "../../../../../context/EventContext";
+import { formateFecha, formateFechaGuion, getTodayDate } from "../../../../../assets/includes/funciones";
 
 function EventoList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const [fechaEventCreate, setFechaEventCreate] = useState(getTodayDate())
+    const [nameEvento, setNameEvento] = useState('')
+    const { eventos, createEvento, responseMessage, errors, getEventos, deleteEvento, getEvento, putEvento } = useEventContext()
+    const [fechaupt, setFechaUpt] = useState('')
+    const [eventoUpt, setEventoUpt] = useState('')
+
+    useEffect(() => {
+        if (errors.length != 0) {
+            errors.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errors]);
+
+    useEffect(() => {
+        if (responseMessage.length != 0) {
+            responseMessage.map(msg => {
+                toastr.success(msg)
+            })
+        }
+        getEventos()
+    }, [responseMessage])
+
 
 
     const columns = [
@@ -22,7 +48,7 @@ function EventoList() {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +56,10 @@ function EventoList() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('idEventedit', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +72,10 @@ function EventoList() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('idEventDelete', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -60,31 +92,18 @@ function EventoList() {
         {
             field: "evento",
             headerName: "Evento",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "fecha",
             headerName: "Fecha",
-            width: 300,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/eventos";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -130,6 +149,10 @@ function EventoList() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+
+                let idEventDelete = getLocalStorage('idEventDelete')
+                idEventDelete = parseInt(idEventDelete)
+                deleteEvento(idEventDelete)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -143,10 +166,47 @@ function EventoList() {
         });
     }
 
+    useEffect(() => {
+        if (openEdit) {
+            let idEventEdit = getLocalStorage('idEventedit')
+            idEventEdit = parseInt(idEventEdit)
+            getDataEventUpt(idEventEdit)
+        }
+    }, [openEdit])
+
+    const getDataEventUpt = async (idEventEdit) => {
+        const eventData = await getEvento(idEventEdit)
+        let fechaNueva = formateFechaGuion(eventData.fecha)
+        setFechaUpt(fechaNueva)
+        setEventoUpt(eventData.evento)
+    }
+
+    const submitFormCreate = (e) => {
+        e.preventDefault()
+        const dataEvento = { evento: nameEvento, fecha: fechaEventCreate }
+        createEvento(dataEvento)
+        getEventos()
+        handleCloseNew()
+        setNameEvento('')
+    }
+    const handleSubmitEditar = (e) => {
+        e.preventDefault()
+        const dataEvento = { evento: eventoUpt, fecha: fechaupt }
+        let idEventEdit = getLocalStorage('idEventedit')
+        idEventEdit = parseInt(idEventEdit)
+        putEvento(idEventEdit, dataEvento)
+        getEventos()
+        handleCloseEdit()
+        setEventoUpt('')
+        setFechaUpt('')
+    }
+
+
+
 
     return (
         <>
-            <div style={{ height: 400, width: '45%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '50%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -164,7 +224,10 @@ function EventoList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={eventos.map(event =>{
+                        const fecha = formateFechaGuion(event.fecha);
+                        return { ...event, fecha}
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -254,16 +317,18 @@ function EventoList() {
                         id="crear"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormCreate}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Evento</h1>
                         <Grid container spacing={1}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
                                     id="evento"
                                     label="Evento"
                                     variant="standard"
                                     type="text"
+                                    value={nameEvento}
+                                    onChange={(e) => setNameEvento(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -271,8 +336,9 @@ function EventoList() {
                                     id="fecha"
                                     label="Fecha"
                                     variant="standard"
-                                    value='2000-01-01'
+                                    value={fechaEventCreate}
                                     type="date"
+                                    onChange={(e) => setFechaEventCreate(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -297,17 +363,19 @@ function EventoList() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        onSubmit={handleSubmitEditar}
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
                                     id="evento"
                                     label="Evento"
                                     variant="standard"
                                     fullWidth
                                     type="text"
+                                    value={eventoUpt}
+                                    onChange={(e) => setEventoUpt(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -315,8 +383,9 @@ function EventoList() {
                                     id="fecha"
                                     label="Fecha"
                                     variant="standard"
-                                    value='2000-01-01'
+                                    value={fechaupt}
                                     type="date"
+                                    onChange={(e) => setFechaUpt(e.target.value)}
                                 />
                             </Grid>
                             <Button

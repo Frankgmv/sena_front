@@ -441,7 +441,6 @@ function UserList() {
                         <Grid container spacing={2}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
                                     id="Id"
                                     label="Identificación"
                                     variant="standard"
@@ -454,7 +453,7 @@ function UserList() {
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="fechaNacimiento">Fecha Nacimiento</InputLabel>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="fechaNacimiento"
                                     variant="standard"
                                     value={fechaNacimiento}
@@ -502,7 +501,7 @@ function UserList() {
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="nombre"
                                     label="Nombre"
                                     variant="standard"
@@ -512,7 +511,7 @@ function UserList() {
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="apellido"
                                     label="Apellido"
                                     variant="standard"
@@ -522,7 +521,7 @@ function UserList() {
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="correo"
                                     label="Correo"
                                     variant="standard"
@@ -533,7 +532,7 @@ function UserList() {
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     id="celular"
                                     label="Celular"
                                     variant="standard"
@@ -581,10 +580,10 @@ function UserList() {
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="RolId">Rol</InputLabel>
                                 <Select
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     label="RolId"
@@ -607,12 +606,12 @@ function UserList() {
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <InputLabel id="estado">estado</InputLabel>
                                 <Select
-                                sx={{ width: '90%' }}
+                                    sx={{ width: '90%' }}
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     name="estado"
                                     variant="standard"
-                                    defaultValue={false} 
+                                    defaultValue={false}
                                     onChange={(e) => setEstadoUpt(e.target.value)}
                                 >
                                     <MenuItem value={false}>Inactivo</MenuItem>
@@ -620,16 +619,16 @@ function UserList() {
                                 </Select>
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="nombre" value={nombreUpt} onChange={(e) => setNombreUpt(e.target.value)} name="nombre" label="Nombre" variant="standard"/>
+                                <TextField sx={{ width: '90%' }} id="nombre" value={nombreUpt} onChange={(e) => setNombreUpt(e.target.value)} name="nombre" label="Nombre" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="apellido" value={apellidoUpt} onChange={(e) => setApellidoUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="apellido" value={apellidoUpt} onChange={(e) => setApellidoUpt(e.target.value)} name="apellido" label="Apellido" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="correo" onChange={(e) => setCorreoUpt(e.target.value)} value={correoUpt} name="correo" label="Correo" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="correo" onChange={(e) => setCorreoUpt(e.target.value)} value={correoUpt} name="correo" label="Correo" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                    <TextField sx={{ width: '90%' }} id="celular" onChange={(e) => setCelularUpt(e.target.value)} value={celularUpt} name="celular" label="Celular" variant="standard"/>
+                                <TextField sx={{ width: '90%' }} id="celular" onChange={(e) => setCelularUpt(e.target.value)} value={celularUpt} name="celular" label="Celular" variant="standard" />
                             </Grid>
 
                             {/* //! Esconder Cambiar contraseña */}
@@ -647,26 +646,26 @@ function UserList() {
                                 />
                                 {showPasswordInput && (
                                     <FormControl variant="standard" sx={{ width: '100%' }}>
-                                        <Box sx={{ display: 'flex',  flexDirection: isSmallScreen ? 'column' : 'row' ,alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
+                                        <Box sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row', alignItems: 'flex-end', }} style={{ marginBottom: '20px' }}>
                                             <TextField
-                                            sx={{ width: '90%' }}
+                                                sx={{ width: '90%' }}
                                                 id="password"
                                                 label="Contraseña"
                                                 variant="standard"
                                                 name="password"
                                                 type="password"
                                                 onChange={(e) => setPasswordUpt(e.target.value)}
-                                                style={{ marginLeft: '12px'}}
+                                                style={{ marginLeft: '12px' }}
                                             />
                                             <TextField
-                                            sx={{ width: '90%' }}
+                                                sx={{ width: '90%' }}
                                                 id="password_valid"
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 name="password_valid"
                                                 type="password"
                                                 onChange={(e) => setPasswordValidUpt(e.target.value)}
-                                                style={{ marginLeft: '12px'}}
+                                                style={{ marginLeft: '12px' }}
                                             />
                                         </Box>
                                     </FormControl>

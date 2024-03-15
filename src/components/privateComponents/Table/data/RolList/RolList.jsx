@@ -1,28 +1,46 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
-import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
-
-
-import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import SendIcon from '@mui/icons-material/Send';
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { useCredentialContext } from "../../../../../context/AuthContext";
+import toastr from "../../../../../assets/includes/Toastr";
+import { useGeneralContext } from "../../../../../context/GeneralContext";
 
 function RolList() {
+    const [rolUpt, setRolUpt] = useState('')
+    const [estadoUpt, setEstadoUpt] = useState('')
+    const [valueEdit, setValueEdit] = useState(true)
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const { roles, getRoles } = useCredentialContext()
+    const { putRol, getRol, responseMessage: response, errors } = useGeneralContext()
 
+    useEffect(() => {
+        if (response.length != 0) {
+            response.map(msg => {
+                toastr.success(msg)
+            })
+        }
+        getRoles()
+    }, [response])
+
+    useEffect(() => {
+        if (errors.length != 0) {
+            errors.map(msg => {
+                toastr.error(msg)
+            })
+        }
+    }, [errors])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,20 +48,10 @@ function RolList() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: "20px",
-                                    borderRadius: "5px",
-                                    color: "#000",
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editRol', params.row.id)
                                 }}
-                            />
-                        </Button>
-                    </Tooltip>
-                    <Tooltip title="Eliminar">
-                        <Button>
-                            <BsTrash3
-                                onClick={showSwal}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -80,26 +88,9 @@ function RolList() {
         },
     ];
 
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/roles";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
-
-    const [openNew, setOpenNew] = useState(false);
-    const handleOpenNew = () => setOpenNew(true);
-    const handleCloseNew = () => setOpenNew(false);
 
     const style = {
         position: 'absolute',
@@ -114,64 +105,40 @@ function RolList() {
         alignItems: 'center',
     };
 
-    const showSwal = () => {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger me-4"
-            },
-            buttonsStyling: false
-        });
-        swalWithBootstrapButtons.fire({
-            title: "¿Seguro que quieres borrarlo?",
-            text: "No lo podras revertir",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Si, deseo borrarlo",
-            cancelButtonText: "No, cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire({
-                    title: "Borrado!",
-                    text: "Tu archivo se ha borrado.",
-                    icon: "success"
-                });
-            } else if (
-
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelado",
-                    text: "Acción cancelada",
-                    icon: "error"
-                });
-            }
-        });
+    const getRolData = async () => {
+        let idRol = getLocalStorage('editRol')
+        idRol = parseInt(idRol)
+        const rolData = await getRol(idRol)
+        if (rolData.ok) {
+            setEstadoUpt(rolData.data.estado)
+            setValueEdit(rolData.data.estado)
+            setRolUpt(rolData.data.rol)
+        }
     }
 
+    useEffect(() => {
+        if (openEdit) {
+            getRolData()
+        }
+    }, [openEdit])
+
+    const handleEditRol = (event) => {
+        event.preventDefault()
+        let idRol = getLocalStorage('editRol')
+        idRol = parseInt(idRol)
+        putRol(idRol, valueEdit)
+        setOpenEdit(false)
+        getRoles()
+    }
 
     return (
         <>
-            <div style={{ height: 400, width: '48%', marginTop: '-200px' }}>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '30px', }}
-                >
-                    <Button
-                        variant="contained"
-                        color="success"
-                        endIcon={<SendIcon />}
-                        onClick={handleOpenNew}
-                    >
-                        Añadir
-                    </Button>
-                </Grid>
+            <div style={{ height: 400, width: '48%' }}>
                 <DataGrid
-                    rows={rows}
+                    rows={roles.map(rol => {
+                        if (rol.estado) return { ...rol, estado: 'Activo' }
+                        return { ...rol, estado: 'Inactivo' }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -248,63 +215,6 @@ function RolList() {
                     }}
                 />
             </div>
-            <div>
-                {/* //! Modal Crear */}
-                <Modal
-                    open={openNew}
-                    onClose={handleCloseNew}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}
-                        component="form"
-                        id="crearUsuario"
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <h1 style={{ textAlign: 'center' }}>Crea un nuevo Rol</h1>
-                        <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="rol"
-                                    label="Rol"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="rolKey"
-                                    label="Codigo del Rol"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width:  '100%' }}>
-                                <FormControl variant="standard" sx={{ width: '90%' }}>
-                                    <InputLabel id="estado">Estado</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value='estado'
-                                        label="Estado"
-                                    >
-                                        <MenuItem value={false}>Inactivo</MenuItem>
-                                        <MenuItem value={true}>activo</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
-                                    Guardar
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
-            </div>
             {/* //! Modal Editar */}
             <div>
                 <Modal
@@ -318,38 +228,23 @@ function RolList() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        onSubmit={handleEditRol}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualizar {rolUpt}</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="rol"
-                                    label="Rol"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="rolKey"
-                                    label="Codigo del Rol"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width:  '100%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="estado">Estado</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
-                                        value={false}
+                                        value={valueEdit}
                                         label="Estado"
+                                        name="estado"
+                                        onChange={(e) => setValueEdit(e.target.value)}
                                     >
-                                        <MenuItem value={false}>Inactivo</MenuItem>
-                                        <MenuItem value={true}>activo</MenuItem>
+                                        <MenuItem value={estadoUpt}>{estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
+                                        <MenuItem value={!estadoUpt}>{!estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>

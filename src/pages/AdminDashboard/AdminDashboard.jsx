@@ -11,7 +11,6 @@ import AnunciosList from '../../components/privateComponents/Table/data/Anuncios
 import EventoList from '../../components/privateComponents/Table/data/EventoList/EventoList';
 import SeccionList from '../../components/privateComponents/Table/data/SeccionList/SeccionList';
 import ItemList from '../../components/privateComponents/Table/data/ItemsList/ItemsList';
-import PermisosList from '../../components/privateComponents/Table/data/PermisosList/PermisosList';
 import Token from '../../components/privateComponents/Table/data/Token/Token';
 import Categoria from '../../components/privateComponents/Table/data/Categoria/Categoria';
 import Noticias from '../../components/privateComponents/Table/data/Noticias/Noticias';
@@ -88,13 +87,12 @@ const AdminDashboard = () => {
                         {/* // ! Data */}
                         <Route path='/usuarios' element={<UserList />}/>
                         <Route path='/rol-list' element={<RolList />}/>
-                        <Route path='/anuncios-list' element={<AnunciosList />}/>
-                        <Route path='/eventos-list' element={<EventoList />}/>
                         <Route path='/seccion-list' element={<SeccionList />}/>
-                        <Route path='/item-list' element={<ItemList />}/>
-                        <Route path='/permisos-list' element={<PermisosList />}/>
-                        <Route path='/token' element={<Token />}/>
                         <Route path='/categorias' element={<Categoria />}/>
+                        <Route path='/eventos-list' element={<EventoList />}/>
+                        <Route path='/anuncios-list' element={<AnunciosList />}/>
+                        <Route path='/item-list' element={<ItemList />}/>
+                        <Route path='/token' element={<Token />}/>
                         <Route path='/noticias' element={<Noticias />}/>
                         <Route path='/link' element={<Links />}/>
                         {/* // ! Multimedia */}

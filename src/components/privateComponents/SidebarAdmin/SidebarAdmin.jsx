@@ -55,11 +55,6 @@ export default function Sidebar() {
                             Eventos
                         </NavLink>
                     </li>
-                    <li key="permisos">
-                        <NavLink to="./permisos-list" className="link">
-                            Permisos
-                        </NavLink>
-                    </li>
                     <li key="usuarios">
                         <NavLink to="./usuarios" className="link">
                             Usuarios

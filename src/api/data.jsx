@@ -34,7 +34,7 @@ export const getRolesRequest = () => axios.get(`/data/roles`);
 
 export const getRolRequest = (id) => axios.get(`/data/roles/${id}`);
 
-export const putRolRequest = (id, rol) => axios.put(`/data/roles/${id}`, rol);
+export const putRolRequest = (id, data) => axios.put(`/data/roles/${id}`, data);
 
 
 // ! Usuarios
@@ -123,8 +123,8 @@ export const getAllEventosRequest = () => axios.get(`/data/eventos`);
 
 export const getEventoRequest = (id) => axios.get(`/data/eventos/${id}`);
 
-export const postEventoRequest = (evento) => axios.post(`/data/eventos`, evento);
+export const postEventoRequest = (data) => axios.post(`/data/eventos`, data);
 
-export const putEventoRequest = (id, evento) => axios.put(`/data/eventos/${id}`, evento);
+export const putEventoRequest = (id, data) => axios.put(`/data/eventos/${id}`, data);
 
 export const deleteEventoRequest = (id) => axios.delete(`/data/eventos/${id}`);

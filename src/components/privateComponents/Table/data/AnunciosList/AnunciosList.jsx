@@ -1,7 +1,7 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, InputLabel, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -18,16 +18,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { useAnunciosContext } from "../../../../../context/AnunciosContext";
 
 function AnunciosList() {
-    const { 
-        anuncios,
-        getAnuncios,
-        errorsData,
-        responseMessageData,
-        postAnuncio,
-        getAnuncio,
-        putAnuncio,
-        deleteAnuncio} = useAnunciosContext();
-        const { roles } = useCredentialContext()
+    const {  anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio} = useAnunciosContext();
+    const { roles } = useCredentialContext()
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
@@ -140,7 +132,7 @@ function AnunciosList() {
                             <BsTrash3
                                 onClick={() => {
                                     showSwal()
-                                    deleteAnuncio(params.row.id)
+                                    deleteUse(params.row.id)
                                 }}
                                 style={{
                                     textAlign: "center",
@@ -248,7 +240,8 @@ function AnunciosList() {
                     icon: "success"
                 });
 
-                const id = parseInt(getLocalStorage('AnuncioIdDelete'))
+                let id = parseInt(getLocalStorage('AnuncioIdDelete'))
+                id = parseInt(id)
                 deleteAnuncio(id)
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire({
@@ -284,13 +277,13 @@ function AnunciosList() {
 
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-50px' }}>
+            <div style={{ height: 500, width: "100%", marginTop: '-30px' }}>
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-evenly"
                     alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '30px', }}
+                    style={{ textAlign: 'center', marginBottom: '10px', }}
                 >
                     <Button
                         variant="contained"

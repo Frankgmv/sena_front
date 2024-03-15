@@ -196,7 +196,8 @@ export const CredentialProvider = ({ children }) => {
         register,
         token,
         setToken,
-        logout
+        logout,
+        getRoles
     }
 
     return (

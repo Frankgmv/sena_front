@@ -14,6 +14,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/admin/*' element={<AdminDashboard />} />
+        {/* TODO borrar ruta test luego */}
         <Route path='/Test' element={<Test />} />
       </Routes>
       <Outlet />
