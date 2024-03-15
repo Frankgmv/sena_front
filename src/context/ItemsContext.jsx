@@ -1,23 +1,23 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllAnunciosRequest, getAnuncioRequest, postAnuncioRequest, putAnuncioRequest, deleteAnuncioRequest } from "../api/data";
 import { perfilRequest } from "../api/auth";
+import { deleteItemRequest, getAllItemRequest, getItemRequest, postItemRequest, putItemRequest } from "../api/data";
 
-const AnunciosContext = createContext();
+const ItemContext = createContext();
 
-export const useAnunciosContext = () => {
-    const context = useContext(AnunciosContext);
+export const useItemContext = () => {
+    const context = useContext(ItemContext);
     if (!context) {
-        throw new Error("Error en el Anuncios context");
+        throw new Error("Error en el Item Context");
     }
 
     return context;
 };
 
 // eslint-disable-next-line react/prop-types
-export const DataProvider = ({ children }) => {
+export const ItemProvider = ({ children }) => {
     const [errorsData, setErrorsData] = useState([]);
     const [responseMessageData, setResponseMessageData] = useState([]);
-    const [anuncios, setAnuncios] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,6 +29,10 @@ export const DataProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
+        getItems()
+    }, [])
+
+    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);
@@ -37,12 +41,12 @@ export const DataProvider = ({ children }) => {
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 
-    const getAnuncios = async () => {
+    const getItems = async () => {
         try {
-            const response = await getAllAnunciosRequest()
+            const response = await getAllItemRequest()
             const data = await response.data
             if (data.ok) {
-                setAnuncios(data.data)
+                setItems(data.data)
             }
         } catch (error) {
             if (error.message) {
@@ -70,9 +74,10 @@ export const DataProvider = ({ children }) => {
             }
         }
     }
-    const getAnuncio = async (id) => {
+    
+    const getItem = async (id) => {
         try {
-            const response = await getAnuncioRequest(id)
+            const response = await getItemRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -114,12 +119,12 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const postAnuncio = async (dataAnuncio) => {
+    const postItem = async (dataItem) => {
         try {
             const perfilUsuario = await perfilRequest()
-            const datosAnuncio = dataAnuncio
+            const datosAnuncio = dataItem
             datosAnuncio.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
-            const response = await postAnuncioRequest(datosAnuncio)
+            const response = await postItemRequest(datosAnuncio)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -165,9 +170,9 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const putAnuncio = async (id, dataAnuncio) => {
+    const putItem = async (id, dataItem) => {
         try {
-            const response = await putAnuncioRequest(id, dataAnuncio)
+            const response = await putItemRequest(id, dataItem)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -182,7 +187,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
             }
-            getAnuncios()
+            getItems()
         } catch (error) {
             console.log(error)
             const datos = error.response.data
@@ -215,9 +220,9 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const deleteAnuncio = async (id) => {
+    const deleteItem = async (id) => {
         try {
-            const response = await deleteAnuncioRequest(id)
+            const response = await deleteItemRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -229,7 +234,7 @@ export const DataProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                getAnuncios()
+                getItems()
             }
         } catch (error) {
             if (error.message) {
@@ -262,17 +267,17 @@ export const DataProvider = ({ children }) => {
         errorsData,
         setErrorsData,
         responseMessageData,
-        getAnuncios,
-        anuncios,
-        postAnuncio,
-        getAnuncio,
-        putAnuncio,
-        deleteAnuncio
+        getItems,
+        items,
+        postItem,
+        getItem,
+        putItem,
+        deleteItem
     }
 
     return (
-        <AnunciosContext.Provider value={allMethods}>
+        <ItemContext.Provider value={allMethods}>
             {children}
-        </AnunciosContext.Provider>
+        </ItemContext.Provider>
     )
 }

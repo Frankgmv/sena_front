@@ -6,23 +6,58 @@ import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
+import toastr from "../../../../../assets/includes/Toastr";
 
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { useNoticiaContext } from "../../../../../context/NoticiaContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Noticias() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const { noticias, getNoticia, getNoticias, postNoticia, errorsData, responseMessageData, deleteNoticia, putNoticia } = useNoticiaContext()
+    const { usuarios } = useUserContext()
 
+    const [titulo, setTitulo] = useState('')
+    const [descripcion, setDescripcion] = useState('')
+    const [imagen, setImagen] = useState('')
+    const [encabezado, setEncabezado] = useState('')
+
+    const [tituloUpt, setTituloUpt] = useState('')
+    const [descripcionUpt, setDescripcionUpt] = useState('')
+    const [imagenUpt, setImagenUpt] = useState('')
+    const [encabezadoUpt, setEncabezadoUpt] = useState('')
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            getNoticias();
+            setOpenNew(false);
+        }
+
+    }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +65,10 @@ function Noticias() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editNoticiaId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +81,10 @@ function Noticias() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('deleteNoticiaId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -83,7 +124,7 @@ function Noticias() {
             headerName: "Descripcion",
             width: 300,
             headerAlign: "center",
-            align: "center",
+            align: "center"
         },
         {
             field: "estado",
@@ -100,6 +141,13 @@ function Noticias() {
             align: "center",
         },
         {
+            field: "Creador",
+            headerName: "Creador",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
             field: "createdAt",
             headerName: "Fecha de Creación",
             width: 150,
@@ -108,19 +156,6 @@ function Noticias() {
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/noticias";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -166,6 +201,9 @@ function Noticias() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                let id = getLocalStorage('deleteNoticiaId')
+                id = parseFloat(id)
+                deleteNoticia(id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -179,10 +217,42 @@ function Noticias() {
         });
     }
 
+    const getDataEditNoticia = async () => {
+        let id = getLocalStorage('editNoticiaId')
+        id = parseInt(id)
+
+        const dataNoticia = await getNoticia(id)
+        if (dataNoticia.ok) {
+            let dt = dataNoticia.data
+            setTituloUpt(dt.titulo)
+            setEncabezadoUpt(dt.encabezado)
+            setDescripcionUpt(dt.descripcion)
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            getDataEditNoticia()
+        }
+    }, [openEdit])
+
+    const submitFormCreateNoticia = (e) => {
+        e.preventDefault()
+        const dataNoticia = new FormData(e.currentTarget)
+        postNoticia(dataNoticia)
+    }
+
+    const submitUpdate = (event) => {
+        event.preventDefault()
+        const formularioDataUpdate = new FormData(event.currentTarget);
+        setOpenEdit(false);
+        const idItem = parseInt(getLocalStorage('editItemId'));
+        putNoticia(idItem, formularioDataUpdate);
+    };
 
     return (
         <>
-            <div style={{ height: 400, width: '99%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '99%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -200,7 +270,23 @@ function Noticias() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={noticias.map(item => {
+                        for (let user of usuarios) {
+                            if (user.id === item.UsuarioId) {
+                                return { ...item, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return item
+                    }).map(item => {
+                        if (item.imgPath) return { ...item, imgPath: 'Imagen' }
+                        return { ...item, imgPath: 'No Imagen' }
+                    }).map(item => {
+                        if (item.estado) return { ...item, estado: 'Activo' }
+                        return { ...item, estado: 'Inactivo' }
+                    }).map(item => {
+                        const createdAt = formateFecha(item.createdAt);
+                        return { ...item, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -290,6 +376,7 @@ function Noticias() {
                         id="crearNoticia"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormCreateNoticia}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nueva noticia</h1>
                         <Grid container spacing={2}>
@@ -299,22 +386,42 @@ function Noticias() {
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
+                                    value={titulo}
+                                    onChange={(e) => setTitulo(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="encabezado"
-                                    label="Encabezado"
+                                    label="Encabezado (Opcional)"
                                     variant="standard"
                                     type="text"
+                                    name="encabezado"
+                                    value={encabezado}
+                                    onChange={(e) => setEncabezado(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                    id="imgPath"
+                                    id="descripcion"
+                                    label="Descripcion"
+                                    variant="standard"
+                                    type="text"
+                                    name="descripcion"
+                                    value={descripcion}
+                                    onChange={e => setDescripcion(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <TextField
+                                    id="imagen"
                                     label="Imagen"
                                     variant="standard"
                                     type="file"
+                                    name="imagen"
+                                    value={imagen}
+                                    onChange={e => setImagen(e.target.value)}
                                 />
                             </Grid>
 
@@ -340,17 +447,52 @@ function Noticias() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitUpdate}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
-                        <Grid container spacing={2} sx={{ width: '100%' }}>
-                            <Grid item sx={{ width: '100%' }}>
+                        <h1 style={{ textAlign: 'center' }}>Actualizar noticia</h1>
+                        <Grid container spacing={2}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="evento"
-                                    label="Evento"
+                                    id="titulo"
+                                    label="Titulo"
                                     variant="standard"
-                                    fullWidth
                                     type="text"
+                                    name="titulo"
+                                    value={tituloUpt}
+                                    onChange={(e) => setTituloUpt(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <TextField
+                                    id="encabezado"
+                                    label="Encabezado (Opcional)"
+                                    variant="standard"
+                                    type="text"
+                                    name="encabezado"
+                                    value={encabezadoUpt}
+                                    onChange={(e) => setEncabezadoUpt(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <TextField
+                                    id="descripcion"
+                                    label="Descripcion"
+                                    variant="standard"
+                                    type="text"
+                                    name="descripcion"
+                                    value={descripcionUpt}
+                                    onChange={e => setDescripcionUpt(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                                <TextField
+                                    id="imagen"
+                                    label="Imagen"
+                                    variant="standard"
+                                    type="file"
+                                    name="imagen"
+                                    value={imagenUpt}
+                                    onChange={e => setImagenUpt(e.target.value)}
                                 />
                             </Grid>
                             <Button

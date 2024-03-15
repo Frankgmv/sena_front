@@ -1,23 +1,23 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllAnunciosRequest, getAnuncioRequest, postAnuncioRequest, putAnuncioRequest, deleteAnuncioRequest } from "../api/data";
 import { perfilRequest } from "../api/auth";
+import { deleteNoticiaRequest, getAllNoticiasRequest, getNoticiaRequest, postNoticiaRequest, putNoticiaRequest } from "../api/data";
 
-const AnunciosContext = createContext();
+const NoticiaContext = createContext();
 
-export const useAnunciosContext = () => {
-    const context = useContext(AnunciosContext);
+export const useNoticiaContext = () => {
+    const context = useContext(NoticiaContext);
     if (!context) {
-        throw new Error("Error en el Anuncios context");
+        throw new Error("Error en el Noticia Context");
     }
 
     return context;
 };
 
 // eslint-disable-next-line react/prop-types
-export const DataProvider = ({ children }) => {
+export const NoticiaProvider = ({ children }) => {
     const [errorsData, setErrorsData] = useState([]);
     const [responseMessageData, setResponseMessageData] = useState([]);
-    const [anuncios, setAnuncios] = useState([]);
+    const [noticias, setNoticias] = useState([]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,6 +29,10 @@ export const DataProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
+        getNoticias()
+    }, [])
+
+    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);
@@ -37,12 +41,12 @@ export const DataProvider = ({ children }) => {
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 
-    const getAnuncios = async () => {
+    const getNoticias = async () => {
         try {
-            const response = await getAllAnunciosRequest()
+            const response = await getAllNoticiasRequest()
             const data = await response.data
             if (data.ok) {
-                setAnuncios(data.data)
+                setNoticias(data.data)
             }
         } catch (error) {
             if (error.message) {
@@ -70,9 +74,10 @@ export const DataProvider = ({ children }) => {
             }
         }
     }
-    const getAnuncio = async (id) => {
+    
+    const getNoticia = async (id) => {
         try {
-            const response = await getAnuncioRequest(id)
+            const response = await getNoticiaRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -114,12 +119,12 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const postAnuncio = async (dataAnuncio) => {
+    const postNoticia = async (dataNoticia) => {
         try {
             const perfilUsuario = await perfilRequest()
-            const datosAnuncio = dataAnuncio
-            datosAnuncio.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
-            const response = await postAnuncioRequest(datosAnuncio)
+            const datosNoticia = dataNoticia
+            datosNoticia.set('UsuarioId', perfilUsuario.data.data.id)
+            const response = await postNoticiaRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -165,9 +170,9 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const putAnuncio = async (id, dataAnuncio) => {
+    const putNoticia = async (id, dataNoticia) => {
         try {
-            const response = await putAnuncioRequest(id, dataAnuncio)
+            const response = await putNoticiaRequest(id, dataNoticia)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -182,7 +187,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
             }
-            getAnuncios()
+            getNoticias()
         } catch (error) {
             console.log(error)
             const datos = error.response.data
@@ -215,9 +220,9 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const deleteAnuncio = async (id) => {
+    const deleteNoticia = async (id) => {
         try {
-            const response = await deleteAnuncioRequest(id)
+            const response = await deleteNoticiaRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -229,7 +234,7 @@ export const DataProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                getAnuncios()
+                getNoticias()
             }
         } catch (error) {
             if (error.message) {
@@ -262,17 +267,17 @@ export const DataProvider = ({ children }) => {
         errorsData,
         setErrorsData,
         responseMessageData,
-        getAnuncios,
-        anuncios,
-        postAnuncio,
-        getAnuncio,
-        putAnuncio,
-        deleteAnuncio
+        getNoticias,
+        noticias,
+        postNoticia,
+        getNoticia,
+        putNoticia,
+        deleteNoticia
     }
 
     return (
-        <AnunciosContext.Provider value={allMethods}>
+        <NoticiaContext.Provider value={allMethods}>
             {children}
-        </AnunciosContext.Provider>
+        </NoticiaContext.Provider>
     )
 }

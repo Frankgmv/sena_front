@@ -1,5 +1,4 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
@@ -11,18 +10,50 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { useItemContext } from "../../../../../context/ItemsContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import toastr from '../../../../../assets/includes/Toastr'
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 
 function ItemList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
+    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem} = useItemContext()
+    const { usuarios } = useUserContext()
+
+    const [estado, setEstado] = useState(true)
+
+    const [estadoUpt, setEstadoUpt] = useState(false)
+    const [linkUpt, setLinkUpt] = useState('')
+    const [tituloUpt, setTituloUpt] = useState('')
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            getItems();
+            setOpenNew(false);
+        }
+
+    }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +61,10 @@ function ItemList() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editItemId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +77,10 @@ function ItemList() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('deleteItemId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -56,7 +93,7 @@ function ItemList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 150 },
+        { field: "id", headerName: "ID", width: 60 },
         {
             field: "titulo",
             headerName: "Titulo",
@@ -86,6 +123,13 @@ function ItemList() {
             align: "center",
         },
         {
+            field: "Creador",
+            headerName: "Creador",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
             field: "UsuarioId",
             headerName: "Id del Usuario",
             width: 150,
@@ -101,19 +145,6 @@ function ItemList() {
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/items";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -154,6 +185,9 @@ function ItemList() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
+                let id = getLocalStorage('deleteItemId')
+                id = parseInt(id)
+                deleteItem(id)
                 swalWithBootstrapButtons.fire({
                     title: "Borrado!",
                     text: "Tu archivo se ha borrado.",
@@ -172,10 +206,43 @@ function ItemList() {
         });
     }
 
+    const getDataEditItem = async () => {
+        let id = getLocalStorage('editItemId')
+        id = parseInt(id)
+
+        const dataItem = await getItem(id)
+        if (dataItem.ok) {
+            let dt = dataItem.data
+            setEstadoUpt(dt.estado)
+            setLinkUpt(dt.link)
+            setTituloUpt(dt.titulo)
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            getDataEditItem()
+        }
+    }, [openEdit])
+
+    const submitFormCreateItem = (e) => {
+        e.preventDefault()
+        const dataItem = new FormData(e.currentTarget)
+        postItem(dataItem)
+    }
+
+    const submitUpdate = (event) => {
+        event.preventDefault()
+        const formularioDataUpdate = new FormData(event.currentTarget);
+        setOpenEdit(false);
+        const idItem = parseInt(getLocalStorage('editItemId'));
+        putItem(idItem, formularioDataUpdate);
+    };
+
 
     return (
         <>
-            <div style={{ height: 400, width: '85%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '85%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -193,7 +260,23 @@ function ItemList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={items.map(item => {
+                        for (let user of usuarios) {
+                            if (user.id === item.UsuarioId) {
+                                return { ...item, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return item
+                    }).map(item => {
+                        if (item.imgPath) return { ...item, imgPath: 'Imagen' }
+                        return { ...item, imgPath: 'No Imagen' }
+                    }).map(item => {
+                        if (item.estado) return { ...item, estado: 'Activo' }
+                        return { ...item, estado: 'Inactivo' }
+                    }).map(item => {
+                        const createdAt = formateFecha(item.createdAt);
+                        return { ...item, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -283,41 +366,47 @@ function ItemList() {
                         id="crear"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormCreateItem}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Item</h1>
                         <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="titulo"
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="link"
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    name="link"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
                                     type="file"
+                                    name="imagen"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="estado">Estado</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
-                                        value='estado'
+                                        name="estado"
+                                        value={estado}
                                         label="Estado"
+                                        onChange={(e) => setEstado(e.target.value)}
                                     >
                                         <MenuItem value={false}>Inactivo</MenuItem>
                                         <MenuItem value={true}>activo</MenuItem>
@@ -325,7 +414,7 @@ function ItemList() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color:'white' }} fullWidth>
+                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -346,51 +435,63 @@ function ItemList() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitUpdate}
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="titulo"
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
+                                    value={tituloUpt}
+                                    onChange={(e) => setTituloUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="link"
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    name="link"
+                                    value={linkUpt}
+                                    onChange={(e) => setLinkUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
+                                    name="imagen"
                                     type="file"
+                                   
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="estado">Estado</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
-                                        value='estado'
                                         label="Estado"
+                                        name="estado"
+                                        value={estadoUpt}
+                                        onChange={(e) => setEstadoUpt(e.target.value)}
+
                                     >
-                                        <MenuItem value={false}>Inactivo</MenuItem>
-                                        <MenuItem value={true}>activo</MenuItem>
+                                        <MenuItem value={estadoUpt}>{estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
+                                        <MenuItem value={!estadoUpt}>{!estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px', color:'white' }}
+                                style={{ marginTop: '20px', color: 'white' }}
                                 type="submit"
                                 fullWidth
                             >

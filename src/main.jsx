@@ -11,6 +11,8 @@ import { SeccionProvider } from './context/SeccionContext.jsx'
 import { MultimediaProvider } from './context/MultimediaContext.jsx'
 import { GeneralProvider } from './context/GeneralContext.jsx';
 import { EventProvider } from './context/EventContext.jsx';
+import { ItemProvider } from './context/ItemsContext.jsx';
+import { NoticiaProvider } from './context/NoticiaContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -21,9 +23,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <MultimediaProvider>
               <GeneralProvider>
                 <EventProvider>
-                  <BrowserRouter>
-                    <App />
-                  </BrowserRouter>
+                  <ItemProvider>
+                    <NoticiaProvider>
+                      <BrowserRouter>
+                        <App />
+                      </BrowserRouter>
+                    </NoticiaProvider>
+                  </ItemProvider>
                 </EventProvider>
               </GeneralProvider>
             </MultimediaProvider>

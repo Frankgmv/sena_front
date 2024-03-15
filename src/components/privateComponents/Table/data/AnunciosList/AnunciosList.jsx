@@ -262,7 +262,7 @@ function AnunciosList() {
             setDescripcionUpt(descripcion)
             setTituloUpt(titulo)
             setImgPathUpt(imgPath),
-            setUsuarioIdUpt(UsuarioId)
+                setUsuarioIdUpt(UsuarioId)
             setSeccionIdUpt(SeccionId)
         }
     }
@@ -523,7 +523,7 @@ function AnunciosList() {
                                             secciones.map((seccion, i) => {
                                                 const isSelect = seccion.id === SeccionIdUpt
                                                 return (
-                                                    <MenuItem  style={{color:isSelect? 'red': ''}} value={seccion.id} key={i}>{seccion.seccion}{isSelect? <>&nbsp;Por defecto</>:''}</MenuItem>
+                                                    <MenuItem style={{ color: isSelect ? 'red' : '' }} value={seccion.id} key={i}>{seccion.seccion}{isSelect ? <>&nbsp;Por defecto</> : ''}</MenuItem>
                                                 )
                                             })
                                         }
