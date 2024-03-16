@@ -1,7 +1,6 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -9,28 +8,53 @@ import { useMediaQuery } from '@mui/material';
 
 
 import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-
+import { useSliderContext } from "../../../../../context/SliderContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useGaleriaContext } from "../../../../../context/GaleriaContext";
+import toastr from "../../../../../assets/includes/Toastr"
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 function Slider() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const { slider, responseMessageData, errorsData, postSlider, deleteSlider, getSlider } = useSliderContext()
+    const { galeria } = useGaleriaContext()
 
+    const [imagenId, setImagenId] = useState('')
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            handleCloseNew()
+            getSlider()
+            setImagenId('')
+        }
+    }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
                     <Tooltip title="Editar">
                         <Button>
-                            <FiEdit2
-                                onClick={handleOpenEdit}
+                            <FiEye
+                                onClick={(e) => alert('Mostrar foto')}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +67,10 @@ function Slider() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('deleteSliderId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -59,58 +86,27 @@ function Slider() {
         { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
-            headerName: "Titulo",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "link",
-            headerName: "Link",
-            width: 150,
+            headerName: "Titulo Imagen",
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "imgPath",
             headerName: "Imagen",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "UsuarioId",
-            headerName: "Id del Usuario",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "createdAt",
             headerName: "Fecha de Creación",
-            width: 150,
+            width: 190,
             headerAlign: "center",
             align: "center",
-            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
+            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY")
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/multimedia/slider";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const [openEdit, setOpenEdit] = useState(false);
-    const handleOpenEdit = () => setOpenEdit(true);
-    const handleCloseEdit = () => setOpenEdit(false);
 
     const [openNew, setOpenNew] = useState(false);
     const handleOpenNew = () => setOpenNew(true);
@@ -152,6 +148,9 @@ function Slider() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                let id = parseInt(getLocalStorage('deleteSliderId'))
+                id = parseInt(id)
+                deleteSlider(id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -165,10 +164,15 @@ function Slider() {
         });
     }
 
+    const submitFormSlider = (e) => {
+        e.preventDefault()
+        postSlider({ ImagenId: imagenId })
+    }
+
 
     return (
         <>
-            <div style={{ height: 400, width: '70%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '70%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -186,7 +190,18 @@ function Slider() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={slider.map(imagen => {
+                        if (imagen.imagenes) {
+                            return {
+                                ...imagen, imgPath: 'Imagen de Galeria'
+                            }
+                        }
+                        return imagen
+                    }).map(imagen => {
+                        return {
+                            ...imagen, titulo: imagen.imagenes.titulo, createdAt: formateFecha(imagen.createdAt)
+                        }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -276,91 +291,36 @@ function Slider() {
                         id="crear"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormSlider}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Crea un nuevo Slider</h1>
+                        <h1 style={{ textAlign: 'center' }}>Asignar imagen a Slider</h1>
                         <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="titulo"
-                                    label="Titulo"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="link"
-                                    label="Link"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="imgPath"
-                                    label="Imagen"
-                                    variant="standard"
-                                    type="File"
-                                />
+                            <Grid item sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                <FormControl variant="standard" sx={{ width: '70%' }}>
+                                    <InputLabel id="ImagenId">Imagen de galeria</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        label="ImagenId"
+                                        name="ImagenId"
+                                        value={imagenId}
+                                        onChange={e => setImagenId(e.target.value)}
+                                    >
+                                        {
+                                            galeria.map((imagen, i) => {
+                                                return (
+                                                    <MenuItem value={imagen.id} key={i}>{imagen.titulo}&nbsp; del {formateFecha(imagen.createdAt)}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color:'white' }} fullWidth>
+                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
-            </div>
-            {/* //! Modal Editar */}
-            <div>
-                <Modal
-                    open={openEdit}
-                    onClose={handleCloseEdit}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}
-                        component="form"
-                        id="editarUsuario"
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
-                        <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="titulo"
-                                    label="Titulo"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="link"
-                                    label="Link"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
-                                <TextField
-                                    id="imgPath"
-                                    label="Imagen"
-                                    variant="standard"
-                                    type="File"
-                                />
-                            </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color:'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
                         </Grid>
                     </Box>
                 </Modal>

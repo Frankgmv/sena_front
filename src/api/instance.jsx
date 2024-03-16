@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { getLocalStorage } from '../assets/includes/localStorage';
+import { BASE_URL_API } from '../assets/includes/variables';
 const getCredential = () => {
     const token = getLocalStorage('token');
     return token ? `Bearer ${token}` : '';
 }
 
 const api = axios.create({
-    baseURL: 'http://localhost:9000/api/v1'
+    baseURL: BASE_URL_API
 })
 
 api.interceptors.request.use((request) =>{

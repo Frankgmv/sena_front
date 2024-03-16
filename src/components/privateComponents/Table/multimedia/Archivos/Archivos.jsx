@@ -13,11 +13,12 @@ import { FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useArchivoContext } from "../../../../../context/ArchivoContext";
 import toastr from "../../../../../assets/includes/Toastr";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function Archivos() {
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
-    const { archivo, getArchivo, deleteArchivo, errorsData, responseMessageData, postArchivo} = useArchivoContext()
+    const { archivo, getArchivo, deleteArchivo, errorsData, responseMessageData, postArchivo } = useArchivoContext()
 
 
     useEffect(() => {
@@ -50,9 +51,8 @@ function Archivos() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEye
-                                onClick={e =>{
-                                    // TODO cambiar url por variable de entorno
-                                    window.open(`http://localhost:9000/api/v1/recursos/${params.row.archivo}`, "_blank");
+                                onClick={() => {
+                                    window.open(MOSTRAR_ARCHIVO(params.row.archivo), "_blank");
                                 }}
                                 style={{
                                     textAlign: "center",
@@ -175,7 +175,7 @@ function Archivos() {
 
     return (
         <>
-            <div style={{ height: 400, width: '60%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '60%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -287,7 +287,7 @@ function Archivos() {
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Archivo</h1>
                         <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="titulo"
                                     label="Titulo"
@@ -296,7 +296,7 @@ function Archivos() {
                                     name="titulo"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="archivo"
                                     label="Archivo"
@@ -306,7 +306,7 @@ function Archivos() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color:'white' }} fullWidth>
+                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>

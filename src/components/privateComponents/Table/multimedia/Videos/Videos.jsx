@@ -233,7 +233,7 @@ function Videos() {
 
     return (
         <>
-            <div style={{ height: 400, width: '70%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '70%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

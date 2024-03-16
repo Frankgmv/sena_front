@@ -1,22 +1,94 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
 
-
 import SendIcon from '@mui/icons-material/Send';
+import { usePqrsContext } from "../../../../../context/PqrsContext";
+import { FiEdit2 } from "react-icons/fi";
+import { BsTrash3 } from "react-icons/bs";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import toastr from "../../../../../assets/includes/Toastr";
+import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Pqrs() {
+    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs} = usePqrsContext()
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+        }
+    }, [responseMessageData])
 
 
     const columns = [
+        {
+            field: "actions",
+            headerName: "Acciones",
+            width: 150,
+            renderCell: (params) => (
+                <div
+                    style={{
+                        textAlign: "center",
+                    }}>
+                    <Tooltip title="Editar">
+                        <Button>
+                            <FiEdit2
+                                onClick={() => {
+                                    showSwalRead()
+                                    setLocalStorage('editPQRSId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Eliminar">
+                        <Button>
+                            <BsTrash3
+                                onClick={() => {
+                                    showSwalDelete()
+                                    setLocalStorage('deletePQRSId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
+                </div>
+            ),
+        },
         { field: "id", headerName: "ID", width: 100 },
+        {
+            field: "estado",
+            headerName: "Estado",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
         {
             field: "nombre",
             headerName: "Nombre",
@@ -39,7 +111,7 @@ function Pqrs() {
             align: "center",
         },
         {
-            field: "reminente",
+            field: "remitente",
             headerName: "Reminente",
             width: 150,
             headerAlign: "center",
@@ -67,13 +139,6 @@ function Pqrs() {
             align: "center",
         },
         {
-            field: "estado",
-            headerName: "Estado",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
             field: "createdAt",
             headerName: "Fecha de Creación",
             width: 150,
@@ -83,21 +148,78 @@ function Pqrs() {
         }
     ];
 
-    const [rows, setRows] = useState([]);
+    const showSwalDelete = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger me-4"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "¿Seguro que quieres borrarlo?",
+            text: "No lo podras revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Si, deseo borrarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire({
+                    title: "Borrado!",
+                    text: "Tu archivo se ha borrado.",
+                    icon: "success"
+                });
+                let id = getLocalStorage('deletePQRSId')
+                id = parseInt(id)
+                deletePqrs(id)
+            }
+        });
+    }
 
-    const endPoint = "https://sena-project.onrender.com/api/v1/informacion/pqrs";
+    const showSwalRead = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger me-4"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Marcar como leido",
+            text: "Una vez marcada como leida no podrás volver atrás",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire({
+                    title: "Marcada como leida!",
+                    text: "",
+                    icon: "success"
+                });
+                let id = getLocalStorage('editPQRSId')
+                id = parseInt(id)
+                putPqrs(id, {estado: true})
+            } else if (
 
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelado",
+                    text: "Acción cancelada",
+                    icon: "error"
+                });
+            }
+        });
+    }
 
-    useEffect(() => {
-        getData();
-    }, []);
     return (
         <>
-            <div style={{ height: 400, width: '100%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -107,7 +229,12 @@ function Pqrs() {
                 >
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={pqrs.map(pqrs =>{
+                        return{...pqrs, estado: pqrs.estado? 'Leida': 'No leida'}
+                    }).map(pqrs => {
+                        const createdAt = formateFecha(pqrs.createdAt);
+                        return { ...pqrs, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}

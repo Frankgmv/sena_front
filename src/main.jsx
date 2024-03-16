@@ -18,6 +18,9 @@ import { TokensProvider } from './context/TokenContext.jsx';
 import { ArchivoProvider } from './context/ArchivoContext.jsx';
 import { GaleriaProvider } from './context/GaleriaContext.jsx';
 import { VideoProvider } from './context/VideoContext.jsx';
+import { SliderProvider } from './context/SliderContext.jsx';
+import { PqrsProvider } from './context/PqrsContext.jsx';
+import { NotificacionesProvider } from './context/NotificacionesContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -35,9 +38,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                           <ArchivoProvider>
                             <GaleriaProvider>
                               <VideoProvider>
-                                <BrowserRouter>
-                                  <App />
-                                </BrowserRouter>
+                                <SliderProvider>
+                                  <PqrsProvider>
+                                    <NotificacionesProvider>
+                                      <BrowserRouter>
+                                        <App />
+                                      </BrowserRouter>
+                                    </NotificacionesProvider>
+                                  </PqrsProvider>
+                                </SliderProvider>
                               </VideoProvider>
                             </GaleriaProvider>
                           </ArchivoProvider>
@@ -52,5 +61,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </DataProvider>
       </UserProvider>
     </CredentialProvider>
-  </React.StrictMode>
+  </React.StrictMode >
 );

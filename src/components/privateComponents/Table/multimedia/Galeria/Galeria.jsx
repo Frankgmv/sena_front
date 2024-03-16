@@ -20,7 +20,7 @@ import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
-    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria} = useGaleriaContext()
+    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria } = useGaleriaContext()
     const { usuarios } = useUserContext()
     const { eventos } = useEventContext()
 
@@ -46,11 +46,17 @@ function Galeria() {
                 toastr.success(msg)
             })
             handleCloseNew()
+            resetNew()
         }
-
     }, [responseMessageData])
 
 
+    const resetNew = () => {
+        setImagen('')
+        setEvento('')
+        setTitulo('')
+
+    }
     const columns = [
         {
             field: "actions",
@@ -238,7 +244,7 @@ function Galeria() {
 
     return (
         <>
-            <div style={{ height: 400, width: '71%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '71%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

@@ -1,28 +1,40 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import { useMediaQuery } from '@mui/material';
 
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import SendIcon from '@mui/icons-material/Send';
+import { useNotificacionContext } from "../../../../../context/NotificacionesContext";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import toastr from "../../../../../assets/includes/Toastr";
+import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Notificacion() {
+    const { notificaciones, putNotificacion, deleteNotificacion, errorsData, responseMessageData} = useNotificacionContext()
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
 
-
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+        }
+    }, [responseMessageData])
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +42,10 @@ function Notificacion() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() =>{
+                                    showSwalRead()
+                                    setLocalStorage('editNotificacionId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +58,10 @@ function Notificacion() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={()=>{
+                                    showSwalDelete()
+                                    setLocalStorage('deleteNotificacionId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -87,28 +105,6 @@ function Notificacion() {
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/informacion/notificaciones";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const [openEdit, setOpenEdit] = useState(false);
-    const handleOpenEdit = () => setOpenEdit(true);
-    const handleCloseEdit = () => setOpenEdit(false);
-
-    const [openNew, setOpenNew] = useState(false);
-    const handleOpenNew = () => setOpenNew(true);
-    const handleCloseNew = () => setOpenNew(false);
-
     const style = {
         position: 'absolute',
         top: '50%',
@@ -122,7 +118,7 @@ function Notificacion() {
         alignItems: 'center',
     };
 
-    const showSwal = () => {
+    const showSwalDelete = () => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: "btn btn-success",
@@ -145,6 +141,39 @@ function Notificacion() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                let id = getLocalStorage('deleteNotificacionId')
+                id = parseInt(id)
+                deleteNotificacion(id)
+            }
+        });
+    }
+
+    const showSwalRead = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger me-4"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Marcar como leido",
+            text: "Una vez marcada como leida no podrás volver atrás",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire({
+                    title: "Marcada como leida!",
+                    text: "",
+                    icon: "success"
+                });
+                let id = getLocalStorage('editNotificacionId')
+                id = parseInt(id)
+                putNotificacion(id, {estado: true})
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -161,25 +190,14 @@ function Notificacion() {
 
     return (
         <>
-            <div style={{ height: 400, width: '71%', marginTop: '-200px' }}>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '30px', }}
-                >
-                    <Button
-                        variant="contained"
-                        color="success"
-                        endIcon={<SendIcon />}
-                        onClick={handleOpenNew}
-                    >
-                        Añadir
-                    </Button>
-                </Grid>
+            <div style={{ height: 400, width: '71%', marginTop: '-40px' }}>
                 <DataGrid
-                    rows={rows}
+                    rows={notificaciones.map(notif =>{
+                        return{...notif, estado: notif.estado? 'Leida': 'No leida'}
+                    }).map(notif => {
+                        const createdAt = formateFecha(notif.createdAt);
+                        return { ...notif, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -255,120 +273,6 @@ function Notificacion() {
                         },
                     }}
                 />
-            </div>
-            <div>
-                {/* //! Modal Crear */}
-                <Modal
-                    open={openNew}
-                    onClose={handleCloseNew}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}
-                        component="form"
-                        id="crear"
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <h1 style={{ textAlign: 'center' }}>Crea un nueva Notificacion</h1>
-                        <Grid container spacing={2}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="titulo"
-                                    label="Titulo"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="descripcion"
-                                    label="Descripcion"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <FormControl variant="standard" sx={{ width: '90%' }}>
-                                    <InputLabel id="estado">Estado</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value={false}
-                                        label="Estado"
-                                    >
-                                        <MenuItem value={false}>Inactivo</MenuItem>
-                                        <MenuItem value={true}>Activo</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
-                                    Guardar
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
-            </div>
-            {/* //! Modal Editar */}
-            <div>
-                <Modal
-                    open={openEdit}
-                    onClose={handleCloseEdit}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}
-                        component="form"
-                        id="editarUsuario"
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
-                        <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="titulo"
-                                    label="Titulo"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="descripcion"
-                                    label="Descripcion"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <FormControl variant="standard" sx={{ width: '90%' }}>
-                                    <InputLabel id="estado">Estado</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value={false}
-                                        label="Estado"
-                                    >
-                                        <MenuItem value={false}>Inactivo</MenuItem>
-                                        <MenuItem value={true}>Activo</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px' }}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
-                        </Grid>
-                    </Box>
-                </Modal>
             </div>
         </>
     );
