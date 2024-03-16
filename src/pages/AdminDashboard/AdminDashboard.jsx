@@ -92,10 +92,10 @@ const AdminDashboard = () => {
                         <Route path='/eventos-list' element={<EventoList />}/>
                         <Route path='/anuncios-list' element={<AnunciosList />}/>
                         <Route path='/item-list' element={<ItemList />}/>
-
                         <Route path='/noticias' element={<Noticias />}/>
-                        <Route path='/token' element={<Token />}/>
+
                         <Route path='/link' element={<Links />}/>
+                        <Route path='/token' element={<Token />}/>
                         {/* // ! Multimedia */}
                         <Route path='/archivos' element={<Archivos />}/>
                         <Route path='/galeria' element={<Galeria />}/>

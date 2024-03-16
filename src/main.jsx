@@ -13,6 +13,7 @@ import { GeneralProvider } from './context/GeneralContext.jsx';
 import { EventProvider } from './context/EventContext.jsx';
 import { ItemProvider } from './context/ItemsContext.jsx';
 import { NoticiaProvider } from './context/NoticiaContext.jsx';
+import { LinkProvider } from './context/LinkContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -25,9 +26,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <EventProvider>
                   <ItemProvider>
                     <NoticiaProvider>
-                      <BrowserRouter>
-                        <App />
-                      </BrowserRouter>
+                      <LinkProvider>
+                        <BrowserRouter>
+                          <App />
+                        </BrowserRouter>
+                      </LinkProvider>
                     </NoticiaProvider>
                   </ItemProvider>
                 </EventProvider>
