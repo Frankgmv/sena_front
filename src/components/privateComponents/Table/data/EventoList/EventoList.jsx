@@ -365,7 +365,7 @@ function EventoList() {
                         autoComplete="off"
                         onSubmit={handleSubmitEditar}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualizar evento</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField

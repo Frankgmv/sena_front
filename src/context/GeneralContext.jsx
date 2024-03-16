@@ -102,11 +102,12 @@ export const GeneralProvider = ({ children }) => {
             return data
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                let message = error.response.data.message
+                if (!errors.includes(message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
-                            error.response.data.message
+                            message
                         ]
                     })
                 }
@@ -120,7 +121,7 @@ export const GeneralProvider = ({ children }) => {
            setSecciones(data.data)
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -139,7 +140,7 @@ export const GeneralProvider = ({ children }) => {
            setSecciones(data.data)
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -157,7 +158,7 @@ export const GeneralProvider = ({ children }) => {
            setCategorias(data.data)
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,

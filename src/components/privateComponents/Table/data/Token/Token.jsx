@@ -1,28 +1,55 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
 
-
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import SendIcon from '@mui/icons-material/Send';
+import { useTokenProvider } from "../../../../../context/TokenContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import toastr from "../../../../../assets/includes/Toastr";
 
 function Token() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const { tokens, deleteToken, errorsData, responseMessageData, getTokens, getToken, putToken } = useTokenProvider()
+    const { usuarios } = useUserContext()
+    const [formDataToken, setFormDataToken] = useState({
+        token: '',
+        nombre: '',
+        tokenKey: '',
+    })
 
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            getTokens();
+        }
+
+    }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +57,10 @@ function Token() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editTokenId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +73,10 @@ function Token() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('deleteTokenId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -65,13 +98,6 @@ function Token() {
             align: "center",
         },
         {
-            field: "token",
-            headerName: "Token",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
             field: "tokenKey",
             headerName: "Codigo del Token",
             width: 150,
@@ -79,8 +105,8 @@ function Token() {
             align: "center",
         },
         {
-            field: "tiempo",
-            headerName: "Tiempo",
+            field: "Creador",
+            headerName: "Creador",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -98,30 +124,13 @@ function Token() {
             width: 150,
             headerAlign: "center",
             align: "center",
-            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
+            cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY")
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/tokens";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
-
-    const [openNew, setOpenNew] = useState(false);
-    const handleOpenNew = () => setOpenNew(true);
-    const handleCloseNew = () => setOpenNew(false);
 
     const style = {
         position: 'absolute',
@@ -159,6 +168,8 @@ function Token() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                const id = parseInt(getLocalStorage('deleteTokenId'))
+                deleteToken(id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -172,28 +183,72 @@ function Token() {
         });
     }
 
+    const handlerChangeUpt = (e) => {
+        let { name, value } = e.target
+        setFormDataToken(prevent => {
+            return {
+                ...prevent,
+                [name]: value
+            }
+        })
+    }
+
+    const getDataEditToken = async () => {
+        let id = getLocalStorage('editTokenId')
+        id = parseInt(id)
+
+        const dataToken = await getToken(id)
+        if (dataToken.ok) {
+            let dt = dataToken.data
+            setFormDataToken(( prevent )=>{
+                return{
+                    ...prevent,
+                    nombre: dt.nombre,
+                    tokenKey: dt.tokenKey
+                }
+            })
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            getDataEditToken()
+        }
+    }, [openEdit])
+
+    const submitUpdate = (event) => {
+        event.preventDefault()
+        setOpenEdit(false);
+        let id = parseInt(getLocalStorage('editTokenId'));
+        putToken(id, formDataToken);
+        setFormDataToken(( prevent )=>{
+            return{
+                ...prevent,
+                token: '',
+                nombre: '',
+                tokenKey: ''
+            }
+        })
+    };
+
+
+     const generalStyle = { width: isSmallScreen ? '100%' : '50%', display: 'flex', justifyContent: 'center' }
 
     return (
         <>
-            <div style={{ height: 400, width: '80%', marginTop: '-200px' }}>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '30px', }}
-                >
-                    <Button
-                        variant="contained"
-                        color="success"
-                        endIcon={<SendIcon />}
-                        onClick={handleOpenNew}
-                    >
-                        Añadir
-                    </Button>
-                </Grid>
+            <div style={{ height: 400, width: '80%', marginTop: '-50px' }}>
                 <DataGrid
-                    rows={rows}
+                    rows={tokens.map(token => {
+                        for (let user of usuarios) {
+                            if (user.id === token.UsuarioId) {
+                                return { ...token, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return token
+                    }).map(token => {
+                        const createdAt = formateFecha(token.createdAt);
+                        return { ...token, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -270,64 +325,6 @@ function Token() {
                     }}
                 />
             </div>
-            <div>
-                {/* //! Modal Crear */}
-                <Modal
-                    open={openNew}
-                    onClose={handleCloseNew}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}
-                        component="form"
-                        id="crear"
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <h1 style={{ textAlign: 'center' }}>Crea un nuevo Tokenl</h1>
-                        <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
-                                    id="nombre"
-                                    label="Nombre"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="token"
-                                    label="Token"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="tokenKey"
-                                    label="Codigo del Token"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="tiempo"
-                                    label="Tiempo"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
-                                    Guardar
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
-            </div>
             {/* //! Modal Editar */}
             <div>
                 <Modal
@@ -341,40 +338,44 @@ function Token() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        method="POST"
+                        onSubmit={submitUpdate}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualiza token</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={generalStyle}>
                                 <TextField
-                                    // sx={{ width: isSmallScreen ? '100%' : '90%' }}
+                                    sx={{ width: isSmallScreen ? '100%' : '90%' }}
                                     id="nombre"
                                     label="Nombre"
                                     variant="standard"
                                     type="text"
+                                    name="nombre"
+                                    value={formDataToken.nombre}
+                                    onChange={handlerChangeUpt}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField
-                                    id="token"
-                                    label="Token"
-                                    variant="standard"
-                                    type="text"
-                                />
-                            </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={generalStyle}>
                                 <TextField
                                     id="tokenKey"
                                     label="Codigo del Token"
                                     variant="standard"
                                     type="text"
+                                    name="tokenKey"
+                                    value={formDataToken.tokenKey}
+                                    onChange={handlerChangeUpt}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
                                 <TextField
-                                    id="tiempo"
-                                    label="Tiempo"
+                                    sx={{ text: 'center', width: '80%' }}
+                                    id="token"
+                                    label="Token"
                                     variant="standard"
                                     type="text"
+                                    name="token"
+                                    value={formDataToken.token}
+                                    onChange={handlerChangeUpt}
                                 />
                             </Grid>
                             <Button

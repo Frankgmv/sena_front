@@ -151,7 +151,7 @@ export const EventProvider = ({ children }) => {
             return data.data
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -183,7 +183,7 @@ export const EventProvider = ({ children }) => {
             return data
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -202,7 +202,7 @@ export const EventProvider = ({ children }) => {
             setEventos(data.data)
         } catch (error) {
             if (error.response.data.message) {
-                if (!error.includes(error.response.data.message)) {
+                if (!errors.includes(error.response.data.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,

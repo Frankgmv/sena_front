@@ -1,5 +1,4 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
@@ -555,7 +554,7 @@ function Links() {
                         autoComplete="off"
                         onSubmit={submitUpdate}
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualizar link</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField

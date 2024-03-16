@@ -56,6 +56,8 @@ function UserList() {
             RolId: RolIdUpt
         }
 
+        console.log(dataUpdated)
+
         if (showPasswordInput) {
             if (passwordUpt === passwordValidUpt) {
                 dataUpdated = {
@@ -229,9 +231,6 @@ function UserList() {
         }
     ];
 
-    useEffect(() => {
-        getUsers();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -300,7 +299,7 @@ function UserList() {
             setApellidoUpt(apellido)
             setNombreUpt(nombre)
             setRolIdUpt(RolId),
-                setEstadoUpt(estado)
+            setEstadoUpt(estado)
             setCelularUpt(celular)
             setCorreoUpt(correo)
         }
@@ -589,6 +588,7 @@ function UserList() {
                                     label="RolId"
                                     variant="standard"
                                     name="RolId"
+                                    value={RolIdUpt}
                                     defaultValue={1}
                                     onChange={(e) => setRolIdUpt(parseInt(e.target.value))}
                                 >
