@@ -1,23 +1,23 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
-import { deleteItemRequest, getAllItemRequest, getItemRequest, postItemRequest, putItemRequest } from "../api/data";
+import { deleteVideoRequest, getAllVideosRequest, getVideoRequest, postVideoRequest, putVideoRequest } from "../api/multimedia";
 
-const ItemContext = createContext();
+const VideoContext = createContext();
 
-export const useItemContext = () => {
-    const context = useContext(ItemContext);
+export const useVideoContext = () => {
+    const context = useContext(VideoContext);
     if (!context) {
-        throw new Error("Error en el Item Context");
+        throw new Error("Error en el Videos Context");
     }
 
     return context;
 };
 
 // eslint-disable-next-line react/prop-types
-export const ItemProvider = ({ children }) => {
+export const VideoProvider = ({ children }) => {
     const [errorsData, setErrorsData] = useState([]);
     const [responseMessageData, setResponseMessageData] = useState([]);
-    const [items, setItems] = useState([]);
+    const [videos, setVideos] = useState([]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,7 +29,7 @@ export const ItemProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getItems()
+        getVideos()
     }, [])
 
     useEffect(() => {
@@ -41,12 +41,12 @@ export const ItemProvider = ({ children }) => {
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 
-    const getItems = async () => {
+    const getVideos = async () => {
         try {
-            const response = await getAllItemRequest()
+            const response = await getAllVideosRequest()
             const data = await response.data
             if (data.ok) {
-                setItems(data.data)
+                setVideos(data.data)
             }
         } catch (error) {
             if (error.message) {
@@ -75,9 +75,9 @@ export const ItemProvider = ({ children }) => {
         }
     }
     
-    const getItem = async (id) => {
+    const getVideo = async (id) => {
         try {
-            const response = await getItemRequest(id)
+            const response = await getVideoRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -119,12 +119,12 @@ export const ItemProvider = ({ children }) => {
         }
     }
 
-    const postItem = async (dataItem) => {
+    const postVideo = async (dataVideo) => {
         try {
             const perfilUsuario = await perfilRequest()
-            const datosAnuncio = dataItem
-            datosAnuncio.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
-            const response = await postItemRequest(datosAnuncio)
+            const datosNoticia = dataVideo
+            datosNoticia.set('UsuarioId', perfilUsuario.data.data.id)
+            const response = await postVideoRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -139,6 +139,7 @@ export const ItemProvider = ({ children }) => {
                     return prevent
                 })
             }
+            getVideos()
         } catch (error) {
             const datos = error.response.data
             if (datos.zodError) {
@@ -170,9 +171,9 @@ export const ItemProvider = ({ children }) => {
         }
     }
 
-    const putItem = async (id, dataItem) => {
+    const putVideo = async (id, dataVideo) => {
         try {
-            const response = await putItemRequest(id, dataItem)
+            const response = await putVideoRequest(id, dataVideo)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData([...responseMessageData, data.message])
@@ -187,7 +188,7 @@ export const ItemProvider = ({ children }) => {
                     return prevent
                 })
             }
-            getItems()
+            getVideos()
         } catch (error) {
             const datos = error.response.data
             if (datos.zodError) {
@@ -219,9 +220,9 @@ export const ItemProvider = ({ children }) => {
         }
     }
 
-    const deleteItem = async (id) => {
+    const deleteVideo = async (id) => {
         try {
-            const response = await deleteItemRequest(id)
+            const response = await deleteVideoRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageData((prevent) => {
@@ -233,7 +234,7 @@ export const ItemProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                getItems()
+                getVideos()
             }
         } catch (error) {
             if (error.message) {
@@ -266,17 +267,17 @@ export const ItemProvider = ({ children }) => {
         errorsData,
         setErrorsData,
         responseMessageData,
-        getItems,
-        items,
-        postItem,
-        getItem,
-        putItem,
-        deleteItem
+        getVideos,
+        videos,
+        postVideo,
+        getVideo,
+        putVideo,
+        deleteVideo
     }
 
     return (
-        <ItemContext.Provider value={allMethods}>
+        <VideoContext.Provider value={allMethods}>
             {children}
-        </ItemContext.Provider>
+        </VideoContext.Provider>
     )
 }

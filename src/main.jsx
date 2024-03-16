@@ -17,6 +17,7 @@ import { LinkProvider } from './context/LinkContext.jsx';
 import { TokensProvider } from './context/TokenContext.jsx';
 import { ArchivoProvider } from './context/ArchivoContext.jsx';
 import { GaleriaProvider } from './context/GaleriaContext.jsx';
+import { VideoProvider } from './context/VideoContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -33,9 +34,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                         <TokensProvider>
                           <ArchivoProvider>
                             <GaleriaProvider>
-                              <BrowserRouter>
-                                <App />
-                              </BrowserRouter>
+                              <VideoProvider>
+                                <BrowserRouter>
+                                  <App />
+                                </BrowserRouter>
+                              </VideoProvider>
                             </GaleriaProvider>
                           </ArchivoProvider>
                         </TokensProvider>

@@ -56,8 +56,6 @@ function UserList() {
             RolId: RolIdUpt
         }
 
-        console.log(dataUpdated)
-
         if (showPasswordInput) {
             if (passwordUpt === passwordValidUpt) {
                 dataUpdated = {

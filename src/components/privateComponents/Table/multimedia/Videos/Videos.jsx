@@ -1,7 +1,6 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, TextField, Tooltip } from "@mui/material";
 import Swal from 'sweetalert2'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -11,26 +10,61 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { useVideoContext } from "../../../../../context/VideoContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import toastr from "../../../../../assets/includes/Toastr";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { Link } from "react-router-dom";
 
 function Videos() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
+    const { videos, responseMessageData, errorsData, putVideo, getVideo, postVideo, deleteVideo } = useVideoContext()
+    const { usuarios } = useUserContext()
+
+    const [titulo, setTitulo] = useState('')
+    const [link, setLink] = useState('')
+    const [imagen, setImagen] = useState('')
+
+    const [tituloUpt, setTituloUpt] = useState('')
+    const [linkUpt, setLinkUpt] = useState('')
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData])
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            handleCloseNew()
+        }
+    }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
-                        textAlign: "center",
+                        textAlign: "center"
                     }}>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editVideoId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +77,10 @@ function Videos() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={()=>{
+                                    showSwal()
+                                    setLocalStorage('deleteVideoId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -71,12 +108,9 @@ function Videos() {
             headerAlign: "center",
             align: "center",
         },
-
-        // ! Imagen para un video ??
-
         {
-            field: "imgPath",
-            headerName: "Imagen",
+            field: "Creador",
+            headerName: "Creador",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -84,6 +118,13 @@ function Videos() {
         {
             field: "UsuarioId",
             headerName: "Id del Usuario",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "imgPath",
+            headerName: "Imagen",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -97,19 +138,6 @@ function Videos() {
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/multimedia/videos";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -155,6 +183,9 @@ function Videos() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                let id = getLocalStorage('deleteVideoId')
+                id = parseFloat(id)
+                deleteVideo(id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -168,6 +199,37 @@ function Videos() {
         });
     }
 
+    const getDataEditGaleria = async () => {
+        let id = getLocalStorage('editVideoId')
+        id = parseInt(id)
+
+        const dataVideo = await getVideo(id)
+        if (dataVideo.ok) {
+            let dt = dataVideo.data
+            setLinkUpt(dt.link)
+            setTituloUpt(dt.titulo)
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            getDataEditGaleria()
+        }
+    }, [openEdit])
+
+    const submitFormNew = (e) => {
+        e.preventDefault()
+        const dataVideo = new FormData(e.currentTarget)
+        postVideo(dataVideo)
+    }
+
+    const submitUpdate = (event) => {
+        event.preventDefault()
+        const formularioDataUpdate = new FormData(event.currentTarget);
+        setOpenEdit(false);
+        const idItem = parseInt(getLocalStorage('editVideoId'));
+        putVideo(idItem, formularioDataUpdate);
+    };
 
     return (
         <>
@@ -189,7 +251,20 @@ function Videos() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={videos.map(imagen => {
+                        for (let user of usuarios) {
+                            if (user.id === imagen.UsuarioId) {
+                                return { ...imagen, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return imagen
+                    }).map(imagen => {
+                        const createdAt = formateFecha(imagen.createdAt);
+                        return { ...imagen, createdAt }
+                    }).map(item => {
+                        if (item.imgPath) return { ...item, imgPath: 'Imagen' }
+                        return { ...item, imgPath: 'No Imagen' }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -279,6 +354,7 @@ function Videos() {
                         id="crear"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormNew}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea un nuevo Archivo</h1>
                         <Grid container spacing={2}>
@@ -288,6 +364,9 @@ function Videos() {
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    value={titulo}
+                                    name="titulo"
+                                    onChange={e => setTitulo(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -296,6 +375,9 @@ function Videos() {
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    value={link}
+                                    name="link"
+                                    onChange={e => setLink(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -304,6 +386,9 @@ function Videos() {
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    name="imagen"
+                                    value={imagen}
+                                    onChange={e => setImagen(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -328,6 +413,7 @@ function Videos() {
                         id="editarUsuario"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitUpdate}
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
@@ -337,6 +423,9 @@ function Videos() {
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
+                                    value={tituloUpt}
+                                    onChange={e => setTituloUpt(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -345,6 +434,9 @@ function Videos() {
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    name="link"
+                                    value={linkUpt}
+                                    onChange={e => setLinkUpt(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -353,6 +445,7 @@ function Videos() {
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    name="imagen"
                                 />
                             </Grid>
                             <Button

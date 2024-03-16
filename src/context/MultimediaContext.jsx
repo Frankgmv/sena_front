@@ -42,7 +42,6 @@ export const MultimediaProvider = ({ children }) => {
             const data = await response.data
             if (data.ok) {
                 setResponseMessageMultimedia([...responseMessageMultimedia, data.message])
-                console.log(data.data)
             } else {
                 if (data.message) {
                     setErrorsMultimedia((prevent) => {
@@ -56,9 +55,7 @@ export const MultimediaProvider = ({ children }) => {
                     })
                 }
             }
-            console.log(response)
         } catch (error) {
-            console.log(error)
             const datos = error.response.data
             if (datos.zodError) {
                 error.response.data.zodError.issues.map(error => {

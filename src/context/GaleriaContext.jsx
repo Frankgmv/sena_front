@@ -190,7 +190,6 @@ export const GaleriaProvider = ({ children }) => {
             }
             getGalerias()
         } catch (error) {
-            console.log(error)
             const datos = error.response.data
             if (datos.zodError) {
                 error.response.data.zodError.issues.map(error => {
