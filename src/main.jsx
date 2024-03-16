@@ -16,6 +16,7 @@ import { NoticiaProvider } from './context/NoticiaContext.jsx';
 import { LinkProvider } from './context/LinkContext.jsx';
 import { TokensProvider } from './context/TokenContext.jsx';
 import { ArchivoProvider } from './context/ArchivoContext.jsx';
+import { GaleriaProvider } from './context/GaleriaContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -31,9 +32,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                       <LinkProvider>
                         <TokensProvider>
                           <ArchivoProvider>
-                          <BrowserRouter>
-                            <App />
-                          </BrowserRouter>
+                            <GaleriaProvider>
+                              <BrowserRouter>
+                                <App />
+                              </BrowserRouter>
+                            </GaleriaProvider>
                           </ArchivoProvider>
                         </TokensProvider>
                       </LinkProvider>

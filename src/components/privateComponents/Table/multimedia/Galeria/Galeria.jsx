@@ -11,10 +11,45 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { useGaleriaContext } from "../../../../../context/GaleriaContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useEventContext } from "../../../../../context/EventContext";
+import toastr from "../../../../../assets/includes/Toastr";
+import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria} = useGaleriaContext()
+    const { usuarios } = useUserContext()
+    const { eventos } = useEventContext()
+
+    const [evento, setEvento] = useState('')
+    const [titulo, setTitulo] = useState('')
+    const [imagen, setImagen] = useState('')
+
+    const [eventoUpt, setEventoUpt] = useState('')
+    const [tituloUpt, setTituloUpt] = useState('')
+    const [imagenUpt, setImagenUpt] = useState('')
+
+    useEffect(() => {
+        if (errorsData.length != 0) {
+            errorsData.map(error => {
+                return toastr.error(error)
+            })
+        }
+    }, [errorsData]);
+
+    useEffect(() => {
+        if (responseMessageData.length != 0) {
+            responseMessageData.map(msg => {
+                toastr.success(msg)
+            })
+            handleCloseNew()
+        }
+
+    }, [responseMessageData])
 
 
     const columns = [
@@ -22,7 +57,7 @@ function Galeria() {
             field: "actions",
             headerName: "Acciones",
             width: 150,
-            renderCell: () => (
+            renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
@@ -30,7 +65,10 @@ function Galeria() {
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
-                                onClick={handleOpenEdit}
+                                onClick={() => {
+                                    handleOpenEdit()
+                                    setLocalStorage('editGaleriaId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -43,7 +81,10 @@ function Galeria() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={showSwal}
+                                onClick={() => {
+                                    showSwal()
+                                    setLocalStorage('deleteGaleriaId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -65,15 +106,15 @@ function Galeria() {
             align: "center",
         },
         {
-            field: "imgPath",
-            headerName: "Imagen",
+            field: "Evento",
+            headerName: "Evento",
             width: 150,
             headerAlign: "center",
             align: "center",
         },
         {
-            field: "EventoId",
-            headerName: "Id del Evento",
+            field: "Creador",
+            headerName: "Creador",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -81,6 +122,13 @@ function Galeria() {
         {
             field: "UsuarioId",
             headerName: "Id del Usuario",
+            width: 150,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "imgPath",
+            headerName: "Imagen",
             width: 150,
             headerAlign: "center",
             align: "center",
@@ -94,19 +142,6 @@ function Galeria() {
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
         }
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/multimedia/galerias";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -152,6 +187,9 @@ function Galeria() {
                     text: "Tu archivo se ha borrado.",
                     icon: "success"
                 });
+                let id = getLocalStorage('deleteGaleriaId')
+                id = parseInt(id)
+                deleteGaleria(id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -165,6 +203,39 @@ function Galeria() {
         });
     }
 
+
+    const getDataEditGaleria = async () => {
+        let id = getLocalStorage('editGaleriaId')
+        id = parseInt(id)
+
+        const dataGaleria = await getGaleria(id)
+        if (dataGaleria.ok) {
+            let dt = dataGaleria.data
+            setEventoUpt(dt.EventoId)
+            setTituloUpt(dt.titulo)
+            setImagenUpt(dt.imgPath)
+        }
+    }
+
+    useEffect(() => {
+        if (openEdit) {
+            getDataEditGaleria()
+        }
+    }, [openEdit])
+
+    const submitFormNew = (e) => {
+        e.preventDefault()
+        const dataGaleria = new FormData(e.currentTarget)
+        postGaleria(dataGaleria)
+    }
+
+    const submitUpdate = (event) => {
+        event.preventDefault()
+        const formularioDataUpdate = new FormData(event.currentTarget);
+        setOpenEdit(false);
+        const idItem = parseInt(getLocalStorage('editGaleriaId'));
+        putGaleria(idItem, formularioDataUpdate);
+    };
 
     return (
         <>
@@ -186,7 +257,27 @@ function Galeria() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={galeria.map(imagen => {
+                        for (let user of usuarios) {
+                            if (user.id === imagen.UsuarioId) {
+                                return { ...imagen, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return imagen
+                    }).map(imagen => {
+                        for (let evento of eventos) {
+                            if (evento.id === imagen.EventoId) {
+                                return { ...imagen, Evento: evento.evento }
+                            }
+                        }
+                        return imagen
+                    }).map(imagen => {
+                        const createdAt = formateFecha(imagen.createdAt);
+                        return { ...imagen, createdAt }
+                    }).map(item => {
+                        if (item.imgPath) return { ...item, imgPath: 'Imagen' }
+                        return { ...item, imgPath: 'No Imagen' }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}
@@ -276,23 +367,30 @@ function Galeria() {
                         id="crear"
                         noValidate
                         autoComplete="off"
+                        onSubmit={submitFormNew}
                     >
                         <h1 style={{ textAlign: 'center' }}>Crea una Galeria</h1>
                         <Grid container spacing={2}>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="titulo"
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
+                                    value={titulo}
+                                    onChange={(e) => setTitulo(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    name="imagen"
+                                    value={imagen}
+                                    onChange={(e) => setImagen(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -302,16 +400,22 @@ function Galeria() {
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
                                         label="Evento"
-                                        fullWidth
+                                        name="EventoId"
+                                        value={evento}
+                                        onChange={(e) => setEvento(e.target.value)}
                                     >
-                                        <MenuItem value="">
-                                            <em>Map de Eventos :D</em>
-                                        </MenuItem>
+                                        {
+                                            eventos.map((evento, i) => {
+                                                return (
+                                                    <MenuItem value={evento.id} key={i}>{evento.evento}</MenuItem>
+                                                )
+                                            })
+                                        }
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color:'white' }} fullWidth>
+                                <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -331,24 +435,29 @@ function Galeria() {
                         component="form"
                         id="editarUsuario"
                         noValidate
+                        onSubmit={submitUpdate}
                         autoComplete="off"
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus datos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Actualizar Imagen</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="titulo"
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    name="titulo"
+                                    value={tituloUpt}
+                                    onChange={(e) => setTituloUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%'  }}>
+                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    name="imagen"
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -358,17 +467,24 @@ function Galeria() {
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
                                         label="Evento"
+                                        name="EventoId"
+                                        value={eventoUpt}
+                                        onChange={(e) => setEventoUpt(e.target.value)}
                                     >
-                                        <MenuItem value="">
-                                            <em>Map de Eventos :D</em>
-                                        </MenuItem>
+                                        {
+                                            eventos.map((evento, i) => {
+                                                return (
+                                                    <MenuItem value={evento.id} key={i}>{evento.evento}</MenuItem>
+                                                )
+                                            })
+                                        }
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px', color:'white' }}
+                                style={{ marginTop: '20px', color: 'white' }}
                                 type="submit"
                                 fullWidth
                             >
