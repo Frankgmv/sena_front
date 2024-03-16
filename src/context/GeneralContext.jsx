@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllCategoriasRequest, getAllSeccionesRequest, getRolRequest, putRolRequest } from "../api/data";
+import { getHistorialRequest } from "../api/informacion";
 
 const GeneralContext = createContext();
 
@@ -15,7 +16,7 @@ export const useGeneralContext = () => {
 // eslint-disable-next-line react/prop-types
 export const GeneralProvider = ({ children }) => {
     const [categorias, setCategorias] = useState([]);
-    const [permisos, setpermisos] = useState([]);
+    const [historial, setHistorial] = useState([]);
     const [secciones, setSecciones] = useState([]);
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
@@ -32,6 +33,7 @@ export const GeneralProvider = ({ children }) => {
     useEffect(() => {
       getSecciones()
       getCategorias()
+      getHistorial()
     }, [])
 
     useEffect(() => {
@@ -133,11 +135,11 @@ export const GeneralProvider = ({ children }) => {
         }
     }
 
-    const getPermisos = async () => {
+    const getHistorial = async () => {
         try {
-            const response = await getAllSeccionesRequest()
+            const response = await getHistorialRequest()
             const data = await response.data
-           setSecciones(data.data)
+           setHistorial(data.data)
         } catch (error) {
             if (error.response.data.message) {
                 if (!errors.includes(error.response.data.message)) {
@@ -179,7 +181,9 @@ export const GeneralProvider = ({ children }) => {
         getSecciones,
         secciones,
         getCategorias,
-        categorias
+        categorias,
+        getHistorial,
+        historial
     }
 
     return (

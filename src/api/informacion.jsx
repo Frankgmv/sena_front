@@ -25,9 +25,7 @@ export const deleteNotificacionRequest = (id) => axios.delete(`/informacion/noti
 
 // ! Historial
 
-export const getAllHistorialRequest = () => axios.get(`/informacion/Historial`);
-
-export const getHistorialRequest = (id) => axios.get(`/informacion/Historial/${id}`);
+export const getHistorialRequest = () => axios.get(`/informacion/Historial`);
 
 export const postHistorialRequest = (historial) => axios.post(`/informacion/Historial`, historial);
 

@@ -2,14 +2,17 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
+import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useUserContext } from "../../../../../context/UserContext";
+import { formateFecha } from "../../../../../assets/includes/funciones";
 
 
 
 function Historial() {
 
-
+    const { historial } = useGeneralContext()
+    const { usuarios } = useUserContext()
     const columns = [
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "cambio",
             headerName: "Cambio",
@@ -21,6 +24,13 @@ function Historial() {
             field: "descripcion",
             headerName: "Descipcion",
             width: 300,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "Creador",
+            headerName: "Usuario de la acción",
+            width: 150,
             headerAlign: "center",
             align: "center",
         },
@@ -41,18 +51,6 @@ function Historial() {
         }
     ];
 
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/informacion/historial";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
     return (
         <>
             <div style={{ height: 400, width: '60%', marginTop: '-200px' }}>
@@ -65,7 +63,17 @@ function Historial() {
                 >
                 </Grid>
                 <DataGrid
-                    rows={rows}
+                    rows={historial.map(historial => {
+                        for (let user of usuarios) {
+                            if (user.id === historial.UsuarioId) {
+                                return { ...historial, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return historial
+                    }).map(historial => {
+                        const createdAt = formateFecha(historial.createdAt);
+                        return { ...historial, createdAt }
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}

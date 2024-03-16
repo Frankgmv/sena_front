@@ -269,22 +269,22 @@ function Noticias() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={noticias.map(item => {
+                    rows={noticias.map(noticia => {
                         for (let user of usuarios) {
-                            if (user.id === item.UsuarioId) {
-                                return { ...item, Creador: `${user.nombre} ${user.apellido}` }
+                            if (user.id === noticia.UsuarioId) {
+                                return { ...noticia, Creador: `${user.nombre} ${user.apellido}` }
                             }
                         }
-                        return item
-                    }).map(item => {
-                        if (item.imgPath) return { ...item, imgPath: 'Imagen' }
-                        return { ...item, imgPath: 'No Imagen' }
-                    }).map(item => {
-                        if (item.estado) return { ...item, estado: 'Activo' }
-                        return { ...item, estado: 'Inactivo' }
-                    }).map(item => {
-                        const createdAt = formateFecha(item.createdAt);
-                        return { ...item, createdAt }
+                        return noticia
+                    }).map(noticia => {
+                        if (noticia.imgPath) return { ...noticia, imgPath: 'Imagen' }
+                        return { ...noticia, imgPath: 'No Imagen' }
+                    }).map(noticia => {
+                        if (noticia.estado) return { ...noticia, estado: 'Activo' }
+                        return { ...noticia, estado: 'Inactivo' }
+                    }).map(noticia => {
+                        const createdAt = formateFecha(noticia.createdAt);
+                        return { ...noticia, createdAt }
                     })}
                     columns={columns}
                     pageSize={5}

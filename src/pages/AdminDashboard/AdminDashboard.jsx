@@ -102,8 +102,8 @@ const AdminDashboard = () => {
                         <Route path='/slider' element={<Slider />}/>
                         {/* // ! Informacion */}
                         <Route path='/pqrs' element={<Pqrs />}/>
-                        <Route path='/historial' element={<Historial />}/>
                         <Route path='/notificacion' element={<Notificacion />}/>
+                        <Route path='/historial' element={<Historial />}/>
                     </Routes>
                     <Outlet />
                 </div>
