@@ -112,7 +112,7 @@ function Links() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
+        { field: "id", headerName: "ID", width: 70 },
         {
             field: "titulo",
             headerName: "Titulo",
@@ -309,7 +309,7 @@ function Links() {
 
     return (
         <>
-            <div style={{ height: 400, width: '85%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

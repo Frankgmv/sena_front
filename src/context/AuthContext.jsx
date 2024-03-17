@@ -86,10 +86,10 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
-    const logout = async () => {
+    const logoutFn = () => {
+        console.log("cerrar sesión")
         setIsAuthenticate(false)
         setToken(null)
-        removeLocalStorage('token')
     }
 
     const login = async (dataLogin) => {
@@ -109,7 +109,6 @@ export const CredentialProvider = ({ children }) => {
                         return prevent
                     })
                 } else {
-
                     setIsAuthenticate(true);
                     setToken(data.token)
                     if (!getLocalStorage('token')) {
@@ -219,7 +218,7 @@ export const CredentialProvider = ({ children }) => {
         register,
         token,
         setToken,
-        logout,
+        logoutFn,
         getRoles,
         rolName
     }

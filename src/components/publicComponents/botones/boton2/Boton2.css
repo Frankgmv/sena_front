@@ -2,12 +2,13 @@
     border: none;
     background: none;
     cursor: pointer;
+    margin-right: -20px;
 }
 
 .cta .boton-text {
     padding-bottom: 7px;
-    font-size: 12px;
-    padding-right: 15px;
+    font-size: 1em;
+    padding-right: 7px;
     text-transform: capitalize;
     text-decoration: none;
 }

@@ -1,61 +1,51 @@
 .navbarBody {
-    height: 98%;
+    height: 80px;
     width: 100%;
-    margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
 
 .navbarBody .logo {
-    width: 22%;
+    width: 25%;
     display: flex;
+    align-items: center;
+    margin-left: 20px;
 }
 
 .navbarBody .logo img {
-    width: 55px;
-    height: 55px;
+    width: 70px;
+    height: 70px;
     text-align: center;
     align-self: center;
     margin-left: 15px;
     border-radius: 10px;
 }
 
-.navbarBody .logo .barra {
-    width: 2px;
-    height: 60%;
-    display: flex;
-    align-self: center;
-    margin-left: 10px;
-    border: 2px solid var(--black);
-}
-
 .navbarBody .logo .text {
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: start;
     margin-left: 10px;
 }
 
 .navbarBody .logo .text p {
     font-size: 13px;
     font-weight: 400;
+    margin-left: 2px;
 }
 
 .navbarBody .logo .text h3 {
     font-size: 18px;
     font-weight: 700;
+    margin-top: -20px;
 }
 
 .navbarBody .links {
     display: flex;
-    justify-content: center;
-    align-items: center;
     justify-content: space-evenly;
-    width: 68%;
+    align-items: center;
+    width: 80%;
 }
-
 
 .navbarBody .links .link {
     color: var(--black-text);
@@ -70,22 +60,22 @@
     transition: all 0.4s ease-in-out;
 }
 
-.burgerButton {
-    display: none;
+.navbarBody .info{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
-@media (width >= 1024px) {
-    .navbarBody .logo {
-        width: 35%;
-    }
+.navbarBody .info .infoText p{
+    font-size: 13px;
+    font-weight: 400;
+    margin-left: 2px;
+    margin-bottom: -2px;
+}
 
-    .navbarBody .logo .text {
-        font-size: 12px;
-    }
-
-    .navbarBody .links {
-        width: 65%;
-    }
+.sideMenu{
+    width: 550px;
 }
 
 @media (width >= 820px) and
@@ -94,7 +84,6 @@
         width: 10%;
     }
 
-    .navbarBody .logo .barra,
     .navbarBody .logo .text {
         display: none;
     }
@@ -102,50 +91,58 @@
     .navbarBody .links {
         width: 90%;
     }
+    
+    .navbarBody .info .infoText{
+        font-size: 13px;
+        font-weight: 400;
+        margin-right: 10px;
+    }
+
+    .navbarBody .navBar-icon{
+        margin-right: 20px;
+    }
 }
 
 @media (width >= 768px) and
-        (width < 820px) {
+        (width <= 1024px) {
 
     .navbarBody{
         display: flex;
         justify-content: space-around;
     }
 
-    .navbarBody .logo .barra,
     .navbarBody .logo .text {
         display: none;
     }
 
-    .navbarBody .links {
-        display: none;
-    }
-
-    .burgerButton {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 55px;
-        height: 55px;
-        text-align: center;
-        align-self: center;
-        margin-left: 15px;
-        border-radius: 10px;
+    .navbarBody .logo{
+        width: 10%;
     }
 }
 
-@media (width < 360px) {
+@media (width <= 810px)  {
 
-    /* .navbarBody{
-        width: 100%;
-    } */
+    .navbarBody .logo {
+        margin-left: 0px;
+    }
 
-    .navbarBody .logo .barra,
     .navbarBody .logo .text {
         display: none;
     }
 
     .navbarBody .links {
         display: none;
+    }
+    
+    .navbarBody .info .infoText{
+        margin-right: 0px;
+    }
+
+    .navbarBody .navBar-icon{
+        margin-left: 15px;
+    }
+
+    .sideMenu{
+        width: 300px;
     }
 }

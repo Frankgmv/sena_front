@@ -107,7 +107,7 @@ function Token() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
@@ -236,7 +236,7 @@ function Token() {
 
     return (
         <>
-            <div style={{ height: 400, width: '80%', marginTop: '-50px' }}>
+            <div style={{ height: 400, width: '74%', marginTop: '-50px' }}>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {

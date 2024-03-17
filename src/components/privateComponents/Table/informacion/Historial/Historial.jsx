@@ -63,7 +63,7 @@ function Historial() {
 
     return (
         <>
-            <div style={{ height: 400, width: '60%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: '63%', marginTop: '-200px' }}>
                 <Grid
                     container
                     direction="row"

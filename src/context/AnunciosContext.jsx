@@ -123,7 +123,7 @@ export const DataProvider = ({ children }) => {
             const response = await postAnuncioRequest(datosAnuncio)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData((prevent) => {
+                    setResponseMessageData((prevent) => {
                     if (!responseMessageData.includes(data.message)) {
                         return [
                             ...prevent,

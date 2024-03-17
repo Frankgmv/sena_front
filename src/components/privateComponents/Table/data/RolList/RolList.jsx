@@ -39,7 +39,7 @@ function RolList() {
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 100,
             renderCell: (params) => (
                 <div
                     style={{
@@ -68,7 +68,7 @@ function RolList() {
         {
             field: "rol",
             headerName: "Rol",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
@@ -133,7 +133,7 @@ function RolList() {
 
     return (
         <>
-            <div style={{ height: 400, width: '48%' }}>
+            <div style={{ height: 400, width: '49%' }}>
                 <DataGrid
                     rows={roles.map(rol => {
                         if (rol.estado) return { ...rol, estado: 'Activo' }

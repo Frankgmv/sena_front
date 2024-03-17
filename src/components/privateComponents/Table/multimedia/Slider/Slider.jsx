@@ -204,7 +204,7 @@ function Slider() {
 
     return (
         <>
-            <div style={{ height: 400, width: '70%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '62%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

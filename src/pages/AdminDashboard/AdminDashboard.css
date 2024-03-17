@@ -62,10 +62,18 @@
     cursor: pointer;
 }
 
-.Navbar-Body .bodyMenuNavbar{
+.Navbar-Body .links{
     background: var(--black-background);
     color: var(--white);
+    display: flex;
+    flex-direction: column;
 }
+
+.link-sidebar{
+    text-decoration: none;
+    list-style: none;    
+}
+
 
 .Navbar-Body nav .text h4{
     font-size: clamp(.9rem, 2vw, 1.2rem);

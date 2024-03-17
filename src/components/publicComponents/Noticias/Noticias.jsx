@@ -1,8 +1,30 @@
-import CardNoticias from "../Cards/CardNoticias/CardNoticias.jsx"
+import { useEffect, useState } from "react";
+import f1 from '.././../../assets/img/default.jpeg'
 import Boton1 from "../botones/boton1/Boton1"
 import './Noticias.css'
+import axios from "axios";
+import Boton2 from "../botones/boton2/Boton2.jsx";
+import { formateFecha } from "../../../assets/includes/funciones.js";
 
 const Noticias = () => {
+
+    const [data, setData] = useState([]);
+
+    const endPoint = "http://localhost:9000/api/v1/data/noticias";
+
+    const getData = async () => {
+        const response = await axios.get(endPoint);
+        setData(response.data.data);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const ultimasNoticias = data
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 2);
+
     return (
         <div className="newsBody">
             <div className="encabezado">
@@ -11,26 +33,42 @@ const Noticias = () => {
                     <p>En este apartado podrás ver las noticias mas recientes publicadas por nuestro personal administrativo para mantenerte informado</p>
                 </div>
                 <div className="boton">
-                    <Boton1 
+                    <Boton1
                         linkBoton='/login'
                         textBoton='Ver Más Noticias'
                     />
                 </div>
             </div>
             <div className="containerCard">
-                <CardNoticias 
-                    fecha='2024/02/06'
-                    titulo='Regreso a clases'
-                    descripcion='Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-                />
-                <CardNoticias 
-                    fecha='2024/02/06'
-                    titulo='Regreso a clases'
-                    descripcion='Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-                />
+                {ultimasNoticias.map((item) => (
+                    <div className='conteinerCard-news' key={item.id}>
+                        <div className="imagen">
+                            <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen" onError={(e) => e.target.src = f1} />
+                        </div>
+                        <div className="texto">
+                            <div className="fecha">
+                                <p>{formateFecha(item.createdAt)}</p>
+                            </div>
+                            <div className="tituloCardNew">
+                                <h3>{item.titulo}</h3>
+                            </div>
+                            <div className="encabezado">
+                                <h3>{item.encabezado}</h3>
+                            </div>
+                            <div className="descripcion">
+                                <p>{item.descripcion}</p>
+                            </div>
+                            <div className="boton">
+                                <Boton2
+                                    titulo='Leer mas'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     )
 }
 
-export default Noticias
+export default Noticias;

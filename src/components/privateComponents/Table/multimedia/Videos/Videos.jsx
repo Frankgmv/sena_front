@@ -158,7 +158,7 @@ function Videos() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
@@ -280,7 +280,7 @@ function Videos() {
 
     return (
         <>
-            <div style={{ height: 400, width: '70%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

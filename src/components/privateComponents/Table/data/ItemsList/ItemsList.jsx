@@ -291,7 +291,7 @@ function ItemList() {
 
     return (
         <>
-            <div style={{ height: 400, width: '85%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '96%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

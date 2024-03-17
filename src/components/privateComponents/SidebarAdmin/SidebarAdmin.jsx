@@ -5,19 +5,35 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
 import './SidebarAdmin.css'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate} from 'react-router-dom';
 import { useEffect } from 'react';
 import { useGeneralContext } from '../../../context/GeneralContext';
 import { useState } from 'react';
 import { perfilRequest } from '../../../api/auth';
+import { useCredentialContext } from '../../../context/AuthContext';
+import { removeLocalStorage, setLocalStorage } from '../../../assets/includes/localStorage';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
+    const { logoutFn } = useCredentialContext()
+    const navegar = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
+
+    const cerrarSesion = () => {
+        logoutFn()
+        if(getLocalStorage('token')){
+            setLocalStorage('token', '')
+            removeLocalStorage('token')
+        }else{
+            setLocalStorage('token', '')
+            removeLocalStorage('token')
+            navegar("/login")
+        }
+    }
 
     const { getSeccionesMenu } = useGeneralContext()
 
@@ -42,12 +58,13 @@ export default function Sidebar() {
         obtenerMenuData()
     }, [])
 
-    const hiddenSeccion = { display: 'none' }
+    const hiddenSeccion = {display: 'none'}
 
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
         >
             <List>
+                {/* // !General */}
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
                     <li>
@@ -56,9 +73,9 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/logout" className="link">
-                            Cerrar Sesion
-                        </NavLink>
+                        <span className="link" onClick={() => cerrarSesion} >
+                            Cerrar Sesión
+                        </span>
                     </li>
                 </ul>
             </List>
@@ -70,9 +87,9 @@ export default function Sidebar() {
                             Mi Perfil
                         </NavLink>
                     </li>
-                    <li key="seccion-list">
-                        <NavLink to="./seccion-list" className="link">
-                            Secciones
+                    <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
+                        <NavLink to="./anuncios-list" className="link">
+                            Anuncios
                         </NavLink>
                     </li>
                     <li key="categorias">
@@ -80,34 +97,9 @@ export default function Sidebar() {
                             Categorias
                         </NavLink>
                     </li>
-                    <li key="rol" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
-                        <NavLink to="./rol-list" className="link">
-                            Roles
-                        </NavLink>
-                    </li>
-                    <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
-                        <NavLink to="./anuncios-list" className="link">
-                            Anuncios
-                        </NavLink>
-                    </li>
-                    <li key="menu-interactivo" style={mostrar('P_MENU') ? hiddenSeccion : {}}>
-                        <NavLink to="./item-list" className="link">
-                            Menu Interactivo
-                        </NavLink>
-                    </li>
                     <li key="eventos" style={mostrar('P_GALERIA') ? hiddenSeccion : {}}>
                         <NavLink to="./eventos-list" className="link">
                             Eventos
-                        </NavLink>
-                    </li>
-                    <li key="usuarios" style={mostrar('P_USUARIOS') ? hiddenSeccion : {}}>
-                        <NavLink to="./usuarios" className="link">
-                            Usuarios
-                        </NavLink>
-                    </li>
-                    <li key="noticias" style={mostrar('P_NOTICIAS') ? hiddenSeccion : {}}>
-                        <NavLink to="./noticias" className="link">
-                            Noticias
                         </NavLink>
                     </li>
                     <li key="links" style={mostrar('P_LINKS') ? hiddenSeccion : {}}>
@@ -115,9 +107,34 @@ export default function Sidebar() {
                             Links
                         </NavLink>
                     </li>
+                    <li key="menu-interactivo" style={mostrar('P_MENU') ? hiddenSeccion : {}}>
+                        <NavLink to="./item-list" className="link">
+                            Menu Interactivo
+                        </NavLink>
+                    </li>
+                    <li key="noticias" style={mostrar('P_NOTICIAS') ? hiddenSeccion : {}}>
+                        <NavLink to="./noticias" className="link">
+                            Noticias
+                        </NavLink>
+                    </li>
+                    <li key="seccion-list">
+                        <NavLink to="./seccion-list" className="link">
+                            Secciones
+                        </NavLink>
+                    </li>
+                    <li key="rol" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
+                        <NavLink to="./rol-list" className="link">
+                            Roles
+                        </NavLink>
+                    </li>
                     <li key="token" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
                         <NavLink to="./token" className="link">
                             Token
+                        </NavLink>
+                    </li>
+                    <li key="usuarios" style={mostrar('P_USUARIOS') ? hiddenSeccion : {}}>
+                        <NavLink to="./usuarios" className="link">
+                            Usuarios
                         </NavLink>
                     </li>
                 </ul>

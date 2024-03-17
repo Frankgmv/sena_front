@@ -47,12 +47,11 @@ function EventoList() {
         {
             field: "actions",
             headerName: "Acciones",
+            headerAlign: "center",
+            align: "center",
             width: 150,
             renderCell: (params) => (
-                <div
-                    style={{
-                        textAlign: "center",
-                    }}>
+                <div>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -206,7 +205,7 @@ function EventoList() {
 
     return (
         <>
-            <div style={{ height: 400, width: '50%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '46%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

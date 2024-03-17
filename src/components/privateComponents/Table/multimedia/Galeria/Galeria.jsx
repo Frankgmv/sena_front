@@ -141,7 +141,7 @@ function Galeria() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
@@ -291,7 +291,7 @@ function Galeria() {
 
     return (
         <>
-            <div style={{ height: 400, width: '71%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
