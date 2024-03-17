@@ -4,7 +4,7 @@ import './AdminDashboard.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserList from '../../components/privateComponents/Table/data/UsersList/UsersList';
 import RolList from '../../components/privateComponents/Table/data/RolList/RolList';
 import AnunciosList from '../../components/privateComponents/Table/data/AnunciosList/AnunciosList';
@@ -22,10 +22,14 @@ import Slider from '../../components/privateComponents/Table/multimedia/Slider/S
 import Pqrs from '../../components/privateComponents/Table/informacion/Pqrs/Pqrs';
 import Historial from '../../components/privateComponents/Table/informacion/Historial/Historial';
 import Notificacion from '../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones';
+import { useGeneralContext } from '../../context/GeneralContext';
+import { useCredentialContext } from '../../context/AuthContext';
 
 const AdminDashboard = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const { perfil } = useGeneralContext()
+    const { rolName } = useCredentialContext()
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -44,8 +48,8 @@ const AdminDashboard = () => {
                     </div>
                     <div className="info">
                         <div className="text">
-                            <h4 className='user'>Frank Muriel</h4>
-                            <p className='rol'>Personal Administrativo</p>
+                            <h4 className='user'>{perfil.nombre ? `${perfil.nombre} ${perfil.apellido}`: ''}</h4>
+                            <p className='rol'>{rolName.rol}</p>
                         </div>
                         <div>
                         </div>
@@ -104,6 +108,9 @@ const AdminDashboard = () => {
                         <Route path='/pqrs' element={<Pqrs />}/>
                         <Route path='/notificacion' element={<Notificacion />}/>
                         <Route path='/historial' element={<Historial />}/>
+                        {/* // ! Adicionales */}
+                        <Route path='/credenciales' element={<h1>Clave especial</h1>}/>
+                        <Route path='/nodemailer' element={<h1>nodemailer cambiar claves para emails</h1>}/>
                     </Routes>
                     <Outlet />
                 </div>

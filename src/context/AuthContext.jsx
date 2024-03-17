@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest, registroRequest } from "../api/auth";
-import { getRolesRequest} from "../api/data";
+import { loginRequest, perfilRequest, registroRequest } from "../api/auth";
+import { getRolRequest, getRolesRequest} from "../api/data";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/includes/localStorage";
 import { registerActionHistorial } from "../assets/includes/historial";
 
@@ -20,11 +20,13 @@ export const CredentialProvider = ({ children }) => {
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
     const [isAuthenticate, setIsAuthenticate] = useState(false);
+    const [rolName, setRolName] = useState([]);
     const [roles, setRoles] = useState([]);
     const [token, setToken] = useState('');
 
     useEffect(() => {
         getRoles();
+        getRolName();
     }, [])
 
     useEffect(() => {
@@ -51,6 +53,26 @@ export const CredentialProvider = ({ children }) => {
             const data = await response.data
             if (data.ok) {
                 setRoles(data.data)
+            }
+        } catch (error) {
+            if (error.response.message) {
+                setErrors((prevent) => {
+                    return [
+                        ...prevent,
+                        error.message
+                    ]
+                })
+            }
+        }
+    }
+
+    const getRolName = async () => {
+        try {
+            const infoUser = await perfilRequest()
+            const response = await getRolRequest(infoUser.data.data.RolId)
+            const data = await response.data
+            if (data.ok) {
+                setRolName(data.data)
             }
         } catch (error) {
             if (error.response.message) {
@@ -198,7 +220,8 @@ export const CredentialProvider = ({ children }) => {
         token,
         setToken,
         logout,
-        getRoles
+        getRoles,
+        rolName
     }
 
     return (

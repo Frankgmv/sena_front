@@ -21,6 +21,8 @@ export const getSeccionRequest = (id) => axios.get(`/data/secciones/${id}`);
 
 export const getSeccionMenuRequest = () => axios.get(`/data/permisos-menu`);
 
+export const getSeccionesMenuRequest = (id, RolId) => axios.get(`/data/secciones-menu?RolId=${RolId}&UsuarioId=${id}`);
+
 
 // ! Categorias
 

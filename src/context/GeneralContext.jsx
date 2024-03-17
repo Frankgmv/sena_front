@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllCategoriasRequest, getAllSeccionesRequest, getRolRequest, putRolRequest } from "../api/data";
+import { getAllCategoriasRequest, getAllSeccionesRequest, getRolRequest, getSeccionesMenuRequest, putRolRequest } from "../api/data";
 import { deleteHistorialRequest, getHistorialRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
+import { perfilRequest } from "../api/auth";
 
 const GeneralContext = createContext();
 
@@ -19,6 +20,7 @@ export const GeneralProvider = ({ children }) => {
     const [categorias, setCategorias] = useState([]);
     const [historial, setHistorial] = useState([]);
     const [secciones, setSecciones] = useState([]);
+    const [perfil, setPerfil] = useState({});
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
 
@@ -32,6 +34,7 @@ export const GeneralProvider = ({ children }) => {
     }, [errors])
 
     useEffect(() => {
+        getPerfil()
         getSecciones()
         getCategorias()
         getHistorial()
@@ -142,6 +145,25 @@ export const GeneralProvider = ({ children }) => {
         }
     }
 
+    const getSeccionesMenu = async (id, RolId) => {
+        try {
+            const response = await getSeccionesMenuRequest(id, RolId)
+            const data = await response.data
+            return data
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+
     const getHistorial = async () => {
         try {
             const response = await getHistorialRequest()
@@ -160,6 +182,26 @@ export const GeneralProvider = ({ children }) => {
             }
         }
     }
+
+    const getPerfil = async () => {
+        try {
+            const response = await perfilRequest()
+            const data = await response.data
+            setPerfil(data.data)
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+
     const getCategorias = async () => {
         try {
             const response = await getAllCategoriasRequest()
@@ -221,7 +263,10 @@ export const GeneralProvider = ({ children }) => {
         getCategorias,
         categorias,
         getHistorial,
-        historial
+        historial,
+        perfil,
+        getPerfil,
+        getSeccionesMenu
     }
 
     return (
