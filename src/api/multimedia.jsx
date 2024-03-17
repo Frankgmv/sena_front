@@ -46,6 +46,8 @@ export const deleteVideoRequest = (id) => axios.delete(`/multimedia/videos/${id}
 
 export const getAllSliderRequest = () => axios.get(`/multimedia/slider`);
 
+export const getSliderRequest = (id) => axios.get(`/multimedia/slider/${id}`);
+
 export const postSliderRequest = (data) => axios.post(`/multimedia/slider`, data);
 
 export const deleteSliderRequest = (id) => axios.delete(`/multimedia/slider/${id}`);

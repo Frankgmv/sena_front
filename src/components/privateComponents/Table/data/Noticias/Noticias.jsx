@@ -9,12 +9,13 @@ import toastr from "../../../../../assets/includes/Toastr";
 
 
 import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useNoticiaContext } from "../../../../../context/NoticiaContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function Noticias() {
 
@@ -31,6 +32,39 @@ function Noticias() {
     const [descripcionUpt, setDescripcionUpt] = useState('')
     const [imagenUpt, setImagenUpt] = useState('')
     const [encabezadoUpt, setEncabezadoUpt] = useState('')
+
+    const [tituloView, setTituloView] = useState('')
+    const [descripcionView, setDescripcionView] = useState('')
+    const [imagenView, setImagenView] = useState('')
+    const [encabezadoView, setEncabezadoView] = useState('')
+
+    const [openView, setOpenView] = useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
+    const getViewNoticia = async () => {
+        let id = getLocalStorage('verNoticiaId')
+        id = parseInt(id)
+        const dataNotice = await getNoticia(id)
+        if (dataNotice.ok) {
+            let dt = dataNotice.data
+            setTituloView(dt.titulo)
+            setDescripcionView(dt.descripcion)
+            setImagenView(dt.imgPath)
+            setEncabezadoView(dt.encabezado)
+        }
+    }
+
+    useEffect(() => {
+        if (openView) {
+            getViewNoticia()
+        } else {
+            setTituloView('')
+            setDescripcionView('')
+            setImagenView('')
+            setEncabezadoView('')
+        }
+    }, [openView])
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -55,12 +89,28 @@ function Noticias() {
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 250,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Ver">
+                        <Button>
+                            <FiEye
+                                onClick={() => {
+                                    handleOpenView()
+                                    setLocalStorage('verNoticiaId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -503,6 +553,32 @@ function Noticias() {
                             >
                                 Actualizar
                             </Button>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            <div>
+                {/* //! Modal Ver */}
+                <Modal
+                    open={openView}
+                    onClose={handleCloseView}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{ ...style, width: '40%' }}
+                        component="form"
+                        id="crear"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h2 style={{ textAlign: 'center'}}>{tituloView}</h2>
+                        <Grid container style={{display: 'flex', justifyContent: 'space-evenly', flexGrow: '1', border: '1px solid black', padding: '5px'}}>
+                            <h5>{encabezadoView}</h5>
+                            <p>{descripcionView}</p>
+                        </Grid>
+                        <Grid container style={{display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                     </Box>
                 </Modal>

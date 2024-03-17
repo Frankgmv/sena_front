@@ -15,13 +15,42 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useGaleriaContext } from "../../../../../context/GaleriaContext";
 import toastr from "../../../../../assets/includes/Toastr"
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 function Slider() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
-    const { slider, responseMessageData, errorsData, postSlider, deleteSlider, getSlider } = useSliderContext()
+    const { slider, responseMessageData, errorsData, postSlider, deleteSlider, getSlider, getSliderOne } = useSliderContext()
     const { galeria } = useGaleriaContext()
 
     const [imagenId, setImagenId] = useState('')
+
+    const [tituloView, setTituloView] = useState('')
+    const [imagenView, setImagenView] = useState('')
+
+
+    const [openView, setOpenView] = useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
+    const getViewEditGaleria = async () => {
+        let id = getLocalStorage('verSliderId')
+        id = parseInt(id)
+        const dataSlider = await getSliderOne(id)
+        if (dataSlider.ok) {
+            let dt = dataSlider.data
+            setTituloView(dt.imagenes.titulo)
+            setImagenView(dt.imagenes.imgPath)
+        }
+    }
+
+    useEffect(() => {
+        if (openView) {
+            getViewEditGaleria()
+        } else {
+            setTituloView('')
+            setImagenView('')
+        }
+    }, [openView])
     useEffect(() => {
         if (errorsData.length != 0) {
             errorsData.map(error => {
@@ -51,10 +80,13 @@ function Slider() {
                     style={{
                         textAlign: "center",
                     }}>
-                    <Tooltip title="Editar">
+                    <Tooltip title="Ver">
                         <Button>
                             <FiEye
-                                onClick={(e) => alert('Mostrar foto')}
+                                onClick={() => {
+                                    handleOpenView()
+                                    setLocalStorage('verSliderId', params.row.id)
+                                }}
                                 style={{
                                     textAlign: "center",
                                     fontSize: "20px",
@@ -321,6 +353,27 @@ function Slider() {
                                     Guardar
                                 </Button>
                             </Grid>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            <div>
+                {/* //! Modal Ver */}
+                <Modal
+                    open={openView}
+                    onClose={handleCloseView}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{ ...style, width: '40%' }}
+                        component="form"
+                        id="crear"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h2 style={{ textAlign: 'center' }}>{tituloView}</h2>
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
                         </Grid>
                     </Box>
                 </Modal>

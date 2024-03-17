@@ -8,19 +8,20 @@ import { useMediaQuery } from '@mui/material';
 
 
 import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useItemContext } from "../../../../../context/ItemsContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from '../../../../../assets/includes/Toastr'
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function ItemList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
-    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem} = useItemContext()
+    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem } = useItemContext()
     const { usuarios } = useUserContext()
 
     const [estado, setEstado] = useState(true)
@@ -28,6 +29,39 @@ function ItemList() {
     const [estadoUpt, setEstadoUpt] = useState(false)
     const [linkUpt, setLinkUpt] = useState('')
     const [tituloUpt, setTituloUpt] = useState('')
+
+    const [estadoView, setEstadoView] = useState(false)
+    const [linkView, setLinkView] = useState('')
+    const [tituloView, setTituloView] = useState('')
+    const [imagenView, setImagenView] = useState('')
+
+    const [openView, setOpenView] = useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
+    const getViewItem = async () => {
+        let id = getLocalStorage('verItemId')
+        id = parseInt(id)
+        const dataItem = await getItem(id)
+        if (dataItem.ok) {
+            let dt = dataItem.data
+            setEstadoView(dt.EventoId)
+            setLinkView(dt.link)
+            setTituloView(dt.titulo)
+            setImagenView(dt.imgPath)
+        }
+    }
+
+    useEffect(() => {
+        if (openView) {
+            getViewItem()
+        } else {
+            setEstadoView('')
+            setLinkView('')
+            setTituloView('')
+            setImagenView('')
+        }
+    }, [openView])
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -45,19 +79,34 @@ function ItemList() {
             getItems();
             setOpenNew(false);
         }
-
     }, [responseMessageData])
 
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 250,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Ver">
+                        <Button>
+                            <FiEye
+                                onClick={() => {
+                                    handleOpenView()
+                                    setLocalStorage('verItemId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -422,6 +471,29 @@ function ItemList() {
                     </Box>
                 </Modal>
             </div>
+            <div>
+                {/* //! Modal Ver */}
+                <Modal
+                    open={openView}
+                    onClose={handleCloseView}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{ ...style, width: '40%' }}
+                        component="form"
+                        id="crear"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
+                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank">{linkView}</a> </small></span>
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '380px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                        </Grid>
+                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}>Esta {estadoView? ' Activo': ' Inactivo'}</small></span>
+                    </Box>
+                </Modal>
+            </div>
             {/* //! Modal Editar */}
             <div>
                 <Modal
@@ -468,7 +540,7 @@ function ItemList() {
                                     variant="standard"
                                     name="imagen"
                                     type="file"
-                                   
+
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>

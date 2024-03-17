@@ -13,11 +13,12 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useCredentialContext } from "../../../../../context/AuthContext";
 
 import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useAnunciosContext } from "../../../../../context/AnunciosContext";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function AnunciosList() {
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
@@ -91,16 +92,62 @@ function AnunciosList() {
         setLocalStorage('AnuncioIdDelete', anuncioId)
     }
 
+    const [tituloView, setTituloView] = useState('')
+    const [imagenView, setImagenView] = useState('')
+    const [descripcionView, setDescripcionView] = useState('')
+
+    const [openView, setOpenView] = useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
+    const getViewAnuncio = async () => {
+        let id = getLocalStorage('verAnuncioId')
+        id = parseInt(id)
+        const dataAnuncio = await getAnuncio(id)
+        if (dataAnuncio.ok) {
+            let dt = dataAnuncio.data
+            setTituloView(dt.titulo)
+            setImagenView(dt.imgPath)
+            setDescripcionView(dt.descripcion)
+        }
+    }
+
+    useEffect(() => {
+        if (openView) {
+            getViewAnuncio()
+        } else {
+            setTituloView('')
+            setImagenView('')
+            setDescripcionView('')
+        }
+    }, [openView])
+
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 250,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Ver">
+                        <Button>
+                            <FiEye
+                                onClick={() => {
+                                    handleOpenView()
+                                    setLocalStorage('verAnuncioId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -539,6 +586,31 @@ function AnunciosList() {
                             >
                                 Actualizar
                             </Button>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            <div>
+                {/* //! Modal Ver */}
+                <Modal
+                    open={openView}
+                    onClose={handleCloseView}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{ ...style, width: '40%' }}
+                        component="form"
+                        id="crear"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h2 style={{ textAlign: 'center' }}>{tituloView}</h2>
+                        <Grid container style={{ display: 'flex', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px' }}>
+                            <p>{descripcionView}</p>
+                        </Grid>
+                        <Grid container style={{ display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                     </Box>
                 </Modal>

@@ -21,13 +21,13 @@ export default function Sidebar() {
 
     const { getSeccionesMenu } = useGeneralContext()
 
-    const getPerfil  = async () =>{
+    const getPerfil = async () => {
         const response = await perfilRequest()
         const data = await response.data
         return data.data
     }
 
-    const obtenerMenuData = async () =>{
+    const obtenerMenuData = async () => {
         const perfil = await getPerfil()
         const menuData = await getSeccionesMenu(perfil.id, perfil.RolId)
         let datosMenu = menuData.data.map(permiso => permiso.permisoKey)
@@ -48,7 +48,22 @@ export default function Sidebar() {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
         >
             <List>
-                <h4 className='subtitleSide'>Data</h4>
+                <h4 className='subtitleSide'>Perfil</h4>
+                <ul>
+                    <li>
+                        <NavLink to="/" className="link">
+                            Home Page
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/logout" className="link">
+                            Cerrar Sesion
+                        </NavLink>
+                    </li>
+                </ul>
+            </List>
+            <List>
+                <h4 className='subtitleSide'>Datos</h4>
                 <ul>
                     <li key="mi-perfil">
                         <NavLink to="./mi-perfil" className="link">
@@ -66,27 +81,27 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li key="rol" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
-                        <NavLink  to="./rol-list" className="link">
+                        <NavLink to="./rol-list" className="link">
                             Roles
                         </NavLink>
                     </li>
                     <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
-                        <NavLink  to="./anuncios-list" className="link">
+                        <NavLink to="./anuncios-list" className="link">
                             Anuncios
                         </NavLink>
                     </li>
                     <li key="menu-interactivo" style={mostrar('P_MENU') ? hiddenSeccion : {}}>
-                        <NavLink  to="./item-list" className="link">
+                        <NavLink to="./item-list" className="link">
                             Menu Interactivo
                         </NavLink>
                     </li>
                     <li key="eventos" style={mostrar('P_GALERIA') ? hiddenSeccion : {}}>
-                        <NavLink  to="./eventos-list" className="link">
+                        <NavLink to="./eventos-list" className="link">
                             Eventos
                         </NavLink>
                     </li>
                     <li key="usuarios" style={mostrar('P_USUARIOS') ? hiddenSeccion : {}}>
-                        <NavLink  to="./usuarios" className="link">
+                        <NavLink to="./usuarios" className="link">
                             Usuarios
                         </NavLink>
                     </li>
@@ -150,29 +165,9 @@ export default function Sidebar() {
                             Historial
                         </NavLink>
                     </li>
-                    <li key="claveEspecial" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
-                        <NavLink to="./credenciales" className="link">
-                            Clave especial
-                        </NavLink>
-                    </li>
                     <li key="nodemailer" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
                         <NavLink to="./nodemailer" className="link">
                             Nodemailer
-                        </NavLink>
-                    </li>
-                </ul>
-            </List>
-            <List>
-                <h4 className='subtitleSide'>Perfil</h4>
-                <ul>
-                    <li>
-                        <NavLink to="/" className="link">
-                            Home Page
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/logout" className="link">
-                            Cerrar Sesion
                         </NavLink>
                     </li>
                 </ul>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
-import { deleteSliderRequest, getAllSliderRequest, postSliderRequest } from "../api/multimedia";
+import { deleteSliderRequest, getAllSliderRequest, getSliderRequest, postSliderRequest } from "../api/multimedia";
 import { registerActionHistorial } from "../assets/includes/historial";
 
 const SliderContext = createContext();
@@ -49,6 +49,38 @@ export const SliderProvider = ({ children }) => {
             if (data.ok) {
                 setSlider(data.data)
             }
+        } catch (error) {
+            if (error.message) {
+                setErrorsData((prevent) => {
+                    if (!errorsData.includes(error.message)) {
+                        return [
+                            ...prevent,
+                            error.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+
+            if (error.response.data.message) {
+                setErrorsData((prevent) => {
+                    if (!errorsData.includes(error.response.data.message)) {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
+
+    const getSliderOne = async (id) => {
+        try {
+            const response = await getSliderRequest(id)
+            const data = await response.data
+            return data
         } catch (error) {
             if (error.message) {
                 setErrorsData((prevent) => {
@@ -182,6 +214,7 @@ export const SliderProvider = ({ children }) => {
         errorsData,
         responseMessageData,
         getSlider,
+        getSliderOne,
         slider,
         postSlider,
         deleteSlider

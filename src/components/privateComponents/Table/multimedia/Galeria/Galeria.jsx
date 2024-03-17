@@ -8,7 +8,7 @@ import { useMediaQuery } from '@mui/material';
 
 
 import { BsTrash3 } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useGaleriaContext } from "../../../../../context/GaleriaContext";
 import { useUserContext } from "../../../../../context/UserContext";
@@ -16,11 +16,13 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useEventContext } from "../../../../../context/EventContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 500px)');
     const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria } = useGaleriaContext()
+
     const { usuarios } = useUserContext()
     const { eventos } = useEventContext()
 
@@ -31,6 +33,10 @@ function Galeria() {
     const [eventoUpt, setEventoUpt] = useState('')
     const [tituloUpt, setTituloUpt] = useState('')
     const [imagenUpt, setImagenUpt] = useState('')
+
+    const [eventoView, setEventoView] = useState('')
+    const [tituloView, setTituloView] = useState('')
+    const [imagenView, setImagenView] = useState('')
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -50,23 +56,38 @@ function Galeria() {
         }
     }, [responseMessageData])
 
-
     const resetNew = () => {
         setImagen('')
         setEvento('')
         setTitulo('')
-
     }
+
     const columns = [
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 250,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Ver">
+                        <Button>
+                            <FiEye
+                                onClick={() => {
+                                    handleOpenView()
+                                    setLocalStorage('verImagenId', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -148,6 +169,10 @@ function Galeria() {
         }
     ];
 
+    const [openView, setOpenView] = useState(false);
+    const handleOpenView = () => setOpenView(true);
+    const handleCloseView = () => setOpenView(false);
+
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
@@ -221,6 +246,28 @@ function Galeria() {
             setImagenUpt(dt.imgPath)
         }
     }
+
+    const getViewEditGaleria = async () => {
+        let id = getLocalStorage('verImagenId')
+        id = parseInt(id)
+        const dataGaleria = await getGaleria(id)
+        if (dataGaleria.ok) {
+            let dt = dataGaleria.data
+            setEventoView(dt.EventoId)
+            setTituloView(dt.titulo)
+            setImagenView(dt.imgPath)
+        }
+    }
+    
+        useEffect(() => {
+            if (openView) {
+                getViewEditGaleria()
+            } else {
+                setEventoView('')
+                setTituloView('')
+                setImagenView('')
+            }
+        }, [openView])
 
     useEffect(() => {
         if (openEdit) {
@@ -424,6 +471,27 @@ function Galeria() {
                                     Guardar
                                 </Button>
                             </Grid>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            <div>
+                {/* //! Modal Ver */}
+                <Modal
+                    open={openView}
+                    onClose={handleCloseView}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{ ...style, width: '40%' }}
+                        component="form"
+                        id="crear"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
                         </Grid>
                     </Box>
                 </Modal>

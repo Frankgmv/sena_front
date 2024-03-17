@@ -34,6 +34,7 @@ const AdminDashboard = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -109,7 +110,6 @@ const AdminDashboard = () => {
                         <Route path='/notificacion' element={<Notificacion />}/>
                         <Route path='/historial' element={<Historial />}/>
                         {/* // ! Adicionales */}
-                        <Route path='/credenciales' element={<h1>Clave especial</h1>}/>
                         <Route path='/nodemailer' element={<h1>nodemailer cambiar claves para emails</h1>}/>
                     </Routes>
                     <Outlet />
