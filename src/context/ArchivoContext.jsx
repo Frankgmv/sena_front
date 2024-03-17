@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteArchivoRequest, getArchivoRequest, postArchivoRequest } from "../api/multimedia";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const ArchivoContext = createContext();
 
@@ -83,7 +84,16 @@ export const ArchivoProvider = ({ children }) => {
             const response = await postArchivoRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó Archivo PDF`,`Archivo con titulo '${datosNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -141,6 +151,7 @@ export const ArchivoProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó Archivo PDF`,`Archivo con titulo '${archivo[0].titulo}'`)
                 setArchivo([])
             }
         } catch (error) {

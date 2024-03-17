@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { loginRequest, registroRequest } from "../api/auth";
 import { getRolesRequest} from "../api/data";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/includes/localStorage";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const CredentialContext = createContext();
 
@@ -143,21 +144,21 @@ export const CredentialProvider = ({ children }) => {
             const response = await registroRequest(dataRegister)
             const data = await response.data
 
-            setResponseMessage((prevent) => {
-                if (!prevent.includes(data.message)) {
-                    return [
-                        ...prevent,
-                        data.message
-                    ];
-                }
-                return prevent
-            });
-
+            if(data.ok){   
+                setResponseMessage((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ];
+                    }
+                    return prevent
+                });
+                await registerActionHistorial(`Nuevo Usuario`,`Usuario '${dataRegister.nombre}'`)
+            }
         } catch (error) {
             const datos = error.response.data
-
             if (datos.zodError) {
-
                 error.response.data.zodError.issues.map(error => {
                     setErrors((prevent) => {
                         if (!prevent.includes(error.message)) {

@@ -127,7 +127,15 @@ export const VideoProvider = ({ children }) => {
             const response = await postVideoRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -176,7 +184,15 @@ export const VideoProvider = ({ children }) => {
             const response = await putVideoRequest(id, dataVideo)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {

@@ -199,7 +199,7 @@ function Slider() {
                         return imagen
                     }).map(imagen => {
                         return {
-                            ...imagen, titulo: imagen.imagenes.titulo, createdAt: formateFecha(imagen.createdAt)
+                            ...imagen, titulo: imagen?.imagenes?.titulo, createdAt: formateFecha(imagen?.createdAt)
                         }
                     })}
                     columns={columns}

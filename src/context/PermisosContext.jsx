@@ -120,7 +120,15 @@ export const dataProvider = ({ children }) => {
             const response = await postPermisoRequest(dataPermiso)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -168,7 +176,15 @@ export const dataProvider = ({ children }) => {
             const response = await putPermisoRequest(id, dataPermiso)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {

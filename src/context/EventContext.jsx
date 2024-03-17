@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { deleteEventoRequest, getAllEventosRequest, getAllSeccionesRequest, getEventoRequest, postEventoRequest, putEventoRequest } from "../api/data";
+import { deleteEventoRequest, getAllEventosRequest, getEventoRequest, postEventoRequest, putEventoRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
+import { formateFechaGuion } from "../assets/includes/funciones";
 
 const EventContext = createContext();
 
@@ -56,6 +58,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
+                await registerActionHistorial(`Creó Evento`,`Evento '${dataEvent.evento}'`)
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
@@ -95,6 +98,8 @@ export const EventProvider = ({ children }) => {
 
     const putEvento = async (id, dataEvent) => {
         try {
+
+            const infoEvento = await getEventoRequest(id)
             const response = await putEventoRequest(id, dataEvent)
             const data = await response.data
             if (data.ok) {
@@ -108,6 +113,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
+                await registerActionHistorial(`Modificó Evento`,`Evento '${infoEvento.data.data.evento} - ${formateFechaGuion(infoEvento?.data?.data?.fecha)}' a '${dataEvent.evento} - ${dataEvent.fecha}'`)
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
@@ -165,6 +171,7 @@ export const EventProvider = ({ children }) => {
 
     const deleteEvento = async (id) => {
         try {
+            const infoEvento = await getEventoRequest(id)
             const response = await deleteEventoRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -178,7 +185,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
-
+                await registerActionHistorial(`Eliminó Evento`,`Evento  '${infoEvento.data.data.evento}'`)
             }
             return data
         } catch (error) {

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
-import { deletePQRSRequest, getAllPQRSRequest, putPQRSRequest } from "../api/informacion";
+import { deletePQRSRequest, getAllPQRSRequest, getPQRSRequest, putPQRSRequest } from "../api/informacion";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const PqrsContext = createContext();
 
@@ -77,10 +78,24 @@ export const PqrsProvider = ({ children }) => {
 
     const putPqrs = async (id, dataPqrs) => {
         try {
+            const infoPqrs = await getPQRSRequest(id)
             const response = await putPQRSRequest(id, dataPqrs)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                if(dataPqrs.estado !== infoPqrs.data.data.estado) {
+                    let estadoInfo = dataPqrs.estado ? 'Leido': 'No Leido'
+                    let estadoDb = !estadoInfo ? 'Leido': 'No Leido'
+                    await registerActionHistorial(`Actualizó PQRS`,`Remitente [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}] paso de '${estadoDb}' a '${estadoInfo}'`)
+                }
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -127,6 +142,7 @@ export const PqrsProvider = ({ children }) => {
 
     const deletePqrs = async (id) => {
         try {
+            const infoPqrs = await getPQRSRequest(id)
             const response = await deletePQRSRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -139,6 +155,7 @@ export const PqrsProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó PQRS`,`PQRS de [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}]'`)
                 getPqrs()
             }
         } catch (error) {

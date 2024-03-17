@@ -245,7 +245,7 @@ function Noticias() {
         event.preventDefault()
         const formularioDataUpdate = new FormData(event.currentTarget);
         setOpenEdit(false);
-        const idItem = parseInt(getLocalStorage('editItemId'));
+        const idItem = parseInt(getLocalStorage('editNoticiaId'));
         putNoticia(idItem, formularioDataUpdate);
     };
 

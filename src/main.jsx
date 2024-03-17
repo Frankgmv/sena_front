@@ -8,7 +8,6 @@ import { CredentialProvider } from './context/AuthContext.jsx'
 import { UserProvider } from './context/UserContext.jsx'
 import { DataProvider } from './context/AnunciosContext.jsx'
 import { SeccionProvider } from './context/SeccionContext.jsx'
-import { MultimediaProvider } from './context/MultimediaContext.jsx'
 import { GeneralProvider } from './context/GeneralContext.jsx';
 import { EventProvider } from './context/EventContext.jsx';
 import { ItemProvider } from './context/ItemsContext.jsx';
@@ -28,35 +27,33 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <UserProvider>
         <DataProvider>
           <SeccionProvider>
-            <MultimediaProvider>
-              <GeneralProvider>
-                <EventProvider>
-                  <ItemProvider>
-                    <NoticiaProvider>
-                      <LinkProvider>
-                        <TokensProvider>
-                          <ArchivoProvider>
-                            <GaleriaProvider>
-                              <VideoProvider>
-                                <SliderProvider>
-                                  <PqrsProvider>
-                                    <NotificacionesProvider>
-                                      <BrowserRouter>
-                                        <App />
-                                      </BrowserRouter>
-                                    </NotificacionesProvider>
-                                  </PqrsProvider>
-                                </SliderProvider>
-                              </VideoProvider>
-                            </GaleriaProvider>
-                          </ArchivoProvider>
-                        </TokensProvider>
-                      </LinkProvider>
-                    </NoticiaProvider>
-                  </ItemProvider>
-                </EventProvider>
-              </GeneralProvider>
-            </MultimediaProvider>
+            <GeneralProvider>
+              <EventProvider>
+                <ItemProvider>
+                  <NoticiaProvider>
+                    <LinkProvider>
+                      <TokensProvider>
+                        <ArchivoProvider>
+                          <GaleriaProvider>
+                            <VideoProvider>
+                              <SliderProvider>
+                                <PqrsProvider>
+                                  <NotificacionesProvider>
+                                    <BrowserRouter>
+                                      <App />
+                                    </BrowserRouter>
+                                  </NotificacionesProvider>
+                                </PqrsProvider>
+                              </SliderProvider>
+                            </VideoProvider>
+                          </GaleriaProvider>
+                        </ArchivoProvider>
+                      </TokensProvider>
+                    </LinkProvider>
+                  </NoticiaProvider>
+                </ItemProvider>
+              </EventProvider>
+            </GeneralProvider>
           </SeccionProvider>
         </DataProvider>
       </UserProvider>

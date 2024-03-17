@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteSliderRequest, getAllSliderRequest, postSliderRequest } from "../api/multimedia";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const SliderContext = createContext();
 
@@ -80,7 +81,16 @@ export const SliderProvider = ({ children }) => {
             const response = await postSliderRequest(dataSlider)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Asignó imagen a Slider`,`Imagen en slider`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -139,6 +149,7 @@ export const SliderProvider = ({ children }) => {
                     return prevent
                 })
                 getSlider()
+                await registerActionHistorial(`Eliminó imagen a Slider`,`Imagen bajada del slider`)
             }
         } catch (error) {
             if (error.message) {

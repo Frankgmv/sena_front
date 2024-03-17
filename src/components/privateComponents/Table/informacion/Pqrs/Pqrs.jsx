@@ -230,7 +230,7 @@ function Pqrs() {
                 </Grid>
                 <DataGrid
                     rows={pqrs.map(pqrs =>{
-                        return{...pqrs, estado: pqrs.estado? 'Leida': 'No leida'}
+                        return{...pqrs, estado: pqrs.estado? 'Leido': 'No leido'}
                     }).map(pqrs => {
                         const createdAt = formateFecha(pqrs.createdAt);
                         return { ...pqrs, createdAt }

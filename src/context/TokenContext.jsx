@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteTokenRequest, getAllTokenRequest, getTokenRequest, postTokenRequest, putTokenRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const TokenProvider = createContext();
 
@@ -74,7 +75,7 @@ export const TokensProvider = ({ children }) => {
             }
         }
     }
-    
+
     const getToken = async (id) => {
         try {
             const response = await getTokenRequest(id)
@@ -122,11 +123,19 @@ export const TokensProvider = ({ children }) => {
     const postToken = async (dataToken) => {
         try {
             const perfilUsuario = await perfilRequest()
-            const datosToken = {...dataToken, UsuarioId: parseInt(perfilUsuario.data.data.id)}
+            const datosToken = { ...dataToken, UsuarioId: parseInt(perfilUsuario.data.data.id) }
             const response = await postTokenRequest(datosToken)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -171,13 +180,23 @@ export const TokensProvider = ({ children }) => {
 
     const putToken = async (id, dataToken) => {
         try {
-            if(!dataToken.token || dataToken.token === ''){
+            if (!dataToken.token || dataToken.token === '') {
                 delete dataToken.token
             }
+            const infoToken = await getTokenRequest(id)
             const response = await putTokenRequest(id, dataToken)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Actualizó token ${infoToken.data.data.nombre}`, `Token con tokenKey ${infoToken.data.data.tokenKey}`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -223,6 +242,7 @@ export const TokensProvider = ({ children }) => {
 
     const deleteToken = async (id) => {
         try {
+            const infoToken = await getTokenRequest(id)
             const response = await deleteTokenRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -235,6 +255,7 @@ export const TokensProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó token ${infoToken.data.data.nombre}`, `Token con tokenKey ${infoToken.data.data.tokenKey}`)
                 getTokens()
             } else {
                 setErrorsData((prevent) => {

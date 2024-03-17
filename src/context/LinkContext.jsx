@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteLinkRequest, getAllLinkRequest, getLinkRequest, postLinkRequest, putLinkRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const LinkContext = createContext();
 
@@ -126,7 +127,16 @@ export const LinkProvider = ({ children }) => {
             const response = await postLinkRequest(datosLink)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó link`,`link con titulo '${dataLink.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -171,10 +181,20 @@ export const LinkProvider = ({ children }) => {
 
     const putLink = async (id, dataLink) => {
         try {
+            const infoLink = await getLinkRequest(id)
             const response = await putLinkRequest(id, dataLink)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Actualizó link`,`link con titulo '${infoLink.data.data.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -220,6 +240,7 @@ export const LinkProvider = ({ children }) => {
 
     const deleteLink = async (id) => {
         try {
+            const infoLink = await getLinkRequest(id)
             const response = await deleteLinkRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -232,6 +253,7 @@ export const LinkProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó link`,`link con titulo '${infoLink.data.data.titulo}'`)
                 getLinks()
             }
         } catch (error) {

@@ -3,7 +3,6 @@ import './App.css';
 import HomePage from './pages/HomePage/HomePage';
 import Register from './pages/Register/Register';
 import Login from './pages/login/Login';
-import Test from './pages/test/Test';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard'; 
 
 function App() {
@@ -14,8 +13,6 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/admin/*' element={<AdminDashboard />} />
-        {/* TODO borrar ruta test luego */}
-        <Route path='/Test' element={<Test />} />
       </Routes>
       <Outlet />
     </>

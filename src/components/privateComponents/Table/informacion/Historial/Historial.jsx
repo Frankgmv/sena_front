@@ -1,17 +1,27 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import toastr from "../../../../../assets/includes/Toastr";
 
 
 
 function Historial() {
 
-    const { historial } = useGeneralContext()
+    const { historial, deleteAllHistorial, responseMessage} = useGeneralContext()
     const { usuarios } = useUserContext()
+
+    useEffect(() => {
+        if (responseMessage.length != 0) {
+            responseMessage.map(msg => {
+                toastr.success(msg)
+            })
+        }
+
+    }, [responseMessage])
     const columns = [
         {
             field: "cambio",
@@ -54,6 +64,22 @@ function Historial() {
     return (
         <>
             <div style={{ height: 400, width: '60%', marginTop: '-200px' }}>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center'}}
+                >
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        endIcon={<RestoreFromTrashIcon />}
+                        onClick={async (e) => await deleteAllHistorial()}
+                    >
+                        Limpiar Historial
+                    </Button>
+                </Grid>
                 <Grid
                     container
                     direction="row"

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllCategoriasRequest, getAllSeccionesRequest, getRolRequest, putRolRequest } from "../api/data";
-import { getHistorialRequest } from "../api/informacion";
+import { deleteHistorialRequest, getHistorialRequest } from "../api/informacion";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const GeneralContext = createContext();
 
@@ -31,9 +32,9 @@ export const GeneralProvider = ({ children }) => {
     }, [errors])
 
     useEffect(() => {
-      getSecciones()
-      getCategorias()
-      getHistorial()
+        getSecciones()
+        getCategorias()
+        getHistorial()
     }, [])
 
     useEffect(() => {
@@ -47,6 +48,7 @@ export const GeneralProvider = ({ children }) => {
 
     const putRol = async (id, estado) => {
         try {
+            const inforRol = await getRolRequest(id)
             const response = await putRolRequest(id, { estado })
             const data = await response.data
             if (data.ok) {
@@ -60,7 +62,12 @@ export const GeneralProvider = ({ children }) => {
                         })
                     }
                 }
-            }else{
+                if (estado !== inforRol.data.data.estado) {
+                    let estadoInfo = estado ? 'Activo' : 'Inactivo'
+                    let estadoDb = !estadoInfo ? 'Activo' : 'Inactivo'
+                    await registerActionHistorial(`Actualizó rol`, `Rol de ${inforRol?.data?.data?.rol} paso de '${estadoDb}' a '${estadoInfo}'`)
+                }
+            } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
                         return [
@@ -120,7 +127,7 @@ export const GeneralProvider = ({ children }) => {
         try {
             const response = await getAllSeccionesRequest()
             const data = await response.data
-           setSecciones(data.data)
+            setSecciones(data.data)
         } catch (error) {
             if (error.response.data.message) {
                 if (!errors.includes(error.response.data.message)) {
@@ -139,7 +146,7 @@ export const GeneralProvider = ({ children }) => {
         try {
             const response = await getHistorialRequest()
             const data = await response.data
-           setHistorial(data.data)
+            setHistorial(data.data)
         } catch (error) {
             if (error.response.data.message) {
                 if (!errors.includes(error.response.data.message)) {
@@ -157,7 +164,37 @@ export const GeneralProvider = ({ children }) => {
         try {
             const response = await getAllCategoriasRequest()
             const data = await response.data
-           setCategorias(data.data)
+            setCategorias(data.data)
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+    const deleteAllHistorial = async () => {
+        try {
+            const response = await deleteHistorialRequest()
+            const data = await response.data
+            if (data.ok) {
+                if (data.message) {
+                    if (!responseMessage.includes(data.message)) {
+                        setResponseMessage((prevent) => {
+                            return [
+                                ...prevent,
+                                data.message
+                            ]
+                        })
+                    }
+                }
+            }
+            getHistorial()
         } catch (error) {
             if (error.response.data.message) {
                 if (!errors.includes(error.response.data.message)) {
@@ -178,6 +215,7 @@ export const GeneralProvider = ({ children }) => {
         responseMessage,
         getRol,
         putRol,
+        deleteAllHistorial,
         getSecciones,
         secciones,
         getCategorias,

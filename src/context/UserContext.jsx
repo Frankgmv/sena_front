@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { deleteUsuarioRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest, putUsuarioRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const UserContext = createContext();
 
@@ -123,7 +124,17 @@ export const UserProvider = ({ children }) => {
             const response = await postUsuarioRequest(dataUsuario)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageUser([...responseMessageUser, data.message])
+                setResponseMessageUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                getUsers()
+                await registerActionHistorial(`Insertó usuario`,`Usuario con id ${dataUsuario.id} y nombre ${dataUsuario.nombre} ${dataUsuario.apellido}`)
             }else{
                 setErrorsUser((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -168,10 +179,21 @@ export const UserProvider = ({ children }) => {
 
     const updateUsuario = async (id, dataUsuario) => {
         try {
+            const infoUsuario = await getUsuarioRequest(id)
             const response = await putUsuarioRequest(id, dataUsuario)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageUser([...responseMessageUser, data.message])
+                setResponseMessageUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                getUsers()
+                await registerActionHistorial(`Actualizó usuario`,`Actualizó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
             }else{
                 setErrorsUser((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -182,9 +204,10 @@ export const UserProvider = ({ children }) => {
                     }
                     return prevent
                 })
-            }
+            } 
             getUsers()
         } catch (error) {
+            console.log(error)
             const datos = error.response.data
             if (datos.zodError) {
                 error.response.data.zodError.issues.map(error => {
@@ -217,11 +240,12 @@ export const UserProvider = ({ children }) => {
 
     const deleteUsuario = async (id) => {
         try {
+            const infoUsuario = await getUsuarioRequest(id)
             const response = await deleteUsuarioRequest(id)
             const data = await response.data
             if (data.ok) {
                 setResponseMessageUser((prevent) => {
-                    if (!responseMessageUser.includes(data.message)) {
+                    if (!prevent.includes(data.message)) {
                         return [
                             ...prevent,
                             data.message
@@ -230,6 +254,7 @@ export const UserProvider = ({ children }) => {
                     return prevent
                 })
                 getUsers()
+                await registerActionHistorial(`Eliminó usuario`,`Eliminó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
             }
         } catch (error) {
             if (error.message) {

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllAnunciosRequest, getAnuncioRequest, postAnuncioRequest, putAnuncioRequest, deleteAnuncioRequest } from "../api/data";
 import { perfilRequest } from "../api/auth";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const AnunciosContext = createContext();
 
@@ -122,7 +123,16 @@ export const DataProvider = ({ children }) => {
             const response = await postAnuncioRequest(datosAnuncio)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó anuncio`,`con titulo '${datosAnuncio.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -134,6 +144,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
             }
+            getAnuncios()
         } catch (error) {
             const datos = error.response.data
             if (datos.zodError) {
@@ -170,7 +181,17 @@ export const DataProvider = ({ children }) => {
             const response = await putAnuncioRequest(id, dataAnuncio)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                const anuncioInfo = await getAnuncioRequest(id)
+                await registerActionHistorial(`Actualizó anuncio`,`Anuncio con titulo '${anuncioInfo?.data?.data.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -216,6 +237,7 @@ export const DataProvider = ({ children }) => {
 
     const deleteAnuncio = async (id) => {
         try {
+            const anuncioInfo = await getAnuncioRequest(id)
             const response = await deleteAnuncioRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -229,6 +251,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
                 getAnuncios()
+                await registerActionHistorial(`Eliminó anuncio`,`Anuncio con titulo '${anuncioInfo?.data?.data?.titulo}'`)
             }
         } catch (error) {
             if (error.message) {

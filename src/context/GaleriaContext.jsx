@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteGaleriaRequest, getAllGaleriaRequest, getGaleriaRequest, postGaleriaRequest, putGaleriaRequest } from "../api/multimedia";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const GaleriaContext = createContext();
 
@@ -127,7 +128,16 @@ export const GaleriaProvider = ({ children }) => {
             const response = await postGaleriaRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó imagen en galeria`,`Imagen con titulo '${dataNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -173,10 +183,20 @@ export const GaleriaProvider = ({ children }) => {
 
     const putGaleria = async (id, dataNoticia) => {
         try {
+            const infoGaleria = await getGaleriaRequest(id)
             const response = await putGaleriaRequest(id, dataNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Actualizó imagen en galeria`,`Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -222,6 +242,7 @@ export const GaleriaProvider = ({ children }) => {
 
     const deleteGaleria = async (id) => {
         try {
+            const infoGaleria = await getGaleriaRequest(id)
             const response = await deleteGaleriaRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -234,6 +255,7 @@ export const GaleriaProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó imagen en galeria`,`Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
                 getGalerias()
             }
         } catch (error) {

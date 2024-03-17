@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteItemRequest, getAllItemRequest, getItemRequest, postItemRequest, putItemRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const ItemContext = createContext();
 
@@ -122,12 +123,21 @@ export const ItemProvider = ({ children }) => {
     const postItem = async (dataItem) => {
         try {
             const perfilUsuario = await perfilRequest()
-            const datosAnuncio = dataItem
-            datosAnuncio.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
-            const response = await postItemRequest(datosAnuncio)
+            const datosItem = dataItem
+            datosItem.set('UsuarioId', parseInt(perfilUsuario.data.data.id))
+            const response = await postItemRequest(datosItem)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó Item de menú`,`Item con titulo '${datosItem.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -140,8 +150,7 @@ export const ItemProvider = ({ children }) => {
                 })
             }
         } catch (error) {
-            const datos = error.response.data
-            if (datos.zodError) {
+            if (error.response.data.zodError) {
                 error.response.data.zodError.issues.map(error => {
                     setErrorsData((prevent) => {
                         if (!prevent.includes(error.message)) {
@@ -155,13 +164,12 @@ export const ItemProvider = ({ children }) => {
                 })
             }
 
-            if (datos.message) {
-
+            if (error.response.data.message) {
                 setErrorsData((prevent) => {
-                    if (!prevent.includes(datos.message)) {
+                    if (!prevent.includes(error.response.data.message)) {
                         return [
                             ...prevent,
-                            datos.message
+                            error.response.data.message
                         ]
                     }
                     return prevent
@@ -172,10 +180,20 @@ export const ItemProvider = ({ children }) => {
 
     const putItem = async (id, dataItem) => {
         try {
+            const infoItem = await getItemRequest(id)
             const response = await putItemRequest(id, dataItem)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Actualizó Item de menú`,`Item con titulo '${infoItem?.data?.data?.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -221,6 +239,7 @@ export const ItemProvider = ({ children }) => {
 
     const deleteItem = async (id) => {
         try {
+            const infoItem = await getItemRequest(id)
             const response = await deleteItemRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -233,6 +252,7 @@ export const ItemProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó Item de menú`,`Item con titulo '${infoItem?.data?.data?.titulo}'`)
                 getItems()
             }
         } catch (error) {

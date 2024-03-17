@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteNoticiaRequest, getAllNoticiasRequest, getNoticiaRequest, postNoticiaRequest, putNoticiaRequest } from "../api/data";
+import { registerActionHistorial } from "../assets/includes/historial";
 
 const NoticiaContext = createContext();
 
@@ -127,7 +128,16 @@ export const NoticiaProvider = ({ children }) => {
             const response = await postNoticiaRequest(datosNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Creó Noticia`,`Noticia con titulo '${datosNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -172,10 +182,20 @@ export const NoticiaProvider = ({ children }) => {
 
     const putNoticia = async (id, dataNoticia) => {
         try {
+            const infoNoticia = await getNoticiaRequest(id)
             const response = await putNoticiaRequest(id, dataNoticia)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                await registerActionHistorial(`Actualizó Noticia`,`Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -205,7 +225,7 @@ export const NoticiaProvider = ({ children }) => {
             }
 
             if (datos.message) {
-
+                
                 setErrorsData((prevent) => {
                     if (!prevent.includes(datos.message)) {
                         return [
@@ -221,6 +241,7 @@ export const NoticiaProvider = ({ children }) => {
 
     const deleteNoticia = async (id) => {
         try {
+            const infoNoticia = await getNoticiaRequest(id)
             const response = await deleteNoticiaRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -233,6 +254,7 @@ export const NoticiaProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó Noticia`,`Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
                 getNoticias()
             }
         } catch (error) {

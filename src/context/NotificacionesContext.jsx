@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { deleteNotificacionRequest, getAllNotificacionesRequest, putNotificacionRequest } from "../api/informacion";
+import { deleteNotificacionRequest, getAllNotificacionesRequest, getNotificacionRequest, putNotificacionRequest } from "../api/informacion";
+import { registerActionHistorial } from "../assets/includes/historial";
 const NotificacionContext = createContext();
 
 export const useNotificacionContext = () => {
@@ -75,10 +76,24 @@ export const NotificacionesProvider = ({ children }) => {
 
     const putNotificacion = async (id, dataNotificaciones) => {
         try {
+            const infoNotific = await getNotificacionRequest(id)
             const response = await putNotificacionRequest(id, dataNotificaciones)
             const data = await response.data
             if (data.ok) {
-                setResponseMessageData([...responseMessageData, data.message])
+                setResponseMessageData((prevent) => {
+                    if (!responseMessageData.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                if(dataNotificaciones.estado !== infoNotific.data.data.estado) {
+                    let estadoInfo = dataNotificaciones.estado ? 'Activo': 'Inactivo'
+                    let estadoDb = !estadoInfo ? 'Activo': 'Inactivo'
+                    await registerActionHistorial(`Actualizó notificación`,`${infoNotific.data.data.titulo} notificación de '${estadoDb}' a '${estadoInfo}'`)
+                }
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -125,6 +140,7 @@ export const NotificacionesProvider = ({ children }) => {
 
     const deleteNotificacion = async (id) => {
         try {
+            const infoNotific = await getNotificacionRequest(id)
             const response = await deleteNotificacionRequest(id)
             const data = await response.data
             if (data.ok) {
@@ -137,6 +153,7 @@ export const NotificacionesProvider = ({ children }) => {
                     }
                     return prevent
                 })
+                await registerActionHistorial(`Eliminó Notificación`,`Notificación con titulo '${infoNotific?.data?.data?.titulo}'`)
                 getNotificaciones()
             }
         } catch (error) {

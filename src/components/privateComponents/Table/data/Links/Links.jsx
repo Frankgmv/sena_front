@@ -55,6 +55,14 @@ function Links() {
             })
             getLinks();
             setOpenNew(false);
+            setFormLink({
+                CategoriaId: 1,
+                SeccionId: 1,
+                link: '',
+                descripcion: '',
+                tipo: 'pdf',
+                titulo: ''
+            })
         }
 
     }, [responseMessageData])
@@ -273,7 +281,7 @@ function Links() {
                 CategoriaId: dt.CategoriaId,
                 SeccionId: dt.SeccionId,
                 link: dt.link,
-                descripcion: dt.descripcion? dt.descripcion: '',
+                descripcion: dt.descripcion ? dt.descripcion : '',
                 tipo: dt.tipo,
                 titulo: dt.titulo
             })
@@ -332,14 +340,14 @@ function Links() {
                     }).map(link => {
                         for (let seccion of secciones) {
                             if (seccion.id === link.SeccionId) {
-                                return { ...link, SeccionId: seccion.seccion  }
+                                return { ...link, SeccionId: seccion.seccion }
                             }
                         }
                         return link
                     }).map(link => {
                         for (let categoria of categorias) {
                             if (categoria.id === link.CategoriaId) {
-                                return { ...link, CategoriaId: categoria.categoria  }
+                                return { ...link, CategoriaId: categoria.categoria }
                             }
                         }
                         return link

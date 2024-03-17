@@ -14,6 +14,9 @@ export default function Sidebar() {
         setOpen(newOpen);
     };
 
+    const hiddenSeccion = {display:'none'}
+    const mostrar = false;
+
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
         >
@@ -21,7 +24,7 @@ export default function Sidebar() {
                 <h4 className='subtitleSide'>Data</h4>
                 <ul>
                     <li key="mi-perfil">
-                        <NavLink to="/mi-perfil" className="link">
+                        <NavLink style={mostrar ? hiddenSeccion: {}} to="/mi-perfil" className="link">
                             Mi Perfil
                         </NavLink>
                     </li>
@@ -127,7 +130,7 @@ export default function Sidebar() {
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
                     <li>
-                        <NavLink to="/logout" className="link">
+                        <NavLink to="/" className="link">
                             Home Page
                         </NavLink>
                     </li>
