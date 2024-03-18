@@ -126,7 +126,7 @@ function RolList() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '49%',}}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '32%',}}>
                 <DataGrid
                     rows={roles.map(rol => {
                         if (rol.estado) return { ...rol, estado: 'Activo' }

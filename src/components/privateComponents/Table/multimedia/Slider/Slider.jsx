@@ -372,7 +372,7 @@ function Slider() {
                     >
                         <h2 style={{ textAlign: 'center' }}>{tituloView}</h2>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' , marginLeft: isSmallScreen ? 10 : 66}} alt={imagenView} />
                         </Grid>
                     </Box>
                 </Modal>

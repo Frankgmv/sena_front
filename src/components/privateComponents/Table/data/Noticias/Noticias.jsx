@@ -224,6 +224,8 @@ function Noticias() {
         boxShadow: 24,
         p: 4,
         alignItems: 'center',
+        textAlign: 'center',
+        border: 'none'
     };
 
     const showSwal = () => {
@@ -571,12 +573,12 @@ function Noticias() {
                         autoComplete="off"
                     >
                         <h2 style={{ textAlign: 'center'}}>{tituloView}</h2>
-                        <Grid container style={{display: 'flex', justifyContent: 'space-evenly', flexGrow: '1', border: '1px solid black', padding: '5px'}}>
+                        <Grid container style={{display: 'flex', flexDirection:'column', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px'}}>
                             <h5>{encabezadoView}</h5>
                             <p>{descripcionView}</p>
                         </Grid>
                         <Grid container style={{display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                     </Box>

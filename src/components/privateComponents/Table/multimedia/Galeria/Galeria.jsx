@@ -490,7 +490,7 @@ function Galeria() {
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 100 }} alt={imagenView} />
                         </Grid>
                     </Box>
                 </Modal>

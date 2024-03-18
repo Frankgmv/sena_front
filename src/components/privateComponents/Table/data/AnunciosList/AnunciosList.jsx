@@ -598,7 +598,7 @@ function AnunciosList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%',}}
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', }}
                         component="form"
                         id="crear"
                         noValidate
@@ -609,7 +609,7 @@ function AnunciosList() {
                             <p>{descripcionView}</p>
                         </Grid>
                         <Grid container style={{ display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', justifyContent: 'center', alignItems: 'center', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                     </Box>

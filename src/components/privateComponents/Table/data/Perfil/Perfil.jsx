@@ -9,7 +9,7 @@ import { useCredentialContext } from '../../../../../context/AuthContext';
 
 const Perfil = () => {
 
-    const isSmallScreen = useMediaQuery('(max-width: 600px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { updatePerfil, responseMessageUser, errorsUser } = useUserContext();
     const { perfil, getPerfil, errors, responseMessage } = useGeneralContext()
     const { roles } = useCredentialContext()
@@ -96,7 +96,7 @@ const Perfil = () => {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
-        width: 800,
+        width: isSmallScreen ? '100%' : '60%',
         p: 4,
         alignItems: 'center',
     };
