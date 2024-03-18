@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { deleteUsuarioRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest, putUsuarioRequest } from "../api/data";
+import { deleteUsuarioRequest, getUsuarioRequest, getUsuariosRequest, postUsuarioRequest, putUsuarioPerfilRequest, putUsuarioRequest } from "../api/data";
 import { registerActionHistorial } from "../assets/includes/historial";
+import { perfilRequest } from "../api/auth";
 
 const UserContext = createContext();
 
@@ -237,6 +238,65 @@ export const UserProvider = ({ children }) => {
             }
         }
     }
+    const updatePerfil = async (dataUsuario) => {
+        try {
+            const infoUsuario = await perfilRequest()
+            const response = await putUsuarioPerfilRequest(infoUsuario?.data?.data?.id, dataUsuario)
+            const data = await response.data
+            if (data.ok) {
+                setResponseMessageUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+                getUsers()
+                await registerActionHistorial(`Actualizó su perfil`,`Usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido} actualizo su perfil`)
+            }else{
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(data.message)) {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    }
+                    return prevent
+                })
+            } 
+            getUsers()
+        } catch (error) {
+            const datos = error.response.data
+            if (datos.zodError) {
+                error.response.data.zodError.issues.map(error => {
+                    setErrorsUser((prevent) => {
+                        if (!prevent.includes(error.message)) {
+                            return [
+                                ...prevent,
+                                error.message
+                            ]
+                        }
+                        return prevent
+                    })
+                })
+            }
+
+            if (datos.message) {
+
+                setErrorsUser((prevent) => {
+                    if (!prevent.includes(datos.message)) {
+                        return [
+                            ...prevent,
+                            datos.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
+        }
+    }
 
     const deleteUsuario = async (id) => {
         try {
@@ -292,7 +352,8 @@ export const UserProvider = ({ children }) => {
         registrarUsuario,
         getUsuario,
         updateUsuario,
-        deleteUsuario
+        deleteUsuario,
+        updatePerfil
     }
 
     return (

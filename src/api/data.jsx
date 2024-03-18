@@ -49,6 +49,8 @@ export const postUsuarioRequest = (usuario) => axios.post(`/data/usuarios`, usua
 
 export const putUsuarioRequest = (id, usuario) => axios.put(`/data/usuarios/${id}`, usuario);
 
+export const putUsuarioPerfilRequest = (id, usuario) => axios.put(`/data/usuarios-perfil/${id}`, usuario);
+
 export const deleteUsuarioRequest = (id) => axios.delete(`/data/usuarios/${id}`);
 
 // ! Detalle Permisos
