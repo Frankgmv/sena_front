@@ -184,7 +184,6 @@ function AnunciosList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 80 },
         {
             field: "titulo",
             headerName: "Titulo",
@@ -195,7 +194,7 @@ function AnunciosList() {
         {
             field: "descripcion",
             headerName: "Descripcion",
-            width: 350,
+            width: 450,
             headerAlign: "center",
             align: "center",
         },

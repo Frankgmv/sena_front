@@ -123,18 +123,17 @@ function Galeria() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "Evento",
             headerName: "Evento",
-            width: 150,
+            width: 200,
             headerAlign: "center",
             align: "center",
         },
@@ -291,7 +290,7 @@ function Galeria() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
+            <div style={{ height: 400, maxWidth: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

@@ -116,7 +116,7 @@ const AdminDashboard = () => {
                     <NavLink
                       className="link-sidebar"
                       onClick={handleClose}
-                      to="./perfil"
+                      to="./"
                     >
                       Perfil
                     </NavLink>

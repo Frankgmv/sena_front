@@ -75,7 +75,7 @@ export default function Sidebar() {
                 <h4 className='subtitleSide'>Datos</h4>
                 <ul>
                     <li key="mi-perfil">
-                        <NavLink to="./mi-perfil" className="link">
+                        <NavLink to="./" className="link">
                             Mi Perfil
                         </NavLink>
                     </li>

@@ -68,14 +68,14 @@ function RolList() {
         {
             field: "rol",
             headerName: "Rol",
-            width: 200,
+            width: 350,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "estado",
             headerName: "Estado",
-            width: 150,
+            width: 300,
             headerAlign: "center",
             align: "center",
         },

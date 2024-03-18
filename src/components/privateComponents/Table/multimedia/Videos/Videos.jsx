@@ -140,7 +140,6 @@ function Videos() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo",

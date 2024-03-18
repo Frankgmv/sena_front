@@ -14,12 +14,14 @@ import SendIcon from '@mui/icons-material/Send';
 import { useArchivoContext } from "../../../../../context/ArchivoContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useUserContext } from "../../../../../context/UserContext";
 
 function Archivos() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     const { archivo, getArchivo, deleteArchivo, errorsData, responseMessageData, postArchivo } = useArchivoContext()
-
+    const { usuarios } = useUserContext()
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -79,18 +81,24 @@ function Archivos() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 150,
+            width: 200,
+            headerAlign: "center",
+            align: "center",
+        },
+        {
+            field: "Creador",
+            headerName: "Creador",
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "archivo",
             headerName: "Archivo",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
@@ -193,7 +201,17 @@ function Archivos() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={archivo}
+                    rows={archivo.map(archivo => {
+                        const createdAt = formateFecha(archivo.createdAt);
+                        return { ...archivo, createdAt }
+                    }).map(archivo => {
+                        for (let user of usuarios) {
+                            if (user.id === archivo.UsuarioId) {
+                                return { ...archivo, Creador: `${user.nombre} ${user.apellido}` }
+                            }
+                        }
+                        return archivo
+                    })}
                     columns={columns}
                     pageSize={5}
                     pageSizeOptions={[5, 10, 25, 100]}

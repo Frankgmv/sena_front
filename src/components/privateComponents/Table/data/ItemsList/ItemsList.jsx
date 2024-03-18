@@ -142,18 +142,17 @@ function ItemList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 60 },
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 150,
+            width: 180,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "link",
             headerName: "Link",
-            width: 150,
+            width: 280,
             headerAlign: "center",
             align: "center",
         },
@@ -174,7 +173,7 @@ function ItemList() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },

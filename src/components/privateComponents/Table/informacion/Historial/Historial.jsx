@@ -34,7 +34,7 @@ function Historial() {
         {
             field: "descripcion",
             headerName: "Descipcion",
-            width: 300,
+            width: 350,
             headerAlign: "center",
             align: "center",
         },
@@ -64,7 +64,7 @@ function Historial() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '63%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '63%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

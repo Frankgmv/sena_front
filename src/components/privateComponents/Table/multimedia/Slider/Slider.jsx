@@ -115,11 +115,10 @@ function Slider() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo Imagen",
-            width: 250,
+            width: 350,
             headerAlign: "center",
             align: "center",
         },
