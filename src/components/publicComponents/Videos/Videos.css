@@ -24,3 +24,39 @@
     font-size: 15px;
     text-align: left;
 }
+
+@media (width < 1024px){
+    .videoBody .videoPrincipal iframe{
+        width: 700px;
+        height: 320px;
+    }
+    .videoComplemento{
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .videoComplemento .video h3{
+        text-align: center;
+        font-size: 18px;
+    }
+}
+
+@media (width < 750px){
+    .videoBody .videoPrincipal iframe{
+        width: 350px;
+        height: 200px;
+    }
+    .videoBody .videoPrincipal h3{
+        font-size: 17px;
+    }
+    .videoComplemento iframe{
+        width: 270px;
+        height: 170px;
+    }
+
+    .videoComplemento .video h3{
+        text-align: center;
+        font-size: 18px;
+    }
+}

@@ -5,6 +5,7 @@
 .calendario-eventos{
     width: 95%;
     display: flex;
+    flex-wrap: wrap-reverse;
     justify-content: space-evenly;
 }
 
@@ -14,4 +15,16 @@
 
 .eventos{
     width: 45%;
+}
+
+@media (width <= 1024px){
+    .calendario-eventos{
+        flex-direction: column;
+    }
+
+    .calendario,
+    .eventos{
+        width: 95%;
+        margin-bottom: 20px;
+    }
 }

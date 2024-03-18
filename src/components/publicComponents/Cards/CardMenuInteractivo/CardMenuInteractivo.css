@@ -4,7 +4,7 @@
     border: 1px solid;
     border-radius: 15px;
     margin: 20px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;   
 }
 
 .containerMenuCard .cardImagen{
@@ -37,4 +37,22 @@
 .containerMenuCard:hover{
     scale: 1.05;
     box-shadow: 12px 18px 32px -14px rgba(0,0,0,0.75);
+}
+
+@media (width <= 500px){
+    .containerMenuCard{
+        width: 100px;
+        height: 120px;
+        margin: 10px;
+    }
+    .containerMenuCard .cardImagen img{
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+    }    
+    .containerMenuCard .menuLinks h3{
+        margin-bottom: -20px;
+        font-size: 12px;
+        padding-inline: 20px;
+    }    
 }

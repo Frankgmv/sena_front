@@ -14,7 +14,7 @@ const HomePage = () => {
         <div className="homeBody">
             <NavBar />
             <Slider />
-            <Noticias />
+            <Noticias id='noticias' />
             <MenuInteractivo />
             <Videos />
             <div className="calendario-eventos">

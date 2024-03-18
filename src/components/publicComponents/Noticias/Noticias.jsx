@@ -26,7 +26,7 @@ const Noticias = () => {
         .slice(0, 2);
 
     return (
-        <div className="newsBody">
+        <div className="newsBody" id="noticias">
             <div className="encabezado">
                 <div className="titulo">
                     <h2>Noticias sobre nuestra comunidad educativa</h2>
@@ -34,7 +34,7 @@ const Noticias = () => {
                 </div>
                 <div className="boton">
                     <Boton1
-                        linkBoton='/login'
+                        linkBoton='/noticias'
                         textBoton='Ver Más Noticias'
                     />
                 </div>

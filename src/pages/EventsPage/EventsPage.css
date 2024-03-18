@@ -1,0 +1,30 @@
+.events-selector {
+    text-align: center;
+    margin-block: 20px;
+}
+
+.events-selector select {
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+.image-gallery {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.image-gallery img {
+    width: calc(30% - 20px);
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.image-gallery img:nth-last-child(-n+2) {
+    width: calc((100% / 2) - 20px);
+}

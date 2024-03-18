@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage/HomePage';
 import Register from './pages/Register/Register';
 import Login from './pages/login/Login';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard'; 
+import NewsPage from './pages/NewsPage/NewsPage';
+import EventsPage from './pages/EventsPage/EventsPage';
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path='' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/noticias' element={<NewsPage />} />
+        <Route path='/eventos' element={<EventsPage />} />
         <Route path='/admin/*' element={<AdminDashboard />} />
       </Routes>
       <Outlet />

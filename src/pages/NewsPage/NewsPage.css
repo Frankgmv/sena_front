@@ -1,0 +1,199 @@
+.cardBody-news {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-block: 30px;
+}
+
+.card-news {
+    width: 30%;
+    height: 40vh;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3em;
+    border: 1px solid var(--black);
+    border-radius: 1.5rem;
+    object-fit: cover;
+}
+
+.card-news img {
+    width: 100%;
+    height: 40vh;
+    border-radius: 1.5rem;
+    object-fit: cover;
+}
+
+.card-news .contenido {
+    width: 80%;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    position: absolute;
+    bottom: -20rem;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    opacity: 0;
+    transition: opacity 1s 1s;
+    z-index: 100;
+    border: 1px solid var(--black);
+    border-radius: 1.5rem;
+}
+
+.card-news .contenido .cardTitle-news {
+    display: block;
+    margin-bottom: .25rem;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card-news .contenido .cardSubtitle-news {
+    display: block;
+    margin-bottom: .75rem;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.card-news .contenido .cardLink-news {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4185e4;
+}
+
+.modalNews{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 80vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+    margin: 0 auto;
+}
+
+.modalNews .fecha{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: .8em;
+}
+
+.modalNews h1{
+    font-size: 1.8em;
+}
+
+.modalNews h2{
+    font-size: 1.5em;
+}
+
+.modalNews .descripcion{
+    font-size: .9em;
+    width: 80%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.modalNews img{
+    width: 90%;
+    height: 50%;
+    margin-bottom: 30px;
+}
+
+.card-news .contenido .cardLink-news:hover {
+    text-decoration: underline;
+}
+
+.card-news:hover .contenido {
+    animation: show-content .7s forwards;
+    opacity: 1;
+    transition: opacity .3s;
+}
+
+.card-news:hover {
+    animation: remove-overflow 1s forwards;
+}
+
+.card-news:not(:hover){
+    animation: show-overflow 1s forwards;
+}
+
+.card-news:not(:hover) .contenido{
+    animation: remove-data .5s forwards;
+}
+
+@keyframes show-content {
+    50% {
+        transform: translateY(-20rem);
+    }
+
+    100% {
+        transform: translateY(-16rem);
+    }
+}
+
+@keyframes remove-overflow{
+    to{
+        overflow: initial;
+    }
+}
+
+@keyframes remove-data{
+    0%{
+        transform: translateY(-16rem);
+    }
+    50%{
+        transform: translateY(-20rem);
+    }
+    100%{
+        transform: translateY(-9rem);
+    }
+}
+
+@keyframes show-overflow{
+    0%{
+        overflow: initial;
+        pointer-events: none;
+    }
+    50%{
+        overflow: hidden;
+    }
+}
+
+@media (width <= 1024px) and (width > 500px){
+    html{
+        font-size: 20px;
+    }
+    .card-news {
+        width: 45%;
+        height: 40vh;
+    }
+    .modalNews{
+        height: 60vh;
+    }
+}
+
+@media (width <= 500px){
+    html{
+        font-size: 15px;
+    }
+    .card-news {
+        width: 90%;
+        height: 40vh;
+    }
+    .card-news .contenido {
+        width: 90%;
+    }
+    .modalNews{
+        width: 80%;
+        height: 70vh;
+    }
+}

@@ -3,6 +3,7 @@
     margin: 50px auto;
     text-align: center;
     border-top: 2px solid var(--black);
+    flex-wrap: wrap;
 }
 
 .footerBody .encabezado{
@@ -28,6 +29,7 @@
 .footerBody .footerInfo{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     margin-top: 60px;
 }
 
@@ -72,4 +74,27 @@
 .footerBody .footerInfo .junto p{
     font-size: 15px;
     font-weight: 400;
+}
+
+@media (width <= 1024px){
+    .footerInfo{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footerBody .footerInfo .encabezado,
+    .footerBody .footerInfo .containerUbicacion,
+    .footerBody .footerInfo .footerContacto{
+        width: 90%;
+        border: none;
+        border-bottom: 1px solid;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 30px;
+    }
+    
+    .footerBody .footerInfo .containerUbicacion iframe{
+        width: 300px;
+    }
 }

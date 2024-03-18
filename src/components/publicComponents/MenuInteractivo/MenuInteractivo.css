@@ -15,3 +15,9 @@
     font-size: 28px;
     color: var(--black);
 }
+
+@media (width <= 500px){
+    .menuBody .menuCards{
+        margin: 10px 0px;
+    }    
+}
