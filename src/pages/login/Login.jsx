@@ -23,12 +23,9 @@ const Login = () => {
             responseMessage.map(msg => {
                 toastr.success(msg)
                 if (isAuthenticate) {
-                    //TODO direccionar a la ruta navigate("/");
-                    
                     setTimeout(() => {
                         navigate('/admin')
-                    }, 3000);
-                    toastr.info('Redireccionando')
+                    }, 1500);
                 }
             })
         }

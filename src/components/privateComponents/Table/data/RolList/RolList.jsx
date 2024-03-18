@@ -64,18 +64,10 @@ function RolList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "rol",
             headerName: "Rol",
             width: 200,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "rolKey",
-            headerName: "Codigo del Rol",
-            width: 150,
             headerAlign: "center",
             align: "center",
         },

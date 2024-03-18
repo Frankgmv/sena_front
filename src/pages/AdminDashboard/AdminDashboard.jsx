@@ -3,7 +3,6 @@ import Sidebar from "../../components/privateComponents/SidebarAdmin/SidebarAdmi
 import "./AdminDashboard.css";
 import { IoIosArrowDown } from "react-icons/io";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import UserList from "../../components/privateComponents/Table/data/UsersList/UsersList";
 import RolList from "../../components/privateComponents/Table/data/RolList/RolList";
@@ -24,14 +23,32 @@ import Historial from "../../components/privateComponents/Table/informacion/Hist
 import Notificacion from "../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones";
 import { useGeneralContext } from "../../context/GeneralContext";
 import { useCredentialContext } from "../../context/AuthContext";
+import { getLocalStorage } from "../../assets/includes/localStorage";
+import toastr from "../../assets/includes/Toastr";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { perfil } = useGeneralContext();
-  const { rolName, isAuthenticate } = useCredentialContext();
   const open = Boolean(anchorEl);
-  const { logoutFn } = useCredentialContext()
+  const { logoutFn, rolName, isAuthenticate, errors, responseMessage } = useCredentialContext()
   const navegar = useNavigate()
+
+  useEffect(() => {
+    if (responseMessage.length != 0) {
+      responseMessage.map(msg => {
+        toastr.success(msg)
+      })
+    }
+  }, [responseMessage])
+
+  useEffect(() => {
+    if (errors.length != 0) {
+      errors.map(msg => {
+        toastr.error(msg)
+      })
+    }
+  }, [errors])
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -40,11 +57,12 @@ const AdminDashboard = () => {
     setAnchorEl(null);
   };
 
-  useEffect(()=>{
-    if(!isAuthenticate){
+  useEffect(() => {
+    if (!isAuthenticate && !getLocalStorage('token')) {
       navegar('/login')
     }
   }, [])
+
 
   const cerrarSesion = () => {
     logoutFn()

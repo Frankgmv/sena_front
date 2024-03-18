@@ -20,6 +20,7 @@ export const useCredentialContext = () => {
     return context;
 }
 
+
 // eslint-disable-next-line react/prop-types
 export const CredentialProvider = ({ children }) => {
     const [errors, setErrors] = useState([]);
@@ -107,16 +108,16 @@ export const CredentialProvider = ({ children }) => {
 
                 if (!data.token) {
                     setErrors((prevent) => {
-                        if (!errors.includes('Error al obtener cookie')) {
+                        let errorSesion = 'Error al iniciar sesión'
+                        if (!errors.includes(errorSesion)) {
                             return [
                                 ...prevent,
-                                'Error al obtener cookie'
+                                errorSesion
                             ]
                         }
                         return prevent
                     })
                 } else {
-                    setIsAuthenticate(true);
                     setToken(data.token)
                     if (!getLocalStorage('token')) {
                         setLocalStorage('token', data.token)
@@ -124,18 +125,19 @@ export const CredentialProvider = ({ children }) => {
                         removeLocalStorage('token')
                         setLocalStorage('token', data.token)
                     }
+                    setResponseMessage((prevent) => {
+                        if (!prevent.includes(data.message)) {
+                            return [
+                                ...prevent,
+                                data.message
+                            ];
+                        }
+                        return prevent
+                    });
+                    
+                    await verificarToken()
                 }
             }
-
-            setResponseMessage((prevent) => {
-                if (!prevent.includes(data.message)) {
-                    return [
-                        ...prevent,
-                        data.message
-                    ];
-                }
-                return prevent
-            });
         } catch (error) {
             const datos = error.response.data
             if (datos.zodError) {
@@ -217,12 +219,24 @@ export const CredentialProvider = ({ children }) => {
 
     const verificarToken = async () => {
         try {
-            const token = await verificarTokenRequest()
-            if(token.data.ok){
+            const response = await verificarTokenRequest()
+            if (response.data.ok) {
                 setIsAuthenticate(true);
+            } else {
+                setIsAuthenticate(false);
             }
         } catch (error) {
-            
+            if (error.response.data.message) {
+                setErrors((prevent) => {
+                    if (!prevent.includes(error.response.data.message)) {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    }
+                    return prevent
+                })
+            }
         }
     }
 

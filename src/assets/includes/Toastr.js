@@ -8,7 +8,7 @@ toastr.options = {
     "closeButton": true,
     "hideDuration": "1000",
     "timeOut": "5000",
-    "preventDuplicates":false
+    "preventDuplicates":true
 }
 
 export default toastr;
