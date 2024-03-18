@@ -49,6 +49,7 @@
 
 .Navbar-Body nav .encabezado h3{
     margin-left: 20px;
+    margin-top: 10px;
 }
 
 .Navbar-Body nav .info{
@@ -59,6 +60,7 @@
 .Navbar-Body nav .icon{
     margin-left: 20px;
     font-size: 20px;
+    margin-top: -10px;
     cursor: pointer;
 }
 
@@ -75,6 +77,9 @@
     margin-block: 10px;
 }
 
+.Navbar-Body .text{
+    margin-top: 20px;
+}
 
 .Navbar-Body nav .text h4{
     font-size: clamp(.9rem, 2vw, 1.2rem);

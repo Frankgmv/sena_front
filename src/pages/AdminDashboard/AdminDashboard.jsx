@@ -86,7 +86,6 @@ const AdminDashboard = () => {
               </h4>
               <p className="rol">{rolName.rol}</p>
             </div>
-            <div></div>
             <div className="icon">
               <IoIosArrowDown
                 id="demo-positioned-button"
@@ -116,7 +115,7 @@ const AdminDashboard = () => {
                     <NavLink
                       className="link-sidebar"
                       onClick={handleClose}
-                      to="./perfil"
+                      to="./"
                     >
                       Perfil
                     </NavLink>

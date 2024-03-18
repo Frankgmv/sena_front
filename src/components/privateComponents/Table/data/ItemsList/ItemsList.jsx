@@ -214,6 +214,7 @@ function ItemList() {
         boxShadow: 24,
         p: 4,
         alignItems: 'center',
+        textAlign: 'center'
     };
 
     const showSwal = () => {
@@ -486,7 +487,7 @@ function ItemList() {
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank">{linkView}</a> </small></span>
+                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank" style={{textDecoration:'none' }}>{linkView}</a> </small></span>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '380px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
                         </Grid>
