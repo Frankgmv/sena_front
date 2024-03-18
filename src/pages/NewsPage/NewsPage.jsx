@@ -48,7 +48,7 @@ const NewsPage = () => {
             {selectedItem && (
                 <Modal
                     open={true}
-                    onClose={handleClose}
+                    onClose={handleClose}   
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
@@ -58,7 +58,7 @@ const NewsPage = () => {
                         <img className="cardImg-news" src={MOSTRAR_ARCHIVO(selectedItem.imgPath)} alt="Imagen" onError={(e) => e.target.src = f1} />
                         <h2>{selectedItem.encabezado}</h2>
                         <p className="descripcion">{selectedItem.descripcion}</p>
-                        <button onClick={handleClose}><Boton2 titulo='Cerrar'/></button>
+                        <Boton2 onClick={handleClose} titulo='Cerrar'/>
                     </div>
                 </Modal>
             )}

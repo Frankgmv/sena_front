@@ -38,7 +38,7 @@ const Noticias = () => {
                         linkBoton='/noticias'
                         textBoton='Ver Más Noticias'
                     />
-                </div>
+                </div>  
             </div>
             <div className="containerCard">
                 {ultimasNoticias.map((item) => (
@@ -61,6 +61,7 @@ const Noticias = () => {
                             </div>
                             <div className="boton">
                                 <Boton2
+                                    link='/noticias'
                                     titulo='Leer mas'
                                 />
                             </div>

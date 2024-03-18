@@ -24,7 +24,3 @@
     margin-bottom: 20px;
     margin-right: 20px;
 }
-
-.image-gallery img:nth-last-child(-n+2) {
-    width: calc((100% / 2) - 20px);
-}

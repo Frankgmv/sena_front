@@ -30,7 +30,7 @@
     border: 1px solid;
     display: flex;
     width: 45%;
-    height: 320px;
+    height: 25em;
     flex-wrap: wrap;
     margin: 20px 0;
     border-radius: 10px;
@@ -38,7 +38,7 @@
 }
 
 .conteinerCard-news .imagen{
-    width: 55%;
+    width: 50%;
     height: 100%;
     position: center center;
 }
@@ -51,7 +51,7 @@
 }
 
 .conteinerCard-news .texto{
-    width: 45%;
+    width: 50%;
     text-align: center;
     position: relative;
     display: flex;
@@ -68,19 +68,19 @@
 }
 
 .conteinerCard-news .texto .tituloCardNew h3{
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 700;
     padding-inline: 10px;
     margin-bottom: 25px;
 }
 
 .conteinerCard-news .texto .encabezado h3{
-    font-size: 2em;
+    font-size: 1.2em;
     font-weight: 500;
 }
 
 .conteinerCard-news .texto .descripcion p{
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 5px;
 }
 
