@@ -22,7 +22,7 @@ function UserList() {
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     //  !Logica guardar usuarios
     const [id, setId] = useState('')
@@ -245,6 +245,7 @@ function UserList() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         border: '2px solid #000',
+        width: isSmallScreen ? '100%' : '50%',
         boxShadow: 24,
         p: 4,
         alignItems: 'center',
@@ -552,7 +553,7 @@ function UserList() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{color:'#fff'}}>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -672,7 +673,7 @@ function UserList() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px' }}
+                                style={{ marginTop: '20px',  color: '#fff'}}
                                 fullWidth
                                 type="submit"
                             >

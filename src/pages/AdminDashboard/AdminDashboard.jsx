@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, Navigate, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate, Link, useNavigate, NavLink } from "react-router-dom";
 import Sidebar from "../../components/privateComponents/SidebarAdmin/SidebarAdmin";
 import "./AdminDashboard.css";
 import { IoIosArrowDown } from "react-icons/io";
@@ -26,6 +26,7 @@ import { useCredentialContext } from "../../context/AuthContext";
 import { getLocalStorage } from "../../assets/includes/localStorage";
 import toastr from "../../assets/includes/Toastr";
 import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
+import { Grid, MenuItem } from "@mui/material";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -94,45 +95,51 @@ const AdminDashboard = () => {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
               />
-              <Menu
-                className="bodyMenuNavbar"
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-              >
-                <div className="links">
-                  <Link
-                    className="link-sidebar"
-                    onClick={handleClose}
-                    to="./mi-perfil"
-                  >
-                    Perfil
-                  </Link>
-                  <Link
-                    className="link-sidebar"
-                    onClick={handleClose}
-                    to="/"
-                  >
-                    Home Page
-                  </Link>
-                  <Link className="link-sidebar" onClick={(e) => {
-                    handleClose();
-                    cerrarSesion();
-                  }} to="/login">
-                    Cerrar Sesion
-                  </Link>
-                </div>
-              </Menu>
+              <Grid container spacing={2} sx={{ width: '100%' }}>
+                <Menu
+                  className="bodyMenuNavbar"
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <NavLink
+                      className="link-sidebar"
+                      onClick={handleClose}
+                      to="./perfil"
+                    >
+                      Perfil
+                    </NavLink>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <NavLink
+                      className="link-sidebar"
+                      onClick={handleClose}
+                      to="/"
+                    >
+                      Home Page
+                    </NavLink>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className="link-sidebar" onClick={(e) => {
+                      handleClose();
+                      cerrarSesion();
+                    }} to="/login">
+                      Cerrar Sesion
+                    </Link>
+                  </Grid>
+                </Menu>
+              </Grid>
             </div>
           </div>
         </nav>

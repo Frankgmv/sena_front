@@ -1,7 +1,7 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, useMediaQuery } from "@mui/material";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
@@ -11,6 +11,7 @@ import toastr from "../../../../../assets/includes/Toastr";
 
 function Historial() {
 
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { historial, deleteAllHistorial, responseMessage} = useGeneralContext()
     const { usuarios } = useUserContext()
 
@@ -63,7 +64,7 @@ function Historial() {
 
     return (
         <>
-            <div style={{ height: 400, width: '63%', marginTop: '-200px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '63%', marginTop: '-200px' }}>
                 <Grid
                     container
                     direction="row"

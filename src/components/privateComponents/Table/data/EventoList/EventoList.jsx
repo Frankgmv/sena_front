@@ -17,7 +17,7 @@ import { formateFecha, formateFechaGuion, getTodayDate } from "../../../../../as
 
 function EventoList() {
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const [fechaEventCreate, setFechaEventCreate] = useState(getTodayDate())
     const [nameEvento, setNameEvento] = useState('')
     const { eventos, createEvento, responseMessage, errors, getEventos, deleteEvento, getEvento, putEvento } = useEventContext()
@@ -117,7 +117,7 @@ function EventoList() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -205,7 +205,7 @@ function EventoList() {
 
     return (
         <>
-            <div style={{ height: 400, width: '46%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '46%',  marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -326,6 +326,7 @@ function EventoList() {
                                     label="Evento"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     value={nameEvento}
                                     onChange={(e) => setNameEvento(e.target.value)}
                                 />
@@ -337,11 +338,12 @@ function EventoList() {
                                     variant="standard"
                                     value={fechaEventCreate}
                                     type="date"
+                                    fullWidth
                                     onChange={(e) => setFechaEventCreate(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{color: '#fff'}}>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -384,13 +386,14 @@ function EventoList() {
                                     variant="standard"
                                     value={fechaupt}
                                     type="date"
+                                    fullWidth
                                     onChange={(e) => setFechaUpt(e.target.value)}
                                 />
                             </Grid>
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px' }}
+                                style={{ marginTop: '20px', color:'#fff'}}
                                 fullWidth
                                 type="submit"
                             >

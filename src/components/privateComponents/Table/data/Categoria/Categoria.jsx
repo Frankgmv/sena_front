@@ -2,9 +2,11 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useMediaQuery } from "@mui/material";
 
 function Categoria() {
 
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const {categorias} = useGeneralContext()
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
@@ -37,23 +39,8 @@ function Categoria() {
         getData();
     }, []);
 
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 600,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-        alignItems: 'center',
-    };
-
-
     return (
-        <div style={{ height: 400, width: '45%'}}>
+        <div style={{ height: 400, width: isSmallScreen ? '100%' : '45%',}}>
             <DataGrid
                 rows={categorias}
                 columns={columns}

@@ -11,6 +11,7 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 
 function RolList() {
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const [rolUpt, setRolUpt] = useState('')
     const [estadoUpt, setEstadoUpt] = useState('')
     const [valueEdit, setValueEdit] = useState(true)
@@ -89,7 +90,7 @@ function RolList() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -125,7 +126,7 @@ function RolList() {
 
     return (
         <>
-            <div style={{ height: 400, width: '49%' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '49%',}}>
                 <DataGrid
                     rows={roles.map(rol => {
                         if (rol.estado) return { ...rol, estado: 'Activo' }
@@ -243,7 +244,7 @@ function RolList() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px' }}
+                                style={{ marginTop: '20px', color:'#fff'}}
                                 fullWidth
                                 type="submit"
                             >

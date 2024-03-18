@@ -20,7 +20,7 @@ import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function Videos() {
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     const { videos, responseMessageData, errorsData, putVideo, getVideo, postVideo, deleteVideo } = useVideoContext()
     const { usuarios } = useUserContext()
@@ -199,7 +199,7 @@ function Videos() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -280,7 +280,7 @@ function Videos() {
 
     return (
         <>
-            <div style={{ height: 400, width: '92%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -455,7 +455,7 @@ function Videos() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: '40%' }}
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%',}}
                         component="form"
                         id="crear"
                         noValidate

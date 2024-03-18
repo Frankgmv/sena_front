@@ -2,9 +2,11 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useMediaQuery } from "@mui/material";
 
 
 function SeccionList() {
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { secciones } = useGeneralContext()
     const columns = [
         { field: "id", headerName: "ID", width: 150 },
@@ -42,7 +44,7 @@ function SeccionList() {
 
 
     return (
-        <div style={{ height: 400, width: '60%' }}>
+        <div style={{ height: 400, width: isSmallScreen ? '100%' : '60%', }}>
             <DataGrid
                 rows={secciones}
                 columns={columns}

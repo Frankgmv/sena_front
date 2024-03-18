@@ -19,7 +19,7 @@ import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 
 function Noticias() {
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { noticias, getNoticia, getNoticias, postNoticia, errorsData, responseMessageData, deleteNoticia, putNoticia } = useNoticiaContext()
     const { usuarios } = useUserContext()
 
@@ -219,7 +219,7 @@ function Noticias() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -301,7 +301,7 @@ function Noticias() {
 
     return (
         <>
-            <div style={{ height: 400, width: '99%', marginTop: '-100px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '99%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -475,7 +475,7 @@ function Noticias() {
                             </Grid>
 
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{color:'#fff'}}>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -547,7 +547,7 @@ function Noticias() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px' }}
+                                style={{ marginTop: '20px', color:'#fff'}}
                                 fullWidth
                                 type="submit"
                             >
@@ -565,7 +565,7 @@ function Noticias() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: '40%' }}
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', }}
                         component="form"
                         id="crear"
                         noValidate

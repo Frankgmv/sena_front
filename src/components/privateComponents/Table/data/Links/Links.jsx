@@ -19,7 +19,7 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Links() {
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { links, errorsData, responseMessageData, getLink, getLinks, postLink, putLink, deleteLink } = useLinkContext()
     const { secciones, categorias } = useGeneralContext()
     const { usuarios } = useUserContext()
@@ -192,7 +192,7 @@ function Links() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
