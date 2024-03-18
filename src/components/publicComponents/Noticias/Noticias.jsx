@@ -5,12 +5,13 @@ import './Noticias.css'
 import axios from "axios";
 import Boton2 from "../botones/boton2/Boton2.jsx";
 import { formateFecha } from "../../../assets/includes/funciones.js";
+import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
 
 const Noticias = () => {
 
     const [data, setData] = useState([]);
 
-    const endPoint = "http://localhost:9000/api/v1/data/noticias";
+    const endPoint = `${BASE_URL_API}/data/noticias`
 
     const getData = async () => {
         const response = await axios.get(endPoint);
@@ -43,7 +44,7 @@ const Noticias = () => {
                 {ultimasNoticias.map((item) => (
                     <div className='conteinerCard-news' key={item.id}>
                         <div className="imagen">
-                            <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen" onError={(e) => e.target.src = f1} />
+                            <img src={MOSTRAR_ARCHIVO(item.imgPath)} alt="Imagen" onError={(e) => e.target.src = f1} />
                         </div>
                         <div className="texto">
                             <div className="fecha">

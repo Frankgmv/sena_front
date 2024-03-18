@@ -10,9 +10,9 @@ function SeccionList() {
     const { secciones } = useGeneralContext()
     const columns = [
         {
-            field: "seccion", headerName: "Sección", width: 450, headerAlign: "center", align: "center",
+            field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center",
         },
-        { field: "seccionKey", headerName: "Codigo de la Seccion", width: 370, headerAlign: "center", align: "center" }
+        { field: "seccionKey", headerName: "Codigo de la Seccion", width: 340, headerAlign: "center", align: "center" }
     ];
 
     return (

@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 import './EventsPage.css'
 import f1 from '../../assets/img/f1.jpg'
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
+import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [selectedEventId, setSelectedEventId] = useState("");
     const [gallery, setGallery] = useState([]);
 
-    const eventsEndpoint = "http://localhost:9000/api/v1/data/eventos";
-    const galleryEndpoint = "http://localhost:9000/api/v1/multimedia/galeria";
+    const eventsEndpoint = `${BASE_URL_API}/data/eventos`
+    const galleryEndpoint = `${BASE_URL_API}/multimedia/galeria`
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -50,7 +51,7 @@ const EventsPage = () => {
             </div>
             <div className="image-gallery">
                 {gallery.map((image) => (
-                    <img key={image.id} src={`http://localhost:9000/api/v1/recursos/${image.imgPath}`} alt={image.titulo} onError={(e) => e.target.src = f1} />
+                    <img key={image.id} src={MOSTRAR_ARCHIVO(item.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1} />
                 ))}
             </div>
         </>

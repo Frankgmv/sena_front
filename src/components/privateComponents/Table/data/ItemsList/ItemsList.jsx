@@ -45,7 +45,7 @@ function ItemList() {
         const dataItem = await getItem(id)
         if (dataItem.ok) {
             let dt = dataItem.data
-            setEstadoView(dt.EventoId)
+            setEstadoView(dt.estado)
             setLinkView(dt.link)
             setTituloView(dt.titulo)
             setImagenView(dt.imgPath)
@@ -490,7 +490,7 @@ function ItemList() {
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '380px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
                         </Grid>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}>Esta {estadoView? ' Activo': ' Inactivo'}</small></span>
+                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}>Esta {estadoView ? ' Activo': ' Inactivo'}</small></span>
                     </Box>
                 </Modal>
             </div>

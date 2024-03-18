@@ -6,12 +6,13 @@ import f4 from '../../../assets/img/f4.jpg'
 import NavBar from '../Navbar/NavBar'
 import './slider.css'
 import axios from 'axios'
+import { BASE_URL_API, MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
 
 const Slider = () => {
 
     const [data, setData] = useState([]);
 
-    const endPoint = "http://localhost:9000/api/v1/multimedia/slider";
+    const endPoint = `${BASE_URL_API}/multimedia/slider`
 
     const getData = async () => {
         const response = await axios.get(endPoint);
@@ -28,7 +29,7 @@ const Slider = () => {
                 <ul>
                     {data.map((item) => (
                         <li key={item.id}>
-                            <img  src={`http://localhost:9000/api/v1/recursos/${item.imagenes.imgPath}`} alt="Imagen" onError={(e) => e.target.src = f2} />
+                            <img  src={MOSTRAR_ARCHIVO(item.imagenes.imgPath)} alt="Imagen" onError={(e) => e.target.src = f2} />
                             <div className="slider_texto">
                                 <h2>¡Bienvenidos a nuestra institución educativa en Pereira!</h2>
                             </div>

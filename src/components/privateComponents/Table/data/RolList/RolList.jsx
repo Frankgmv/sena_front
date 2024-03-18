@@ -40,7 +40,7 @@ function RolList() {
         {
             field: "actions",
             headerName: "Acciones",
-            width: 100,
+            width: 80,
             renderCell: (params) => (
                 <div
                     style={{
@@ -68,14 +68,14 @@ function RolList() {
         {
             field: "rol",
             headerName: "Rol",
-            width: 350,
+            width: 180,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "estado",
             headerName: "Estado",
-            width: 300,
+            width: 160,
             headerAlign: "center",
             align: "center",
         },

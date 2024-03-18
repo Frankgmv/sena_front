@@ -6,12 +6,13 @@ import { Modal } from "@mui/material";
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { formateFecha } from "../../assets/includes/funciones";
 import Boton2 from "../../components/publicComponents/botones/boton2/Boton2";
+import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 
 const NewsPage = () => {
     const [data, setData] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const endPoint = "http://localhost:9000/api/v1/data/noticias";
+    const endPoint = `${BASE_URL_API}/data/noticias`
 
     const getData = async () => {
         const response = await axios.get(endPoint);
@@ -35,7 +36,7 @@ const NewsPage = () => {
             <div className="cardBody-news">
                 {data.map((item) => (
                     <div className="card-news" key={item.id}>
-                        <img className="cardImg-news" src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen" onError={(e) => e.target.src = f1} />
+                        <img className="cardImg-news" src={MOSTRAR_ARCHIVO(item.imgPath)} alt="Imagen" onError={(e) => e.target.src = f1} />
                         <div className="contenido">
                             <h2 className="cardTitle-news">{item.titulo}</h2>
                             <h3 className="cardSubtitle-news">{item.encabezado}</h3>
@@ -54,7 +55,7 @@ const NewsPage = () => {
                     <div className="modalNews">
                         <p className="fecha">{formateFecha(selectedItem.createdAt)}</p>
                         <h1>{selectedItem.titulo}</h1>
-                        <img className="cardImg-news" src={`http://localhost:9000/api/v1/recursos/${selectedItem.imgPath}`} alt="Imagen" onError={(e) => e.target.src = f1} />
+                        <img className="cardImg-news" src={MOSTRAR_ARCHIVO(selectedItem.imgPath)} alt="Imagen" onError={(e) => e.target.src = f1} />
                         <h2>{selectedItem.encabezado}</h2>
                         <p className="descripcion">{selectedItem.descripcion}</p>
                         <button onClick={handleClose}><Boton2 titulo='Cerrar'/></button>
