@@ -5,13 +5,12 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
 import './SidebarAdmin.css'
-import { NavLink, useNavigate} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useGeneralContext } from '../../../context/GeneralContext';
 import { useState } from 'react';
 import { perfilRequest } from '../../../api/auth';
 import { useCredentialContext } from '../../../context/AuthContext';
-import { removeLocalStorage, setLocalStorage } from '../../../assets/includes/localStorage';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
@@ -25,14 +24,7 @@ export default function Sidebar() {
 
     const cerrarSesion = () => {
         logoutFn()
-        if(getLocalStorage('token')){
-            setLocalStorage('token', '')
-            removeLocalStorage('token')
-        }else{
-            setLocalStorage('token', '')
-            removeLocalStorage('token')
-            navegar("/login")
-        }
+        navegar('/login')
     }
 
     const { getSeccionesMenu } = useGeneralContext()
@@ -58,7 +50,7 @@ export default function Sidebar() {
         obtenerMenuData()
     }, [])
 
-    const hiddenSeccion = {display: 'none'}
+    const hiddenSeccion = { display: 'none' }
 
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
@@ -73,7 +65,7 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li>
-                        <span className="link" onClick={() => cerrarSesion} >
+                        <span className="link" onClick={cerrarSesion} >
                             Cerrar Sesión
                         </span>
                     </li>

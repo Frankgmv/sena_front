@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, Navigate, Link } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate, Link, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/privateComponents/SidebarAdmin/SidebarAdmin";
 import "./AdminDashboard.css";
 import { IoIosArrowDown } from "react-icons/io";
@@ -28,9 +28,10 @@ import { useCredentialContext } from "../../context/AuthContext";
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { perfil } = useGeneralContext();
-  const { rolName } = useCredentialContext();
+  const { rolName, isAuthenticate } = useCredentialContext();
   const open = Boolean(anchorEl);
-
+  const { logoutFn } = useCredentialContext()
+  const navegar = useNavigate()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,6 +39,17 @@ const AdminDashboard = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(()=>{
+    if(!isAuthenticate){
+      navegar('/login')
+    }
+  }, [])
+
+  const cerrarSesion = () => {
+    logoutFn()
+    navegar('/login')
+  }
 
   return (
     <div className="adminBody">
@@ -90,12 +102,15 @@ const AdminDashboard = () => {
                   <Link
                     className="link-sidebar"
                     onClick={handleClose}
-                    to="/login"
+                    to="/"
                   >
-                    Cerrar Sesion
-                  </Link>
-                  <Link className="link-sidebar" onClick={handleClose} to="/">
                     Home Page
+                  </Link>
+                  <Link className="link-sidebar" onClick={(e) => {
+                    handleClose();
+                    cerrarSesion();
+                  }} to="/login">
+                    Cerrar Sesion
                   </Link>
                 </div>
               </Menu>

@@ -1,10 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest, perfilRequest, registroRequest } from "../api/auth";
-import { getRolRequest, getRolesRequest} from "../api/data";
+import { loginRequest, perfilRequest, registroRequest, verificarTokenRequest } from "../api/auth";
+import { getRolRequest, getRolesRequest } from "../api/data";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/includes/localStorage";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const CredentialContext = createContext();
+const CredentialContext = createContext({
+    isAuthenticate: false,
+    login: () => {},
+    logoutFn: () => {},
+    verificarToken: () => {}
+});
 
 export const useCredentialContext = () => {
     const context = useContext(CredentialContext);
@@ -27,6 +32,7 @@ export const CredentialProvider = ({ children }) => {
     useEffect(() => {
         getRoles();
         getRolName();
+        verificarToken();
     }, [])
 
     useEffect(() => {
@@ -87,7 +93,8 @@ export const CredentialProvider = ({ children }) => {
     }
 
     const logoutFn = () => {
-        console.log("cerrar sesión")
+        setLocalStorage('token', '')
+        removeLocalStorage('token')
         setIsAuthenticate(false)
         setToken(null)
     }
@@ -165,7 +172,7 @@ export const CredentialProvider = ({ children }) => {
             const response = await registroRequest(dataRegister)
             const data = await response.data
 
-            if(data.ok){   
+            if (data.ok) {
                 setResponseMessage((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -175,7 +182,7 @@ export const CredentialProvider = ({ children }) => {
                     }
                     return prevent
                 });
-                await registerActionHistorial(`Nuevo Usuario`,`Usuario '${dataRegister.nombre}'`)
+                await registerActionHistorial(`Nuevo Usuario`, `Usuario '${dataRegister.nombre}'`)
             }
         } catch (error) {
             const datos = error.response.data
@@ -208,7 +215,19 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
+    const verificarToken = async () => {
+        try {
+            const token = await verificarTokenRequest()
+            if(token.data.ok){
+                setIsAuthenticate(true);
+            }
+        } catch (error) {
+            
+        }
+    }
+
     const allMethods = {
+        verificarToken,
         errors,
         setErrors,
         isAuthenticate,
@@ -217,7 +236,6 @@ export const CredentialProvider = ({ children }) => {
         roles,
         register,
         token,
-        setToken,
         logoutFn,
         getRoles,
         rolName
