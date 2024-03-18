@@ -1,7 +1,29 @@
 import CardMenuInteractivo from '../Cards/CardMenuInteractivo/CardMenuInteractivo'
 import './MenuInteractivo.css'
+import admin from '../../../assets/img/admin.jpg'
+import register from '../../../assets/img/register.jpg'
+import login from '../../../assets/img/login.jpg'
+import news from '../../../assets/img/news.jpg'
+import galeria from '../../../assets/img/galeria.jpg'
+import ubication from '../../../assets/img/3425077.png'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const MenuInteractivo = () => {
+    const [data, setData] = useState([]);
+
+    const endPoint = "http://localhost:9000/api/v1/data/items";
+
+    const getData = async () => {
+        const response = await axios.get(endPoint);
+        setData(response.data.data);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+    console.log(data);
     return (
         <div className='menuBody'>
             <div className="titulo">
@@ -9,53 +31,49 @@ const MenuInteractivo = () => {
             </div>
             <div className="menuCards">
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="/login"
+                    name="Login"
+                    img={login}
                 />
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="/register"
+                    name="Register"
+                    img={register}
                 />
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="/admin"
+                    name="Administrar"
+                    img={admin}
                 />
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="/noticias"
+                    name="Noticias"
+                    img={news}
                 />
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="/eventos"
+                    name="Galeria"
+                    img={galeria}
                 />
                 <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
+                    link="https://www.google.com/maps?ll=4.811764,-75.681906&z=13&t=m&hl=es&gl=CO&mapclient=embed&cid=3726081407287373697"
+                    name="Ubicacion"
+                    img={ubication}
                 />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
-                <CardMenuInteractivo
-                    link="/"
-                    name="Símbolos Patrios"
-                />
+                <div className="cardMenuInteractivo">
+                    {data.map((item) => (
+                        <div className='containerMenuCard' key={item.id}>
+                            <Link className="menuLink" to={item.link}>
+                                <div className="cardImagen">
+                                    <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen.png" />
+                                </div>
+                                <div className="menuLinks">
+                                    <h3>{item.titulo}</h3>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

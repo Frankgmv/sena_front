@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import logo from '../../../assets/img/logo.png'
 import './NavBar.css'
 import { useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Drawer, Grid, useMediaQuery } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Drawer, Grid, useMediaQuery } from '@mui/material'
 import { IoIosArrowDown } from 'react-icons/io'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -27,11 +27,20 @@ const NavBar = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                         >
-                            Accordion 1
+                            Login
                         </AccordionSummary>
                         <AccordionDetails>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            malesuada lacus ex, sit amet blandit leo lobortis eget.
+                            <Grid container spacing={2} sx={{ width: '100%' }}>
+                                <Grid item xs={12}>
+                                    <Link
+                                        style={{ textDecoration: 'none' }}
+                                        className='link' to='/login'>Login</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link
+                                        style={{ textDecoration: 'none' }} className='link' to='/register'>Register</Link>
+                                </Grid>
+                            </Grid>
                         </AccordionDetails>
                     </Accordion>
                 </Grid>
@@ -42,11 +51,23 @@ const NavBar = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                         >
-                            Accordion 1
+                            Paginas internas
                         </AccordionSummary>
                         <AccordionDetails>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            malesuada lacus ex, sit amet blandit leo lobortis eget.
+                            <Grid container spacing={2} sx={{ width: '100%' }}>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/'>Home</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/noticias'>Noticias</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/galeria'>Galeria</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/admin'>Admin</Link>
+                                </Grid>
+                            </Grid>
                         </AccordionDetails>
                     </Accordion>
                 </Grid>
@@ -75,14 +96,14 @@ const NavBar = () => {
                     <p>Bienvenido</p>
                 </div>
                 <div className="icon">
-                <IoIosArrowDown
-                    className='navBar-icon'
-                    id="demo-positioned-button"
-                    aria-controls={open ? 'demo-positioned-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={toggleDrawer(true)}
-                />
+                    <IoIosArrowDown
+                        className='navBar-icon'
+                        id="demo-positioned-button"
+                        aria-controls={open ? 'demo-positioned-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={toggleDrawer(true)}
+                    />
                 </div>
             </div>
             <Drawer open={open} onClose={toggleDrawer(false)}>

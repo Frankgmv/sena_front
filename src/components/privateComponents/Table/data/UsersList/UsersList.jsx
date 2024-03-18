@@ -372,7 +372,7 @@ function UserList() {
                     scrollbarThumbColor="#ff0000"
                     style={{ color: "var(--black)", border: "1px solid var(--black)" }}
                     sx={{
-                        "..MuiDataGrid": {
+                        ".MuiDataGrid": {
                             borderRadius: 0
                         },
                         ".MuiDataGrid-toolbarContainer": {

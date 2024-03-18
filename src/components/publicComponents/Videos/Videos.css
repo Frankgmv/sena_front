@@ -44,7 +44,7 @@
 
 @media (width < 750px){
     .videoBody .videoPrincipal iframe{
-        width: 350px;
+        width: 310px;
         height: 200px;
     }
     .videoBody .videoPrincipal h3{
