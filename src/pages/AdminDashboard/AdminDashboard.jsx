@@ -25,6 +25,7 @@ import { useGeneralContext } from "../../context/GeneralContext";
 import { useCredentialContext } from "../../context/AuthContext";
 import { getLocalStorage } from "../../assets/includes/localStorage";
 import toastr from "../../assets/includes/Toastr";
+import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -140,6 +141,7 @@ const AdminDashboard = () => {
         <div className="adminContent">
           <Routes>
             {/* // ! Data */}
+            <Route path="/" element={<Perfil />} />
             <Route path="/usuarios" element={<UserList />} />
             <Route path="/rol-list" element={<RolList />} />
             <Route path="/seccion-list" element={<SeccionList />} />
