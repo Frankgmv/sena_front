@@ -39,6 +39,7 @@ const Eventos = () => {
                             </div>
                             <div className="botonEvento">
                                 <Boton2
+                                    link='/galeria'
                                     titulo='Ver más'
                                 />
                             </div>
