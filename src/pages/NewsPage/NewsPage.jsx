@@ -6,7 +6,7 @@ import { Modal } from "@mui/material";
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { formateFecha } from "../../assets/includes/funciones";
 import Boton2 from "../../components/publicComponents/botones/boton2/Boton2";
-import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 
 const NewsPage = () => {
     const [data, setData] = useState([]);

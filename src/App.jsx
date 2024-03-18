@@ -15,7 +15,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/noticias' element={<NewsPage />} />
-        <Route path='/eventos' element={<EventsPage />} />
+        <Route path='/galeria' element={<EventsPage />} />
         <Route path='/admin/*' element={<AdminDashboard />} />
       </Routes>
       <Outlet />

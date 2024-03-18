@@ -36,7 +36,7 @@ const EventsPage = () => {
     };
     useEffect(() => {
         console.log(gallery);
-      }, [gallery]);
+    }, [gallery]);
     return (
         <>
             <NavBar />
@@ -50,7 +50,7 @@ const EventsPage = () => {
             </div>
             <div className="image-gallery">
                 {gallery.map((image) => (
-                    <img key={image.id} src={MOSTRAR_ARCHIVO(item.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1} />
+                    <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1} />
                 ))}
             </div>
         </>
