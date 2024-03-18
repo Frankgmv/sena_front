@@ -1,6 +1,6 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Tooltip } from "@mui/material";
+import { Button, Tooltip, useMediaQuery } from "@mui/material";
 import Swal from 'sweetalert2'
 
 
@@ -12,6 +12,7 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Notificacion() {
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { notificaciones, putNotificacion, deleteNotificacion, errorsData, responseMessageData} = useNotificacionContext()
 
     useEffect(() => {
@@ -110,7 +111,7 @@ function Notificacion() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -190,7 +191,7 @@ function Notificacion() {
 
     return (
         <>
-            <div style={{ height: 400, width: '71%', marginTop: '-40px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '71%', marginTop: '-40px' }}>
                 <DataGrid
                     rows={notificaciones.map(notif =>{
                         return{...notif, estado: notif.estado? 'Leida': 'No leida'}

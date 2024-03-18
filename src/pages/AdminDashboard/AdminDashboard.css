@@ -62,16 +62,17 @@
     cursor: pointer;
 }
 
-.Navbar-Body .links{
-    background: var(--black-background);
-    color: var(--white);
+.bodyMenuNavbar{
+    margin-top: 20px;
     display: flex;
-    flex-direction: column;
 }
 
 .link-sidebar{
     text-decoration: none;
     list-style: none;    
+    color: #000;
+    padding-inline: 20px;
+    margin-block: 10px;
 }
 
 

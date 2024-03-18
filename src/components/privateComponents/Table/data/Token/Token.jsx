@@ -16,7 +16,7 @@ import toastr from "../../../../../assets/includes/Toastr";
 
 function Token() {
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { tokens, deleteToken, errorsData, responseMessageData, getTokens, getToken, putToken } = useTokenProvider()
     const { usuarios } = useUserContext()
     const [formDataToken, setFormDataToken] = useState({
@@ -137,7 +137,7 @@ function Token() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: isSmallScreen ? '100%' : '50%',
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -236,7 +236,7 @@ function Token() {
 
     return (
         <>
-            <div style={{ height: 400, width: '74%', marginTop: '-50px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '74%', marginTop: '-50px' }}>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {
@@ -381,7 +381,7 @@ function Token() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px' }}
+                                style={{ marginTop: '20px', color:'#fff' }}
                                 fullWidth
                                 type="submit"
                             >

@@ -26,7 +26,7 @@ function AnunciosList() {
     const { usuarios } = useUserContext()
     const { roles } = useCredentialContext()
 
-    const isSmallScreen = useMediaQuery('(max-width: 500px)');
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     //  !Logica guardar 
     const [id, setId] = useState('')
@@ -256,6 +256,7 @@ function AnunciosList() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         border: '2px solid #000',
+        width: isSmallScreen ? '100%' : '50%',
         boxShadow: 24,
         p: 4,
         alignItems: 'center',
@@ -521,7 +522,7 @@ function AnunciosList() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth>
+                                <Button variant="contained" color="success" style={{color: '#fff'}} type="submit" fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -598,7 +599,7 @@ function AnunciosList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: '40%' }}
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%',}}
                         component="form"
                         id="crear"
                         noValidate
