@@ -90,7 +90,7 @@ function EventoList() {
         {
             field: "evento",
             headerName: "Evento",
-            width: 350,
+            width: 240,
             headerAlign: "center",
             align: "center",
         },

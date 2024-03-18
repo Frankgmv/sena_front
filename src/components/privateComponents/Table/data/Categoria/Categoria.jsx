@@ -12,7 +12,7 @@ function Categoria() {
         {
             field: "categoria",
             headerName: "Categoria",
-            width: 450,
+            width: 300,
             headerAlign: "center",
             align: "center",
         },
