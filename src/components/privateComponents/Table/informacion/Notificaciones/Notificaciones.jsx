@@ -75,18 +75,17 @@ function Notificacion() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 150,
+            width: 170,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "descripcion",
             headerName: "Descripcion",
-            width: 300,
+            width: 340,
             headerAlign: "center",
             align: "center",
         },

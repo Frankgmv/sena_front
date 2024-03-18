@@ -81,7 +81,6 @@ function Pqrs() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "estado",
             headerName: "Estado",

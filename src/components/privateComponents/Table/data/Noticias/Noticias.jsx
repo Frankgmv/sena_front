@@ -146,7 +146,6 @@ function Noticias() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "titulo",
             headerName: "Titulo",
@@ -157,23 +156,23 @@ function Noticias() {
         {
             field: "encabezado",
             headerName: "Encabezado",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "imgPath",
-            headerName: "Imagen",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "descripcion",
             headerName: "Descripcion",
-            width: 300,
+            width: 350,
             headerAlign: "center",
             align: "center"
+        },
+        {
+            field: "imgPath",
+            headerName: "Imagen",
+            width: 100,
+            headerAlign: "center",
+            align: "center",
         },
         {
             field: "estado",

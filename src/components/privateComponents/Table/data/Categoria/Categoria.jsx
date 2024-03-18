@@ -9,11 +9,10 @@ function Categoria() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const {categorias} = useGeneralContext()
     const columns = [
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "categoria",
             headerName: "Categoria",
-            width: 245,
+            width: 300,
             headerAlign: "center",
             align: "center",
         },
@@ -25,19 +24,6 @@ function Categoria() {
             align: "center",
         },
     ];
-
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/categorias";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     return (
         <div style={{ height: 400, width: isSmallScreen ? '100%' : '45%',}}>

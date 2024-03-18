@@ -87,18 +87,17 @@ function EventoList() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "evento",
             headerName: "Evento",
-            width: 200,
+            width: 240,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "fecha",
             headerName: "Fecha",
-            width: 200,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },

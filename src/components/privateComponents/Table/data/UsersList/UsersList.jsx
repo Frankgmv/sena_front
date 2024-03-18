@@ -312,13 +312,13 @@ function UserList() {
 
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-100px' }}>
+            <div style={{ height: 500, width: "100%", marginTop: '-45px' }}>
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-evenly"
                     alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '30px', }}
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
                 >
                     <Button
                         variant="contained"

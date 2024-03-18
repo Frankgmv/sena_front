@@ -89,11 +89,10 @@ function Token() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "nombre",
             headerName: "Nombre",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
@@ -107,7 +106,7 @@ function Token() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 200,
+            width: 230,
             headerAlign: "center",
             align: "center",
         },
@@ -121,7 +120,7 @@ function Token() {
         {
             field: "createdAt",
             headerName: "Fecha de Creación",
-            width: 150,
+            width: 180,
             headerAlign: "center",
             align: "center",
             cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY")

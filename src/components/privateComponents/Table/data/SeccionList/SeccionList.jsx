@@ -9,42 +9,14 @@ function SeccionList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { secciones } = useGeneralContext()
     const columns = [
-        { field: "id", headerName: "ID", width: 150 },
         {
-            field: "seccion", headerName: "Sección", width: 400, headerAlign: "center", align: "center",
+            field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center",
         },
-        { field: "seccionKey", headerName: "Codigo de la Seccion", width: 300, headerAlign: "center", align: "center" }
+        { field: "seccionKey", headerName: "Codigo de la Seccion", width: 340, headerAlign: "center", align: "center" }
     ];
 
-    const [rows, setRows] = useState([]);
-
-    const endPoint = "https://sena-project.onrender.com/api/v1/data/secciones";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setRows(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 600,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-        alignItems: 'center',
-    };
-
-
     return (
-        <div style={{ height: 400, width: isSmallScreen ? '100%' : '60%', }}>
+        <div style={{ height: 400, width: isSmallScreen ? '100%' : '50%', }}>
             <DataGrid
                 rows={secciones}
                 columns={columns}

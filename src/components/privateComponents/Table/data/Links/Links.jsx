@@ -112,7 +112,6 @@ function Links() {
                 </div>
             ),
         },
-        { field: "id", headerName: "ID", width: 70 },
         {
             field: "titulo",
             headerName: "Titulo",
@@ -130,7 +129,7 @@ function Links() {
         {
             field: "descripcion",
             headerName: "Descripcion",
-            width: 150,
+            width: 290,
             headerAlign: "center",
             align: "center",
         },
@@ -151,7 +150,7 @@ function Links() {
         {
             field: "Creador",
             headerName: "Creador",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
