@@ -204,7 +204,7 @@ function EventoList() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '46%',  marginTop: '-100px' }}>
+            <div style={{ height: 400, width: isSmallScreen ? '100%' : '45%',  marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

@@ -16,7 +16,7 @@ function SeccionList() {
     ];
 
     return (
-        <div style={{ height: 400, width: isSmallScreen ? '100%' : '50%', }}>
+        <div style={{ height: 400, width: isSmallScreen ? '100%' : '49%', }}>
             <DataGrid
                 rows={secciones}
                 columns={columns}

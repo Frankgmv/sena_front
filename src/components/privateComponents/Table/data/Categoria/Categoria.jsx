@@ -26,7 +26,7 @@ function Categoria() {
     ];
 
     return (
-        <div style={{ height: 400, width: isSmallScreen ? '100%' : '45%',}}>
+        <div style={{ height: 400, width: isSmallScreen ? '100%' : '42%',}}>
             <DataGrid
                 rows={categorias}
                 columns={columns}
