@@ -235,7 +235,7 @@ function Token() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '74%', marginTop: '-50px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '90%', width: isSmallScreen ? '100%' : '66%'}}>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {

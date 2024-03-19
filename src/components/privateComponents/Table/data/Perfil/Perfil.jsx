@@ -12,7 +12,7 @@ const Perfil = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { updatePerfil, responseMessageUser, errorsUser } = useUserContext();
     const { perfil, getPerfil, errors, responseMessage } = useGeneralContext()
-    const { roles } = useCredentialContext()
+    const { roles, isAuthenticate } = useCredentialContext()
 
     const [dataPerfil, SetDataPerfil] = useState({});
     const [openEdit, setOpenEdit] = useState(false);
@@ -57,8 +57,8 @@ const Perfil = () => {
     }, [responseMessage, errors, responseMessageUser, errorsUser])
 
     useEffect(() => {
+        getPerfil()
         if (openEdit) {
-            // getPerfil()
             let { nombre, apellido, correo, celular } = perfil
             SetDataPerfil({ nombre, apellido, correo, celular })
         }
@@ -67,7 +67,7 @@ const Perfil = () => {
             let { nombre, apellido, correo, celular } = perfil
             SetDataPerfil({ nombre, apellido, correo, celular })
         }
-    }, [openEdit, perfil])
+    }, [openEdit, perfil, isAuthenticate])
 
     useEffect(() => {
         if (openEdit) {

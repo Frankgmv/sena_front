@@ -169,6 +169,27 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
+    const verifyAuth = async () => {
+        try {
+            const response = await perfilRequest()
+            const data = await response.data
+            if(data.ok){
+                setIsAuthenticate(true)
+            }
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+
     const register = async (dataRegister) => {
         try {
             const response = await registroRequest(dataRegister)
@@ -252,7 +273,8 @@ export const CredentialProvider = ({ children }) => {
         token,
         logoutFn,
         getRoles,
-        rolName
+        rolName,
+        verifyAuth
     }
 
     return (

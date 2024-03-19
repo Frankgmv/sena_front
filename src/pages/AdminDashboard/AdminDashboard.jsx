@@ -32,7 +32,7 @@ const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { perfil } = useGeneralContext();
   const open = Boolean(anchorEl);
-  const { logoutFn, rolName, isAuthenticate, errors, responseMessage } = useCredentialContext()
+  const { logoutFn, rolName, isAuthenticate, errors, responseMessage, verifyAuth} = useCredentialContext()
   const navegar = useNavigate()
 
   useEffect(() => {
@@ -60,10 +60,13 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
+    verifyAuth()
     if (!isAuthenticate && !getLocalStorage('token')) {
       navegar('/login')
     }
   }, [])
+
+
 
 
   const cerrarSesion = () => {

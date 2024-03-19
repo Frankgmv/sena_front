@@ -322,7 +322,7 @@ function AnunciosList() {
 
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-30px' }}>
+                <div style={{ height: isSmallScreen ? '70%' : '80%', width: isSmallScreen ? '100%' : '66%', marginTop: isSmallScreen ? '-50%' : '-5%' }}>
                 <Grid
                     container
                     direction="row"
