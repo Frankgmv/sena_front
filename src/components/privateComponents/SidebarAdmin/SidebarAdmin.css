@@ -1,6 +1,8 @@
 
 .Sidebar-body {
     background-color: var(--black);
+    height: 100%;
+    overflow: auto;
 }
 
 .Sidebar-body .subtitleSide{

@@ -87,9 +87,7 @@ const NavBar = () => {
             <div className="links">
                 <Link className='link' to='/'>Inicio</Link>
                 <Link className='link' to='/noticias'>Noticias</Link>
-                <Link className='link' to='/'>Menu</Link>
-                <Link className='link' to='/'>Videos</Link>
-                <Link className='link' to='/eventos'>Eventos</Link>
+                <Link className='link' to='/galeria'>Eventos</Link>
             </div>
             <div className="info">
                 <div className="infoText">
