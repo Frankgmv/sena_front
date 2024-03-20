@@ -13,7 +13,7 @@ const Register = () => {
     useEffect(() => {
         if (errors.length != 0) {
             errors.map(error => {
-                return toastr.error(error)
+                toastr.error(error)
             })
         }
     }, [errors]);
@@ -23,11 +23,11 @@ const Register = () => {
         if (responseMessage.length != 0) {
             responseMessage.map(msg => {
                 toastr.success(msg)
-                document.querySelector('form').reset();
-                navigate("/login")
             })
+            document.querySelector('form').reset();
+            navigate("/login")
         }
-    }, [navigate, responseMessage]);
+    }, [responseMessage, navigate]);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -119,9 +119,10 @@ const Register = () => {
                         <div className="junto">
                             <div className="select-container">
                                 <select name="RolId" id="RolId" onChange={handleChange}>
-                                    <option value="10"></option>
+                                    <option value="10">Seleccionar</option>
                                     {roles.map((rol) => {
-                                        return <option value={rol.id} key={rol.id} >{rol.rol}</option>
+                                        const ocultar = rol.rolKey === "WM"
+                                        return <option hidden={ocultar} value={rol.id} key={rol.id} >{rol.rol}</option>
                                     })
                                     }
                                 </select>

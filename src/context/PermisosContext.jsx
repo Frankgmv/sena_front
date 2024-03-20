@@ -25,7 +25,7 @@ export const dataProvider = ({ children }) => {
             if (errorsData.length != 0) {
                 setErrorsData([]);
             }
-        }, 5000);
+        }, 5800);
         return () => clearTimeout(timer);
     }, [errorsData])
 
@@ -34,7 +34,7 @@ export const dataProvider = ({ children }) => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);
             }
-        }, 5000);
+        }, 5800);
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 

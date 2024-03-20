@@ -10,9 +10,12 @@ const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
     const {roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
     const navigate = useNavigate()
+
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(error => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -20,16 +23,12 @@ const Login = () => {
 
     useEffect(() => {
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
-                if (isAuthenticate) {
-                    setTimeout(() => {
-                        navigate('/admin')
-                    }, 1500);
-                }
-            })
+            }) 
         }
-
     }, [responseMessage, isAuthenticate, navigate]);
 
 

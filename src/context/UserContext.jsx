@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
             if (errorsUser.length != 0) {
                 setErrorsUser([]);
             }
-        }, 5000);
+        }, 5800);
         return () => clearTimeout(timer);
     }, [errorsUser])
 
@@ -39,7 +39,7 @@ export const UserProvider = ({ children }) => {
             if (responseMessageUser.length != 0) {
                 setResponseMessageUser([]);
             }
-        }, 5000);
+        }, 5800);
         return () => { clearTimeout(timer) }
     }, [responseMessageUser])
 

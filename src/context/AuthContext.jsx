@@ -33,15 +33,21 @@ export const CredentialProvider = ({ children }) => {
     useEffect(() => {
         getRoles();
         getRolName();
-        verificarToken();
     }, [])
+    
+    useEffect(() => {
+        getRoles();
+        if(getLocalStorage('token')){
+            verificarToken();   
+        }
+    }, [isAuthenticate])
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (errors.length != 0) {
                 setErrors([]);
             }
-        }, 5000);
+        }, 6000);
         return () => clearTimeout(timer);
     }, [errors])
 
@@ -50,7 +56,7 @@ export const CredentialProvider = ({ children }) => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);
             }
-        }, 5000);
+        }, 6000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
@@ -194,8 +200,9 @@ export const CredentialProvider = ({ children }) => {
         try {
             const response = await registroRequest(dataRegister)
             const data = await response.data
-
             if (data.ok) {
+                console.log(data)
+                removeLocalStorage('token')
                 setResponseMessage((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -203,7 +210,6 @@ export const CredentialProvider = ({ children }) => {
                             data.message
                         ];
                     }
-                    return prevent
                 });
                 await registerActionHistorial(`Nuevo Usuario`, `Usuario '${dataRegister.nombre}'`)
             }
@@ -238,7 +244,7 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
-    const verificarToken = async () => {
+    const verificarToken = async ()  =>  {
         try {
             const response = await verificarTokenRequest()
             if (response.data.ok) {
