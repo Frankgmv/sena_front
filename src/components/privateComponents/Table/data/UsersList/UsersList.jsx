@@ -342,6 +342,26 @@ function UserList() {
         getPermits();
     }, []);
 
+    console.log(permits);
+
+    // ? Traer el detalle de los permisos
+
+    const detailPermitsEndpoint = `${BASE_URL_API}/data/detalle-permisos/1000295880
+    `
+
+    const [detailPermits, setdetailPermits] = useState([]);
+
+    const getDetailPermits = async () => {
+        const response = await axios.get(detailPermitsEndpoint);
+        setdetailPermits(response.data.data);
+    };
+
+    useEffect(() => {
+        getDetailPermits();
+    }, []);
+
+    console.log(detailPermits);
+
     useEffect(() => {
         if (openEdit) {
             buscarUsuario()
@@ -736,10 +756,10 @@ function UserList() {
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>Actualiza tus permisos</h1>
-                        <Grid container spacing={2} sx={{ width: '100%' }} style={{alignItems:'center', textAlign: 'center'}}>
+                        <Grid container spacing={2} sx={{ width: '100%' }} style={{ alignItems: 'center', textAlign: 'center' }}>
                             {permits.map((item) => (
-                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center'    }}>
-                                    <Checkbox  color="success" >{item.permiso}</Checkbox>
+                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center' }} key={item.PermisoId}>
+                                    <Checkbox color="success" checked={detailPermits.some((permiso) => permiso.PermisoId === item.id)} value={item.PermisoId} />
                                     <div className="titulo">{item.permiso}</div>
                                 </Grid>
                             ))}
