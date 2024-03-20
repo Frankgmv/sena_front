@@ -15,6 +15,10 @@ import { useCredentialContext } from "../../../../../context/AuthContext";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { RiShieldKeyholeLine } from "react-icons/ri";
+import { BASE_URL_API } from "../../../../../assets/includes/variables";
+import axios from "axios";
+
 
 function UserList() {
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
@@ -127,12 +131,28 @@ function UserList() {
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 210,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Permisos">
+                        <Button>
+                            <RiShieldKeyholeLine
+                                onClick={() => {
+                                    handleOpenPermit()
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -238,6 +258,10 @@ function UserList() {
     const handleOpenNew = () => setOpenNew(true);
     const handleCloseNew = () => setOpenNew(false);
 
+    const [openPermit, setOpenPermit] = useState(false);
+    const handleOpenPermit = () => setOpenPermit(true);
+    const handleClosePermit = () => setOpenPermit(false);
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -298,11 +322,25 @@ function UserList() {
             setApellidoUpt(apellido)
             setNombreUpt(nombre)
             setRolIdUpt(RolId),
-            setEstadoUpt(estado)
+                setEstadoUpt(estado)
             setCelularUpt(celular)
             setCorreoUpt(correo)
         }
     }
+
+    // ? Traer los permisos
+    const permitsEndpoint = `${BASE_URL_API}/data/permisos`
+
+    const [permits, setPermits] = useState([]);
+
+    const getPermits = async () => {
+        const response = await axios.get(permitsEndpoint);
+        setPermits(response.data.data);
+    };
+
+    useEffect(() => {
+        getPermits();
+    }, []);
 
     useEffect(() => {
         if (openEdit) {
@@ -553,7 +591,7 @@ function UserList() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth style={{color:'#fff'}}>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{ color: '#fff' }}>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -673,12 +711,38 @@ function UserList() {
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px',  color: '#fff'}}
+                                style={{ marginTop: '20px', color: '#fff' }}
                                 fullWidth
                                 type="submit"
                             >
                                 Actualizar
                             </Button>
+                        </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            {/* //! Modal permisos */}
+            <div>
+                <Modal
+                    open={openPermit}
+                    onClose={handleClosePermit}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}
+                        component="form"
+                        id="editarUsuario"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h1 style={{ textAlign: 'center' }}>Actualiza tus permisos</h1>
+                        <Grid container spacing={2} sx={{ width: '100%' }} style={{alignItems:'center', textAlign: 'center'}}>
+                            {permits.map((item) => (
+                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center'    }}>
+                                    <Checkbox  color="success" >{item.permiso}</Checkbox>
+                                    <div className="titulo">{item.permiso}</div>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Box>
                 </Modal>
