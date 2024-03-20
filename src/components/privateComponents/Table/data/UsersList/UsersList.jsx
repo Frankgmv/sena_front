@@ -346,7 +346,7 @@ function UserList() {
 
     // ? Traer el detalle de los permisos
 
-    const detailPermitsEndpoint = `${BASE_URL_API}/data/detalle-permisos/1000295880
+    const detailPermitsEndpoint = `${BASE_URL_API}/data/detalle-permisos/1015187865
     `
 
     const [detailPermits, setdetailPermits] = useState([]);
@@ -759,7 +759,7 @@ function UserList() {
                         <Grid container spacing={2} sx={{ width: '100%' }} style={{ alignItems: 'center', textAlign: 'center' }}>
                             {permits.map((item) => (
                                 <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center' }} key={item.PermisoId}>
-                                    <Checkbox color="success" checked={detailPermits.some((permiso) => permiso.PermisoId === item.id)} value={item.PermisoId} />
+                                    <Checkbox color="success" defaultChecked={detailPermits.some((permiso) => permiso.PermisoId === item.id)} value={item.PermisoId} />
                                     <div className="titulo">{item.permiso}</div>
                                 </Grid>
                             ))}
