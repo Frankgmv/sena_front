@@ -42,7 +42,9 @@ function Links() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }

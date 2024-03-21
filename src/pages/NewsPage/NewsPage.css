@@ -183,7 +183,7 @@
 
 @media (width <= 500px){
     html{
-        font-size: 15px;
+        font-size: 16px;
     }
     .card-news {
         width: 90%;

@@ -30,7 +30,9 @@ function RolList() {
 
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(msg => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(msg => {
                 toastr.error(msg)
             })
         }

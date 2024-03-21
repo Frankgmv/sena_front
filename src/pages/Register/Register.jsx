@@ -12,7 +12,9 @@ const Register = () => {
 
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(error => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
                 toastr.error(error)
             })
         }
@@ -21,7 +23,9 @@ const Register = () => {
 
     useEffect(() => {
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
             document.querySelector('form').reset();

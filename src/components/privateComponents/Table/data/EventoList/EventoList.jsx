@@ -26,7 +26,9 @@ function EventoList() {
 
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(error => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
                 return toastr.error(error)
             })
         }

@@ -53,13 +53,14 @@ export const putUsuarioPerfilRequest = (id, usuario) => axios.put(`/data/usuario
 
 export const deleteUsuarioRequest = (id) => axios.delete(`/data/usuarios/${id}`);
 
+
 // ! Detalle Permisos
 
 export const getDetallePermisosByDocumentoRequest = (idUsuario) => axios.get(`/data/detalle-permisos/${idUsuario}`);
 
 export const postDetallePermisoRequest = (detallePermiso) => axios.post(`/data/detalle-permisos`, detallePermiso);
 
-export const deleteDetallePermisosRequest = (id) => axios.delete(`/data/detalle-permisos/${id}`);
+export const deleteDetallePermisosRequest = (PermisoId, UsuarioId) => axios.delete(`/data/detalle-permisos?PermisoId=${PermisoId}&UsuarioId=${UsuarioId}`);
 
 // ! Noticias
 

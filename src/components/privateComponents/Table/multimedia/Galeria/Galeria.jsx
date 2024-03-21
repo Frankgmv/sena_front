@@ -40,7 +40,9 @@ function Galeria() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -48,7 +50,9 @@ function Galeria() {
 
     useEffect(() => {
         if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageData);
+            const responseMessageData2 = [...deleteDuplicidad]
+            responseMessageData2.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()

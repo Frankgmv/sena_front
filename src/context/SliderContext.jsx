@@ -25,7 +25,7 @@ export const SliderProvider = ({ children }) => {
             if (errorsData.length != 0) {
                 setErrorsData([]);
             }
-        }, 5800);
+        }, 5000);
         return () => clearTimeout(timer);
     }, [errorsData])
 
@@ -38,7 +38,7 @@ export const SliderProvider = ({ children }) => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);
             }
-        }, 5800);
+        }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 

@@ -37,15 +37,19 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (responseMessage.length != 0) {
-      responseMessage.map(msg => {
+      const deleteDuplicidad = new Set(responseMessage);
+      const responseMessage2 = [...deleteDuplicidad]
+      responseMessage2.map(msg => {
         toastr.success(msg)
       })
     }
   }, [responseMessage])
-
+  
   useEffect(() => {
     if (errors.length != 0) {
-      errors.map(msg => {
+      const deleteDuplicidad = new Set(errors);
+      const errors2 = [...deleteDuplicidad]
+      errors2.map(msg => {
         toastr.error(msg)
       })
     }
@@ -170,10 +174,10 @@ const AdminDashboard = () => {
             <Route path="/pqrs" element={<Pqrs />} />
             <Route path="/notificacion" element={<Notificacion />} />
             <Route path="/historial" element={<Historial />} />
+            <Route path="*" element={<Perfil />} />
             {/* // ! Adicionales */}
             <Route
-              path="/nodemailer"
-              element={<h1>nodemailer cambiar claves para emails</h1>}
+              path="/nodemailer" element={<h1>nodemailer cambiar claves para emails</h1>}
             />
           </Routes>
           <Outlet />

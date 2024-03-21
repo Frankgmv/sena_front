@@ -17,7 +17,9 @@ function Historial() {
 
     useEffect(() => {
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
         }

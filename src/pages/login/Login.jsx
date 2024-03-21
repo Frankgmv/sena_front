@@ -1,14 +1,14 @@
 import './Login.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
-import { Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const {roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
+    const { roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,7 +27,11 @@ const Login = () => {
             const responseMessage2 = [...deleteDuplicidad]
             responseMessage2.map(msg => {
                 toastr.success(msg)
-            }) 
+            })
+        }
+
+        if (isAuthenticate) {
+            navigate('/admin')
         }
     }, [responseMessage, isAuthenticate, navigate]);
 
@@ -78,7 +82,7 @@ const Login = () => {
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input  id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
+                                <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
                                 <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>

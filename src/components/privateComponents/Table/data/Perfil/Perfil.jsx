@@ -32,24 +32,32 @@ const Perfil = () => {
 
     useEffect(() => {
         if (errorsUser.length != 0) {
-            errorsUser.map(msg => {
+            const deleteDuplicidad = new Set(errorsUser);
+            const errorsUser2 = [...deleteDuplicidad]
+            errorsUser2.map(msg => {
                 toastr.error(msg)
             })
         }
         if (errors.length != 0) {
-            errors.map(msg => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(msg => {
                 toastr.error(msg)
             })
         }
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
         }
         if (responseMessageUser.length != 0) {
             getPerfil()
             handleCloseEdit()
-            responseMessageUser.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageUser);
+            const responseMessageUser2 = [...deleteDuplicidad]
+            responseMessageUser2.map(msg => {
                 toastr.success(msg)
             })
         }
@@ -57,7 +65,6 @@ const Perfil = () => {
     }, [responseMessage, errors, responseMessageUser, errorsUser])
 
     useEffect(() => {
-        getPerfil()
         if (openEdit) {
             let { nombre, apellido, correo, celular } = perfil
             SetDataPerfil({ nombre, apellido, correo, celular })
@@ -70,9 +77,7 @@ const Perfil = () => {
     }, [openEdit, perfil, isAuthenticate])
 
     useEffect(() => {
-        if (openEdit) {
-            getPerfil()
-        }
+        getPerfil()
         let { nombre, apellido, correo, celular } = perfil
         SetDataPerfil({ nombre, apellido, correo, celular })
     }, [])
@@ -142,7 +147,7 @@ const Perfil = () => {
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     label="Rol"
-                                    value={perfil.RolId ? perfil.RolId : 1}
+                                    value={perfil.RolId ? perfil.RolId : ''}
                                 >
                                     {
                                         roles.map((rol, i) => {

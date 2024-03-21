@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllCategoriasRequest, getAllSeccionesRequest, getRolRequest, getSeccionesMenuRequest, putRolRequest } from "../api/data";
+import { deleteDetallePermisosRequest, getAllCategoriasRequest, getAllSeccionesRequest, getDetallePermisosByDocumentoRequest, getPermisosRequest, getRolRequest, getSeccionesMenuRequest, postDetallePermisoRequest, putRolRequest } from "../api/data";
 import { deleteHistorialRequest, getHistorialRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
 import { perfilRequest } from "../api/auth";
@@ -21,6 +21,9 @@ export const GeneralProvider = ({ children }) => {
     const [historial, setHistorial] = useState([]);
     const [secciones, setSecciones] = useState([]);
     const [perfil, setPerfil] = useState({});
+    const [permisos, setPermisos] = useState([]);
+    const [detallePermiso, setDetallePermiso] = useState([]);
+    const [permisosData, setPermisosData] = useState([]);
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
 
@@ -29,7 +32,7 @@ export const GeneralProvider = ({ children }) => {
             if (errors.length != 0) {
                 setErrors([]);
             }
-        }, 5800);
+        }, 5000);
         return () => clearTimeout(timer);
     }, [errors])
 
@@ -39,13 +42,25 @@ export const GeneralProvider = ({ children }) => {
         getCategorias()
         getHistorial()
     }, [])
+    useEffect(() => {
+        if (permisos.length != 0 && detallePermiso.length != 0) {
+            const transformResponse = permisos.map(permiso => {
+                if (detallePermiso.some(detalle => detalle.PermisoId === permiso.id)) {
+                    return { ...permiso, value: true}
+                }
+
+                return { ...permiso, value: false}
+            })
+            setPermisosData(transformResponse)
+        }
+    }, [permisos, detallePermiso])
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);
             }
-        }, 5800);
+        }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
@@ -220,6 +235,7 @@ export const GeneralProvider = ({ children }) => {
             }
         }
     }
+
     const deleteAllHistorial = async () => {
         try {
             const response = await deleteHistorialRequest()
@@ -251,6 +267,96 @@ export const GeneralProvider = ({ children }) => {
         }
     }
 
+    const getDataPermisos = async (id) => {
+        try {
+            const detalle_permisos = await getDetallePermisosByDocumentoRequest(id)
+            const permisos_ = await getPermisosRequest()
+            if (detalle_permisos.data.ok) {
+                setDetallePermiso(detalle_permisos?.data?.data)
+                setPermisos(permisos_?.data?.data)
+
+                if (detalle_permisos.data.message) {
+                    if (!responseMessage.includes(detalle_permisos.data.message)) {
+                        setResponseMessage((prevent) => {
+                            return [
+                                ...prevent,
+                                detalle_permisos.data.message
+                            ]
+                        })
+                    }
+                }
+            }
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+
+    const postDataPermisos = async (PermisoId, UsuarioId) => {
+        try {
+            const crearPermiso = await postDetallePermisoRequest({PermisoId, UsuarioId})
+            if (crearPermiso.data.ok) {
+                if (crearPermiso.data.message) {
+                    if (!responseMessage.includes(crearPermiso.data.message)) {
+                        setResponseMessage((prevent) => {
+                            return [
+                                ...prevent,
+                                crearPermiso.data.message
+                            ]
+                        })
+                    }
+                }
+            }
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+    const deleteDataPermisos = async (PermisoId, UsuarioId) => {
+        try {
+            const eliminarPermiso = await deleteDetallePermisosRequest(PermisoId, UsuarioId)
+            if (eliminarPermiso.data.ok) {
+                if (eliminarPermiso.data.message) {
+                    if (!responseMessage.includes(eliminarPermiso.data.message)) {
+                        setResponseMessage((prevent) => {
+                            return [
+                                ...prevent,
+                                eliminarPermiso.data.message
+                            ]
+                        })
+                    }
+                }
+            }
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+
     const allMethods = {
         errors,
         setErrors,
@@ -266,7 +372,12 @@ export const GeneralProvider = ({ children }) => {
         historial,
         perfil,
         getPerfil,
-        getSeccionesMenu
+        getSeccionesMenu,
+        getDataPermisos,
+        permisosData,
+        setPermisosData,
+        postDataPermisos,
+        deleteDataPermisos
     }
 
     return (

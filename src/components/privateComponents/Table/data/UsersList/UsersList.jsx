@@ -18,11 +18,13 @@ import SendIcon from '@mui/icons-material/Send';
 import { RiShieldKeyholeLine } from "react-icons/ri";
 import { BASE_URL_API } from "../../../../../assets/includes/variables";
 import axios from "axios";
+import { useGeneralContext } from "../../../../../context/GeneralContext";
 
 
 function UserList() {
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
     const { roles } = useCredentialContext()
+    const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
@@ -100,23 +102,40 @@ function UserList() {
 
     useEffect(() => {
         if (errorsUser.length != 0) {
-            errorsUser.map(error => {
+            const deleteDuplicidad = new Set(errorsUser);
+            const errorsUser2 = [...deleteDuplicidad]
+            errorsUser2.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsUser]);
 
-    useEffect(() => {
+        if (errors.length != 0) {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
+                return toastr.error(error)
+            })
+        }
+
+        if (responseMessage.length != 0) {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
+                return toastr.success(msg)
+            })
+        }
+
         if (responseMessageUser.length != 0) {
-            responseMessageUser.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageUser);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
             getUsers();
             setOpenNew(false);
             resetForm();
         }
-
-    }, [responseMessageUser])
+    }, [errorsUser, errors, responseMessage, responseMessageUser]);
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)
@@ -142,6 +161,7 @@ function UserList() {
                             <RiShieldKeyholeLine
                                 onClick={() => {
                                     handleOpenPermit()
+                                    setLocalStorage('idUsuarioPermisos', params.row.id)
                                 }}
                                 style={{
                                     textAlign: "center",
@@ -327,46 +347,36 @@ function UserList() {
             setCorreoUpt(correo)
         }
     }
-
-    // ? Traer los permisos
-    const permitsEndpoint = `${BASE_URL_API}/data/permisos`
-
-    const [permits, setPermits] = useState([]);
-
-    const getPermits = async () => {
-        const response = await axios.get(permitsEndpoint);
-        setPermits(response.data.data);
-    };
-
-    useEffect(() => {
-        getPermits();
-    }, []);
-
-    console.log(permits);
-
-    // ? Traer el detalle de los permisos
-
-    const detailPermitsEndpoint = `${BASE_URL_API}/data/detalle-permisos/1015187865
-    `
-
-    const [detailPermits, setdetailPermits] = useState([]);
-
-    const getDetailPermits = async () => {
-        const response = await axios.get(detailPermitsEndpoint);
-        setdetailPermits(response.data.data);
-    };
-
-    useEffect(() => {
-        getDetailPermits();
-    }, []);
-
-    console.log(detailPermits);
+    const buscarPermisos = () => {
+        const idUsuario = parseInt(getLocalStorage('idUsuarioPermisos'));
+        getDataPermisos(idUsuario)
+    }
 
     useEffect(() => {
         if (openEdit) {
             buscarUsuario()
         }
-    }, [openEdit,])
+    }, [openEdit])
+
+    useEffect(() => {
+        if (openPermit) {
+            buscarPermisos()
+        } else {
+            removeLocalStorage('idUsuarioPermisos')
+            setPermisosData([])
+        }
+    }, [openPermit])
+
+    const hadlerChangePermiso = (e) => {
+        let { checked, name } = e.target
+        let UsuarioId = parseInt(getLocalStorage('idUsuarioPermisos'));
+        let PermisoId = parseInt(name)
+        if (checked) {
+            postDataPermisos(PermisoId, UsuarioId)
+        } else {
+            deleteDataPermisos(PermisoId, UsuarioId)
+        }
+    }
 
     return (
         <>
@@ -755,11 +765,11 @@ function UserList() {
                         noValidate
                         autoComplete="off"
                     >
-                        <h1 style={{ textAlign: 'center' }}>Actualiza tus permisos</h1>
+                        <h1 style={{ textAlign: 'center' }}>Permisos</h1>
                         <Grid container spacing={2} sx={{ width: '100%' }} style={{ alignItems: 'center', textAlign: 'center' }}>
-                            {permits.map((item) => (
-                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center' }} key={item.PermisoId}>
-                                    <Checkbox color="success" defaultChecked={detailPermits.some((permiso) => permiso.PermisoId === item.id)} value={item.PermisoId} />
+                            {openPermit && permisosData.map((item, i) => (
+                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center' }} key={i}>
+                                    <Checkbox onChange={hadlerChangePermiso} key={i} color="success" name={`${item.id}`} defaultChecked={item.value} value={item.PermisoId} />
                                     <div className="titulo">{item.permiso}</div>
                                 </Grid>
                             ))}

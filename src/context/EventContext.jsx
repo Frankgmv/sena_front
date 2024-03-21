@@ -26,7 +26,7 @@ export const EventProvider = ({ children }) => {
             if (errors.length != 0) {
                 setErrors([]);
             }
-        }, 5800);
+        }, 5000);
         return () => clearTimeout(timer);
     }, [errors])
 
@@ -39,7 +39,7 @@ export const EventProvider = ({ children }) => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);
             }
-        }, 5800);
+        }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
