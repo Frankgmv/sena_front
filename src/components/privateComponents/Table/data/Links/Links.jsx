@@ -310,7 +310,7 @@ function Links() {
 
     return (
         <>
-            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '60%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -455,6 +455,7 @@ function Links() {
                                     name="titulo"
                                     value={formLink.titulo}
                                     onChange={handlerChangeCreate}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -466,7 +467,7 @@ function Links() {
                                     name="link"
                                     value={formLink.link}
                                     onChange={handlerChangeCreate}
-
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -479,6 +480,7 @@ function Links() {
                                         name="tipo"
                                         value={formLink.tipo}
                                         onChange={handlerChangeCreate}
+                                        fullWidth
                                     >
                                         <MenuItem value='pdf'>PDF</MenuItem>
                                         <MenuItem value='blog'>Blog</MenuItem>
@@ -494,7 +496,7 @@ function Links() {
                                     name="descripcion"
                                     value={formLink.descripcion}
                                     onChange={handlerChangeCreate}
-
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -506,6 +508,7 @@ function Links() {
                                         label="Seccion"
                                         name="SeccionId"
                                         value={formLink.SeccionId}
+                                        fullWidth
                                         onChange={handlerChangeCreate}
                                     >
                                         {
@@ -526,6 +529,7 @@ function Links() {
                                         id="demo-simple-select-standard"
                                         label="Categoria"
                                         name="CategoriaId"
+                                        fullWidth
                                         value={formLink.CategoriaId}
                                         onChange={handlerChangeCreate}
                                     >
@@ -539,9 +543,14 @@ function Links() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -572,6 +581,7 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="titulo"
+                                    fullWidth
                                     value={formLinkUpt.titulo}
                                     onChange={handlerChangeUpt}
                                 />
@@ -582,6 +592,7 @@ function Links() {
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="link"
                                     value={formLinkUpt.link}
                                     onChange={handlerChangeUpt}
@@ -597,6 +608,7 @@ function Links() {
                                         label="Tipo"
                                         name="tipo"
                                         value={formLinkUpt.tipo}
+                                        fullWidth
                                         onChange={handlerChangeUpt}
                                     >
                                         <MenuItem value='pdf'>PDF</MenuItem>
@@ -612,6 +624,7 @@ function Links() {
                                     type="text"
                                     name="descripcion"
                                     value={formLinkUpt.descripcion}
+                                    fullWidth
                                     onChange={handlerChangeUpt}
 
                                 />
@@ -658,6 +671,7 @@ function Links() {
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -667,6 +681,12 @@ function Links() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

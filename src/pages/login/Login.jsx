@@ -72,8 +72,8 @@ const Login = () => {
                     />
                 </div>
             </div>
-            <div className="containerInput">
-                <div className="encabezadoRegister">
+            <div className="containerInputLogin">
+                <div className="encabezadoLogin">
                     <h3>Bienvenido</h3>
                     <p>A la plataforma educativa</p>
                     <h2>I. E. Centenario Pereira</h2>

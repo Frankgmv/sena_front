@@ -304,7 +304,7 @@ function Noticias() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '99%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '99%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -441,6 +441,7 @@ function Noticias() {
                                     name="titulo"
                                     value={titulo}
                                     onChange={(e) => setTitulo(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -452,6 +453,7 @@ function Noticias() {
                                     name="encabezado"
                                     value={encabezado}
                                     onChange={(e) => setEncabezado(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -463,6 +465,7 @@ function Noticias() {
                                     name="descripcion"
                                     value={descripcion}
                                     onChange={e => setDescripcion(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -474,12 +477,18 @@ function Noticias() {
                                     name="imagen"
                                     value={imagen}
                                     onChange={e => setImagen(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth style={{color:'#fff'}}>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{ color: '#fff' }}>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -511,6 +520,7 @@ function Noticias() {
                                     type="text"
                                     name="titulo"
                                     value={tituloUpt}
+                                    fullWidth
                                     onChange={(e) => setTituloUpt(e.target.value)}
                                 />
                             </Grid>
@@ -521,6 +531,7 @@ function Noticias() {
                                     variant="standard"
                                     type="text"
                                     name="encabezado"
+                                    fullWidth
                                     value={encabezadoUpt}
                                     onChange={(e) => setEncabezadoUpt(e.target.value)}
                                 />
@@ -532,6 +543,7 @@ function Noticias() {
                                     variant="standard"
                                     type="text"
                                     name="descripcion"
+                                    fullWidth
                                     value={descripcionUpt}
                                     onChange={e => setDescripcionUpt(e.target.value)}
                                 />
@@ -544,18 +556,26 @@ function Noticias() {
                                     type="file"
                                     name="imagen"
                                     value={imagenUpt}
+                                    fullWidth
                                     onChange={e => setImagenUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color:'#fff'}}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: '#fff' }}
+                                    fullWidth
+                                    type="submit"
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
@@ -574,15 +594,20 @@ function Noticias() {
                         noValidate
                         autoComplete="off"
                     >
-                        <h2 style={{ textAlign: 'center'}}>{tituloView}</h2>
-                        <Grid container style={{display: 'flex', flexDirection:'column', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px'}}>
+                        <h2 style={{ textAlign: 'center' }}>{tituloView}</h2>
+                        <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px' }}>
                             <h5>{encabezadoView}</h5>
                             <p>{descripcionView}</p>
                         </Grid>
-                        <Grid container style={{display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
+                        <Grid container style={{ display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
+                        <Grid item xs={12}>
+                                <Button variant="contained" color="error" onClick={handleCloseView} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>

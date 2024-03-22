@@ -16,8 +16,6 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { RiShieldKeyholeLine } from "react-icons/ri";
-import { BASE_URL_API } from "../../../../../assets/includes/variables";
-import axios from "axios";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 
 
@@ -206,6 +204,7 @@ function UserList() {
                             />
                         </Button>
                     </Tooltip>
+                    
                 </div>
             ),
         },
@@ -289,6 +288,7 @@ function UserList() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         border: '2px solid #000',
+        height: isSmallScreen ? '75%' : '65%',
         width: isSmallScreen ? '100%' : '50%',
         boxShadow: 24,
         p: 4,
@@ -380,7 +380,7 @@ function UserList() {
 
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-45px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: "100%", marginTop: '-45px' }}>
                 <Grid
                     container
                     direction="row"
@@ -496,7 +496,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}
+                    <Box sx={style} style={{overflow: 'auto'}}
                         component="form"
                         id="crearUsuario"
                         noValidate
@@ -620,9 +620,14 @@ function UserList() {
                                     />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" fullWidth style={{ color: '#fff' }}>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -637,7 +642,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}
+                    <Box sx={style} style={{overflow: 'auto'}}
                         component="form"
                         id="editarUsuario"
                         noValidate
@@ -738,6 +743,7 @@ function UserList() {
                                     </FormControl>
                                 )}
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -747,6 +753,12 @@ function UserList() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
@@ -759,7 +771,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}
+                    <Box sx={style} style={{overflow: 'auto'}}
                         component="form"
                         id="editarUsuario"
                         noValidate
@@ -774,6 +786,11 @@ function UserList() {
                                 </Grid>
                             ))}
                         </Grid>
+                        <Grid item xs={12}>
+                                <Button variant="contained" color="error" onClick={handleClosePermit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>

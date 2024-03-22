@@ -237,7 +237,7 @@ function Token() {
 
     return (
         <>
-            <div style={{ height: isSmallScreen ? '80%' : '90%', width: isSmallScreen ? '100%' : '66%'}}>
+            <div style={{ height: isSmallScreen ? '90%' : '90%', width: isSmallScreen ? '100%' : '66%'}}>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {
@@ -351,6 +351,7 @@ function Token() {
                                     label="Nombre"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="nombre"
                                     value={formDataToken.nombre}
                                     onChange={handlerChangeUpt}
@@ -362,6 +363,7 @@ function Token() {
                                     label="Codigo del Token"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="tokenKey"
                                     value={formDataToken.tokenKey}
                                     onChange={handlerChangeUpt}
@@ -369,16 +371,18 @@ function Token() {
                             </Grid>
                             <Grid item sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
                                 <TextField
-                                    sx={{ text: 'center', width: '80%' }}
+                                    sx={{ text: 'center' }}
                                     id="token"
                                     label="Token"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="token"
                                     value={formDataToken.token}
                                     onChange={handlerChangeUpt}
                                 />
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -388,6 +392,12 @@ function Token() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

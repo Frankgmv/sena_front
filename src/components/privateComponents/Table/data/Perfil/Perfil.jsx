@@ -101,6 +101,7 @@ const Perfil = () => {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
+        height: isSmallScreen ? '70%' : '60%',
         width: isSmallScreen ? '100%' : '60%',
         p: 4,
         alignItems: 'center',
@@ -110,7 +111,7 @@ const Perfil = () => {
     return (
         <>
             <div className='perfil'>
-                <Box sx={style}
+                <Box sx={style} style={{overflow: 'auto'}}
                     component="form"
                     id="crearUsuario"
                     noValidate

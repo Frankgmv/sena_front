@@ -128,7 +128,7 @@ function RolList() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '35%',}}>
+            <div style={{ height: isSmallScreen ? '90%' : '70%', width: isSmallScreen ? '100%' : '35%',}}>
                 <DataGrid
                     rows={roles.map(rol => {
                         if (rol.estado) return { ...rol, estado: 'Activo' }
@@ -243,6 +243,7 @@ function RolList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -252,6 +253,12 @@ function RolList() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

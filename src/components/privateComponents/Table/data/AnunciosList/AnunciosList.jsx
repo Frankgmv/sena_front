@@ -324,7 +324,7 @@ function AnunciosList() {
 
     return (
         <>
-                <div style={{ height: isSmallScreen ? '70%' : '80%', width: isSmallScreen ? '100%' : '66%', marginTop: isSmallScreen ? '-50%' : '-5%' }}>
+            <div style={{ height: isSmallScreen ? '70%' : '80%', width: isSmallScreen ? '100%' : '66%', marginTop: isSmallScreen ? '-10%' : '-5%' }}>
                 <Grid
                     container
                     direction="row"
@@ -522,9 +522,14 @@ function AnunciosList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" style={{color: '#fff'}} type="submit" fullWidth>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="success" style={{ color: '#fff' }} type="submit" fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -579,15 +584,22 @@ function AnunciosList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px' }}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="submit"
+                                    style={{ color: '#fff' }}
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
@@ -614,6 +626,11 @@ function AnunciosList() {
                             <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', justifyContent: 'center', alignItems: 'center', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
+                        <Grid item xs={12}>
+                                <Button variant="contained" color="error" onClick={handleCloseView}  style={{ color: '#fff', marginTop: '5%' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>

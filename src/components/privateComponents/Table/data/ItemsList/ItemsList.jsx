@@ -293,7 +293,7 @@ function ItemList() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '96%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '96%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -428,6 +428,7 @@ function ItemList() {
                                     variant="standard"
                                     type="text"
                                     name="titulo"
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -437,6 +438,7 @@ function ItemList() {
                                     variant="standard"
                                     type="text"
                                     name="link"
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -446,6 +448,7 @@ function ItemList() {
                                     variant="standard"
                                     type="file"
                                     name="imagen"
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -457,6 +460,7 @@ function ItemList() {
                                         name="estado"
                                         value={estado}
                                         label="Estado"
+                                        fullWidth
                                         onChange={(e) => setEstado(e.target.value)}
                                     >
                                         <MenuItem value={false}>Inactivo</MenuItem>
@@ -464,9 +468,14 @@ function ItemList() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -488,11 +497,16 @@ function ItemList() {
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank" style={{textDecoration:'none' }}>{linkView}</a> </small></span>
+                        <span style={{ textAlign: 'center' }}><small style={{ fontSize: '1.2em' }}><a href={linkView} target="_blank" style={{ textDecoration: 'none' }}>{linkView}</a> </small></span>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '380px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' }} alt={imagenView}  />
                         </Grid>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}>Esta {estadoView ? ' Activo': ' Inactivo'}</small></span>
+                        <span style={{ textAlign: 'center' }}><small style={{ fontSize: '1.2em' }}>Esta {estadoView ? ' Activo' : ' Inactivo'}</small></span>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Cerrar
+                            </Button>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>
@@ -522,6 +536,7 @@ function ItemList() {
                                     name="titulo"
                                     value={tituloUpt}
                                     onChange={(e) => setTituloUpt(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -533,6 +548,7 @@ function ItemList() {
                                     name="link"
                                     value={linkUpt}
                                     onChange={(e) => setLinkUpt(e.target.value)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -542,7 +558,7 @@ function ItemList() {
                                     variant="standard"
                                     name="imagen"
                                     type="file"
-
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -555,13 +571,14 @@ function ItemList() {
                                         name="estado"
                                         value={estadoUpt}
                                         onChange={(e) => setEstadoUpt(e.target.value)}
-
+                                        fullWidth
                                     >
                                         <MenuItem value={estadoUpt}>{estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
                                         <MenuItem value={!estadoUpt}>{!estadoUpt ? 'Activo' : 'Inactivo'}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -571,6 +588,12 @@ function ItemList() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
