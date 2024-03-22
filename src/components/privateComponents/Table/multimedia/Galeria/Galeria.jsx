@@ -261,16 +261,16 @@ function Galeria() {
             setImagenView(dt.imgPath)
         }
     }
-    
-        useEffect(() => {
-            if (openView) {
-                getViewEditGaleria()
-            } else {
-                setEventoView('')
-                setTituloView('')
-                setImagenView('')
-            }
-        }, [openView])
+
+    useEffect(() => {
+        if (openView) {
+            getViewEditGaleria()
+        } else {
+            setEventoView('')
+            setTituloView('')
+            setImagenView('')
+        }
+    }, [openView])
 
     useEffect(() => {
         if (openEdit) {
@@ -294,7 +294,7 @@ function Galeria() {
 
     return (
         <>
-            <div style={{ height: 400, maxWidth: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -469,9 +469,14 @@ function Galeria() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -495,6 +500,11 @@ function Galeria() {
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 100 }} alt={imagenView} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Cerrar
+                            </Button>
                         </Grid>
                     </Box>
                 </Modal>
@@ -557,15 +567,22 @@ function Galeria() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: 'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: 'white' }}
+                                    type="submit"
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
