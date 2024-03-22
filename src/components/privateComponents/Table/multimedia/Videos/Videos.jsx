@@ -93,7 +93,7 @@ function Videos() {
                     style={{
                         textAlign: "center"
                     }}>
-                        <Tooltip title="Ver">
+                    <Tooltip title="Ver">
                         <Button>
                             <FiEye
                                 onClick={() => {
@@ -128,7 +128,7 @@ function Videos() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={()=>{
+                                onClick={() => {
                                     showSwal()
                                     setLocalStorage('deleteVideoId', params.row.id)
                                 }}
@@ -284,7 +284,7 @@ function Videos() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '85%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -415,6 +415,7 @@ function Videos() {
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     value={titulo}
                                     name="titulo"
                                     onChange={e => setTitulo(e.target.value)}
@@ -427,6 +428,7 @@ function Videos() {
                                     variant="standard"
                                     type="text"
                                     value={link}
+                                    fullWidth
                                     name="link"
                                     onChange={e => setLink(e.target.value)}
                                 />
@@ -437,13 +439,19 @@ function Videos() {
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    fullWidth
                                     name="imagen"
                                     value={imagen}
                                     onChange={e => setImagen(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
                                 </Button>
                             </Grid>
@@ -459,16 +467,21 @@ function Videos() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%',}}
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', }}
                         component="form"
                         id="crear"
                         noValidate
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank" style={{textDecoration: 'none'}}>{linkView}</a> </small></span>
+                        <span style={{ textAlign: 'center' }}><small style={{ fontSize: '1.2em' }}><a href={linkView} target="_blank" style={{ textDecoration: 'none' }}>{linkView}</a> </small></span>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66}} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Guardar
+                            </Button>
                         </Grid>
                     </Box>
                 </Modal>
@@ -497,6 +510,7 @@ function Videos() {
                                     variant="standard"
                                     type="text"
                                     name="titulo"
+                                    fullWidth
                                     value={tituloUpt}
                                     onChange={e => setTituloUpt(e.target.value)}
                                 />
@@ -509,6 +523,7 @@ function Videos() {
                                     type="text"
                                     name="link"
                                     value={linkUpt}
+                                    fullWidth
                                     onChange={e => setLinkUpt(e.target.value)}
                                 />
                             </Grid>
@@ -518,18 +533,26 @@ function Videos() {
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    fullWidth
                                     name="imagen"
                                 />
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: 'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: 'white' }}
+                                    type="submit"
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

@@ -16,6 +16,7 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Pqrs() {
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs} = usePqrsContext()
 
 
@@ -222,7 +223,7 @@ function Pqrs() {
 
     return (
         <>
-            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '90%' : '80%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"

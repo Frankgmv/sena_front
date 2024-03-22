@@ -66,7 +66,7 @@ function Historial() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '63%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '67%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
