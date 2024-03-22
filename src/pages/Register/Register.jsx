@@ -76,7 +76,7 @@ const Register = () => {
                     <Boton4 link='/login' name='Iniciar Sesion' id="irALogin" />
                 </div>
             </div>
-            <div className="containerInput">
+            <div className="containerInputRegister">
                 <div className="encabezadoRegister">
                     <h3>Bienvenido</h3>
                     <p>A la plataforma educativa</p>
@@ -122,6 +122,7 @@ const Register = () => {
                         </div>
                         <div className="junto">
                             <div className="select-container">
+                                <label htmlFor="">Selecciona tu Rol</label>
                                 <select name="RolId" id="RolId" onChange={handleChange}>
                                     <option value="10">Seleccionar</option>
                                     {roles.map((rol) => {
@@ -154,7 +155,7 @@ const Register = () => {
                                 <button type='submit' id='nut' className='button success'>Registrar</button>
                             </div>
                             <div className="linkRegister">
-                                <Link className='linkInput' to='/register'>Crea una cuenta</Link>
+                                <Link className='linkInput' to='/login'>¿Ya tienes una cuenta?</Link>
                             </div>
                         </div>
                     </form>
