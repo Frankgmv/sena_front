@@ -8,7 +8,7 @@ import toastr from '../../assets/includes/Toastr'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const { roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
+    const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth} = useCredentialContext();
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -20,6 +20,9 @@ const Login = () => {
             })
         }
     }, [errors]);
+    useEffect(() => {
+        verifyAuth()
+    }, []);
 
     useEffect(() => {
         if (responseMessage.length != 0) {
@@ -33,6 +36,7 @@ const Login = () => {
         if (isAuthenticate) {
             navigate('/admin')
         }
+
     }, [responseMessage, isAuthenticate, navigate]);
 
 
