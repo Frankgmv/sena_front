@@ -5,7 +5,7 @@ import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/
 import { registerActionHistorial } from "../assets/includes/historial";
 
 const CredentialContext = createContext({
-    isAuthenticate: false,
+    isAuthenticate: null,
     login: () => {},
     logoutFn: () => {},
     verificarToken: () => {}
@@ -37,10 +37,7 @@ export const CredentialProvider = ({ children }) => {
     
     useEffect(() => {
         getRoles();
-        if(getLocalStorage('token')){
-            verificarToken();   
-        }
-    }, [isAuthenticate])
+    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -183,16 +180,7 @@ export const CredentialProvider = ({ children }) => {
                 setIsAuthenticate(true)
             }
         } catch (error) {
-            if (error.response.data.message) {
-                if (!errors.includes(error.response.data.message)) {
-                    setErrors((prevent) => {
-                        return [
-                            ...prevent,
-                            error.response.data.message
-                        ]
-                    })
-                }
-            }
+            
         }
     }
 
@@ -249,8 +237,6 @@ export const CredentialProvider = ({ children }) => {
             const response = await verificarTokenRequest()
             if (response.data.ok) {
                 setIsAuthenticate(true);
-            } else {
-                setIsAuthenticate(false);
             }
         } catch (error) {
             if (error.response.data.message) {

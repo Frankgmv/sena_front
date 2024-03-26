@@ -26,13 +26,13 @@ import { useCredentialContext } from "../../context/AuthContext";
 import { getLocalStorage } from "../../assets/includes/localStorage";
 import toastr from "../../assets/includes/Toastr";
 import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
-import { Grid, MenuItem } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { perfil } = useGeneralContext();
   const open = Boolean(anchorEl);
-  const { logoutFn, rolName, isAuthenticate, errors, responseMessage, verifyAuth} = useCredentialContext()
+  const { logoutFn, rolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
   const navegar = useNavigate()
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
       })
     }
   }, [responseMessage])
-  
+
   useEffect(() => {
     if (errors.length != 0) {
       const deleteDuplicidad = new Set(errors);
@@ -64,14 +64,12 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    verifyAuth()
-    if (!isAuthenticate && !getLocalStorage('token')) {
+    if (!getLocalStorage('token')) {
       navegar('/login')
+    } else if (!isAuthenticate) {
+      verificarToken()
     }
   }, [])
-
-
-
 
   const cerrarSesion = () => {
     logoutFn()
