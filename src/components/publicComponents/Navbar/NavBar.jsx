@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import logo from '../../../assets/img/logo.png'
 import './NavBar.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Drawer, Grid, useMediaQuery } from '@mui/material'
 import { IoIosArrowDown } from 'react-icons/io'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { BASE_URL_API } from '../../../assets/includes/variables'
+import axios from 'axios'
 
 const NavBar = () => {
 
@@ -16,6 +18,21 @@ const NavBar = () => {
     };
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+
+    const [data, setData] = useState([]);
+
+    const endPoint = `${BASE_URL_API}/data/links`
+
+    const getData = async () => {
+        const response = await axios.get(endPoint);
+        setData(response.data.data);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    console.log(data);
 
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
@@ -67,6 +84,29 @@ const NavBar = () => {
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/admin'>Admin</Link>
                                 </Grid>
+                            </Grid>
+                        </AccordionDetails>
+                    </Accordion>
+                </Grid>
+                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            Links
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Grid container spacing={2} sx={{ width: '100%' }}>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/'>Home</Link>
+                                </Grid>
+                                {data.map((item) => (
+                                    <Grid item xs={12} key={item.id}>
+                                        <Link style={{ textDecoration: 'none' }} className='link' to={item.link}>{item.titulo}</Link>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </AccordionDetails>
                     </Accordion>

@@ -16,6 +16,12 @@
     color: var(--black);
 }
 
+.cardMenuInteractivo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 @media (width <= 500px){
     .menuBody .menuCards{
         margin: 10px 0px;
