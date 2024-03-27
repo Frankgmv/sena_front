@@ -59,9 +59,14 @@ export default function Sidebar() {
                 {/* // !General */}
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
+                    <li key="mi-perfil">
+                        <NavLink to="./" className="link">
+                            Mi Perfil
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink to="/" className="link">
-                            Home Page
+                            Página principal
                         </NavLink>
                     </li>
                     <li>
@@ -74,11 +79,6 @@ export default function Sidebar() {
             <List>
                 <h4 className='subtitleSide'>Datos</h4>
                 <ul>
-                    <li key="mi-perfil">
-                        <NavLink to="./" className="link">
-                            Mi Perfil
-                        </NavLink>
-                    </li>
                     <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
                         <NavLink to="./anuncios-list" className="link">
                             Anuncios

@@ -557,7 +557,7 @@ function AnunciosList() {
                                 <TextField sx={{ width: '90%' }} id="titulo" name="titulo" value={tituloUpt} onChange={(e) => setTituloUpt(e.target.value)} label="Titulo" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField sx={{ width: '90%' }} id="apellido" name="descripcion" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} label="Apellido" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="Apellido" name="descripcion" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} label="Descripción" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField sx={{ width: '90%' }} id="imagen" name="imagen" onChange={(e) => setImgPath(e.target.value)} label="Imagen" variant="standard" type="file" />

@@ -137,3 +137,9 @@ export const postEventoRequest = (data) => axios.post(`/data/eventos`, data);
 export const putEventoRequest = (id, data) => axios.put(`/data/eventos/${id}`, data);
 
 export const deleteEventoRequest = (id) => axios.delete(`/data/eventos/${id}`);
+
+// ! Credenciales Email
+
+export const getCredencialesEmailRequest = () => axios.get(`/data/credenciales`);
+
+export const putCredencialesEmailRequest = (id, data) => axios.put(`/data/credenciales/${id}`, data);

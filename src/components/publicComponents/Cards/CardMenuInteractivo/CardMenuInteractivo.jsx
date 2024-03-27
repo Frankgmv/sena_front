@@ -4,7 +4,7 @@ import './CardMenuInteractivo.css'
 const CardMenuInteractivo = (data) => {
     return (
         <div className='containerMenuCard'>
-            <Link className="menuLink" to={data.link}>
+            <Link className="menuLink" to={data.link} target={data.target}>
                 <div className="cardImagen">
                     <img src={data.img} alt="Imagen.png" />
                 </div>

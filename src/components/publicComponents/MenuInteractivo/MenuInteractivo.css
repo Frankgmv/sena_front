@@ -6,8 +6,8 @@
 .menuBody .menuCards{
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
     margin: 50px 0px;
+    flex-wrap: wrap-reverse;
 }
 
 .menuBody .titulo{

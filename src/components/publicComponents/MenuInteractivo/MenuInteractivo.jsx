@@ -23,7 +23,7 @@ const MenuInteractivo = () => {
     useEffect(() => {
         getData();
     }, []);
-    console.log(data);
+
     return (
         <div className='menuBody'>
             <div className="titulo">
@@ -52,28 +52,27 @@ const MenuInteractivo = () => {
                 />
                 <CardMenuInteractivo
                     link="/eventos"
-                    name="Galeria"
+                    name="Galería"
                     img={galeria}
                 />
                 <CardMenuInteractivo
                     link="https://www.google.com/maps?ll=4.811764,-75.681906&z=13&t=m&hl=es&gl=CO&mapclient=embed&cid=3726081407287373697"
                     name="Ubicacion"
+                    target='_blank'
                     img={ubication}
                 />
-                <div className="cardMenuInteractivo">
-                    {data.map((item) => (
-                        <div className='containerMenuCard' key={item.id}>
-                            <Link className="menuLink" to={item.link}>
-                                <div className="cardImagen">
-                                    <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen.png" />
-                                </div>
-                                <div className="menuLinks">
-                                    <h3>{item.titulo}</h3>
-                                </div>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+                {data.map((item) => (
+                    <div className='containerMenuCard' key={item.id} hidden={!item.estado}>
+                        <Link className="menuLink" to={item.link} target='_blank'>
+                            <div className="cardImagen">
+                                <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen.png" />
+                            </div>
+                            <div className="menuLinks">
+                                <h3>{item.titulo}</h3>
+                            </div>
+                        </Link>
+                    </div>
+                ))}
             </div>
         </div>
     )

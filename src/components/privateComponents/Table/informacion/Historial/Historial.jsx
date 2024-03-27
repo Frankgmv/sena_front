@@ -29,7 +29,7 @@ function Historial() {
         {
             field: "cambio",
             headerName: "Cambio",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },

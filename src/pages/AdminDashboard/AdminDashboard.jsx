@@ -27,6 +27,7 @@ import { getLocalStorage } from "../../assets/includes/localStorage";
 import toastr from "../../assets/includes/Toastr";
 import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
 import { Grid } from "@mui/material";
+import CredencialesEmail from "../../components/privateComponents/Table/data/Credenciales/CredencialesEmail";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -131,7 +132,7 @@ const AdminDashboard = () => {
                       onClick={handleClose}
                       to="/"
                     >
-                      Home Page
+                      Página principal
                     </NavLink>
                   </Grid>
                   <Grid item xs={12}>
@@ -175,7 +176,7 @@ const AdminDashboard = () => {
             <Route path="*" element={<Perfil />} />
             {/* // ! Adicionales */}
             <Route
-              path="/nodemailer" element={<h1>nodemailer cambiar claves para emails</h1>}
+              path="/nodemailer" element={<CredencialesEmail />}
             />
           </Routes>
           <Outlet />

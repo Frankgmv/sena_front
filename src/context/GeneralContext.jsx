@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { deleteDetallePermisosRequest, getAllCategoriasRequest, getAllSeccionesRequest, getDetallePermisosByDocumentoRequest, getPermisosRequest, getRolRequest, getSeccionesMenuRequest, postDetallePermisoRequest, putRolRequest } from "../api/data";
+import { deleteDetallePermisosRequest, getAllCategoriasRequest, getAllSeccionesRequest, getCredencialesEmailRequest, getDetallePermisosByDocumentoRequest, getPermisosRequest, getRolRequest, getSeccionesMenuRequest, postDetallePermisoRequest, putCredencialesEmailRequest, putRolRequest } from "../api/data";
 import { deleteHistorialRequest, getHistorialRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
 import { perfilRequest } from "../api/auth";
@@ -25,6 +25,7 @@ export const GeneralProvider = ({ children }) => {
     const [detallePermiso, setDetallePermiso] = useState([]);
     const [permisosData, setPermisosData] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [credencialesEmail, setCredencialesEmail] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
 
     useEffect(() => {
@@ -46,10 +47,10 @@ export const GeneralProvider = ({ children }) => {
         if (permisos.length != 0 && detallePermiso.length != 0) {
             const transformResponse = permisos.map(permiso => {
                 if (detallePermiso.some(detalle => detalle.PermisoId === permiso.id)) {
-                    return { ...permiso, value: true}
+                    return { ...permiso, value: true }
                 }
 
-                return { ...permiso, value: false}
+                return { ...permiso, value: false }
             })
             setPermisosData(transformResponse)
         }
@@ -85,6 +86,47 @@ export const GeneralProvider = ({ children }) => {
                     let estadoDb = !estadoInfo ? 'Activo' : 'Inactivo'
                     await registerActionHistorial(`Actualizó rol`, `Rol de ${inforRol?.data?.data?.rol} paso de '${estadoDb}' a '${estadoInfo}'`)
                 }
+            } else {
+                if (!errors.includes(data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            data.message
+                        ]
+                    })
+                }
+            }
+        } catch (error) {
+            if (error.response.message) {
+                if (!errors.includes(error.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+    const putCredencialesEmail = async (id, datos) => {
+        try {
+            const perfil = await perfilRequest()
+            const response = await putCredencialesEmailRequest(id, datos)
+            const data = await response.data
+            if (data.ok) {
+                if (data.message) {
+                    if (!responseMessage.includes(data.message)) {
+                        setResponseMessage((prevent) => {
+                            return [
+                                ...prevent,
+                                data.message
+                            ]
+                        })
+                    }
+                }
+                await registerActionHistorial(`Actualizó Credenciales`, `Modificó el credencial de los email de la plataforma`)
+                getCredencialesEmail()
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
@@ -146,6 +188,24 @@ export const GeneralProvider = ({ children }) => {
             const response = await getAllSeccionesRequest()
             const data = await response.data
             setSecciones(data.data)
+        } catch (error) {
+            if (error.response.data.message) {
+                if (!errors.includes(error.response.data.message)) {
+                    setErrors((prevent) => {
+                        return [
+                            ...prevent,
+                            error.response.data.message
+                        ]
+                    })
+                }
+            }
+        }
+    }
+    const getCredencialesEmail = async () => {
+        try {
+            const response = await getCredencialesEmailRequest()
+            const data = await response.data
+            setCredencialesEmail(data.data)
         } catch (error) {
             if (error.response.data.message) {
                 if (!errors.includes(error.response.data.message)) {
@@ -302,7 +362,7 @@ export const GeneralProvider = ({ children }) => {
 
     const postDataPermisos = async (PermisoId, UsuarioId) => {
         try {
-            const crearPermiso = await postDetallePermisoRequest({PermisoId, UsuarioId})
+            const crearPermiso = await postDetallePermisoRequest({ PermisoId, UsuarioId })
             if (crearPermiso.data.ok) {
                 if (crearPermiso.data.message) {
                     if (!responseMessage.includes(crearPermiso.data.message)) {
@@ -377,7 +437,10 @@ export const GeneralProvider = ({ children }) => {
         permisosData,
         setPermisosData,
         postDataPermisos,
-        deleteDataPermisos
+        deleteDataPermisos,
+        credencialesEmail,
+        getCredencialesEmail,
+        putCredencialesEmail
     }
 
     return (

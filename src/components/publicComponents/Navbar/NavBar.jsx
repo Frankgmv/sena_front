@@ -32,8 +32,6 @@ const NavBar = () => {
         getData();
     }, []);
 
-    console.log(data);
-
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
             <Grid container spacing={2} sx={{ width: '100%' }}>
