@@ -514,8 +514,9 @@ function AnunciosList() {
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }
@@ -576,8 +577,9 @@ function AnunciosList() {
                                         {
                                             secciones.map((seccion, i) => {
                                                 const isSelect = seccion.id === SeccionIdUpt
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem style={{ color: isSelect ? 'red' : '' }} value={seccion.id} key={i}>{seccion.seccion}{isSelect ? <>&nbsp;Por defecto</> : ''}</MenuItem>
+                                                    <MenuItem style={{ color: isSelect ? 'red' : '' }} hidden={mostrar} value={seccion.id} key={i}>{seccion.seccion}{isSelect ? <>&nbsp;Por defecto</> : ''}</MenuItem>
                                                 )
                                             })
                                         }

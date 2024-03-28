@@ -24,8 +24,8 @@ function Links() {
     const { secciones, categorias } = useGeneralContext()
     const { usuarios } = useUserContext()
     const [formLink, setFormLink] = useState({
-        CategoriaId: 1,
-        SeccionId: 1,
+        CategoriaId: 8,
+        SeccionId: 15,
         link: '',
         descripcion: '',
         tipo: 'pdf',
@@ -513,8 +513,9 @@ function Links() {
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={!mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }
@@ -642,8 +643,9 @@ function Links() {
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={!mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }

@@ -1,13 +1,8 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Grid, Tooltip } from "@mui/material";
+import { useEffect } from "react";
+import { Button, Grid, Tooltip} from "@mui/material";
 import Swal from 'sweetalert2'
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
-
-import SendIcon from '@mui/icons-material/Send';
 import { usePqrsContext } from "../../../../../context/PqrsContext";
 import { FiEdit2 } from "react-icons/fi";
 import { BsTrash3 } from "react-icons/bs";
@@ -17,7 +12,7 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Pqrs() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs} = usePqrsContext()
+    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs } = usePqrsContext()
 
 
     useEffect(() => {
@@ -39,7 +34,6 @@ function Pqrs() {
             })
         }
     }, [responseMessageData])
-
 
     const columns = [
         {
@@ -141,6 +135,10 @@ function Pqrs() {
             width: 300,
             headerAlign: "center",
             align: "center",
+            wordWrap: true,
+            renderCell: (params) => {
+
+            }
         },
         {
             field: "createdAt",
@@ -207,7 +205,7 @@ function Pqrs() {
                 });
                 let id = getLocalStorage('editPQRSId')
                 id = parseInt(id)
-                putPqrs(id, {estado: true})
+                putPqrs(id, { estado: true })
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -233,8 +231,8 @@ function Pqrs() {
                 >
                 </Grid>
                 <DataGrid
-                    rows={pqrs.map(pqrs =>{
-                        return{...pqrs, estado: pqrs.estado? 'Leido': 'No leido'}
+                    rows={pqrs.map(pqrs => {
+                        return { ...pqrs, estado: pqrs.estado ? 'Leido' : 'No leido' }
                     }).map(pqrs => {
                         const createdAt = formateFecha(pqrs.createdAt);
                         return { ...pqrs, createdAt }

@@ -6,9 +6,9 @@ import { registerActionHistorial } from "../assets/includes/historial";
 
 const CredentialContext = createContext({
     isAuthenticate: null,
-    login: () => {},
-    logoutFn: () => {},
-    verificarToken: () => {}
+    login: () => { },
+    logoutFn: () => { },
+    verificarToken: () => { }
 });
 
 export const useCredentialContext = () => {
@@ -34,7 +34,7 @@ export const CredentialProvider = ({ children }) => {
         getRoles();
         getRolName();
     }, [])
-    
+
     useEffect(() => {
         getRoles();
     }, [])
@@ -44,7 +44,7 @@ export const CredentialProvider = ({ children }) => {
             if (errors.length != 0) {
                 setErrors([]);
             }
-        }, 6000);
+        }, 3000);
         return () => clearTimeout(timer);
     }, [errors])
 
@@ -53,7 +53,7 @@ export const CredentialProvider = ({ children }) => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);
             }
-        }, 6000);
+        }, 3000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
@@ -137,7 +137,7 @@ export const CredentialProvider = ({ children }) => {
                         }
                         return prevent
                     });
-                    
+
                     await verificarToken()
                 }
             }
@@ -176,11 +176,11 @@ export const CredentialProvider = ({ children }) => {
         try {
             const response = await perfilRequest()
             const data = await response.data
-            if(data.ok){
+            if (data.ok) {
                 setIsAuthenticate(true)
             }
         } catch (error) {
-            
+
         }
     }
 
@@ -189,7 +189,6 @@ export const CredentialProvider = ({ children }) => {
             const response = await registroRequest(dataRegister)
             const data = await response.data
             if (data.ok) {
-                console.log(data)
                 removeLocalStorage('token')
                 setResponseMessage((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -232,7 +231,7 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
-    const verificarToken = async ()  =>  {
+    const verificarToken = async () => {
         try {
             const response = await verificarTokenRequest()
             if (response.data.ok) {

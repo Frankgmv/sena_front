@@ -29,7 +29,9 @@ const Register = () => {
                 toastr.success(msg)
             })
             document.querySelector('form').reset();
-            navigate("/login")
+            setTimeout(() => {
+                navigate("/login")
+            }, 4000);
         }
     }, [responseMessage, navigate]);
 

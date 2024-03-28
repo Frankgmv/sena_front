@@ -79,29 +79,9 @@ export default function Sidebar() {
             <List>
                 <h4 className='subtitleSide'>Datos</h4>
                 <ul>
-                    <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
-                        <NavLink to="./anuncios-list" className="link">
-                            Anuncios
-                        </NavLink>
-                    </li>
-                    <li key="categorias">
-                        <NavLink to="./categorias" className="link">
-                            Categorias
-                        </NavLink>
-                    </li>
-                    <li key="eventos" style={mostrar('P_GALERIA') ? hiddenSeccion : {}}>
-                        <NavLink to="./eventos-list" className="link">
-                            Eventos
-                        </NavLink>
-                    </li>
-                    <li key="links" style={mostrar('P_LINKS') ? hiddenSeccion : {}}>
-                        <NavLink to="./link" className="link">
-                            Links
-                        </NavLink>
-                    </li>
-                    <li key="menu-interactivo" style={mostrar('P_MENU') ? hiddenSeccion : {}}>
-                        <NavLink to="./item-list" className="link">
-                            Menu Interactivo
+                    <li key="usuarios" style={mostrar('P_USUARIOS') ? hiddenSeccion : {}}>
+                        <NavLink to="./usuarios" className="link">
+                            Usuarios
                         </NavLink>
                     </li>
                     <li key="noticias" style={mostrar('P_NOTICIAS') ? hiddenSeccion : {}}>
@@ -109,9 +89,19 @@ export default function Sidebar() {
                             Noticias
                         </NavLink>
                     </li>
-                    <li key="seccion-list">
-                        <NavLink to="./seccion-list" className="link">
-                            Secciones
+                    <li key="menu-interactivo" style={mostrar('P_MENU') ? hiddenSeccion : {}}>
+                        <NavLink to="./item-list" className="link">
+                            Menu Interactivo
+                        </NavLink>
+                    </li>
+                    <li key="links" style={mostrar('P_LINKS') ? hiddenSeccion : {}}>
+                        <NavLink to="./link" className="link">
+                            Links
+                        </NavLink>
+                    </li>
+                    <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>
+                        <NavLink to="./anuncios-list" className="link">
+                            Anuncios
                         </NavLink>
                     </li>
                     <li key="rol" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
@@ -124,9 +114,14 @@ export default function Sidebar() {
                             Token
                         </NavLink>
                     </li>
-                    <li key="usuarios" style={mostrar('P_USUARIOS') ? hiddenSeccion : {}}>
-                        <NavLink to="./usuarios" className="link">
-                            Usuarios
+                    <li key="seccion-list">
+                        <NavLink to="./seccion-list" className="link">
+                            Secciones
+                        </NavLink>
+                    </li>
+                    <li key="categorias">
+                        <NavLink to="./categorias" className="link">
+                            Categorias
                         </NavLink>
                     </li>
                 </ul>
@@ -134,9 +129,9 @@ export default function Sidebar() {
                 {/* // !Multimedia */}
                 <h4 className='subtitleSide'>Multimedia</h4>
                 <ul>
-                    <li key="archivos" style={mostrar('P_MAGAZINE') ? hiddenSeccion : {}}>
-                        <NavLink to="./archivos" className="link">
-                            Archivos
+                    <li key="eventos" style={mostrar('P_GALERIA') ? hiddenSeccion : {}}>
+                        <NavLink to="./eventos-list" className="link">
+                            Eventos
                         </NavLink>
                     </li>
                     <li key="galeria" style={mostrar('P_GALERIA') ? hiddenSeccion : {}}>
@@ -154,10 +149,15 @@ export default function Sidebar() {
                             Slider
                         </NavLink>
                     </li>
+                    <li key="archivos" style={mostrar('P_MAGAZINE') ? hiddenSeccion : {}}>
+                        <NavLink to="./archivos" className="link">
+                            Archivos
+                        </NavLink>
+                    </li>
                 </ul>
                 <Divider />
                 {/* // !Informacion */}
-                <h4 className='subtitleSide' style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>Información</h4>
+                <h4 className='subtitleSide' style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>Herramientas</h4>
                 <ul style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>
                     <li key="pqrs" style={mostrar('P_PQRS') ? hiddenSeccion : {}}>
                         <NavLink to="./pqrs" className="link">

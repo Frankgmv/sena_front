@@ -20,6 +20,7 @@ const Videos = () => {
                     <h3>Himno Institucional</h3>
                 </div>
                 <div className="videoComplemento">
+                    {/* TODO mostrar aquí los videos subidos en la entidades de videos */}
                     <div className="video">
                         <iframe
                             width={460}

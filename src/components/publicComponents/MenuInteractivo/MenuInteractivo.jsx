@@ -32,12 +32,12 @@ const MenuInteractivo = () => {
             <div className="menuCards">
                 <CardMenuInteractivo
                     link="/login"
-                    name="Login"
+                    name="Inicio sesión"
                     img={login}
                 />
                 <CardMenuInteractivo
                     link="/register"
-                    name="Register"
+                    name="Registrar"
                     img={register}
                 />
                 <CardMenuInteractivo
