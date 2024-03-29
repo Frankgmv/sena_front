@@ -34,8 +34,8 @@ const NavBar = () => {
 
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
-            <Grid container spacing={2} sx={{ width: '100%' }}>
-                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+            <Grid container spacing={2} sx={{ width: '100%', marginTop: '1em'}}>
+                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }} >
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -79,6 +79,21 @@ const NavBar = () => {
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/galeria'>Galeria</Link>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/la-institucion'>La Institución</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/pqrs'>PQRS</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/recuperar-contraseña'>Recuperar Contraseña</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/archivos'> Archivos Institucionales</Link>
+                                </Grid>
+                                {/* <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/magazine'>Magazine</Link>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/admin'>Admin</Link>
                                 </Grid>

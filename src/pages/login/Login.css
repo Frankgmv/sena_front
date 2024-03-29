@@ -187,7 +187,19 @@
     margin-top: 60px;
     margin-right: 20px;
     text-align: center;
+    display: flex;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.loginBody .footerInputsLogin .linkPassword .linkInput{
+    color: var(--black);
+    text-decoration: none;
+    border-bottom: 2px solid var(--black);
+    font-size: 18px;
+    padding-bottom: 10px;
 }
 
 .loginBody .footerInputsLogin .linkRegister {
@@ -220,7 +232,7 @@
     }
 }
 
-@media (width <=768px) and (width > 400px) {
+@media (width <=768px) and (width > 550px) {
     .loginBody .encabezadoLogin {
         width: 50%;
         margin: 0 auto;
@@ -263,7 +275,7 @@
     }
 }
 
-@media (width <=400px) {
+@media (width <=550px) {
     .loginBody .encabezadoLogin {
         width: 50%;
         border-bottom: 1px solid var(--black);
@@ -301,5 +313,6 @@
         text-decoration: none;
         font-size: 18px;
         padding-bottom: 10px;
+        margin-top: 1.5em;
     }
 }

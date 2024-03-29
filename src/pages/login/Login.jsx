@@ -8,7 +8,7 @@ import toastr from '../../assets/includes/Toastr'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth} = useCredentialContext();
+    const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -114,6 +114,9 @@ const Login = () => {
                                     name='Iniciar Sesion'
                                     id="botonEnviar"
                                 />
+                            </div>
+                            <div className="linkPassword">
+                                <Link className='linkInput' to='/recuperar-contraseña'>Recuperar Contraseña</Link>
                             </div>
                             <div className="linkRegister">
                                 <Link className='linkInput' to='/register'>Crea una cuenta</Link>
