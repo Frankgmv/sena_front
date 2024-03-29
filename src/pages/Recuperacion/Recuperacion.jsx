@@ -1,29 +1,49 @@
 import './Recuperacion.css'
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
-    Box,
-    Stepper,
-    Step,
-    StepButton,
-    Button,
-    TextField,
-    Typography,
-    IconButton,
-    InputAdornment,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
+    Box, Stepper, Step, StepButton, Button, TextField, Typography, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import NavBar from '../../components/publicComponents/Navbar/NavBar';
+import toastr from '../../assets/includes/Toastr';
+import { useResetPasswordContext } from '../../context/ResetPassContext';
+import { validarPassword } from '../../assets/includes/funciones';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Correo Electrónico', 'Código de Verificación', 'Nueva Contraseña'];
 
 function Recuperacion() {
+    const navegar = useNavigate()
+
+    const { responseMessage, errors: responseErrors, crearCodigo, validarCodigo, cambiarPassword } = useResetPasswordContext()
+    useEffect(() => {
+        toastr.clear()
+
+        if (responseErrors.length != 0) {
+            const deleteDuplicidad = new Set(responseErrors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
+                return toastr.error(error)
+            })
+        }
+
+
+        if (responseMessage.length != 0) {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
+                return toastr.success(msg)
+            })
+        }
+
+    }, [responseErrors, responseMessage]);
+
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState({});
     const [email, setEmail] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
+    const [credential, setCredential] = useState('');
+    const [identidad, setIdentidad] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
@@ -42,10 +62,6 @@ function Recuperacion() {
                 ? activeStep + 1
                 : activeStep;
         setActiveStep(newActiveStep);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
     const handleStep = (step) => () => {
@@ -69,6 +85,9 @@ function Recuperacion() {
             case 'email':
                 setEmail(value);
                 break;
+            case 'id':
+                setIdentidad(value);
+                break;
             case 'verificationCode':
                 setVerificationCode(value);
                 break;
@@ -91,22 +110,88 @@ function Recuperacion() {
                 if (!value) return 'Correo electrónico obligatorio';
                 if (!/\S+@\S+\.\S+/.test(value)) return 'Correo electrónico no válido';
                 return '';
+            case 'id':
+                if (!value) return 'Identidad es obligatoria';
+                if (value.length > 11 || value.length <= 7) return 'No tiene los suficientes caracteres';
+                return '';
             case 'verificationCode':
                 if (!value) return 'Código de verificación obligatorio';
                 return '';
             case 'password':
                 if (!value) return 'Contraseña obligatoria';
-                if (value.length < 8) return 'La contraseña debe tener al menos 8 caracteres';
+                if (!validarPassword(value)) return 'La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas, números y caracteres especiales';
                 return '';
             default:
                 return '';
         }
     };
 
+    const submmitedResetPassword = (e) => {
+        e.preventDefault()
+        let data = {}
+        switch (activeStep) {
+            case 0:
+                data = {
+                    correo: email ? email : null,
+                    id: identidad ? parseInt(identidad) : null
+                }
+                crearCodigo(data).then(data => {
+                    if (data.ok) {
+                        toastr.clear()
+                        handleNext()
+                        toastr.success('Busca en tu correo el código de recuperación')
+                    }
+                })
+                break;
+            case 1:
+                data = {
+                    id: identidad ? parseInt(identidad) : null,
+                    token: verificationCode ? verificationCode : null
+                }
+                validarCodigo(data).then(data => {
+                    if (data.ok) {
+                        toastr.clear()
+                        toastr.success(data.message)
+                        setCredential(data.credential)
+                        handleNext()
+                    }
+                })
+                break;
+            case 2:
+                if (errors.password) {
+                    toastr.error(errors.password)
+                } else {
+                    data = {
+                        id: identidad ? parseInt(identidad) : null,
+                        credential,
+                        password
+                    }
+                    cambiarPassword(data).then(data => {
+                        console.log(data)
+                        if (data.ok) {
+                            toastr.clear()
+                            toastr.info(data.message)
+                            setTimeout(() => {
+                                navegar('/login')
+                            }, 3000)
+                        } else {
+                            toastr.error(data.message)
+                        }
+
+                    })
+                }
+                break;
+            default:
+                toastr.warning("Desbordamiento de pasos")
+                break;
+        }
+
+    };
+
     // ! Todavia taba corrigiendo cosas pero al ver que la necesita mire si le da para trabajar sobre esto, sigo experimentos en la otra parte y breve
 
     const handleReset = () => {
-        console.log('hola');
+        alert('REINICIAR');
     };
 
     return (
@@ -137,28 +222,39 @@ function Recuperacion() {
                         ) : (
                             <Fragment>
                                 <Typography sx={{ mt: 4, mb: 4 }}>{steps[activeStep]}</Typography>
-                                <form>
+                                <form onSubmit={submmitedResetPassword}>
                                     {activeStep === 0 && (
-                                        <TextField
-                                            label="Correo Electrónico"
-                                            name="email"
-                                            // value={email}
-                                            // onChange={handleChange}
-                                            required
-                                            fullWidth
-                                            type="email"
-                                            error={errors.email}
-                                            helpertext={errors.email}
-                                            variant='standard'
-                                        />
+                                        <>
+                                            <TextField
+                                                label="Número de documento"
+                                                name="id"
+                                                value={identidad}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                type="number"
+                                                error={errors.id}
+                                                helpertext={errors.id}
+                                                variant='standard'
+                                            />
+                                            <TextField
+                                                label="Correo Electrónico"
+                                                name="email"
+                                                value={email}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                type="text"
+                                                error={errors.email}
+                                                helpertext={errors.email}
+                                                variant='standard'
+                                            />
+                                        </>
                                     )}
                                     {activeStep === 1 && (
                                         <TextField
                                             label="Código de Verificación"
                                             name="verificationCode"
-                                            // value={verificationCode}
-                                            // onChange={handleChange}
-                                            required
+                                            value={verificationCode}
+                                            onChange={handleChange}
                                             fullWidth
                                             error={errors.verificationCode}
                                             helpertext={errors.verificationCode}
@@ -173,9 +269,8 @@ function Recuperacion() {
                                                 name="password"
                                                 type={showPassword ? 'text' : 'password'}
                                                 variant='standard'
-                                                // value={password}
-                                                // onChange={handleChange}
-                                                required
+                                                value={password}
+                                                onChange={handleChange}
                                                 endAdornment={
                                                     <InputAdornment position="end">
                                                         <IconButton
@@ -194,18 +289,9 @@ function Recuperacion() {
                                         </FormControl>
                                     )}
                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                        <Button
-                                            color="inherit"
-                                            disabled={activeStep === 0 || Object.values(errors).some((error) => error)}
-                                            onClick={handleBack}
-                                            sx={{ mr: 1 }}
-                                            style={{ background: activeStep ? '#97c7d0' : 'transparent', color: activeStep ? '#000' : 'transparent' }}
-                                        >
-                                            Atrás
-                                        </Button>
                                         <Box sx={{ flex: '1 1 auto' }} />
-                                        <Button onClick={handleNext} sx={{ mr: 1 }} style={{ background: '#97c7d0', color: '#000' }}>
-                                            {isLastStep() ? 'Recuperar Contraseña' : 'Siguiente'}
+                                        <Button type='submit' sx={{ mr: 1 }} style={{ background: '#97c7d0', color: '#000' }}>
+                                            {isLastStep() ? 'Cambiar Contraseña' : 'Siguiente'}
                                         </Button>
                                     </Box>
                                 </form>

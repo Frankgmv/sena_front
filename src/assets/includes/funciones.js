@@ -37,3 +37,9 @@ export const formateFechaGuion = (fecha) => {
 
     return fechaFormateada;
 };
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[a-zA-Z0-9!@#$%^&*?]{8,}$/
+
+export const validarPassword = (password) => {
+    return passwordRegex.test(password)
+}

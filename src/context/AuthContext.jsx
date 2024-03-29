@@ -36,10 +36,6 @@ export const CredentialProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        getRoles();
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (errors.length != 0) {
                 setErrors([]);
