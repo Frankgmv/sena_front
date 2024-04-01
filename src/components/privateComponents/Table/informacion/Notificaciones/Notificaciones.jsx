@@ -195,6 +195,7 @@ function Notificacion() {
     return (
         <>
             <div style={{ height: isSmallScreen ? '90%' : '80%', width: isSmallScreen ? '100%' : '71%', marginTop: '-40px' }}>
+                
                 <DataGrid
                     rows={notificaciones.map(notif =>{
                         return{...notif, estado: notif.estado? 'Leida': 'No leida'}

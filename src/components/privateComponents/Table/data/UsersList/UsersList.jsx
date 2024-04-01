@@ -11,6 +11,7 @@ import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useCredentialContext } from "../../../../../context/AuthContext";
+import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -396,6 +397,7 @@ function UserList() {
                     >
                         Añadir
                     </Button>
+                    <BotonExcel data={usuarios} />
                 </Grid>
                 <DataGrid
                     rows={usuarios.map((user) => {

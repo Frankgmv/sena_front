@@ -9,6 +9,7 @@ import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes
 import { useCredentialContext } from "../../../../../context/AuthContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 function RolList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
@@ -129,6 +130,15 @@ function RolList() {
     return (
         <>
             <div style={{ height: isSmallScreen ? '90%' : '70%', width: isSmallScreen ? '100%' : '35%',}}>
+            <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                >
+                    <BotonExcel data={roles} />
+                </Grid>
                 <DataGrid
                     rows={roles.map(rol => {
                         if (rol.estado) return { ...rol, estado: 'Activo' }

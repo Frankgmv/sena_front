@@ -2,7 +2,8 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
-import { useMediaQuery } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 
 function SeccionList() {
@@ -17,10 +18,19 @@ function SeccionList() {
 
     return (
         <div style={{ height: 400, width: isSmallScreen ? '100%' : '49%', }}>
+            <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                >
+                    <BotonExcel data={secciones} />
+                </Grid>
             <DataGrid
                 rows={secciones}
                 columns={columns}
-                pageSize={5}
+                pageSize={5}    
                 pageSizeOptions={[5, 10, 25, 100]}
                 disablePageSizeSelector
                 editMode='row'

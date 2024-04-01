@@ -13,6 +13,7 @@ import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 function Token() {
 
@@ -238,6 +239,15 @@ function Token() {
     return (
         <>
             <div style={{ height: isSmallScreen ? '90%' : '90%', width: isSmallScreen ? '100%' : '66%'}}>
+            <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                >
+                    <BotonExcel data={tokens} />
+                </Grid>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {
