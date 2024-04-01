@@ -30,10 +30,13 @@ const EventsPage = () => {
         try {
             const response = await axios.get(`${galleryEndpoint}?EventoId=${eventId}`);
             setGallery(response.data.data);
+            console.log(gallery)
+            console.log(selectedEventId)
         } catch (error) {
             console.error("Error al traer la imagen:", error);
         }
     };
+    
     useEffect(() => {
         console.log(gallery);
     }, [gallery]);

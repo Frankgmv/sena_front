@@ -76,6 +76,40 @@
     font-weight: 400;
 }
 
+.slider {
+    width: 75vw;
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider .slide-track {
+    display: flex;
+    animation: scroll 40s linear infinite;
+    -webkit-animation: scroll 40s linear infinite;
+    width: calc(400px * 7);
+}
+
+.slider .slide {
+    width: 400px;
+}
+
+.slider .slide img {
+    width: 100%;
+    height: 80px;
+}
+
+@keyframes scroll {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(calc(-200px * 7));
+        transform: translateX(calc(-200px * 7));
+    }
+}
+
 @media (width <= 1024px){
     .footerInfo{
         display: flex;
