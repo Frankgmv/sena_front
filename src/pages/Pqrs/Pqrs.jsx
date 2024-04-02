@@ -10,8 +10,8 @@ const Pqrs = () => {
             <div className="container-pqrs">
                 <div className="informacion-pqrs">
                     <h2>Información de Contacto</h2>
-                    <p>Correo Institucional</p>
-                    <p>Número Telefonico</p>
+                    <p>IntitucionCentarioPereira@gmail.com</p>
+                    <p>528-78-35</p>
                 </div>
                 <div className="inputGoup-pqrs">
                     <h3>Envia tu Mensaje</h3>
