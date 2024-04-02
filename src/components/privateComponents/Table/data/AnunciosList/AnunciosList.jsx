@@ -19,6 +19,9 @@ import { useAnunciosContext } from "../../../../../context/AnunciosContext";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 function AnunciosList() {
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
@@ -322,6 +325,22 @@ function AnunciosList() {
         }
     }, [openEdit])
 
+    const [loader, setLoader] = useState(false);
+
+    const downloadPDF = () => {
+        const capture = document.querySelector('.datagrid');
+        setLoader(true);
+        html2canvas(capture).then((canvas) => {
+            const imgData = canvas.toDataURL('img/png');
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+            doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+            setLoader(false);
+            doc.save('data.pdf');
+        })
+    }
+
     return (
         <>
             <div style={{ height: isSmallScreen ? '70%' : '80%', width: isSmallScreen ? '100%' : '66%', marginTop: isSmallScreen ? '-10%' : '-5%' }}>
@@ -340,6 +359,21 @@ function AnunciosList() {
                     >
                         Añadir
                     </Button>
+                    <BotonExcel data={anuncios} />
+                <Button
+                    variant='contained'
+                    color="success"
+                    className="receipt-modal-download-button"
+                    onClick={downloadPDF}
+                    disabled={!(loader === false)}
+                >
+                    {loader ? (
+                        <span>Downloading</span>
+                    ) : (
+                        <span>Descargar PDF</span>
+                    )}
+
+                </Button>
                 </Grid>
                 <DataGrid
                     rows={anuncios.map((anuncio) => {
@@ -381,6 +415,7 @@ function AnunciosList() {
                     hideFooterSelectedRowCount
                     ignoreDiacritic
                     disableDensitySelector
+                    className="datagrid"
                     slots={{
                         toolbar: GridToolbar,
                     }}
@@ -629,10 +664,10 @@ function AnunciosList() {
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                         <Grid item xs={12}>
-                                <Button variant="contained" color="error" onClick={handleCloseView}  style={{ color: '#fff', marginTop: '5%' }} fullWidth>
-                                    Cerrar
-                                </Button>
-                            </Grid>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ color: '#fff', marginTop: '5%' }} fullWidth>
+                                Cerrar
+                            </Button>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>

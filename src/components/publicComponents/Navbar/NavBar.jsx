@@ -79,18 +79,18 @@ const NavBar = () => {
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/galeria'>Galeria</Link>
                                 </Grid>
-                                <Grid item xs={12}>
+                                {/* <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/la-institucion'>La Institución</Link>
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/pqrs'>PQRS</Link>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/recuperar-contraseña'>Recuperar Contraseña</Link>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Link style={{ textDecoration: 'none' }} className='link' to='/archivos'> Archivos Institucionales</Link>
-                                </Grid>
+                                    {/* <Grid item xs={12}>
+                                        <Link style={{ textDecoration: 'none' }} className='link' to='/archivos'> Archivos Institucionales</Link>
+                                    </Grid> */}
                                 {/* <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/magazine'>Magazine</Link>
                                 </Grid> */}

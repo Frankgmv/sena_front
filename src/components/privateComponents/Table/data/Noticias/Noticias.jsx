@@ -16,6 +16,9 @@ import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 function Noticias() {
 
@@ -302,6 +305,22 @@ function Noticias() {
         putNoticia(idItem, formularioDataUpdate);
     };
 
+    const [loader, setLoader] = useState(false);
+
+    const downloadPDF = () => {
+        const capture = document.querySelector('.datagrid');
+        setLoader(true);
+        html2canvas(capture).then((canvas) => {
+            const imgData = canvas.toDataURL('img/png');
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+            doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+            setLoader(false);
+            doc.save('data.pdf');
+        })
+    }
+
     return (
         <>
             <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '99%', marginTop: '-100px' }}>
@@ -319,6 +338,20 @@ function Noticias() {
                         onClick={handleOpenNew}
                     >
                         Añadir
+                    </Button>
+                    <BotonExcel data={noticias} />
+                    <Button
+                        variant='contained'
+                        color="success"
+                        className="receipt-modal-download-button"
+                        onClick={downloadPDF}
+                        disabled={!(loader === false)}
+                    >
+                        {loader ? (
+                            <span>Downloading</span>
+                        ) : (
+                            <span>Descargar PDF</span>
+                        )}
                     </Button>
                 </Grid>
                 <DataGrid
@@ -347,6 +380,7 @@ function Noticias() {
                     hideFooterSelectedRowCount
                     ignoreDiacritics
                     disableColumnSelector
+                    className="datagrid"
                     disableDensitySelector
                     slots={{
                         toolbar: GridToolbar,
@@ -604,10 +638,10 @@ function Noticias() {
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                         <Grid item xs={12}>
-                                <Button variant="contained" color="error" onClick={handleCloseView} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
-                                    Cerrar
-                                </Button>
-                            </Grid>
+                            <Button variant="contained" color="error" onClick={handleCloseView} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                Cerrar
+                            </Button>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>

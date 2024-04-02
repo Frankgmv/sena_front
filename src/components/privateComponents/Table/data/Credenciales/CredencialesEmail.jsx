@@ -87,7 +87,7 @@ const CredencialesEmail = () => {
             width: 160,
             headerAlign: "center",
             align: "center",
-        }
+        }   
     ];
 
     const [openEdit, setOpenEdit] = useState(false);

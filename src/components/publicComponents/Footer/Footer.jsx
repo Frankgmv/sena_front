@@ -7,8 +7,6 @@ import s3 from '../../../assets/img/slider/3.png'
 import s4 from '../../../assets/img/slider/4.png'
 import s5 from '../../../assets/img/slider/5.png'
 import s6 from '../../../assets/img/slider/6.png'
-import s7 from '../../../assets/img/slider/7.png'
-
 
 const Footer = () => {
     return (
@@ -69,38 +67,33 @@ const Footer = () => {
             <div className="slider">
                 <div className="slide-track">
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="https://www.icfes.gov.co" target='blank'>
                             <img src={s1} alt="" />
                         </a>
                     </div>
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="https://www.mineducacion.gov.co/portal/" target='blank'>
                             <img src={s2} alt="" />
                         </a>
                     </div>
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="https://www.pereira.gov.co" target='blank'>
                             <img src={s3} alt="" />
                         </a>
                     </div>
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="http://www.pereiraeduca.gov.co" target='blank'>
                             <img src={s4} alt="" />
                         </a>
                     </div>
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="https://www.colombiaaprende.edu.co" target='blank'>
                             <img src={s5} alt="" />
                         </a>
                     </div>
                     <div className="slide">
-                        <a href="#" target='blank'>
+                        <a href="https://gobiernodigital.mintic.gov.co/portal/" target='blank'>
                             <img src={s6} alt="" />
-                        </a>
-                    </div>
-                    <div className="slide">
-                        <a href="#" target='blank'>
-                            <img src={s7} alt="" />
                         </a>
                     </div>
                 </div>

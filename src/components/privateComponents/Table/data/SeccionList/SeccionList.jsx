@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { Grid, useMediaQuery } from "@mui/material";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
+import { Button } from "reactstrap";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 function SeccionList() {
@@ -16,21 +19,51 @@ function SeccionList() {
         { field: "seccionKey", headerName: "Codigo de la Seccion", width: 340, headerAlign: "center", align: "center" }
     ];
 
+
+    const [loader, setLoader] = useState(false);
+
+    const downloadPDF = () => {
+        const capture = document.querySelector('.datagrid');
+        setLoader(true);
+        html2canvas(capture).then((canvas) => {
+            const imgData = canvas.toDataURL('img/png');
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+            doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+            setLoader(false);
+            doc.save('data.pdf');
+        })
+    }
+
     return (
         <div style={{ height: 400, width: isSmallScreen ? '100%' : '49%', }}>
             <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                container
+                direction="row"
+                justifyContent="space-evenly"
+                alignItems="center"
+                style={{ textAlign: 'center', marginBottom: '15px', }}
+            >
+                <BotonExcel data={secciones} />
+                <Button
+                    variant='contained'
+                    color="success"
+                    className="receipt-modal-download-button"
+                    onClick={downloadPDF}
+                    disabled={!(loader === false)}
                 >
-                    <BotonExcel data={secciones} />
-                </Grid>
+                    {loader ? (
+                        <span>Downloading</span>
+                    ) : (
+                        <span>Descargar PDF</span>
+                    )}
+                </Button>
+            </Grid>
             <DataGrid
                 rows={secciones}
                 columns={columns}
-                pageSize={5}    
+                pageSize={5}
                 pageSizeOptions={[5, 10, 25, 100]}
                 disablePageSizeSelector
                 editMode='row'
@@ -38,6 +71,7 @@ function SeccionList() {
                 ignoreDiacritics
                 disableColumnSelector
                 disableDensitySelector
+                className="datagrid"
                 slots={{
                     toolbar: GridToolbar,
                 }}
