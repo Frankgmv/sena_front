@@ -1,7 +1,7 @@
 .container-pqrs {
     width: 90%;
     height: 30em;
-    margin: 6em auto;
+    margin: 2% auto;
     align-items: center;
     justify-content: space-evenly;
     display: flex;
@@ -18,6 +18,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.informacion-pqrs *{
+    color: var(--black);
 }
 
 .informacion-pqrs h2 {
@@ -54,6 +58,7 @@
 @media (width <=800px) {
     .container-pqrs {
         flex-direction: column;
+        height: auto;
     }
 
     .informacion-pqrs {

@@ -8,18 +8,24 @@ import Pqrs from "../pages/Pqrs/Pqrs"
 import Recuperacion from "../pages/Recuperacion/Recuperacion"
 import Archivos from "../pages/Archivos/Archivos"
 import { PasswordContext } from "../context/ResetPassContext"
+import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 // import Magazine from "../pages/Magazine/Magazine"
 
 const PublicRoutes = () => {
   return (
     <>
+      <PublicPqrsProvider>
+        <Routes>
+          <Route path="/pqrs" element={<Pqrs />} />
+        </Routes>
+      </PublicPqrsProvider>
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* TODO cambiar ruta noticias para las noticias públicas */}
         <Route path="/noticias" element={<NewsPage />} />
         <Route path="/galeria" element={<EventsPage />} />
         <Route path="/la-institucion" element={<Institucion />} />
-        <Route path="/pqrs" element={<Pqrs />} />
         <Route path="/archivos" element={<Archivos />} />
         {/* <Route path="/magazine" element={<Magazine />} /> */}
       </Routes>
