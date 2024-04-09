@@ -9,6 +9,7 @@ import Recuperacion from "../pages/Recuperacion/Recuperacion"
 import Archivos from "../pages/Archivos/Archivos"
 import { PasswordContext } from "../context/ResetPassContext"
 import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
+import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 // import Magazine from "../pages/Magazine/Magazine"
 
 const PublicRoutes = () => {
@@ -20,15 +21,16 @@ const PublicRoutes = () => {
         </Routes>
       </PublicPqrsProvider>
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        {/* TODO cambiar ruta noticias para las noticias públicas */}
-        <Route path="/noticias" element={<NewsPage />} />
-        <Route path="/galeria" element={<EventsPage />} />
-        <Route path="/la-institucion" element={<Institucion />} />
-        <Route path="/archivos" element={<Archivos />} />
-        {/* <Route path="/magazine" element={<Magazine />} /> */}
-      </Routes>
+      <DataGeneralProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/noticias" element={<NewsPage />} />
+          <Route path="/galeria" element={<EventsPage />} />
+          <Route path="/la-institucion" element={<Institucion />} />
+          <Route path="/archivos" element={<Archivos />} />
+          {/* <Route path="/magazine" element={<Magazine />} /> */}
+        </Routes>
+      </DataGeneralProvider>
       <PasswordContext>
         <Routes>
           <Route path="/recuperar-contraseña" element={<Recuperacion />} />

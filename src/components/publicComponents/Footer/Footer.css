@@ -87,7 +87,7 @@
     display: flex;
     animation: scroll 40s linear infinite;
     -webkit-animation: scroll 40s linear infinite;
-    width: calc(400px * 6);
+    width: calc(600px * 6);
 }
 
 .slider .slide {
@@ -96,6 +96,7 @@
 
 .slider .slide img {
     width: 100%;
+    object-fit: contain;
     height: 80px;
 }
 

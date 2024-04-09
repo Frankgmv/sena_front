@@ -15,17 +15,25 @@
     width: 95%;
     margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: space-evenly;
+    gap: 10px;
+    position: relative;
 }
 
 .image-gallery img {
+    flex-grow: 1;
+    flex-shrink: 2;
     width: 30%;
+    max-height: 500px;
     margin-bottom: 20px;
-    
+    object-fit: fill;
+    border: 1px solid black;
+    transition: all 2s ease-in-out;
+
 }
 
-@media (width <= 500px ){
+@media (width <=500px) {
     .image-gallery img {
         width: 45%;
     }

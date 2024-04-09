@@ -1,45 +1,19 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import './EventsPage.css'
 import f1 from '../../assets/img/f1.jpg'
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
-import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
+import { useState } from 'react';
 
 const EventsPage = () => {
-    const [events, setEvents] = useState([]);
-    const [selectedEventId, setSelectedEventId] = useState("");
-    const [gallery, setGallery] = useState([]);
+    const { gallery, events, getAllGaleria } = useDataGeneralContext()
+    const handleEventChange = async (eventId) => getAllGaleria(eventId)
 
-    const eventsEndpoint = `${BASE_URL_API}/data/eventos`
-    const galleryEndpoint = `${BASE_URL_API}/multimedia/galeria`
-
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const response = await axios.get(eventsEndpoint);
-                setEvents(response.data.data);
-            } catch (error) {
-                console.error("Error fetching events:", error);
-            }
-        };
-        fetchEvents();
-    }, []);
-
-    const handleEventChange = async (eventId) => {
-        setSelectedEventId(eventId);
-        try {
-            const response = await axios.get(`${galleryEndpoint}?EventoId=${eventId}`);
-            setGallery(response.data.data);
-        } catch (error) {
-            console.error("Error al traer la imagen:", error);
-        }
-    };
-    
     return (
         <>
             <NavBar />
             <div className="events-selector">
-                <select onChange={(e) => handleEventChange(e.target.value)} value={selectedEventId}>
+                <select onChange={(e) => handleEventChange(e.target.value)}>
                     <option value="">Selecciona un evento</option>
                     {events.map((event) => (
                         <option key={event.id} value={event.id}>{event.evento}</option>
@@ -48,7 +22,8 @@ const EventsPage = () => {
             </div>
             <div className="image-gallery">
                 {gallery.map((image) => (
-                    <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1} />
+                    <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1}
+                    />
                 ))}
             </div>
         </>
