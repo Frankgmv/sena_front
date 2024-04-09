@@ -26,6 +26,7 @@ export const DataGeneralProvider = ({ children }) => {
     const [slider, setSlider] = useState([]);
     const [videos, setVideos] = useState([]);
     const [gallery, setGallery] = useState([]);
+    const [eventoDataPura, setEventoDataPura] = useState([]);
     const [eventoData, setEventoData] = useState([]);
 
     const fetchEvents = async () => {
@@ -40,7 +41,7 @@ export const DataGeneralProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchEvents();
+        // fetchEvents();
         getData();
         getSlider();
         getVideos();
@@ -78,29 +79,28 @@ export const DataGeneralProvider = ({ children }) => {
 
             const response = await getAllEventosRequest();
             const datos = response.data.data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).slice(0, 2);
-            setEventoData(datos);
+            setEventoDataPura(datos);
         } catch (error) {
             console.error("Error al traer los eventos imagen:", error);
         }
     };
 
-    const AddImgs = async () => Promise.all(eventoData.map(async dataEvento => {
+    const AddImgs = async () => Promise.all(eventoDataPura.map(async dataEvento => {
         const getFirstEvent = await getAllGaleriaRequest(dataEvento.id);
         let primero = await getFirstEvent.data
         primero = primero.data[0]
-
         return { ...dataEvento, imgPath: primero.imgPath }
     }))
 
     useEffect(() => {
-        if (eventoData.length > 0) {
+        if (eventoDataPura.length > 0) {
             AddImgs().then(data => {
                 setEventoData(data)
             }).catch(error => {
                 console.error("Error al traer los eventos imagen:", error);
             })
         }
-    }, [eventoData]);
+    }, [eventoDataPura]);
 
     const allMethods = {
         events,
