@@ -467,20 +467,20 @@ function Videos() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', }}
-                        component="form"
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', height: isSmallScreen ? '60%' : '500px' }}
+                        component="div"
                         id="crear"
                         noValidate
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
                         <span style={{ textAlign: 'center' }}><small style={{ fontSize: '1.2em' }}><a href={linkView} target="_blank" style={{ textDecoration: 'none' }}>{linkView}</a> </small></span>
-                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
+                        <Grid container style={{ maxWidth: '90%', height: isSmallScreen ? '70%' :'60%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: isSmallScreen ? 'contain':'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                         </Grid>
                         <Grid item xs={12}>
                             <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
-                                Guardar
+                                Cerrar
                             </Button>
                         </Grid>
                     </Box>

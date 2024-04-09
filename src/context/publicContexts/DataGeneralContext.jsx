@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllGaleriaRequest, getAllSliderRequest } from "../../api/multimedia";
+import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest } from "../../api/multimedia";
 import { getAllEventosRequest } from "../../api/data";
 
 const DataGeneralContext = createContext({
     events: [],
+    videos: [],
     eventoData: [],
     slider: [],
     gallery: [],
@@ -23,6 +24,7 @@ export const useDataGeneralContext = () => {
 export const DataGeneralProvider = ({ children }) => {
     const [events, setEvents] = useState([]);
     const [slider, setSlider] = useState([]);
+    const [videos, setVideos] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [eventoData, setEventoData] = useState([]);
 
@@ -40,7 +42,8 @@ export const DataGeneralProvider = ({ children }) => {
     useEffect(() => {
         fetchEvents();
         getData();
-        getSlider()
+        getSlider();
+        getVideos();
     }, []);
 
     const getAllGaleria = async (eventId = "") => {
@@ -51,12 +54,22 @@ export const DataGeneralProvider = ({ children }) => {
             console.error("Error al traer la imagen:", error);
         }
     };
+
     const getSlider = async () => {
         try {
             const response = await getAllSliderRequest()
             setSlider(response.data.data);
         } catch (error) {
             console.error("Error al traer el slider:", error);
+        }
+    };
+
+    const getVideos = async () => {
+        try {
+            const response = await getAllVideosRequest()
+            setVideos(response.data.data);
+        } catch (error) {
+            console.error("Error al traer el videos:", error);
         }
     };
 
@@ -94,7 +107,8 @@ export const DataGeneralProvider = ({ children }) => {
         gallery,
         getAllGaleria,
         eventoData,
-        slider
+        slider,
+        videos
     }
 
     return (
