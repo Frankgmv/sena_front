@@ -41,7 +41,7 @@ export const DataGeneralProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        // fetchEvents();
+        fetchEvents();
         getData();
         getSlider();
         getVideos();
