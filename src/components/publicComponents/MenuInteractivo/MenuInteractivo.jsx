@@ -6,6 +6,8 @@ import login from '../../../assets/img/login.jpg'
 import news from '../../../assets/img/news.jpg'
 import galeria from '../../../assets/img/galeria.jpg'
 import ubication from '../../../assets/img/3425077.png'
+import files from '../../../assets/img/files.jpeg'
+import pqrs from '../../../assets/img/pqrs.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -31,16 +33,6 @@ const MenuInteractivo = () => {
             </div>
             <div className="menuCards">
                 <CardMenuInteractivo
-                    link="/login"
-                    name="Inicio sesión"
-                    img={login}
-                />
-                <CardMenuInteractivo
-                    link="/register"
-                    name="Registrar"
-                    img={register}
-                />
-                <CardMenuInteractivo
                     link="/admin"
                     name="Administrar"
                     img={admin}
@@ -56,10 +48,30 @@ const MenuInteractivo = () => {
                     img={galeria}
                 />
                 <CardMenuInteractivo
+                    link="/pqrs"
+                    name="PQRS"
+                    img={pqrs}
+                />
+                <CardMenuInteractivo
+                    link="/magazie"
+                    name="Magazine"
+                    img={files}
+                />
+                <CardMenuInteractivo
                     link="https://www.google.com/maps?ll=4.811764,-75.681906&z=13&t=m&hl=es&gl=CO&mapclient=embed&cid=3726081407287373697"
                     name="Ubicacion"
                     target='_blank'
                     img={ubication}
+                />
+                <CardMenuInteractivo
+                    link="/login"
+                    name="Inicio sesión"
+                    img={login}
+                />
+                <CardMenuInteractivo
+                    link="/register"
+                    name="Registrar"
+                    img={register}
                 />
                 {data.map((item) => (
                     <div className='containerMenuCard' key={item.id} hidden={!item.estado}>

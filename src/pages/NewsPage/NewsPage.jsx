@@ -22,6 +22,8 @@ const NewsPage = () => {
         getData();
     }, []);
 
+    console.log(data);
+
     const handleOpen = (item) => {
         setSelectedItem(item);
     };

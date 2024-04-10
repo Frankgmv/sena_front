@@ -10,7 +10,7 @@ import Archivos from "../pages/Archivos/Archivos"
 import { PasswordContext } from "../context/ResetPassContext"
 import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
-// import Magazine from "../pages/Magazine/Magazine"
+import Magazine from "../pages/Magazine/Magazine"
 
 const PublicRoutes = () => {
   return (
@@ -28,7 +28,7 @@ const PublicRoutes = () => {
           <Route path="/galeria" element={<EventsPage />} />
           <Route path="/la-institucion" element={<Institucion />} />
           <Route path="/archivos" element={<Archivos />} />
-          {/* <Route path="/magazine" element={<Magazine />} /> */}
+          <Route path="/magazine" element={<Magazine />} />
         </Routes>
       </DataGeneralProvider>
       <PasswordContext>

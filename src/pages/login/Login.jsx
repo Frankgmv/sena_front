@@ -6,10 +6,19 @@ import { useEffect, useState } from 'react'
 import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
     const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
     const navigate = useNavigate()
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     useEffect(() => {
         if (errors.length != 0) {
@@ -66,6 +75,11 @@ const Login = () => {
                 <img src={fondo} alt="logo.png" />
             </div>
             <div className="fondo"></div>
+            <div className="redirecciones">
+                <a className='link-redirecciones' href="/">Inicio</a>
+                <a className='link-redirecciones' href="/login">Iniciar Sesion</a>
+                <a className='link-redirecciones' href="/register">Registarse</a>
+            </div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
                 <div className="boton" onClick={() => navigate("/register")}>
@@ -91,9 +105,17 @@ const Login = () => {
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="password" name='password' onChange={handleChange} type="password" />
+                                <input
+                                    id="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    type={showPassword ? "text" : "password"}
+                                />
                                 <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
+                                <button className="eye-button" onClick={handleShowPassword}>
+                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                </button>
                             </div>
                         </div>
                         <div className="select-container">

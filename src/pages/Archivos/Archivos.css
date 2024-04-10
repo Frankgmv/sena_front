@@ -1,0 +1,90 @@
+.linkArchivos {
+    text-align: center;
+    width: 90%;
+    margin: 4vh auto;
+}
+
+.archivos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.archivos-container .link {
+    width: 45%;
+    margin-top: 7vh;
+}
+
+.archivos-container .link h2 {
+    font-size: 18px;
+}
+
+.archivos-container .link .linkFile {
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.archivos-container .button {
+    position: relative;
+    width: 400px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--success);
+    background-color: #209978;
+    overflow: hidden;
+    text-decoration: none;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.archivos-container .button,
+.archivos-container .button__icon,
+.archivos-container .button__text {
+    transition: all 0.3s;
+}
+
+.archivos-container .button .button__text {
+    transform: translateX(122px);
+    color: #fff;
+    font-weight: 600;
+}
+
+.archivos-container .button .button__icon {
+    position: absolute;
+    transform: translateX(330px);
+    height: 100%;
+    width: 39px;
+    background-color: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.archivos-container .button .svg {
+    width: 20px;
+    fill: #fff;
+}
+
+.archivos-container .button:hover {
+    background: var(--success);
+}
+
+.archivos-container .button:hover .button__text {
+    color: transparent;
+}
+
+.archivos-container .button:hover .button__icon {
+    width: 348px;
+    transform: translateX(0);
+}
+
+.archivos-container .button:active .button__icon {
+    background-color: var(--success);
+}
+
+.archivos-container .button:active {
+    border: 1px solid var(--success);
+}

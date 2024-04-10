@@ -88,12 +88,12 @@ const NavBar = () => {
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/recuperar-contraseña'>Recuperar Contraseña</Link>
                                 </Grid>
-                                    {/* <Grid item xs={12}>
+                                    <Grid item xs={12}>
                                         <Link style={{ textDecoration: 'none' }} className='link' to='/archivos'> Archivos Institucionales</Link>
-                                    </Grid> */}
-                                {/* <Grid item xs={12}>
+                                    </Grid>
+                                <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/magazine'>Magazine</Link>
-                                </Grid> */}
+                                </Grid>
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/admin'>Admin</Link>
                                 </Grid>

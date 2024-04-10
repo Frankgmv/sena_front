@@ -5,10 +5,21 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
+
 const Register = () => {
     const { roles, setErrors, errors, responseMessage, register } = useCredentialContext();
     const [dataRegister, setDataRegister] = useState({});
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     useEffect(() => {
         if (errors.length != 0) {
@@ -72,9 +83,14 @@ const Register = () => {
                 <img src={fondo} alt="logo.png" />
             </div>
             <div className="fondo"></div>
+            <div className="redirecciones">
+                <a className='link-redirecciones' href="/">Inicio</a>
+                <a className='link-redirecciones' href="/login">Iniciar Sesion</a>
+                <a className='link-redirecciones' href="/register">Registarse</a>
+            </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
-                <div className="boton"  onClick={() => navigate("/login")}>
+                <div className="boton" onClick={() => navigate("/login")}>
                     <Boton4 link='/login' name='Iniciar Sesion' id="irALogin" />
                 </div>
             </div>
@@ -93,8 +109,11 @@ const Register = () => {
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="claveEspecial" name='claveEspecial' type="password" onChange={handleChange} />
+                                <input id="claveEspecial" name='claveEspecial' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="claveEspecila">Clave Especial</label>
+                                <button className="eye-button" onClick={handleShowPassword}>
+                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                </button>
                                 <div className="underline"></div>
                             </div>
                         </div>
@@ -142,13 +161,19 @@ const Register = () => {
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="password" name='password' type="password" onChange={handleChange} />
+                                <input id="password" name='password' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="password">Contraseña</label>
+                                <button className="eye-button" onClick={handleShowPassword}>
+                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                </button>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="repetirPassword" name='repetirPassword' type="password" onChange={handleChange} />
+                                <input id="repetirPassword" name='repetirPassword' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
+                                <button className="eye-button" onClick={handleShowPassword}>
+                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                </button>
                                 <div className="underline"></div>
                             </div>
                         </div>

@@ -104,17 +104,12 @@
     width: 40%;
 }
 
-
-.registerBody .input-container input {
-    font-size: 20px;  width: 90%;
-}
-
 .input-container input[type="text"],
 .input-container input[type="number"],
 .input-container input[type="password"],
 .input-container input[type="email"],
 .input-container input[type="date"] {
-    font-size: 20px;
+    font-size: 16px;
     width: 90%;
     border: none;
     border-bottom: 2px solid var(--black);
@@ -152,6 +147,7 @@
     font-size: 16px;
     border: 0px;
     border-bottom: 2px solid var(--black);
+    background-color: transparent;
 }
 
 .registerBody .select-container select option{
@@ -160,6 +156,9 @@
     height: 40px;
 }
 
+.eye-button{
+    margin-left: -20px;
+}
 
 .registerBody .botonRegister{
     margin-right: 20px;
