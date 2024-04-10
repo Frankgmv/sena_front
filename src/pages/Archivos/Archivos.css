@@ -27,7 +27,7 @@
 
 .archivos-container .button {
     position: relative;
-    width: 400px;
+    width: 90%;
     height: 40px;
     cursor: pointer;
     display: flex;
@@ -43,20 +43,21 @@
 .archivos-container .button,
 .archivos-container .button__icon,
 .archivos-container .button__text {
-    transition: all 0.3s;
+    transition: all 0.5s;
 }
 
 .archivos-container .button .button__text {
-    transform: translateX(122px);
+    width: 100%;
     color: #fff;
     font-weight: 600;
+    font-size: clamp(12px, 2vw, 16px);
 }
 
 .archivos-container .button .button__icon {
     position: absolute;
-    transform: translateX(330px);
+    transform: translateX(850%);
     height: 100%;
-    width: 39px;
+    width: 10%;
     background-color: var(--success);
     display: flex;
     align-items: center;
@@ -77,7 +78,7 @@
 }
 
 .archivos-container .button:hover .button__icon {
-    width: 348px;
+    width: 90%;
     transform: translateX(0);
 }
 
@@ -88,3 +89,5 @@
 .archivos-container .button:active {
     border: 1px solid var(--success);
 }
+
+@media ()

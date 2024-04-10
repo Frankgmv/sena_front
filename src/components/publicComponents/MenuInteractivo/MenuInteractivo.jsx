@@ -53,7 +53,7 @@ const MenuInteractivo = () => {
                     img={pqrs}
                 />
                 <CardMenuInteractivo
-                    link="/magazie"
+                    link="/magazine"
                     name="Magazine"
                     img={files}
                 />
