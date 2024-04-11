@@ -225,7 +225,7 @@ function EventoList() {
                 </Grid>
                 <DataGrid
                     rows={eventos.map(event => {
-                        const fecha = formateFechaGuion(event.fecha);
+                        const fecha = formateFecha(event.fecha);
                         return { ...event, fecha }
                     })}
                     columns={columns}

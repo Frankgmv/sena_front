@@ -96,7 +96,7 @@ export default function Sidebar() {
                     </li>
                     <li key="links" style={mostrar('P_LINKS') ? hiddenSeccion : {}}>
                         <NavLink to="./link" className="link">
-                            Links
+                            Blogs / PDF's
                         </NavLink>
                     </li>
                     <li key="anuncios" style={mostrar('P_ANUNCIOS') ? hiddenSeccion : {}}>

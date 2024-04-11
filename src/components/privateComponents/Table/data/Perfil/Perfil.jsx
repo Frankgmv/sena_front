@@ -111,7 +111,7 @@ const Perfil = () => {
     return (
         <>
             <div className='perfil'>
-                <Box sx={style} style={{overflow: 'auto'}}
+                <Box sx={style} style={{overflow: 'auto', height: '70vh'}}
                     component="form"
                     id="crearUsuario"
                     noValidate

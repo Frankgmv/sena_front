@@ -16,6 +16,8 @@ const Register = () => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const [showPassword3, setShowPassword3] = useState(false);
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -111,7 +113,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="claveEspecial" name='claveEspecial' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="claveEspecila">Clave Especial</label>
-                                <button className="eye-button" onClick={handleShowPassword}>
+                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={handleShowPassword}>
                                     {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
@@ -161,18 +163,18 @@ const Register = () => {
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="password" name='password' type={showPassword ? "text" : "password"} onChange={handleChange} />
+                                <input id="password" name='password' type={showPassword2 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="password">Contraseña</label>
-                                <button className="eye-button" onClick={handleShowPassword}>
-                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={() => setShowPassword2(!showPassword2)}>
+                                    {showPassword2 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="repetirPassword" name='repetirPassword' type={showPassword ? "text" : "password"} onChange={handleChange} />
+                                <input id="repetirPassword" name='repetirPassword' type={showPassword3 ? "text" : "password"} onChange={() => setShowPassword3(!showPassword3)} />
                                 <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
-                                <button className="eye-button" onClick={handleShowPassword}>
-                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                <button type='button' className="eye-button" style={{color: 'black'}} onClick={()=>{setShowPassword3(!showPassword3)}}>
+                                    {showPassword3 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
                             </div>

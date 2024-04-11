@@ -19,8 +19,6 @@ const Magazine = () => {
         getData();
     }, []);
 
-    console.log(data);
-
     return (
         <div>
             <NavBar />

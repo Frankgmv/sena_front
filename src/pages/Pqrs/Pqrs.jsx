@@ -145,7 +145,7 @@ const Pqrs = () => {
                             variant="contained"
                             sx={{ margin: "1em auto", width: "40%", display: "flex" }}
                             style={{ textAlign: "end", background: "#97c7d0", color: "#000" }}
-                        >Enviar Mensaje</Button>
+                        >Enviar</Button>
                     </Box>
                 </div>
             </div>

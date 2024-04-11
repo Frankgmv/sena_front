@@ -1,8 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest } from "../../api/multimedia";
-import { getAllEventosRequest } from "../../api/data";
+import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest, getArchivoRequest } from "../../api/multimedia";
+import { getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
 
 const DataGeneralContext = createContext({
+    noticias: [],
+    secciones: [],
+    categorias: [],
+    items: [],
+    navbar: [],
+    archivos: [],
+    links: [],
     events: [],
     videos: [],
     eventoData: [],
@@ -28,6 +35,25 @@ export const DataGeneralProvider = ({ children }) => {
     const [gallery, setGallery] = useState([]);
     const [eventoDataPura, setEventoDataPura] = useState([]);
     const [eventoData, setEventoData] = useState([]);
+    const [noticias, setNoticias] = useState([]);
+    const [items, setItems] = useState([]);
+    const [navbar, setNavbar] = useState([]);
+    const [links, setLinks] = useState([]);
+    const [archivos, setArchivos] = useState([]);
+    const [secciones, setSecciones] = useState([]);
+    const [categorias, setCategorias] = useState([]);
+
+    useEffect(() => {
+        fetchEvents();
+        getDefaultData();
+        getSlider();
+        getVideos();
+        getItems()
+        getNoticias()
+        getArchivos()
+        getLinks()
+        getSeccionesYCategorias()
+    }, []);
 
     const fetchEvents = async () => {
         try {
@@ -40,12 +66,50 @@ export const DataGeneralProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        fetchEvents();
-        getData();
-        getSlider();
-        getVideos();
-    }, []);
+    const getSeccionesYCategorias = async () => {
+        try {
+            const seccResponse = await getAllSeccionesRequest()
+            const catResponse = await getAllCategoriasRequest()
+            setCategorias(catResponse.data.data);
+            setSecciones(seccResponse.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+
+    const getLinks = async () => {
+        try {
+            const response = await getAllLinkPDFRequest()
+            setLinks(response.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+
+    const getArchivos = async () => {
+        try {
+            const response = await getArchivoRequest()
+            setArchivos(response.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+    const getNoticias = async () => {
+        try {
+            const response = await getAllNoticiasRequest()
+            setNoticias(response.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+    const getItems = async () => {
+        try {
+            const response = await getAllItemRequest()
+            setItems(response.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
 
     const getAllGaleria = async (eventId = "") => {
         try {
@@ -74,9 +138,8 @@ export const DataGeneralProvider = ({ children }) => {
         }
     };
 
-    const getData = async () => {
+    const getDefaultData = async () => {
         try {
-
             const response = await getAllEventosRequest();
             const datos = response.data.data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).slice(0, 2);
             setEventoDataPura(datos);
@@ -108,7 +171,14 @@ export const DataGeneralProvider = ({ children }) => {
         getAllGaleria,
         eventoData,
         slider,
-        videos
+        videos,
+        noticias,
+        items,
+        navbar,
+        archivos,
+        links,
+        secciones,
+        categorias
     }
 
     return (

@@ -8,23 +8,11 @@ import galeria from '../../../assets/img/galeria.jpg'
 import ubication from '../../../assets/img/3425077.png'
 import files from '../../../assets/img/files.jpeg'
 import pqrs from '../../../assets/img/pqrs.png'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 
 const MenuInteractivo = () => {
-    const [data, setData] = useState([]);
-
-    const endPoint = "http://localhost:9000/api/v1/data/items";
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setData(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
+    const {items: data} = useDataGeneralContext()
 
     return (
         <div className='menuBody'>

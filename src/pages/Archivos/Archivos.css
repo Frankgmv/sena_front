@@ -6,13 +6,14 @@
 
 .archivos-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: space-evenly;
     width: 100%;
 }
 
 .archivos-container .link {
-    width: 45%;
+    flex-basis: 350px;
+    flex-shrink: 1;
     margin-top: 7vh;
 }
 
@@ -43,7 +44,7 @@
 .archivos-container .button,
 .archivos-container .button__icon,
 .archivos-container .button__text {
-    transition: all 0.5s;
+    transition: all 0.5s ease-in-out;
 }
 
 .archivos-container .button .button__text {
@@ -69,25 +70,38 @@
     fill: #fff;
 }
 
-.archivos-container .button:hover {
-    background: var(--success);
+@media screen and (width > 500px) {
+
+    .archivos-container .button {
+        max-width: 450px;
+    }
+    .archivos-container .link {
+        flex-basis: 350px;
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+    
 }
 
-.archivos-container .button:hover .button__text {
-    color: transparent;
-}
+@media screen and (width > 700px) {
+    
+    .archivos-container .button:hover {
+        background: var(--success);
+    }
+    
+    .archivos-container .button:hover .button__text {
+        color: transparent;
+    }
+    
+    .archivos-container .button:hover .button__icon {
+        width: 90%;
+        transform: translateX(0);
+    }
+    .archivos-container .button:active .button__icon {
+        background-color: var(--success);
+    }
+    .archivos-container .button:active {
+        border: 1px solid var(--success);
+    }
 
-.archivos-container .button:hover .button__icon {
-    width: 90%;
-    transform: translateX(0);
 }
-
-.archivos-container .button:active .button__icon {
-    background-color: var(--success);
-}
-
-.archivos-container .button:active {
-    border: 1px solid var(--success);
-}
-
-@media ()

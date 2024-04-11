@@ -113,7 +113,7 @@ const Login = () => {
                                 />
                                 <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
-                                <button className="eye-button" onClick={handleShowPassword}>
+                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={handleShowPassword}>
                                     {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                             </div>

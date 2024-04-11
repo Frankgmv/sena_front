@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { deleteEventoRequest, getAllEventosRequest, getEventoRequest, postEventoRequest, putEventoRequest } from "../api/data";
 import { registerActionHistorial } from "../assets/includes/historial";
-import { formateFechaGuion } from "../assets/includes/funciones";
+import { formateFecha, formateFechaGuion } from "../assets/includes/funciones";
 
 const EventContext = createContext();
 
@@ -113,7 +113,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
-                await registerActionHistorial(`Modificó Evento`,`Evento '${infoEvento.data.data.evento} - ${formateFechaGuion(infoEvento?.data?.data?.fecha)}' a '${dataEvent.evento} - ${dataEvent.fecha}'`)
+                await registerActionHistorial(`Modificó Evento`,`Evento '${infoEvento.data.data.evento} - ${formateFecha(infoEvento?.data?.data?.fecha)}' a '${dataEvent.evento} - ${dataEvent.fecha}'`)
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
