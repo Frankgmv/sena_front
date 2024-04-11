@@ -2,3 +2,9 @@
     width: 50%;
     margin: 2em auto;
 }
+
+@media (width <= 820px){
+    .containerInput-recuperacion{
+        width: 90%;
+    }
+}

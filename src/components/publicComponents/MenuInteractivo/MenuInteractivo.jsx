@@ -8,6 +8,7 @@ import galeria from '../../../assets/img/galeria.jpg'
 import ubication from '../../../assets/img/3425077.png'
 import files from '../../../assets/img/files.jpeg'
 import pqrs from '../../../assets/img/pqrs.png'
+import pdf from '../../../assets/img/pdf.png'
 import { Link } from 'react-router-dom'
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 
@@ -21,17 +22,12 @@ const MenuInteractivo = () => {
             </div>
             <div className="menuCards">
                 <CardMenuInteractivo
-                    link="/admin"
-                    name="Administrar"
-                    img={admin}
-                />
-                <CardMenuInteractivo
                     link="/noticias"
                     name="Noticias"
                     img={news}
                 />
                 <CardMenuInteractivo
-                    link="/eventos"
+                    link="/galeria"
                     name="Galería"
                     img={galeria}
                 />
@@ -52,6 +48,11 @@ const MenuInteractivo = () => {
                     img={ubication}
                 />
                 <CardMenuInteractivo
+                    link="/archivos"
+                    name="Archivos Institucionales"
+                    img={pdf}
+                />
+                <CardMenuInteractivo
                     link="/login"
                     name="Inicio sesión"
                     img={login}
@@ -60,6 +61,11 @@ const MenuInteractivo = () => {
                     link="/register"
                     name="Registrar"
                     img={register}
+                />
+                <CardMenuInteractivo
+                    link="/admin"
+                    name="Administrar"
+                    img={admin}
                 />
                 {data.map((item) => (
                     <div className='containerMenuCard' key={item.id} hidden={!item.estado}>

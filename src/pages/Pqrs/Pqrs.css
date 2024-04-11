@@ -55,8 +55,9 @@
     }
 }
 
-@media (width <=800px) {
+@media (width <=820px) {
     .container-pqrs {
+        margin-top: 50px;
         flex-direction: column;
         height: auto;
     }
