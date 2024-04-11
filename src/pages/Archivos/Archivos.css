@@ -56,10 +56,9 @@
 
 .archivos-container .button .button__icon {
     position: absolute;
-    transform: translateX(850%);
+    transform: translateX(817%);
     height: 100%;
     width: 10%;
-    background-color: var(--success);
     display: flex;
     align-items: center;
     justify-content: center;

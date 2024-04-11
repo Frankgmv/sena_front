@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest, getArchivoRequest } from "../../api/multimedia";
-import { getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
+import { getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
 
 const DataGeneralContext = createContext({
     noticias: [],
     secciones: [],
     categorias: [],
     items: [],
-    navbar: [],
+    navbar: {},
     archivos: [],
     links: [],
     events: [],
@@ -37,23 +37,48 @@ export const DataGeneralProvider = ({ children }) => {
     const [eventoData, setEventoData] = useState([]);
     const [noticias, setNoticias] = useState([]);
     const [items, setItems] = useState([]);
-    const [navbar, setNavbar] = useState([]);
+    const [navbar, setNavbar] = useState({});
+    const [blogs, setBlogs] = useState([]);
     const [links, setLinks] = useState([]);
     const [archivos, setArchivos] = useState([]);
     const [secciones, setSecciones] = useState([]);
     const [categorias, setCategorias] = useState([]);
 
     useEffect(() => {
-        fetchEvents();
-        getDefaultData();
-        getSlider();
-        getVideos();
+        fetchEvents()
+        getDefaultData()
+        getSlider()
+        getVideos()
         getItems()
         getNoticias()
         getArchivos()
         getLinks()
         getSeccionesYCategorias()
+        getBlogs()
     }, []);
+
+    useEffect(() => {
+        if (categorias.length > 1) {
+            trasformaDataBlogs()
+        }
+    }, [blogs, categorias]);
+
+    const trasformaDataBlogs = () => {
+        const categoriaBlog = categorias.reduce((save, item) => {
+            let findLinks = blogs.filter(blog => blog.CategoriaId === item.id).map(link => {
+                let findSeccion = secciones.find(seccion => seccion.id === link.SeccionId)
+                return { ...link, SeccionId: findSeccion.seccionKey }
+            }).filter(link => link.SeccionId === "S_PLAT_ACADEMICAS")
+
+            if (!save[`${item.categoria}`] && item.categoria != "ARCHIVO_PDF") {
+                save[`${item.categoria}`] = findLinks
+            }
+
+            return save
+        }, {})
+
+        setNavbar(categoriaBlog)
+    };
 
     const fetchEvents = async () => {
         try {
@@ -72,6 +97,15 @@ export const DataGeneralProvider = ({ children }) => {
             const catResponse = await getAllCategoriasRequest()
             setCategorias(catResponse.data.data);
             setSecciones(seccResponse.data.data);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+
+    const getBlogs = async () => {
+        try {
+            const response = await getAllLinkBlogsRequest()
+            setBlogs(response.data.data);
         } catch (error) {
             console.error("Error al traer la Items:", error);
         }

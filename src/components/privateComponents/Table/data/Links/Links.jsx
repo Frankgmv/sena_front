@@ -24,8 +24,8 @@ function Links() {
     const { secciones, categorias } = useGeneralContext()
     const { usuarios } = useUserContext()
     const [formLink, setFormLink] = useState({
-        CategoriaId: 8,
-        SeccionId: 15,
+        CategoriaId: 9,
+        SeccionId: 16,
         link: '',
         descripcion: '',
         tipo: 'pdf',
@@ -310,7 +310,7 @@ function Links() {
 
     return (
         <>
-            <div style={{ height: isSmallScreen ? '80%' : '60%', width: '100%', marginTop: '-100px' }}>
+            <div style={{ height:'80%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
