@@ -9,16 +9,30 @@
     flex-wrap: wrap-reverse;
     justify-content: space-evenly;
     width: 100%;
+    gap: 10px;
 }
 
 .archivos-container .link {
+    background-color: var(--black-soft);
     flex-basis: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     flex-shrink: 1;
     margin-top: 7vh;
+    border-radius: 10px;
+    border: 1px solid #80808041;
+    padding: 20px;
 }
 
 .archivos-container .link h2 {
     font-size: 18px;
+}
+
+.archivos-container .link p {
+    margin-top: 10px;
+    text-align: justify;
 }
 
 .archivos-container .link .linkFile {

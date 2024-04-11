@@ -119,7 +119,7 @@ export const DataGeneralProvider = ({ children }) => {
             linkReset = linkReset.map((linkReset) => {
                 return {
                     ...linkReset,
-                    createdAt: moment(linkReset.createdAt).format('DD/MM')
+                    createdAt: moment(linkReset.createdAt).format('DD/MM/YY')
                 }
             })
             setLinks(linkReset);
@@ -134,7 +134,7 @@ export const DataGeneralProvider = ({ children }) => {
             let dataReset = response.data.data
             dataReset = {
                 ...dataReset,
-                createdAt: moment(dataReset.createdAt).format('DD/MM')
+                createdAt: '📅 ' + moment(dataReset.createdAt).format('DD/MM/YY')
             }
             setArchivos(dataReset);
         } catch (error) {
