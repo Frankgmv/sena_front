@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest, getArchivoRequest } from "../../api/multimedia";
 import { getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
+import moment from "moment/moment";
 
 const DataGeneralContext = createContext({
     noticias: [],
@@ -114,7 +115,14 @@ export const DataGeneralProvider = ({ children }) => {
     const getLinks = async () => {
         try {
             const response = await getAllLinkPDFRequest()
-            setLinks(response.data.data);
+            let linkReset = response.data.data
+            linkReset = linkReset.map((linkReset) => {
+                return {
+                    ...linkReset,
+                    createdAt: moment(linkReset.createdAt).format('DD/MM/YY')
+                }
+            })
+            setLinks(linkReset);
         } catch (error) {
             console.error("Error al traer la Items:", error);
         }
@@ -123,7 +131,12 @@ export const DataGeneralProvider = ({ children }) => {
     const getArchivos = async () => {
         try {
             const response = await getArchivoRequest()
-            setArchivos(response.data.data);
+            let dataReset = response.data.data
+            dataReset = {
+                ...dataReset,
+                createdAt: '📅 ' + moment(dataReset.createdAt).format('DD/MM/YY')
+            }
+            setArchivos(dataReset);
         } catch (error) {
             console.error("Error al traer la Items:", error);
         }
