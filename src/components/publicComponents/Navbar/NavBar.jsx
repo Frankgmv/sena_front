@@ -14,7 +14,7 @@ const NavBar = () => {
     const [keyss, setKeyss] = useState([]);
 
     const toggleDrawer = (newOpen) => () => setOpen(newOpen)
-    const isSmallScreen = useMediaQuery('(max-width: 700px)');
+    const isSmallScreen = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
         const dato = Object.keys(navbar)
@@ -55,12 +55,12 @@ const NavBar = () => {
                             aria-controls="panel1-content"
                             id="panel1-header"
                         >
-                            Paginas internas
+                            Páginas internas
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container spacing={2} sx={{ width: '100%' }}>
                                 <Grid item xs={12}>
-                                    <Link style={{ textDecoration: 'none' }} className='link' to='/'>Página Principal</Link>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/'>Principal</Link>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/noticias'>Noticias</Link>
@@ -151,9 +151,9 @@ const NavBar = () => {
                 </div>
             </div>
             <div className="links">
-                <Link className='link' to='/'>Inicio</Link>
-                <Link className='link' to='/noticias'>Noticias</Link>
-                <Link className='link' to='/galeria'>Eventos</Link>
+                <Link className='link' to='/'><span>Inicio</span> <p></p></Link>
+                <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
+                <Link className='link' to='/galeria'><span>Eventos</span> <p></p></Link>
             </div>
             <div className="info">
                 <div className="infoText">
@@ -161,7 +161,7 @@ const NavBar = () => {
                 </div>
                 <div className="icon">
                     <IoIosArrowDown
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer', width: '20px', height: '20px'}}
                         className='navBar-icon'
                         id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
