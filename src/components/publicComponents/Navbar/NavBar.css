@@ -9,7 +9,7 @@
     padding-top: 10px;
     border-bottom: 1px solid var(--black);
     top: 0px;
-    z-index: 10000000000000;
+    z-index: 300;
     background-color: var(--white);
 }
 
