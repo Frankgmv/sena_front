@@ -498,8 +498,8 @@ function Galeria() {
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 100 }} alt={imagenView} />
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px'}}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover'}} alt={imagenView} />
                         </Grid>
                         <Grid item xs={12}>
                             <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>

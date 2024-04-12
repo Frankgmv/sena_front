@@ -153,7 +153,7 @@ const NavBar = () => {
             <div className="links">
                 <Link className='link' to='/'><span>Inicio</span> <p></p></Link>
                 <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
-                <Link className='link' to='/galeria'><span>Eventos</span> <p></p></Link>
+                <Link className='link' to='/galeria'><span>Galería</span> <p></p></Link>
             </div>
             <div className="info">
                 <div className="infoText">

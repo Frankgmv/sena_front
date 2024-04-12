@@ -633,8 +633,8 @@ function Noticias() {
                             <h5>{encabezadoView}</h5>
                             <p>{descripcionView}</p>
                         </Grid>
-                        <Grid container style={{ display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
+                        <Grid container style={{display: imagenView ? '' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px'}}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover'}} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                         <Grid item xs={12}>

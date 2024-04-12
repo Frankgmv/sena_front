@@ -3,7 +3,6 @@ import f1 from '../../assets/img/f1.jpg'
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
-import { useState } from 'react';
 
 const EventsPage = () => {
     const { gallery, events, getAllGaleria } = useDataGeneralContext()
@@ -22,8 +21,11 @@ const EventsPage = () => {
             </div>
             <div className="image-gallery">
                 {gallery.map((image) => (
-                    <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} onError={(e) => e.target.src = f1}
-                    />
+                    <div className="img">
+                        <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} title={image.titulo} onError={(e) => e.target.src = f1}
+                        />
+                        <span className='info'>{image.titulo}</span>
+                    </div>
                 ))}
             </div>
         </>

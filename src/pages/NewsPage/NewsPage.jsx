@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './NewsPage.css'
 import f1 from '../../assets/img/f1.jpg'
 import { Modal } from "@mui/material";

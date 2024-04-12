@@ -104,7 +104,8 @@
 
 .modalNews img{
     width: 90%;
-    height: 50%;
+    height: 52%;
+    object-fit: cover;
     margin-bottom: 30px;
 }
 

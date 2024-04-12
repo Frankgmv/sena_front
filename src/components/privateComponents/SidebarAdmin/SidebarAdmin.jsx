@@ -111,7 +111,7 @@ export default function Sidebar() {
                     </li>
                     <li key="token" style={mostrar('P_ADMIN') ? hiddenSeccion : {}}>
                         <NavLink to="./token" className="link">
-                            Token
+                            Clave Especial
                         </NavLink>
                     </li>
                     <li key="seccion-list">
