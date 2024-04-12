@@ -96,6 +96,11 @@ const Login = () => {
                     <p>A la plataforma educativa</p>
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
+                <div className="redireccionesMobile">
+                    <a className='link-redireccionesMobile' href="/">Inicio</a>
+                    <a className='link-redireccionesMobile' href="/login">Iniciar Sesion</a>
+                    <a className='link-redireccionesMobile' href="/register">Registarse</a>
+                </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
@@ -113,7 +118,7 @@ const Login = () => {
                                 />
                                 <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
-                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={handleShowPassword}>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={handleShowPassword}>
                                     {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                             </div>
