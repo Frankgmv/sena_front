@@ -76,9 +76,9 @@ const Login = () => {
             </div>
             <div className="fondo"></div>
             <div className="redirecciones">
-                <a className='link-redirecciones' href="/">Inicio</a>
-                <a className='link-redirecciones' href="/login">Iniciar Sesion</a>
-                <a className='link-redirecciones' href="/register">Registarse</a>
+                <Link className='link-redirecciones' href="/">Inicio</Link>
+                <Link className='link-redirecciones' href="/login">Iniciar Sesión</Link>
+                <Link className='link-redirecciones' href="/register">Registarse</Link>
             </div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
@@ -97,9 +97,9 @@ const Login = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="redireccionesMobile">
-                    <a className='link-redireccionesMobile' href="/">Inicio</a>
-                    <a className='link-redireccionesMobile' href="/login">Iniciar Sesion</a>
-                    <a className='link-redireccionesMobile' href="/register">Registarse</a>
+                    <Link className='link-redireccionesMobile' href="/">Inicio</Link>
+                    <Link className='link-redireccionesMobile' href="/login">Iniciar Sesion</Link>
+                    <Link className='link-redireccionesMobile' href="/register">Registarse</Link>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>

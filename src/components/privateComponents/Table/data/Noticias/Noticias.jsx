@@ -229,8 +229,7 @@ function Noticias() {
         boxShadow: 24,
         p: 4,
         alignItems: 'center',
-        textAlign: 'center',
-        border: 'none'
+        textAlign: 'center'
     };
 
     const showSwal = () => {

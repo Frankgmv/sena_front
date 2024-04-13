@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom"
 import "./authores.css"
 const Authores = ({url}) => {
   return (
     <div className="author">
-        <a className="author-item" target="_blank" href={url}>&copy; Derechos de reservados</a>
-        <a className="author-item" target="_blank" href={url}>Conoce nuestros creadores</a>
+        <Link className="author-item" target="_blank" href={url}>&copy; Derechos de reservados</Link>
+        <Link className="author-item" target="_blank" href={url}>Conoce nuestros creadores</Link>
     </div>
   )
 }

@@ -86,9 +86,9 @@ const Register = () => {
             </div>
             <div className="fondo"></div>
             <div className="redirecciones">
-                <a className='link-redirecciones' href="/">Inicio</a>
-                <a className='link-redirecciones' href="/login">Iniciar Sesion</a>
-                <a className='link-redirecciones' href="/register">Registarse</a>
+                <Link className='link-redirecciones' href="/">Inicio</Link>
+                <Link className='link-redirecciones' href="/login">Iniciar Sesion</Link>
+                <Link className='link-redirecciones' href="/register">Registarse</Link>
             </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
