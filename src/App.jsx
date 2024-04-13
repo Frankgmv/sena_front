@@ -1,4 +1,5 @@
 import './App.css';
+import {NextUIProvider} from "@nextui-org/react";
 import { DataProvider } from './context/AnunciosContext';
 import { ArchivoProvider } from './context/ArchivoContext';
 import { CredentialProvider } from './context/AuthContext';
@@ -21,43 +22,44 @@ import PublicRoutes from './routes/PublicRoutes';
 function App() {
   return (
     <>
-      <PqrsProvider>
-        {/* Contextos habilitados para administración. */}
-        <CredentialProvider>
-          <UserProvider>
-            <DataProvider>
-              <SeccionProvider>
-                <GeneralProvider>
-                  <EventProvider>
-                    <ItemProvider>
-                      <NoticiaProvider>
-                        <LinkProvider>
-                          <TokensProvider>
-                            <ArchivoProvider>
-                              <GaleriaProvider>
-                                <VideoProvider>
-                                  <SliderProvider>
-                                    <NotificacionesProvider>
-                                      <AdminRoutes />
-                                    </NotificacionesProvider>
-                                  </SliderProvider>
-                                </VideoProvider>
-                              </GaleriaProvider>
-                            </ArchivoProvider>
-                          </TokensProvider>
-                        </LinkProvider>
-                      </NoticiaProvider>
-                    </ItemProvider>
-                  </EventProvider>
-                </GeneralProvider>
-              </SeccionProvider>
-            </DataProvider>
-          </UserProvider>
-        </CredentialProvider>
-
-        {/* Contextos habilitados para páginas publicas */}
-        <PublicRoutes />
-      </PqrsProvider>
+      <NextUIProvider>
+        <PqrsProvider>
+          {/* Contextos habilitados para administración. */}
+          <CredentialProvider>
+            <UserProvider>
+              <DataProvider>
+                <SeccionProvider>
+                  <GeneralProvider>
+                    <EventProvider>
+                      <ItemProvider>
+                        <NoticiaProvider>
+                          <LinkProvider>
+                            <TokensProvider>
+                              <ArchivoProvider>
+                                <GaleriaProvider>
+                                  <VideoProvider>
+                                    <SliderProvider>
+                                      <NotificacionesProvider>
+                                        <AdminRoutes />
+                                      </NotificacionesProvider>
+                                    </SliderProvider>
+                                  </VideoProvider>
+                                </GaleriaProvider>
+                              </ArchivoProvider>
+                            </TokensProvider>
+                          </LinkProvider>
+                        </NoticiaProvider>
+                      </ItemProvider>
+                    </EventProvider>
+                  </GeneralProvider>
+                </SeccionProvider>
+              </DataProvider>
+            </UserProvider>
+          </CredentialProvider>
+          {/* Contextos habilitados para páginas publicas */}
+          <PublicRoutes />
+        </PqrsProvider>
+      </NextUIProvider>
     </>
   );
 }

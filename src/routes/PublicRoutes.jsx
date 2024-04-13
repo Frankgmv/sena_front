@@ -11,6 +11,7 @@ import { PasswordContext } from "../context/ResetPassContext"
 import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 import Magazine from "../pages/Magazine/Magazine"
+import Anuncios from "../pages/Anuncios/Anuncios"
 
 const PublicRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const PublicRoutes = () => {
           <Route path="/la-institucion" element={<Institucion />} />
           <Route path="/archivos" element={<Archivos />} />
           <Route path="/magazine" element={<Magazine />} />
+          <Route path="/anuncios" element={<Anuncios />} />
         </Routes>
       </DataGeneralProvider>
       <PasswordContext>

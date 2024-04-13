@@ -62,7 +62,7 @@
 .image-gallery .img:hover {
     color: var(--white);
     background-color: var(--black-text);
-    scale: 1.04;
+    scale: 1.02;
 }
 
 

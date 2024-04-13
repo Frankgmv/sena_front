@@ -21,7 +21,7 @@ const EventsPage = () => {
             </div>
             <div className="image-gallery">
                 {gallery.map((image) => (
-                    <div className="img">
+                    <div className="img" key={image.id}>
                         <img key={image.id} src={MOSTRAR_ARCHIVO(image.imgPath)} alt={image.titulo} title={image.titulo} onError={(e) => e.target.src = f1}
                         />
                         <span className='info'>{image.titulo}</span>

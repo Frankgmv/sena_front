@@ -68,9 +68,9 @@ const NavBar = () => {
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/galeria'>Galeria</Link>
                                 </Grid>
-                                {/* <Grid item xs={12}>
+                                <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/la-institucion'>La Institución</Link>
-                                </Grid> */}
+                                </Grid>
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/pqrs'>PQRS</Link>
                                 </Grid>
@@ -82,6 +82,9 @@ const NavBar = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Link style={{ textDecoration: 'none' }} className='link' to='/magazine'>Magazine</Link>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Link style={{ textDecoration: 'none' }} className='link' to='/anuncios'>Anuncios</Link>
                                 </Grid>
                             </Grid>
                         </AccordionDetails>

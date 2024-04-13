@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
 /* Variables de colores */
 
-:root{
-    --white:  #FBFBFB;
-    --white-hover:  #fbfbfb88;
+:root {
+    --white: #FBFBFB;
+    --white-hover: #fbfbfb88;
     --black-text: #000;
     --black-soft: #00000010;
     --black-background: #292929;
@@ -23,4 +24,12 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--black);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Overpass", sans-serif;
 }
