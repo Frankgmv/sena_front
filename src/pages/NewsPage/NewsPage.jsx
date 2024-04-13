@@ -6,6 +6,7 @@ import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { formateFecha } from "../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
+import Footer from "../../components/publicComponents/Footer/Footer";
 
 const NewsPage = () => {
     const { noticias: data } = useDataGeneralContext()
@@ -45,6 +46,7 @@ const NewsPage = () => {
                     </div>
                 </Modal>
             )}
+            <Footer />
         </>
     );
 };

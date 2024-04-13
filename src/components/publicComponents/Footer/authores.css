@@ -1,0 +1,20 @@
+.author{
+    width: 100%;
+    font-size: .8em;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--black);
+    line-height: 2;
+    flex-wrap: wrap;
+}
+
+.author-item{
+    text-decoration: none;
+    color: var(--white);
+}
+
+.author-item:hover{
+    text-decoration: underline;
+    color: var(--success);
+    cursor: alias;
+}

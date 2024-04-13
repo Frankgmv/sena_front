@@ -9,6 +9,7 @@ import toastr from '../../assets/includes/Toastr';
 import { useResetPasswordContext } from '../../context/ResetPassContext';
 import { validarPassword } from '../../assets/includes/funciones';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../components/publicComponents/Footer/Footer';
 
 const steps = ['Datos de Cuenta', 'Código de Verificación', 'Nueva Contraseña'];
 
@@ -300,6 +301,7 @@ function Recuperacion() {
                     </div>
                 </Box>
             </div>
+            <Footer />
         </>
     );
 }

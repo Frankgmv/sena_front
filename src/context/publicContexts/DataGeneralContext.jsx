@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest, getArchivoRequest } from "../../api/multimedia";
-import { getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
+import { getAllAnunciosRequest, getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
 import moment from "moment/moment";
 
 const DataGeneralContext = createContext({
     noticias: [],
     secciones: [],
+    anuncios: [],
     categorias: [],
     items: [],
     navbar: {},
@@ -34,6 +35,8 @@ export const DataGeneralProvider = ({ children }) => {
     const [slider, setSlider] = useState([]);
     const [videos, setVideos] = useState([]);
     const [gallery, setGallery] = useState([]);
+    const [anuncios, setAnuncios] = useState([]);
+    const [anunciosData, setAnunciosData] = useState([]);
     const [eventoDataPura, setEventoDataPura] = useState([]);
     const [eventoData, setEventoData] = useState([]);
     const [noticias, setNoticias] = useState([]);
@@ -56,6 +59,7 @@ export const DataGeneralProvider = ({ children }) => {
         getLinks()
         getSeccionesYCategorias()
         getBlogs()
+        getAnuncios()
     }, []);
 
     useEffect(() => {
@@ -63,6 +67,12 @@ export const DataGeneralProvider = ({ children }) => {
             trasformaDataBlogs()
         }
     }, [blogs, categorias]);
+
+    useEffect(() => {
+        if (secciones.length > 1) {
+            trasformaDataAnuncios()
+        }
+    }, [anunciosData, secciones]);
 
     const trasformaDataBlogs = () => {
         const categoriaBlog = categorias.reduce((save, item) => {
@@ -79,6 +89,18 @@ export const DataGeneralProvider = ({ children }) => {
         }, {})
 
         setNavbar(categoriaBlog)
+    };
+    const trasformaDataAnuncios = () => {
+        const seccionesTransform = secciones.filter(seccion => !(seccion.seccionKey == "S_PLAT_ACADEMICAS" || seccion.seccionKey == "ARCHIVO_PDF"))
+        .reduce((save, item) => {
+            let findAnuncios = anunciosData.filter(anuncio => anuncio.SeccionId === item.id)
+            if (!save[`${item.seccion}`]) {
+                save[`${item.seccion}`] = findAnuncios
+            }
+
+            return save
+        }, {})
+        setAnuncios(seccionesTransform)
     };
 
     const fetchEvents = async () => {
@@ -123,6 +145,22 @@ export const DataGeneralProvider = ({ children }) => {
                 }
             })
             setLinks(linkReset);
+        } catch (error) {
+            console.error("Error al traer la Items:", error);
+        }
+    };
+
+    const getAnuncios = async () => {
+        try {
+            const response = await getAllAnunciosRequest()
+            let dataAnuncios = response.data.data
+            dataAnuncios = dataAnuncios.map((dataAnuncios) => {
+                return {
+                    ...dataAnuncios,
+                    createdAt: moment(dataAnuncios.createdAt).format('DD/MM/YY')
+                }
+            })
+            setAnunciosData(dataAnuncios);
         } catch (error) {
             console.error("Error al traer la Items:", error);
         }
@@ -225,7 +263,8 @@ export const DataGeneralProvider = ({ children }) => {
         archivos,
         links,
         secciones,
-        categorias
+        categorias,
+        anuncios
     }
 
     return (

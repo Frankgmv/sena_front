@@ -3,7 +3,7 @@ import logo from '../../../assets/img/logo.png'
 import './NavBar.css'
 import { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Drawer, Grid, useMediaQuery } from '@mui/material'
-import { IoIosArrowDown } from 'react-icons/io'
+import { IoIosArrowDown, IoMdMenu } from 'react-icons/io'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 
@@ -158,20 +158,41 @@ const NavBar = () => {
                 <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
                 <Link className='link' to='/galeria'><span>Galería</span> <p></p></Link>
             </div>
-            <div className="info">
+            <div className="info" onClick={toggleDrawer(true)}>
                 <div className="infoText">
-                    <p>Bienvenido</p>
+                    {
+                        isSmallScreen ? (
+                            <p>Menú</p>
+
+                        ) : (
+                            <p>Bienvenido</p>
+                        )
+                    }
                 </div>
                 <div className="icon">
-                    <IoIosArrowDown
-                        style={{ cursor: 'pointer', width: '20px', height: '20px'}}
-                        className='navBar-icon'
-                        id="demo-positioned-button"
-                        aria-controls={open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={toggleDrawer(true)}
-                    />
+                    {
+                        isSmallScreen ? (
+
+                            <IoMdMenu
+                                style={{ cursor: 'pointer', width: '22px', height: '22px' }}
+                                className='navBar-icon'
+                                id="demo-positioned-button"
+                                aria-controls={open ? 'demo-positioned-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                            />
+                        ) : (
+
+                            <IoIosArrowDown
+                                style={{ cursor: 'pointer', width: '22px', height: '22px' }}
+                                className='navBar-icon'
+                                id="demo-positioned-button"
+                                aria-controls={open ? 'demo-positioned-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                            />
+                        )
+                    }
                 </div>
             </div>
             <Drawer open={open} onClose={toggleDrawer(false)}>

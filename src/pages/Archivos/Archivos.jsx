@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
 import { useMediaQuery } from '@mui/material';
 import { FiEye } from 'react-icons/fi';
+import Footer from '../../components/publicComponents/Footer/Footer';
 
 const Archivos = () => {
     const { archivos: data, links, secciones, categorias } = useDataGeneralContext()
@@ -74,6 +75,7 @@ const Archivos = () => {
                     )}
                 </div>
             </div >
+            <Footer />
         </>
     )
 }

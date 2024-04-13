@@ -7,6 +7,8 @@ import s3 from '../../../assets/img/slider/3.png'
 import s4 from '../../../assets/img/slider/4.png'
 import s5 from '../../../assets/img/slider/5.png'
 import s6 from '../../../assets/img/slider/6.png'
+import { URL_CREADORES } from '../../../assets/includes/variables'
+import Authores from './Authores'
 
 const Footer = () => {
     return (
@@ -128,6 +130,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
+            <Authores url={URL_CREADORES}/>
         </>
     )
 }

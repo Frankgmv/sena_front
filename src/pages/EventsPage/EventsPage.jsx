@@ -3,6 +3,7 @@ import f1 from '../../assets/img/f1.jpg'
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
+import Footer from '../../components/publicComponents/Footer/Footer';
 
 const EventsPage = () => {
     const { gallery, events, getAllGaleria } = useDataGeneralContext()
@@ -28,6 +29,7 @@ const EventsPage = () => {
                     </div>
                 ))}
             </div>
+            <Footer />
         </>
     );
 };

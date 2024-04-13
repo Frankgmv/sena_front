@@ -607,7 +607,7 @@ function AnunciosList() {
                                         label="SeccionId"
                                         name="SeccionId"
                                         value={SeccionIdUpt}
-                                        onChange={(e) => setSeccionId(e.target.value)}
+                                        onChange={(e) => setSeccionIdUpt(e.target.value)}
                                     >
                                         {
                                             secciones.map((seccion, i) => {
