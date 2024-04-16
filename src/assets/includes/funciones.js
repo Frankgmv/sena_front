@@ -19,3 +19,21 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[a-zA-Z0-
 export const validarPassword = (password) => {
     return passwordRegex.test(password)
 }
+
+
+export function encontrarSeccionConMasElementos(datos) {
+    let mayorCantidadElementos = 0;
+    let seccionConMasElementos = "";
+  
+    for (const seccion in datos) {
+      const seccionActual = datos[seccion];
+      const cantidadElementos = seccionActual.length;
+  
+      if (cantidadElementos > mayorCantidadElementos) {
+        mayorCantidadElementos = cantidadElementos;
+        seccionConMasElementos = seccion;
+      }
+    }
+  
+    return seccionConMasElementos;
+  }
