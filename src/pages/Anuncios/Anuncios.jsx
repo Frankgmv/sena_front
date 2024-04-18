@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./style.css"
+import "./Anuncios.css"
 import f1 from '../../assets/img/default.jpeg'
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";

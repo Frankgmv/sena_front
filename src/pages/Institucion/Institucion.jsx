@@ -6,7 +6,7 @@ const Institucion = () => {
     return (
         <div>
             <NavBar />
-            
+            // ! codigo de la pagnina principal, con un error basico
         </div>
     )
 }
