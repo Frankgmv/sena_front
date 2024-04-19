@@ -1,3 +1,4 @@
+import AlertaAnuncios from "../../components/publicComponents/Alerta/Alerta"
 import Calendario from "../../components/publicComponents/Calendario/Calendario"
 import Eventos from "../../components/publicComponents/Eventos/Eventos"
 import Footer from "../../components/publicComponents/Footer/Footer"
@@ -12,6 +13,7 @@ import './HomePage.css'
 const HomePage = () => {
     return (
         <div className="homeBody">
+            <AlertaAnuncios />
             <NavBar />
             <Slider />
             <Noticias id='noticias' />

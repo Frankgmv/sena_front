@@ -14,7 +14,7 @@ const Slider = () => {
                         <li key={item.id}>
                             <img  src={MOSTRAR_ARCHIVO(item.imagenes.imgPath)} alt="Imagen" onError={(e) => e.target.src = f2} />
                             <div className="slider_texto">
-                                <h2>Formando para la gente</h2>
+                                <h2>Centenario Pereira</h2>
                             </div>
                         </li>
                     ))}

@@ -1,6 +1,7 @@
 .footerBody{
     width: 95%;
-    margin: 50px auto;
+    margin-inline: auto;
+    margin-top: 50px;
     text-align: center;
     border-top: 2px solid var(--black);
     flex-wrap: wrap;
@@ -76,25 +77,25 @@
     font-weight: 400;
 }
 
-.slider {
+.slider-footer {
     width: 75vw;
     height: auto;
-    margin: auto;
+    margin-inline: auto;
     overflow: hidden;
 }
 
-.slider .slide-track {
+.slider-footer .slide-track {
     display: flex;
     animation: scroll 40s linear infinite;
     -webkit-animation: scroll 40s linear infinite;
     width: calc(600px * 6);
 }
 
-.slider .slide {
+.slider-footer .slide {
     width: 400px;
 }
 
-.slider .slide img {
+.slider-footer .slide img {
     width: 100%;
     object-fit: contain;
     height: 80px;

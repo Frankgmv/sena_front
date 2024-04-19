@@ -1,0 +1,285 @@
+.container-content .mision,
+.container-content .vision {
+    width: 95%;
+    margin: 10vh auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10;
+}
+
+.container-content .vision {
+    border-top: 1px solid #000;
+    padding-top: 10vh;
+}
+
+.container-content .mision .container-text,
+.container-content .vision .container-text {
+    width: 45%;
+}
+
+.container-content .mision .imagen,
+.container-content .vision .imagen {
+    width: 45%;
+}
+
+.container-content .mision .imagen img,
+.container-content .vision .imagen img {
+    width: 80%;
+    height: 80%;
+}
+
+.container-content .simbolos-institucionales {
+    width: 95%;
+    margin: 5vh auto;
+    text-align: center;
+}
+
+.container-content .simbolos-institucionales .titulo-bandera-escudo {
+    border: 1px solid;
+    width: 60vw;
+    margin: 5vh auto;
+    text-align: center;
+    padding-block: 2vh;
+    border-inline: none;
+}
+
+.container-content .simbolos-institucionales .escudo-bandera {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10;
+}
+
+.container-content .simbolos-institucionales .escudo,
+.container-content .simbolos-institucionales .bandera {
+    width: 50%;
+    height: 100vh;
+    text-align: center;
+}
+
+.container-content .simbolos-institucionales .escudo {
+    border-right: 1px solid;
+}
+
+.container-content .simbolos-institucionales .escudo .text-escudo,
+.container-content .simbolos-institucionales .bandera .text-bandera {
+    padding-inline: 10%;
+    margin-block: 15px;
+}
+
+.container-content .simbolos-institucionales .escudo .imagen-escudo {
+    text-align: center;
+    margin-inline: auto;
+    width: 50%;
+    height: 40%;
+}
+
+.container-content .simbolos-institucionales .bandera .imagen-bandera {
+    width: 80%;
+    height: 30%;
+    text-align: center;
+    margin: 5vh auto;
+}
+
+.container-content .simbolos-institucionales .escudo .imagen-escudo img,
+.container-content .simbolos-institucionales .bandera .imagen-bandera img {
+    width: 100%;
+    height: 100%;
+}
+
+.container-content .himno {
+    width: 95%;
+    margin: 5vh auto;
+    text-align: center;
+}
+
+.container-content .himno .titulo-himno {
+    border: 1px solid;
+    width: 60vw;
+    margin: 5vh auto;
+    text-align: center;
+    padding-block: 2vh;
+    border-inline: none;
+}
+
+.container-content .himno .text-himno {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10;
+    margin-block: 5vh;
+}
+
+.container-content .himno .text-himno .col-3 {
+    width: 30%;
+}
+
+.container-content .himno .text-himno .col-3 .titulo-col {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+@media (width <=1024px) and (width >=720px){
+
+    .container-content .mision,
+    .container-content .vision {
+        margin-block: 2vh;
+        padding-block: 2vh;
+    }
+
+    .container-content .mision .container-text,
+    .container-content .vision .container-text {
+        width: 100%;
+    }
+
+    .container-content .simbolos-institucionales .escudo,
+.container-content .simbolos-institucionales .bandera {
+    width: 70%;
+    height: 100vh;
+}
+
+    .container-content .simbolos-institucionales .escudo .imagen-escudo{
+        width: 50%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .bandera .imagen-bandera {
+        width: 100%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera{
+        flex-direction: column;
+        border: none;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo{
+        border-right: none;
+        border-bottom: 1px solid;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        padding-top: 5vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo,
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        width: 100%;
+    }
+
+    .container-content .himno .text-himno .col-3{
+        width: 50%;
+    }
+}
+
+@media (width <720px) and (width >=415px){
+
+    .container-content .mision,
+    .container-content .vision {
+        margin-block: 2vh;
+        padding-block: 2vh;
+    }
+
+    .container-content .mision .container-text,
+    .container-content .vision .container-text {
+        width: 100%;
+    }
+
+    .container-content .simbolos-institucionales .escudo .imagen-escudo{
+        width: 50%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .bandera .imagen-bandera {
+        width: 100%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera{
+        flex-direction: column;
+        border: none;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo{
+        border-right: none;
+        border-bottom: 1px solid;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        padding-top: 5vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo,
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        width: 100%;
+    }
+
+    .container-content .himno .text-himno .col-3{
+        width: 50%;
+    }
+}
+
+@media (width <=414px){
+
+    .container-content .mision,
+    .container-content .vision {
+        margin-block: 2vh;
+        padding-block: 2vh;
+    }
+
+    .container-content .mision .container-text,
+    .container-content .vision .container-text {
+        width: 100%;
+    }
+
+    .container-content .simbolos-institucionales .escudo,
+.container-content .simbolos-institucionales .bandera {
+    width: 70%;
+    height: 150vh;
+}
+
+    .container-content .simbolos-institucionales .escudo .imagen-escudo{
+        width: 50%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .bandera .imagen-bandera {
+        width: 100%;
+        height: 20%;
+        margin-block: 2vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera{
+        flex-direction: column;
+        border: none;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo{
+        border-right: none;
+        border-bottom: 1px solid;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        padding-top: 5vh;
+    }
+
+    .container-content .simbolos-institucionales .escudo-bandera .escudo,
+    .container-content .simbolos-institucionales .escudo-bandera .bandera{
+        width: 100%;
+    }
+
+    .container-content .himno .text-himno .col-3{
+        width: 50%;
+    }
+}

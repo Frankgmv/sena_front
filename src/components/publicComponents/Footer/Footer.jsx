@@ -66,7 +66,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="slider">
+            <div className="slider-footer">
                 <div className="slide-track">
                     <div className="slide">
                         <a href="https://www.icfes.gov.co" target='blank'>
