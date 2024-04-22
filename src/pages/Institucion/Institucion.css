@@ -20,6 +20,10 @@
     width: 45%;
 }
 
+.container-content .vision .imagen2{
+    display: none;
+}
+
 .container-content .mision .imagen,
 .container-content .vision .imagen,
 .container-content .vision .imagen2 {
@@ -150,7 +154,7 @@
     }
 }
 
-@media (width <=1024px) and (width >=720px){
+@media (width <=1024px) and (width >820px){
 
     .container-content .mision,
     .container-content .vision {
@@ -210,7 +214,7 @@
     }
 }
 
-@media (width <720px) and (width >=415px){
+@media (width <=820px) and (width >=415px){
 
     .container-content .mision,
     .container-content .vision {
@@ -226,6 +230,10 @@
 
     .container-content .vision .imagen{
         display: none;
+    }
+    
+    .container-content .vision .imagen2{
+        display: block;
     }
 
     .container-content .simbolos-institucionales .escudo .imagen-escudo{
@@ -280,6 +288,10 @@
     .container-content .vision {
         margin-block: 2vh;
         padding-block: 2vh;
+    }
+
+    .container-content .vision .imagen2{
+        display: block;
     }
 
     .container-content .mision .container-text,

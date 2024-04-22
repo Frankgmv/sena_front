@@ -5,8 +5,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
+import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext';
 
 class AlertaAnuncios extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,6 +18,16 @@ class AlertaAnuncios extends Component {
     }
 
     componentDidMount() {
+
+        axios.get('http://localhost:9000/api/v1/data/noticias')
+            .then(response => {
+                this.setState({ data: response.data.data });
+                console.log(response);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
         setTimeout(() => this.handleClose(), 30000);
     }
 
@@ -22,23 +35,31 @@ class AlertaAnuncios extends Component {
         this.setState({ open: false });
     };
 
+
+
     render() {
-        const { open } = this.state;
+        const { open, data } = this.state;
 
         return (
             <div>
                 <Dialog open={open} onClose={this.handleClose}>
-                    <DialogTitle style={{marginBlock: '2vh'}}>Pruebas con Material para abrir modal parte 1</DialogTitle>
+                    <DialogTitle style={{ marginBlock: '2vh' }}>Noticias Sobre Nuestra Institución</DialogTitle>
                     <DialogContent>
-                        <DialogContentText style={{marginBlock: '2vh'}}>Falta dar estilos y traer la informacion de la ultima noticia</DialogContentText>
+                        {data ? (
+                            <DialogContentText style={{ marginBlock: '2vh' }}>
+                                {data.titulo}
+                            </DialogContentText>
+                        ) : (
+                            <DialogContentText style={{ marginBlock: '2vh' }}>Loading data...</DialogContentText>
+                        )}
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" fullWidth onClick={this.handleClose} style={{marginBlock: '2vh'}}>
+                        <Button variant="contained" fullWidth onClick={this.handleClose} style={{ marginBlock: '2vh' }}>
                             Cerrar
                         </Button>
                     </DialogActions>
                 </Dialog>
-            </div >
+            </div>
         );
     }
 }
