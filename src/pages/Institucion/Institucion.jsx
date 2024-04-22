@@ -28,9 +28,12 @@ const Institucion = () => {
                         <img src={vision} alt="" />
                     </div>
                     <div className="container-text">
-                        <h3 className='uppercase'>MISIÓN</h3>
+                        <h3 className='uppercase'>VISIÓN</h3>
                         <p>La Institución Educativa Centenario propende por formar estudiantes reflexivos, críticos, analíticos, responsables, con capacidad para resolver sus problemas y liderar procesos en la comunidad. Del mismo modo, busca la formación integral de los estudiantes, desarrollando las competencias básicas para desenvolverse en la vida diaria y los valores como pilares de la convivencia pacífica y del reconocimiento a la diferencia, promoviendo un espíritu de liderazgo e investigación científica y tecnológica para que puedan ser seres formados para la vida y puedan vincularse a la educación superior en condiciones de dignidad e igualdad, contribuyendo de manera efectiva a la construcción y realización de su proyecto de vida.
                         </p>
+                    </div>
+                    <div className="imagen2">
+                        <img src={vision} alt="" />
                     </div>
                 </div>
                 <div className="simbolos-institucionales">
