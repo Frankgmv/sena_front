@@ -33,29 +33,40 @@
 }
 
 .social-btn:hover {
-    width: 180px;
+    width: 200px;
     border-radius: 5px;
 }
 
 .social-btn:hover span {
     padding: 2px;
-    width: 120px;
+    width: 130px;
 }
 
-.social-btn:hover #spanGmail{
-    width: 350px;
+.social-btn:hover span{
+    width: 390px;
     border-radius: 5px;
+}
+
+.social-btn span a{
+    text-decoration: none;
+    color: var(--black-text);
+    cursor: pointer;
+}
+
+.social-btn span#facebook a{
+    text-decoration: none;
+    color: var(--black-text);
+    cursor: pointer;
+}
+
+.social-btn span#facebook:hover a{
+    text-decoration: underline;
 }
 
 .social-btn:hover span #spanGmail{
     padding: 2px;
     width: 250px;
 }
-
-#instagram svg {
-    fill: #c2235a;
-}
-
 #facebook svg {
     fill: #0e76a8;
 }

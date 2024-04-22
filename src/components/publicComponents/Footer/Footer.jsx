@@ -49,15 +49,12 @@ const Footer = () => {
                         <div className="junto">
                             <div className="telefonos">
                                 <h4>Telefonos</h4>
-                                <p>Cel 1: 304 2032303</p>
-                                <p>Cel 2: 317 5202024</p>
-                                <p>Tel: 528 6578</p>
+                                <p>Tel: 3314725</p>
                             </div>
                             <div className="redes">
                                 <h4>Redes</h4>
-                                <p>@centenario_</p>
-                                <p>centenario2024</p>
-                                <p>centenario_@gmail.com</p>
+                                <p>iecentenariopereira</p>
+                                <p>iecentenario@gmail.com</p>
                             </div>
                         </div>
                         <div className="iconRedes">
