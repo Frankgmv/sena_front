@@ -168,7 +168,6 @@ function Recuperacion() {
                         password
                     }
                     cambiarPassword(data).then(data => {
-                        console.log(data)
                         if (data.ok) {
                             toastr.clear()
                             toastr.info(data.message)

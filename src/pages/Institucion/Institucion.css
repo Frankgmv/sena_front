@@ -57,15 +57,18 @@
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10;
+    gap: 0 10;
+}
+
+.container-content .simbolos-institucionales .bandera{
+    margin-block: 5vh !important; 
 }
 
 .container-content .simbolos-institucionales .escudo,
 .container-content .simbolos-institucionales .bandera {
     width: 50%;
-    height: 100vh;
+    /* height: 80vh; */
     text-align: center;
-    margin-block: 10vh;
 }
 
 .container-content .simbolos-institucionales .escudo {

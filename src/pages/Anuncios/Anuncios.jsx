@@ -16,7 +16,6 @@ export default function Anuncios() {
         const datos = Object.keys(anuncios)
         setSeccionSeleccionada(encontrarSeccionConMasElementos(anuncios))
         setHeaderMenu(datos)
-        console.log(anuncios)
     }, [anuncios])
 
     return (
