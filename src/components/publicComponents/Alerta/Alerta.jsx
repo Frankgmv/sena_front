@@ -38,24 +38,24 @@ const AlertaAnuncios = () => {
             <Dialog open={open} onClose={handleClose}>
                 <div style={{ backgroundColor: 'var(--grey-2)', height: 'auto' }}>
                     <div className="icon">
-                        <CloseIcon style={{position: 'absolute', right:'10', top: '10', cursor: 'pointer'}} onClick={handleClose} />
+                        <CloseIcon style={{position: 'absolute', right:'10', top: '10', cursor: 'pointer', color: '#000'}} onClick={handleClose}  />
                     </div>
                     <DialogTitle style={{ fontWeight: 'bolder', color: '#000', marginBlock: '2vh', borderBottom: '2px solid var(--black)', textAlign: 'center', fontSize: '2em', fontWeight: 'bolder' }}>
                         Atención
                     </DialogTitle>
                     <DialogContent>
                         {noticiaAlerta ? (
-                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', fontSize: '1.7em', marginBlock: '2vh', textAlign: 'center' }}>
+                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', fontSize: '1.7em', marginBlock: '2vh', textAlign: 'center', borderBottom: '1px solid #000', padding: '5px 0', width:'90%', marginInline: 'auto' }}>
                                 {noticiaAlerta.titulo}
                             </DialogContentText>
                         ) : (
-                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', marginBlock: '2vh', textAlign: 'center' }}>
+                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', marginBlock: '2vh', textAlign: 'center',  }}>
                                 Cargando Contenido...
                             </DialogContentText>
                         )}
                         <div style={{ fontWeight: '500', color: '#000', textAlign: 'center', padding: '5px' }}>
                             {noticiaAlerta?.encabezado && (
-                                <DialogContentText style={{ fontWeight: '500', color: '#000', textAlign: 'center', padding: '5px', fontSize: '1.5em' }}>
+                                <DialogContentText style={{ fontWeight: '500', color: '#000', textAlign: 'center', padding: '5px', fontSize: '1.2em',}}>
                                     {noticiaAlerta.encabezado}
                                 </DialogContentText>
                             )}
@@ -72,7 +72,7 @@ const AlertaAnuncios = () => {
                             )}
                         </div>
                         {noticiaAlerta?.imgPath && (
-                            <div style={{ width: '100%', marginTop: '20px', height: '30vh', display: 'grid', placeItems: 'center' }}>
+                            <div style={{ width: '100%', marginTop: '10px', height: '25vh', display: 'grid', placeItems: 'center' }}>
                                 <img style={{ width: '70%' }} src={MOSTRAR_ARCHIVO(noticiaAlerta.imgPath)} alt={noticiaAlerta.title} title={noticiaAlerta.title} />
                             </div>
                         )}
