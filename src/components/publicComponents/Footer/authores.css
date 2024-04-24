@@ -13,7 +13,11 @@
     color: var(--white);
 }
 
-.author-item:hover{
+.pointer{
+    cursor: alias;
+}
+
+.pointer:hover{
     text-decoration: underline;
     color: var(--success);
     cursor: alias;
