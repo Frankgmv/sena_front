@@ -428,12 +428,14 @@ function Videos() {
                                     variant="standard"
                                     type="text"
                                     value={link}
+                                    multiline
+                                    maxRows={6}
                                     fullWidth
                                     name="link"
                                     onChange={e => setLink(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
@@ -452,7 +454,7 @@ function Videos() {
                             </Grid>
                             <Grid item xs={6}>
                                 <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
-                                    Guardar
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -523,11 +525,13 @@ function Videos() {
                                     type="text"
                                     name="link"
                                     value={linkUpt}
+                                    multiline
+                                    maxRows={6}
                                     fullWidth
                                     onChange={e => setLinkUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"

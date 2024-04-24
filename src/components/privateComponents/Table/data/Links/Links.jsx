@@ -465,6 +465,8 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="link"
+                                    multiline
+                                    maxRows={2}
                                     value={formLink.link}
                                     onChange={handlerChangeCreate}
                                     fullWidth
@@ -494,6 +496,8 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="descripcion"
+                                    multiline
+                                    maxRows={6}
                                     value={formLink.descripcion}
                                     onChange={handlerChangeCreate}
                                     fullWidth
@@ -595,6 +599,8 @@ function Links() {
                                     type="text"
                                     fullWidth
                                     name="link"
+                                    multiline
+                                    maxRows={2}
                                     value={formLinkUpt.link}
                                     onChange={handlerChangeUpt}
 
@@ -624,6 +630,8 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="descripcion"
+                                    multiline
+                                    maxRows={6}
                                     value={formLinkUpt.descripcion}
                                     fullWidth
                                     onChange={handlerChangeUpt}
