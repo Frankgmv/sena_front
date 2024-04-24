@@ -1,6 +1,9 @@
 import CardMenuInteractivo from '../Cards/CardMenuInteractivo/CardMenuInteractivo'
 import './MenuInteractivo.css'
 import admin from '../../../assets/img/admin.jpg'
+import mainImg from '../../../assets/img/f1.jpg'
+import institutoImg from '../../../assets/img/logo.png'
+import anunciosImg from '../../../assets/img/anuncio.png'
 import register from '../../../assets/img/register.jpg'
 import login from '../../../assets/img/login.jpg'
 import news from '../../../assets/img/news.jpg'
@@ -25,6 +28,21 @@ const MenuInteractivo = () => {
                     link="/noticias"
                     name="Noticias"
                     img={news}
+                />
+                <CardMenuInteractivo
+                    link="/"
+                    name="Página Principal"
+                    img={mainImg}
+                />
+                <CardMenuInteractivo
+                    link="/la-institucion"
+                    name="La institución"
+                    img={institutoImg}
+                />
+                <CardMenuInteractivo
+                    link="/anuncios"
+                    name="Anuncios"
+                    img={anunciosImg}
                 />
                 <CardMenuInteractivo
                     link="/galeria"

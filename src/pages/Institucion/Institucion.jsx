@@ -6,6 +6,7 @@ import logo from '../../assets/img/logo.png'
 import bandera from '../../assets/img/bandera.jpeg'
 import Slider from '../../components/publicComponents/Slider/Slider'
 import Footer from '../../components/publicComponents/Footer/Footer'
+import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo'
 
 const Institucion = () => {
     return (
@@ -85,6 +86,7 @@ const Institucion = () => {
                     </div>
                 </div>
             </div>
+            <MenuInteractivo />
             <Footer />
         </div>
     )

@@ -6,6 +6,7 @@ import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralC
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { encontrarSeccionConMasElementos } from "../../assets/includes/funciones";
 import Footer from '../../components/publicComponents/Footer/Footer'
+import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 export default function Anuncios() {
     const { anuncios} = useDataGeneralContext();
@@ -52,6 +53,7 @@ export default function Anuncios() {
                     {(seccionSeleccionada && anuncios[seccionSeleccionada] == 0) && <h1>No hay anuncios en la seccion de {seccionSeleccionada}</h1>}
                 </div>
             </div>
+            <MenuInteractivo />
             <Footer />
         </>
     );

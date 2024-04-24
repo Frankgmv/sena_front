@@ -4,8 +4,11 @@ import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import Footer from '../../components/publicComponents/Footer/Footer';
+import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
 
 const EventsPage = () => {
+    
+
     const { gallery, events, getAllGaleria } = useDataGeneralContext()
     const handleEventChange = async (eventId) => getAllGaleria(eventId)
 
@@ -29,6 +32,7 @@ const EventsPage = () => {
                     </div>
                 ))}
             </div>
+            <MenuInteractivo />
             <Footer />
         </>
     );

@@ -1,31 +1,32 @@
 import { useEffect, useState } from 'react';
 import NavBar from '../../components/publicComponents/Navbar/NavBar';
 import './Magazine.css';
-import { BASE_URL_API, MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
-import axios from 'axios';
+import {  MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
 import moment from 'moment/moment';
 import Footer from '../../components/publicComponents/Footer/Footer';
+import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
+import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
+import { Link } from 'react-router-dom';
 
 const Magazine = () => {
-    const [data, setArchivo] = useState({});
-
-    const endPoint = `${BASE_URL_API}/multimedia/archivos`;
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setArchivo(response.data.data);
-    };
+    const { archivos: data } = useDataGeneralContext()
+    const [mostrar, setMostrar] = useState(false);
 
     useEffect(() => {
-        getData();
-    }, []);
+        setMostrar(true);
+    }, [data]);
 
     return (
         <>
             <div>
                 <NavBar />
+                <div className='link' style={{ display: 'flex', justifyContent: 'center'}}>
+                    <Link style={{backgroundColor: 'var(--success)', textDecoration: 'none', color: 'white'}} className="button" target='_blank' to={MOSTRAR_ARCHIVO(data.archivo)}>
+                        <span className="button__text">Ver archivo</span>
+                    </Link>
+                </div>
                 <div className="magazine-container">
-                    {data && (
+                    {mostrar && (
                         <div className='card'>
                             <div className="encabezado">
                                 <h1>{data.titulo}</h1>
@@ -36,6 +37,7 @@ const Magazine = () => {
                     )}
                 </div>
             </div>
+            <MenuInteractivo />
             <Footer />
         </>
     );

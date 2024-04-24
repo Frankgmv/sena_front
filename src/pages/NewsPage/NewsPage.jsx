@@ -7,6 +7,7 @@ import { formateFecha } from "../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import Footer from "../../components/publicComponents/Footer/Footer";
+import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 const NewsPage = () => {
     const { noticias: data } = useDataGeneralContext()
@@ -46,6 +47,7 @@ const NewsPage = () => {
                     </div>
                 </Modal>
             )}
+            <MenuInteractivo />
             <Footer />
         </>
     );

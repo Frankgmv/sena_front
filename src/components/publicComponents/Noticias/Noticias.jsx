@@ -19,7 +19,7 @@ const Noticias = () => {
             <div className="encabezado">
                 <div className="titulo">
                     <h2>Noticias sobre nuestra comunidad educativa</h2>
-                    <p>En este apartado podrás ver las noticias mas recientes publicadas por nuestro personal administrativo para mantenerte informado</p>
+                    <p>En este apartado podrás ver las noticias mas recientes publicadas por nuestro personal administrativo para mantenerte informado.</p>
                 </div>
                 <div className="boton">
                     <Boton1
