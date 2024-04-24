@@ -170,10 +170,6 @@ export const DataGeneralProvider = ({ children }) => {
         try {
             const response = await getArchivoRequest()
             let dataReset = response.data.data
-            dataReset = {
-                ...dataReset,
-                createdAt: '📅 ' + moment(dataReset.createdAt).format('DD/MM/YY')
-            }
             setArchivos(dataReset);
         } catch (error) {
             console.error("Error al traer la Items:", error);
