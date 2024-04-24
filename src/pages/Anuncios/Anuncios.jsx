@@ -28,9 +28,10 @@ export default function Anuncios() {
                         <div
                             className={`seccion-item ${key === seccionSeleccionada ? "selected" : ""}`}
                             key={i}
+                            style={{color: (key === seccionSeleccionada) ? 'black': null}}
                             onClick={() => setSeccionSeleccionada(key)}
                         >
-                            {key}
+                            {key} <b><small>({anuncios[key].length})</small></b>
                         </div>
                     ))}
                 </div>

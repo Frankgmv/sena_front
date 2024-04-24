@@ -1,7 +1,6 @@
 // TODO implementar variable de entorno
 
-// const URL = import.meta.env.VITE_API
-const URL = 'https://sena-project.onrender.com'
+const URL = import.meta.env.VITE_API
 
 export const URL_CREADORES = 'https://senadevsportafolio.netlify.app/'
 
