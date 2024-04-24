@@ -9,7 +9,7 @@ import Footer from '../../components/publicComponents/Footer/Footer'
 import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 export default function Anuncios() {
-    const { anuncios} = useDataGeneralContext();
+    const { anuncios } = useDataGeneralContext();
     const [seccionSeleccionada, setSeccionSeleccionada] = useState(null);
     const [headerMenu, setHeaderMenu] = useState([]);
 
@@ -53,7 +53,9 @@ export default function Anuncios() {
                     {(seccionSeleccionada && anuncios[seccionSeleccionada] == 0) && <h1>No hay anuncios en la seccion de {seccionSeleccionada}</h1>}
                 </div>
             </div>
-            <MenuInteractivo />
+            <div className="menu-intereactivo">
+                <MenuInteractivo />
+            </div>
             <Footer />
         </>
     );
