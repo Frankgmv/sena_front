@@ -12,8 +12,8 @@ import ubication from '../../../assets/img/3425077.png'
 import files from '../../../assets/img/files.jpeg'
 import pqrs from '../../../assets/img/pqrs.png'
 import pdf from '../../../assets/img/pdf.png'
-import { Link } from 'react-router-dom'
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
+import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
 
 const MenuInteractivo = () => {
     const {items: data} = useDataGeneralContext()
@@ -87,14 +87,14 @@ const MenuInteractivo = () => {
                 />
                 {data.map((item) => (
                     <div className='containerMenuCard' key={item.id} hidden={!item.estado}>
-                        <Link className="menuLink" to={item.link} target='_blank'>
+                        <a className="menuLink" href={item.link} target='_blank'>
                             <div className="cardImagen">
-                                <img src={`http://localhost:9000/api/v1/recursos/${item.imgPath}`} alt="Imagen.png" />
+                                <img src={MOSTRAR_ARCHIVO(item.imgPath)} alt={item.titulo} title={item.titulo} />
                             </div>
                             <div className="menuLinks">
                                 <h3>{item.titulo}</h3>
                             </div>
-                        </Link>
+                        </a>
                     </div>
                 ))}
             </div>
