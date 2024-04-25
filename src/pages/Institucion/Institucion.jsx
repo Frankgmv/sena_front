@@ -86,7 +86,9 @@ const Institucion = () => {
                     </div>
                 </div>
             </div>
-            <MenuInteractivo />
+            <div className="menu-intereactivo">
+                <MenuInteractivo />
+            </div>
             <Footer />
         </div>
     )

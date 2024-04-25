@@ -360,20 +360,20 @@ function AnunciosList() {
                         Añadir
                     </Button>
                     <BotonExcel data={anuncios} />
-                <Button
-                    variant='contained'
-                    color="success"
-                    className="receipt-modal-download-button"
-                    onClick={downloadPDF}
-                    disabled={!(loader === false)}
-                >
-                    {loader ? (
-                        <span>Downloading</span>
-                    ) : (
-                        <span>Descargar PDF</span>
-                    )}
+                    <Button
+                        variant='contained'
+                        color="success"
+                        className="receipt-modal-download-button"
+                        onClick={downloadPDF}
+                        disabled={!(loader === false)}
+                    >
+                        {loader ? (
+                            <span>Downloading</span>
+                        ) : (
+                            <span>Descargar PDF</span>
+                        )}
 
-                </Button>
+                    </Button>
                 </Grid>
                 <DataGrid
                     rows={anuncios.map((anuncio) => {
@@ -520,6 +520,8 @@ function AnunciosList() {
                                     label="Descripcion"
                                     variant="standard"
                                     value={descripcion}
+                                    multiline
+                                    maxRows={6}
                                     onChange={(e) => setDescripcion(e.target.value)}
 
                                 />
@@ -593,7 +595,7 @@ function AnunciosList() {
                                 <TextField sx={{ width: '90%' }} id="titulo" name="titulo" value={tituloUpt} onChange={(e) => setTituloUpt(e.target.value)} label="Titulo" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField sx={{ width: '90%' }} id="Apellido" name="descripcion" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} label="Descripción" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="Apellido" name="descripcion" value={descripcionUpt} multiline maxRows={6} onChange={(e) => setDescripcionUpt(e.target.value)} label="Descripción" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField sx={{ width: '90%' }} id="imagen" name="imagen" onChange={(e) => setImgPath(e.target.value)} label="Imagen" variant="standard" type="file" />
@@ -659,8 +661,8 @@ function AnunciosList() {
                         <Grid container style={{ display: 'flex', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px' }}>
                             <p>{descripcionView}</p>
                         </Grid>
-                        <Grid container style={{display: imagenView ? '' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px'}}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover'}} alt={imagenView} />
+                        <Grid container style={{ display: imagenView ? '' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover' }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
                         </Grid>
                         <Grid item xs={12}>

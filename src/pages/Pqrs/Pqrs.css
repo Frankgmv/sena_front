@@ -44,6 +44,10 @@
 @media (width <=1024px) and (width > 800px) {
     .container-pqrs {
         flex-direction: column;
+        box-shadow: none;
+        border: 1px solid;
+        padding: 10px 2px;
+        margin-block: 6vh;
     }
 
     .informacion-pqrs {
@@ -57,9 +61,12 @@
 
 @media (width <=820px) {
     .container-pqrs {
-        margin-top: 50px;
+        margin-block: 6vh;
         flex-direction: column;
         height: auto;
+        box-shadow: none;
+        border: 1px solid;
+        padding: 10px 2px;
     }
 
     .informacion-pqrs {

@@ -36,3 +36,8 @@
     box-sizing: border-box;
     font-family: "Overpass", sans-serif;
 }
+
+.menu-intereactivo{
+    width: 95%;
+    margin: auto;
+}

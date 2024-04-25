@@ -45,7 +45,7 @@ const AlertaAnuncios = () => {
                     </DialogTitle>
                     <DialogContent>
                         {noticiaAlerta ? (
-                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', fontSize: '1.7em', marginBlock: '2vh', textAlign: 'center', borderBottom: '1px solid #000', padding: '5px 0', width:'90%', marginInline: 'auto' }}>
+                            <DialogContentText style={{ fontWeight: 'bolder', color: '#000', fontSize: '1.7em', marginBlock: '2vh', textAlign: 'center', marginInline: 'auto' }}>
                                 {noticiaAlerta.titulo}
                             </DialogContentText>
                         ) : (
@@ -55,7 +55,7 @@ const AlertaAnuncios = () => {
                         )}
                         <div style={{ fontWeight: '500', color: '#000', textAlign: 'center', padding: '5px' }}>
                             {noticiaAlerta?.encabezado && (
-                                <DialogContentText style={{ fontWeight: '500', color: '#000', textAlign: 'center', padding: '5px', fontSize: '1.2em',}}>
+                                <DialogContentText style={{ fontWeight: '500', color: '#000', textAlign: 'center',  borderBottom: '1px solid #000', padding: '5px', fontSize: '1.2em', width: '90%', margin: "auto"}}>
                                     {noticiaAlerta.encabezado}
                                 </DialogContentText>
                             )}

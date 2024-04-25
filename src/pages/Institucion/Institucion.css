@@ -217,7 +217,7 @@
     }
 }
 
-@media (width <=820px) and (width >=415px){
+@media (width <=820px) and (width >=420px){
 
     .container-content .mision,
     .container-content .vision {
@@ -285,7 +285,7 @@
     }
 }
 
-@media (width <=414px){
+@media (width <=424px){
 
     .container-content .mision,
     .container-content .vision {

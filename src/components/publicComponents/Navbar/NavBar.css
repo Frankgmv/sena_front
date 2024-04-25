@@ -10,7 +10,7 @@
     border-bottom: 1px solid var(--black);
     top: 0px;
     z-index: 300;
-    background-color: var(--white);
+    background-color: #fff;
 }
 
 .navbarBody .logo {
