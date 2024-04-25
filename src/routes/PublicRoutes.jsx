@@ -12,10 +12,12 @@ import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 import Magazine from "../pages/Magazine/Magazine"
 import Anuncios from "../pages/Anuncios/Anuncios"
+import ButtonUp from "../components/publicComponents/botones/buttonUp/ButtonUp"
 
 const PublicRoutes = () => {
   return (
     <>
+      <ButtonUp />
       <PublicPqrsProvider>
         <Routes>
           <Route path="/pqrs" element={<Pqrs />} />

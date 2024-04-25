@@ -15,7 +15,7 @@ const Videos = () => {
                         height={430}
                         src="https://www.youtube.com/embed/A0WRa1vA9Co?si=oWIk0j5gXyIU4EeR"
                         title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
                         allowFullScreen
                     />
                     <h3>Himno Institucional</h3>

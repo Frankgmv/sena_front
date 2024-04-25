@@ -1,0 +1,55 @@
+.buttonUp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--new-black);
+  border: none;
+  border-radius: 5px;
+  padding: 3px 7px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+  z-index: 999;
+  border: 2px solid transparent;
+  transition: all .27s ease-in-out;
+  animation: arriba infinite ease-in-out 1.7s alternate-reverse;
+}
+
+.buttonUp:hover{
+  opacity: 1;
+  border: 2px solid gray;
+  background-color: var(--black);
+  animation: stop;
+}
+
+
+.buttonUp.visible {
+  opacity: 1;
+}
+
+.buttonUp i {
+  color: var(--white);
+  font-size: 20px;
+}
+
+@keyframes arriba {
+  to{
+      transform: translateY(-9px);
+  }
+
+  from{
+      transform: translateY(0px);
+  }
+}
+
+
+@keyframes stop {
+  to{
+    
+  }
+
+  from{
+
+  }
+
+}

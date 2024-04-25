@@ -134,7 +134,7 @@ const Register = () => {
                         </div>
                         <div className="junto">
                             <div className="input-container">
-                                <input id="correo" name='correo' type="email" onChange={handleChange} />
+                                <input id="correo" name='correo' type="text" onChange={handleChange} />
                                 <label className="label" htmlFor="correo">Correo</label>
                                 <div className="underline"></div>
                             </div>
