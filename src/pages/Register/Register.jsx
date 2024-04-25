@@ -103,6 +103,11 @@ const Register = () => {
                     <p>A la plataforma educativa</p>
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
+                <div className="redireccionesMobile">
+                    <Link className='link-redireccionesMobile' to="/">Inicio</Link>
+                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
+                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
+                </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">

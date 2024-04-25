@@ -1,5 +1,11 @@
 import React from "react"
 import { Outlet, Route, Routes } from "react-router-dom"
+import { PasswordContext } from "../context/ResetPassContext"
+import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
+import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
+
+// ! Rutas a los componentes
+
 import HomePage from "../pages/HomePage/HomePage"
 import NewsPage from "../pages/NewsPage/NewsPage"
 import EventsPage from "../pages/EventsPage/EventsPage"
@@ -7,9 +13,6 @@ import Institucion from "../pages/Institucion/Institucion"
 import Pqrs from "../pages/Pqrs/Pqrs"
 import Recuperacion from "../pages/Recuperacion/Recuperacion"
 import Archivos from "../pages/Archivos/Archivos"
-import { PasswordContext } from "../context/ResetPassContext"
-import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
-import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 import Magazine from "../pages/Magazine/Magazine"
 import Anuncios from "../pages/Anuncios/Anuncios"
 

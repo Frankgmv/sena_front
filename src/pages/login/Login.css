@@ -107,7 +107,7 @@
     text-transform: capitalize;
 }
 
-.loginBody .containerInputLogin .redireccionesMobile{
+.redireccionesMobile{
     display: none;
 }
 
@@ -269,7 +269,7 @@
         overflow: auto;
     }
 
-    .loginBody .containerInputLogin .redireccionesMobile{
+    .redireccionesMobile{
         display: block;
         width: 90%;
         margin: 1em auto;
@@ -278,7 +278,7 @@
         justify-content: space-evenly;
     }
 
-    .loginBody .containerInputLogin .redireccionesMobile .link-redireccionesMobile{
+    .redireccionesMobile .link-redireccionesMobile{
         text-decoration: none;
     }
 
@@ -320,7 +320,7 @@
         display: none;
     }
 
-    .loginBody .containerInputLogin .redireccionesMobile{
+    .redireccionesMobile{
         display: block;
         width: 90%;
         margin: 1em auto;
@@ -329,7 +329,7 @@
         justify-content: space-evenly;
     }
 
-    .loginBody .containerInputLogin .redireccionesMobile .link-redireccionesMobile{
+    .redireccionesMobile .link-redireccionesMobile{
         text-decoration: none;
     }
 
@@ -360,7 +360,6 @@
 
     .loginBody .footerInputsLogin .linkRegister {
         display: block;
-        /* margin-top: 1rem; */
         margin-top: 2rem;
         width: 100%;
     }
@@ -369,7 +368,5 @@
         color: var(--black);
         text-decoration: none;
         font-size: 18px;
-        /* padding-bottom: 10px; */
-        /* margin-top: 3em; */
     }
 }

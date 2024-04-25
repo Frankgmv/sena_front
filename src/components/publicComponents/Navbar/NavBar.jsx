@@ -147,7 +147,9 @@ const NavBar = () => {
     return (
         <div className='navbarBody'>
             <div className="logo">
-                <img src={logo} alt="" />
+                <Link to='/'>
+                    <img src={logo} alt="" />
+                </Link>
                 <div className="text">
                     <p>Institución Educativa</p>
                     <h3>Centenario Pereira</h3>
@@ -155,6 +157,7 @@ const NavBar = () => {
             </div>
             <div className="links">
                 <Link className='link' to='/'><span>Inicio</span> <p></p></Link>
+                <Link className='link' to='la-institucion'><span>Institucion</span> <p></p></Link>
                 <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
                 <Link className='link' to='/galeria'><span>Galería</span> <p></p></Link>
             </div>
