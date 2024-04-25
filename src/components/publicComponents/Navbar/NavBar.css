@@ -110,6 +110,7 @@
     font-weight: 400;
     margin-left: 2px;
     margin-bottom: -2px;
+    cursor: pointer;
 }
 
 .sideMenu {

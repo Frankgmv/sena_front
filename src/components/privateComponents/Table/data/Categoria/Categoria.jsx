@@ -1,5 +1,4 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { Grid, useMediaQuery } from "@mui/material";

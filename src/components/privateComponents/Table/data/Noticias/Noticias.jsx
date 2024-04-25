@@ -485,6 +485,8 @@ function Noticias() {
                                     type="text"
                                     name="encabezado"
                                     value={encabezado}
+                                    multiline
+                                    maxRows={6}
                                     onChange={(e) => setEncabezado(e.target.value)}
                                     fullWidth
                                 />
@@ -567,6 +569,8 @@ function Noticias() {
                                     type="text"
                                     name="encabezado"
                                     fullWidth
+                                    multiline
+                                    maxRows={6}
                                     value={encabezadoUpt}
                                     onChange={(e) => setEncabezadoUpt(e.target.value)}
                                 />
@@ -579,6 +583,8 @@ function Noticias() {
                                     type="text"
                                     name="descripcion"
                                     fullWidth
+                                    multiline
+                                    maxRows={6}
                                     value={descripcionUpt}
                                     onChange={e => setDescripcionUpt(e.target.value)}
                                 />

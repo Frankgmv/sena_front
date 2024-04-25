@@ -40,7 +40,7 @@ const AlertaAnuncios = () => {
                     <div className="icon">
                         <CloseIcon style={{position: 'absolute', right:'10', top: '10', cursor: 'pointer', color: '#000'}} onClick={handleClose}  />
                     </div>
-                    <DialogTitle style={{ fontWeight: 'bolder', color: '#000', marginBlock: '2vh', borderBottom: '2px solid var(--black)', textAlign: 'center', fontSize: '2em', fontWeight: 'bolder' }}>
+                    <DialogTitle style={{color: '#000', marginBlock: '2vh', borderBottom: '2px solid var(--black)', textAlign: 'center', fontSize: '2em', fontWeight: 'bolder' }}>
                         Atención
                     </DialogTitle>
                     <DialogContent>
@@ -77,7 +77,7 @@ const AlertaAnuncios = () => {
                             </div>
                         )}
                     </DialogContent>
-                    <DialogActions>
+                        <DialogActions>
                         <Button type='button' variant="contained" onClick={() => navegate('/noticias')} fullWidth style={{ marginBlock: '2vh' }}>
                             Ver noticias
                         </Button>

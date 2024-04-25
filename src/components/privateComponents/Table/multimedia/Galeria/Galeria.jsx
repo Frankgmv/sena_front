@@ -448,7 +448,7 @@ function Galeria() {
                                     onChange={(e) => setImagen(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="evento">Evento</InputLabel>
                                     <Select
@@ -546,7 +546,7 @@ function Galeria() {
                                     name="imagen"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="evento">Evento</InputLabel>
                                     <Select

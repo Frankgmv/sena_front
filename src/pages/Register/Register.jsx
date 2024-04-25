@@ -52,6 +52,7 @@ const Register = () => {
         e.preventDefault()
 
         if (dataRegister?.password !== dataRegister?.repetirPassword) {
+            console.log(dataRegister)
             setErrors((prevent) => {
                 return [
                     ...prevent,
@@ -86,9 +87,9 @@ const Register = () => {
             </div>
             <div className="fondo"></div>
             <div className="redirecciones">
-                <Link className='link-redirecciones' href="/">Inicio</Link>
-                <Link className='link-redirecciones' href="/login">Iniciar Sesion</Link>
-                <Link className='link-redirecciones' href="/register">Registarse</Link>
+                <Link className='link-redirecciones' to="/">Inicio</Link>
+                <Link className='link-redirecciones' to="/login">Iniciar Sesion</Link>
+                <Link className='link-redirecciones' to="/register">Registarse</Link>
             </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
@@ -171,7 +172,7 @@ const Register = () => {
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="repetirPassword" name='repetirPassword' type={showPassword3 ? "text" : "password"} onChange={() => setShowPassword3(!showPassword3)} />
+                                <input id="repetirPassword" name='repetirPassword' type={showPassword3 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
                                 <button type='button' className="eye-button" style={{color: 'black'}} onClick={()=>{setShowPassword3(!showPassword3)}}>
                                     {showPassword3 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}

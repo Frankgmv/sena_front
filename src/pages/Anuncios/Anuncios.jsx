@@ -6,9 +6,10 @@ import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralC
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { encontrarSeccionConMasElementos } from "../../assets/includes/funciones";
 import Footer from '../../components/publicComponents/Footer/Footer'
+import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 export default function Anuncios() {
-    const { anuncios} = useDataGeneralContext();
+    const { anuncios } = useDataGeneralContext();
     const [seccionSeleccionada, setSeccionSeleccionada] = useState(null);
     const [headerMenu, setHeaderMenu] = useState([]);
 
@@ -27,9 +28,10 @@ export default function Anuncios() {
                         <div
                             className={`seccion-item ${key === seccionSeleccionada ? "selected" : ""}`}
                             key={i}
+                            style={{color: (key === seccionSeleccionada) ? 'black': null}}
                             onClick={() => setSeccionSeleccionada(key)}
                         >
-                            {key}
+                            {key} <b><small>({anuncios[key].length})</small></b>
                         </div>
                     ))}
                 </div>
@@ -51,6 +53,9 @@ export default function Anuncios() {
                     }
                     {(seccionSeleccionada && anuncios[seccionSeleccionada] == 0) && <h1>No hay anuncios en la seccion de {seccionSeleccionada}</h1>}
                 </div>
+            </div>
+            <div className="menu-intereactivo">
+                <MenuInteractivo />
             </div>
             <Footer />
         </>

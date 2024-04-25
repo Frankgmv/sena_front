@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { usePublicPqrsContext } from '../../context/publicContexts/PublicPqrsContext';
 import toastr from '../../assets/includes/Toastr';
 import Footer from '../../components/publicComponents/Footer/Footer';
+import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
 
 const Pqrs = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
@@ -152,6 +153,7 @@ const Pqrs = () => {
                     </div>
                 </div>
             </div>
+            <MenuInteractivo />
             <Footer />
         </>
     )
