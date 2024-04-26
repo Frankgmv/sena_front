@@ -52,7 +52,6 @@ const Register = () => {
         e.preventDefault()
 
         if (dataRegister?.password !== dataRegister?.repetirPassword) {
-            console.log(dataRegister)
             setErrors((prevent) => {
                 return [
                     ...prevent,

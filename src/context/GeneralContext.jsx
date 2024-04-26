@@ -333,7 +333,10 @@ export const GeneralProvider = ({ children }) => {
             const permisos_ = await getPermisosRequest()
             if (detalle_permisos.data.ok) {
                 setDetallePermiso(detalle_permisos?.data?.data)
-                setPermisos(permisos_?.data?.data)
+                let dataPermisos = permisos_?.data?.data
+                dataPermisos = dataPermisos.filter(permiso => permiso.permisoKey !== 'P_ADMIN')
+
+                setPermisos(dataPermisos)
 
                 if (detalle_permisos.data.message) {
                     if (!responseMessage.includes(detalle_permisos.data.message)) {
