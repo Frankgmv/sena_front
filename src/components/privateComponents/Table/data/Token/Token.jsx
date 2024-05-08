@@ -13,6 +13,7 @@ import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 function Token() {
 
@@ -28,7 +29,9 @@ function Token() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -235,7 +238,16 @@ function Token() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '74%', marginTop: '-50px' }}>
+            <div style={{ height: isSmallScreen ? '90%' : '90%', width: isSmallScreen ? '100%' : '66%'}}>
+            <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                >
+                    <BotonExcel data={tokens} />
+                </Grid>
                 <DataGrid
                     rows={tokens.map(token => {
                         for (let user of usuarios) {
@@ -349,6 +361,7 @@ function Token() {
                                     label="Nombre"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="nombre"
                                     value={formDataToken.nombre}
                                     onChange={handlerChangeUpt}
@@ -360,6 +373,7 @@ function Token() {
                                     label="Codigo del Token"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="tokenKey"
                                     value={formDataToken.tokenKey}
                                     onChange={handlerChangeUpt}
@@ -367,16 +381,18 @@ function Token() {
                             </Grid>
                             <Grid item sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
                                 <TextField
-                                    sx={{ text: 'center', width: '80%' }}
+                                    sx={{ text: 'center' }}
                                     id="token"
                                     label="Token"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="token"
                                     value={formDataToken.token}
                                     onChange={handlerChangeUpt}
                                 />
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -386,6 +402,12 @@ function Token() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

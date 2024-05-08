@@ -30,6 +30,30 @@
     z-index: -1;
 }
 
+.redirecciones{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1vh;
+}
+
+.link-redirecciones{
+    color:#e7e7e7;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.link-redirecciones:hover{
+    transition: all 0.3s ease;
+    color:white;
+    /* scale: 1.05; */
+    transform: translateY(5px);
+}
+
 .loginBody .textoRegister {
     position: absolute;
     top: 300px;
@@ -38,7 +62,7 @@
     padding: 0 30px;
 }
 
-.loginBody .containerInput {
+.loginBody .containerInputLogin {
     width: 50%;
     height: 100vh;
     background-color: var(--white);
@@ -55,40 +79,44 @@
     text-align: center;
 }
 
-.loginBody .containerInput .encabezadoRegister {
+.loginBody .containerInputLogin .encabezadoLogin {
     width: 80%;
-    margin: 0 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    margin: 0 auto;
     text-align: center;
     padding: 20px 0 50px;
 }
 
-.loginBody .containerInput .encabezadoRegister h3 {
+.loginBody .containerInputLogin .encabezadoLogin h3 {
     margin-top: 32px;
     font-size: 48px;
 }
 
-.loginBody .containerInput .encabezadoRegister p {
+.loginBody .containerInputLogin .encabezadoLogin p {
     margin-top: 0px;
     font-size: 20px;
     text-transform: capitalize;
 }
 
-.loginBody .containerInput .encabezadoRegister h2 {
+.loginBody .containerInputLogin .encabezadoLogin h2 {
     margin-top: 0px;
     font-size: 20px;
     text-transform: capitalize;
-
 }
 
-.loginBody .containerInput form {
+.redireccionesMobile{
+    display: none;
+}
+
+.loginBody .containerInputLogin form {
     width: 90%;
     margin: 50px auto;
 }
 
-.loginBody .containerInput .junto {
+.loginBody .containerInputLogin .junto {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
@@ -182,28 +210,35 @@
     height: 40px;
 }
 
-/* .select-container select:focus{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-}
-
-.select-container select:disabled{
-    border-bottom: 1px solid var(--black);
-    outline: 0;
-} */
-
 .loginBody .footerInputsLogin {
     margin-top: 60px;
     margin-right: 20px;
     text-align: center;
+    display: flex;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.loginBody .footerInputsLogin .linkPassword .linkInput{
+    color: var(--black);
+    text-decoration: none;
+    border-bottom: 2px solid var(--black);
+    font-size: 18px;
+    padding-bottom: 10px;
 }
 
 .loginBody .footerInputsLogin .linkRegister {
     display: none;
 }
 
-@media (width >=768px) and (width <=1200px) {
+@media (width >=768px) and (width <=1024px) {
+    .loginBody{
+        height: 100vh;
+        align-items: center;
+    }
+    
     .loginBody .textoRegister {
         position: absolute;
         top: 300px;
@@ -215,7 +250,7 @@
         font-size: 18px;
     }
 
-    .loginBody .containerInput {
+    .loginBody .containerInputLogin {
         width: 60%;
         height: 100vh;
         background-color: var(--white);
@@ -224,21 +259,27 @@
     }
 }
 
-@media (width <=768px) and (width > 400px) {
-    .loginBody .encabezadoRegister {
-        width: 50%;
-        margin: 0 auto;
-        border-bottom: 1px solid var(--black);
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .loginBody .containerInput {
+@media (width <=768px) and (width > 550px) {
+    .loginBody .containerInputLogin {
         width: 100%;
         height: 100vh;
         background-color: var(--white);
         clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
         z-index: 100;
+        overflow: auto;
+    }
+
+    .redireccionesMobile{
+        display: block;
+        width: 90%;
+        margin: 1em auto;
+        text-align: center;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .redireccionesMobile .link-redireccionesMobile{
+        text-decoration: none;
     }
 
     .footerInputsLogin {
@@ -266,24 +307,43 @@
     }
 }
 
-@media (width <=400px) {
-    .loginBody .encabezadoRegister {
+@media (width <=550px) {
+    .loginBody .encabezadoLogin {
         width: 50%;
         border-bottom: 1px solid var(--black);
         margin: 0px;
         padding: 0px;
     }
 
+    .loginBody .encabezadoLogin p,
+    .loginBody .encabezadoLogin h2{
+        display: none;
+    }
+
+    .redireccionesMobile{
+        display: block;
+        width: 90%;
+        margin: 1em auto;
+        text-align: center;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .redireccionesMobile .link-redireccionesMobile{
+        text-decoration: none;
+    }
+
     .loginBody .textoRegister {
         display: none;
     }
 
-    .loginBody .containerInput {
+    .loginBody .containerInputLogin {
         width: 100%;
         height: 100vh;
         background-color: var(--white);
         clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
         z-index: 100;
+        overflow: auto;
     }
 
     .footerInputsLogin {
@@ -293,16 +353,20 @@
         margin: 40px 0;
     }
 
+    .loginBody .footerInputsLogin .botonRegister{
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
     .loginBody .footerInputsLogin .linkRegister {
         display: block;
-        margin-top: 50px;
+        margin-top: 2rem;
+        width: 100%;
     }
 
     .loginBody .footerInputsLogin .linkRegister .linkInput {
         color: var(--black);
         text-decoration: none;
-        /* border-bottom: 2px solid var(--black); */
         font-size: 18px;
-        padding-bottom: 10px;
     }
 }

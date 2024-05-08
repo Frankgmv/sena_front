@@ -1,24 +1,65 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
 import './App.css';
-import HomePage from './pages/HomePage/HomePage';
-import Register from './pages/Register/Register';
-import Login from './pages/login/Login';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard'; 
-import NewsPage from './pages/NewsPage/NewsPage';
-import EventsPage from './pages/EventsPage/EventsPage';
+import {NextUIProvider} from "@nextui-org/react";
+import { DataProvider } from './context/AnunciosContext';
+import { ArchivoProvider } from './context/ArchivoContext';
+import { CredentialProvider } from './context/AuthContext';
+import { EventProvider } from './context/EventContext';
+import { GaleriaProvider } from './context/GaleriaContext';
+import { GeneralProvider } from './context/GeneralContext';
+import { ItemProvider } from './context/ItemsContext';
+import { LinkProvider } from './context/LinkContext';
+import { NoticiaProvider } from './context/NoticiaContext';
+import { NotificacionesProvider } from './context/NotificacionesContext';
+import { PqrsProvider } from './context/PqrsContext';
+import { SeccionProvider } from './context/SeccionContext';
+import { SliderProvider } from './context/SliderContext';
+import { TokensProvider } from './context/TokenContext';
+import { UserProvider } from './context/UserContext';
+import { VideoProvider } from './context/VideoContext';
+import AdminRoutes from './routes/AdminRoutes';
+import PublicRoutes from './routes/PublicRoutes';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path='' element={<HomePage />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/noticias' element={<NewsPage />} />
-        <Route path='/galeria' element={<EventsPage />} />
-        <Route path='/admin/*' element={<AdminDashboard />} />
-      </Routes>
-      <Outlet />
+      <NextUIProvider>
+        <PqrsProvider>
+          {/* Contextos habilitados para administración. */}
+          <CredentialProvider>
+            <UserProvider>
+              <DataProvider>
+                <SeccionProvider>
+                  <GeneralProvider>
+                    <EventProvider>
+                      <ItemProvider>
+                        <NoticiaProvider>
+                          <LinkProvider>
+                            <TokensProvider>
+                              <ArchivoProvider>
+                                <GaleriaProvider>
+                                  <VideoProvider>
+                                    <SliderProvider>
+                                      <NotificacionesProvider>
+                                        <AdminRoutes />
+                                      </NotificacionesProvider>
+                                    </SliderProvider>
+                                  </VideoProvider>
+                                </GaleriaProvider>
+                              </ArchivoProvider>
+                            </TokensProvider>
+                          </LinkProvider>
+                        </NoticiaProvider>
+                      </ItemProvider>
+                    </EventProvider>
+                  </GeneralProvider>
+                </SeccionProvider>
+              </DataProvider>
+            </UserProvider>
+          </CredentialProvider>
+          {/* Contextos habilitados para páginas publicas */}
+          <PublicRoutes />
+        </PqrsProvider>
+      </NextUIProvider>
     </>
   );
 }

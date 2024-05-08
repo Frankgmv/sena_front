@@ -1,33 +1,49 @@
 import './Login.css'
 import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
-import { Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const {roles, errors, login, responseMessage, isAuthenticate } = useCredentialContext();
+    const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
     const navigate = useNavigate()
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(error => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
                 return toastr.error(error)
             })
         }
     }, [errors]);
+    useEffect(() => {
+        verifyAuth()
+    }, []);
 
     useEffect(() => {
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
-                if (isAuthenticate) {
-                    setTimeout(() => {
-                        navigate('/admin')
-                    }, 1500);
-                }
             })
+        }
+
+        if (isAuthenticate) {
+            navigate('/admin')
         }
 
     }, [responseMessage, isAuthenticate, navigate]);
@@ -59,6 +75,11 @@ const Login = () => {
                 <img src={fondo} alt="logo.png" />
             </div>
             <div className="fondo"></div>
+            <div className="redirecciones">
+                <Link className='link-redirecciones' to="/">Inicio</Link>
+                <Link className='link-redirecciones' to="/login">Iniciar Sesión</Link>
+                <Link className='link-redirecciones' to="/register">Registarse</Link>
+            </div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
                 <div className="boton" onClick={() => navigate("/register")}>
@@ -69,24 +90,37 @@ const Login = () => {
                     />
                 </div>
             </div>
-            <div className="containerInput">
-                <div className="encabezadoRegister">
+            <div className="containerInputLogin">
+                <div className="encabezadoLogin">
                     <h3>Bienvenido</h3>
                     <p>A la plataforma educativa</p>
                     <h2>I. E. Centenario Pereira</h2>
+                </div>
+                <div className="redireccionesMobile">
+                    <Link className='link-redireccionesMobile' to="/">Inicio</Link>
+                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
+                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
-                                <input  id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
+                                <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
                                 <label className="label" htmlFor="id">Identificacion</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
-                                <input id="password" name='password' onChange={handleChange} type="password" />
+                                <input
+                                    id="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    type={showPassword ? "text" : "password"}
+                                />
                                 <label className="label" htmlFor="password">Contraseña</label>
                                 <div className="underline"></div>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={handleShowPassword}>
+                                    {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                                </button>
                             </div>
                         </div>
                         <div className="select-container">
@@ -107,6 +141,9 @@ const Login = () => {
                                     name='Iniciar Sesion'
                                     id="botonEnviar"
                                 />
+                            </div>
+                            <div className="linkPassword">
+                                <Link className='linkInput' to='/recuperar-contraseña'>Recuperar Contraseña</Link>
                             </div>
                             <div className="linkRegister">
                                 <Link className='linkInput' to='/register'>Crea una cuenta</Link>

@@ -1,0 +1,94 @@
+.container-anuncios{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-secciones{
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.seccion-item{
+    cursor: pointer;
+    text-align: center;
+    outline: 1px solid var(--black);
+    padding: 6px 2%;
+    border-radius: 4px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-width: 250px;
+}
+
+.seccion-item:hover{
+    outline: 1px solid var(--blue);
+    background-color: var(--hover);
+    color: var(--white);
+    transition: all 0.2s;
+}
+
+
+.selected{
+    transition: all 0.5s;
+    background-color: var(--hover);
+    color: var(--white);
+}
+
+.anuncios-seccion {
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 11px;
+}
+
+.card-anuncios{
+    border-radius: 10px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 500px;
+    height: 270px;
+    display: flex;
+    border: 2px solid var(--black);
+    text-align: center;
+    justify-content: center;
+}
+
+.card-anuncios .container-img{
+    width: 40%;
+    border-radius: 10px;
+}
+
+.card-anuncios .container-img img{
+    border-radius: 8px 0px 0px 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-anuncios .container-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+}
+
+.card-anuncios .container-info h3{
+    margin-top: 5px;
+}
+
+.card-anuncios .container-info p{
+    width: 95%;
+    overflow: auto;
+}
+.card-anuncios .container-info span{
+    width: 95%;
+}

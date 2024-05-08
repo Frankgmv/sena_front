@@ -26,7 +26,9 @@ function EventoList() {
 
     useEffect(() => {
         if (errors.length != 0) {
-            errors.map(error => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -204,7 +206,7 @@ function EventoList() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '46%',  marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '75%', width: isSmallScreen ? '100%' : '45%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -222,9 +224,9 @@ function EventoList() {
                     </Button>
                 </Grid>
                 <DataGrid
-                    rows={eventos.map(event =>{
-                        const fecha = formateFechaGuion(event.fecha);
-                        return { ...event, fecha}
+                    rows={eventos.map(event => {
+                        const fecha = formateFecha(event.fecha);
+                        return { ...event, fecha }
                     })}
                     columns={columns}
                     pageSize={5}
@@ -341,9 +343,14 @@ function EventoList() {
                                     onChange={(e) => setFechaEventCreate(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth style={{color: '#fff'}}>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{ color: '#fff' }}>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -389,15 +396,22 @@ function EventoList() {
                                     onChange={(e) => setFechaUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color:'#fff'}}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ color: '#fff' }}
+                                    fullWidth
+                                    type="submit"
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

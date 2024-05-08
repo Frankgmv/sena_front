@@ -12,7 +12,7 @@ export const deleteArchivoRequest = () => axios.delete(`/multimedia/archivos`);
 
 // ! Galeria
 
-export const getAllGaleriaRequest = () => axios.get(`/multimedia/galeria`);
+export const getAllGaleriaRequest = (eventoId = "") => axios.get(`/multimedia/galeria?EventoId=${eventoId}`);
 
 export const getGaleriaRequest = (id) => axios.get(`/multimedia/galeria/${id}`);
 

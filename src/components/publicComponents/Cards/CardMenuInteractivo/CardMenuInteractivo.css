@@ -1,10 +1,12 @@
 .containerMenuCard{
-    width: 170px;
+    flex-basis: 170px;
     height: 190px;
     border: 1px solid;
     border-radius: 15px;
     margin: 20px;
     transition: all 0.3s ease-in-out;   
+    flex-grow: 1;
+    flex-shrink: 2;
 }
 
 .containerMenuCard .cardImagen{

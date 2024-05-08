@@ -26,18 +26,21 @@ import { useCredentialContext } from "../../context/AuthContext";
 import { getLocalStorage } from "../../assets/includes/localStorage";
 import toastr from "../../assets/includes/Toastr";
 import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
-import { Grid, MenuItem } from "@mui/material";
+import { Grid } from "@mui/material";
+import CredencialesEmail from "../../components/privateComponents/Table/data/Credenciales/CredencialesEmail";
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { perfil } = useGeneralContext();
   const open = Boolean(anchorEl);
-  const { logoutFn, rolName, isAuthenticate, errors, responseMessage } = useCredentialContext()
+  const { logoutFn, rolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
   const navegar = useNavigate()
 
   useEffect(() => {
     if (responseMessage.length != 0) {
-      responseMessage.map(msg => {
+      const deleteDuplicidad = new Set(responseMessage);
+      const responseMessage2 = [...deleteDuplicidad]
+      responseMessage2.map(msg => {
         toastr.success(msg)
       })
     }
@@ -45,7 +48,9 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (errors.length != 0) {
-      errors.map(msg => {
+      const deleteDuplicidad = new Set(errors);
+      const errors2 = [...deleteDuplicidad]
+      errors2.map(msg => {
         toastr.error(msg)
       })
     }
@@ -60,11 +65,12 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (!isAuthenticate && !getLocalStorage('token')) {
+    if (!getLocalStorage('token')) {
       navegar('/login')
+    } else if (!isAuthenticate) {
+      verificarToken()
     }
   }, [])
-
 
   const cerrarSesion = () => {
     logoutFn()
@@ -126,7 +132,7 @@ const AdminDashboard = () => {
                       onClick={handleClose}
                       to="/"
                     >
-                      Home Page
+                      Página principal
                     </NavLink>
                   </Grid>
                   <Grid item xs={12}>
@@ -167,10 +173,10 @@ const AdminDashboard = () => {
             <Route path="/pqrs" element={<Pqrs />} />
             <Route path="/notificacion" element={<Notificacion />} />
             <Route path="/historial" element={<Historial />} />
+            <Route path="*" element={<Perfil />} />
             {/* // ! Adicionales */}
             <Route
-              path="/nodemailer"
-              element={<h1>nodemailer cambiar claves para emails</h1>}
+              path="/nodemailer" element={<CredencialesEmail />}
             />
           </Routes>
           <Outlet />

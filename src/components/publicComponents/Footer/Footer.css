@@ -1,6 +1,7 @@
 .footerBody{
     width: 95%;
-    margin: 50px auto;
+    margin-inline: auto;
+    margin-top: 50px;
     text-align: center;
     border-top: 2px solid var(--black);
     flex-wrap: wrap;
@@ -74,6 +75,41 @@
 .footerBody .footerInfo .junto p{
     font-size: 15px;
     font-weight: 400;
+}
+
+.slider-footer {
+    width: 75vw;
+    height: auto;
+    margin-inline: auto;
+    overflow: hidden;
+}
+
+.slider-footer .slide-track {
+    display: flex;
+    animation: scroll 40s linear infinite;
+    -webkit-animation: scroll 40s linear infinite;
+    width: calc(600px * 6);
+}
+
+.slider-footer .slide {
+    width: 400px;
+}
+
+.slider-footer .slide img {
+    width: 100%;
+    object-fit: contain;
+    height: 80px;
+}
+
+@keyframes scroll {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(calc(-200px * 6));
+        transform: translateX(calc(-200px * 6));
+    }
 }
 
 @media (width <= 1024px){

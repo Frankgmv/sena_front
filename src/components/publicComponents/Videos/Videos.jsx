@@ -1,6 +1,8 @@
+import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import './Videos.css'
 
 const Videos = () => {
+    const { videos } = useDataGeneralContext()
     return (
         <div className='videoBody'>
             <div className="titulo">
@@ -13,37 +15,32 @@ const Videos = () => {
                         height={430}
                         src="https://www.youtube.com/embed/A0WRa1vA9Co?si=oWIk0j5gXyIU4EeR"
                         title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
                         allowFullScreen
                     />
-
                     <h3>Himno Institucional</h3>
                 </div>
                 <div className="videoComplemento">
-                    <div className="video">
-                        <iframe
-                            width={460}
-                            height={215}
-                            src="https://www.youtube.com/embed/lT82BYM967s?si=Fkbbo1eXgvHAC8pw"
-                            title="YouTube video player"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        />
-
-                        <h3>Himno Institucional</h3>
-                    </div>
-                    <div className="video">
-                        <iframe
-                            width={460}
-                            height={215}
-                            src="https://www.youtube.com/embed/lT82BYM967s?si=Fkbbo1eXgvHAC8pw"
-                            title="YouTube video player"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        />
-
-                        <h3>Himno Institucional</h3>
-                    </div>
+                    {
+                        videos.map((item, i) => {
+                            return (
+                                <div key={i} className="video">
+                                    <iframe
+                                        id={i}
+                                        key={i}
+                                        width={460}
+                                        height={215}
+                                        style={{ border: '3px solid var(--black)', borderRadius: '10px'}}
+                                        src={item.link}
+                                        title="YouTube video player"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen
+                                    />
+                                    <h3><a href={item.link} target='_blank'> <b>Ver {item.titulo}</b></a></h3>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>

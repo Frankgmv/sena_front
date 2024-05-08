@@ -1,13 +1,8 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Grid, Tooltip } from "@mui/material";
+import { useEffect } from "react";
+import { Button, Grid, Tooltip} from "@mui/material";
 import Swal from 'sweetalert2'
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
-
-import SendIcon from '@mui/icons-material/Send';
 import { usePqrsContext } from "../../../../../context/PqrsContext";
 import { FiEdit2 } from "react-icons/fi";
 import { BsTrash3 } from "react-icons/bs";
@@ -16,12 +11,15 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Pqrs() {
-    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs} = usePqrsContext()
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
+    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs } = usePqrsContext()
 
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -29,12 +27,13 @@ function Pqrs() {
 
     useEffect(() => {
         if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageData);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
         }
     }, [responseMessageData])
-
 
     const columns = [
         {
@@ -136,6 +135,10 @@ function Pqrs() {
             width: 300,
             headerAlign: "center",
             align: "center",
+            wordWrap: true,
+            renderCell: (params) => {
+
+            }
         },
         {
             field: "createdAt",
@@ -202,7 +205,7 @@ function Pqrs() {
                 });
                 let id = getLocalStorage('editPQRSId')
                 id = parseInt(id)
-                putPqrs(id, {estado: true})
+                putPqrs(id, { estado: true })
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -218,7 +221,7 @@ function Pqrs() {
 
     return (
         <>
-            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '90%' : '80%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -228,8 +231,8 @@ function Pqrs() {
                 >
                 </Grid>
                 <DataGrid
-                    rows={pqrs.map(pqrs =>{
-                        return{...pqrs, estado: pqrs.estado? 'Leido': 'No leido'}
+                    rows={pqrs.map(pqrs => {
+                        return { ...pqrs, estado: pqrs.estado ? 'Leido' : 'No leido' }
                     }).map(pqrs => {
                         const createdAt = formateFecha(pqrs.createdAt);
                         return { ...pqrs, createdAt }

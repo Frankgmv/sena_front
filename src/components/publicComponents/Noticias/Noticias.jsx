@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
 import f1 from '.././../../assets/img/default.jpeg'
 import Boton1 from "../botones/boton1/Boton1"
 import './Noticias.css'
-import axios from "axios";
 import Boton2 from "../botones/boton2/Boton2.jsx";
 import { formateFecha } from "../../../assets/includes/funciones.js";
-import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
+import { MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
+import { useDataGeneralContext } from "../../../context/publicContexts/DataGeneralContext.jsx";
 
 const Noticias = () => {
 
-    const [data, setData] = useState([]);
-
-    const endPoint = `${BASE_URL_API}/data/noticias`
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setData(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
+    const {noticias: data} = useDataGeneralContext()
 
     const ultimasNoticias = data
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -31,7 +19,7 @@ const Noticias = () => {
             <div className="encabezado">
                 <div className="titulo">
                     <h2>Noticias sobre nuestra comunidad educativa</h2>
-                    <p>En este apartado podrás ver las noticias mas recientes publicadas por nuestro personal administrativo para mantenerte informado</p>
+                    <p>En este apartado podrás ver las noticias mas recientes publicadas por nuestro personal administrativo para mantenerte informado.</p>
                 </div>
                 <div className="boton">
                     <Boton1

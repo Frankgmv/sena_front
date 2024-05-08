@@ -12,7 +12,7 @@ const Perfil = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { updatePerfil, responseMessageUser, errorsUser } = useUserContext();
     const { perfil, getPerfil, errors, responseMessage } = useGeneralContext()
-    const { roles } = useCredentialContext()
+    const { roles, isAuthenticate } = useCredentialContext()
 
     const [dataPerfil, SetDataPerfil] = useState({});
     const [openEdit, setOpenEdit] = useState(false);
@@ -32,24 +32,32 @@ const Perfil = () => {
 
     useEffect(() => {
         if (errorsUser.length != 0) {
-            errorsUser.map(msg => {
+            const deleteDuplicidad = new Set(errorsUser);
+            const errorsUser2 = [...deleteDuplicidad]
+            errorsUser2.map(msg => {
                 toastr.error(msg)
             })
         }
         if (errors.length != 0) {
-            errors.map(msg => {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(msg => {
                 toastr.error(msg)
             })
         }
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
         }
         if (responseMessageUser.length != 0) {
             getPerfil()
             handleCloseEdit()
-            responseMessageUser.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageUser);
+            const responseMessageUser2 = [...deleteDuplicidad]
+            responseMessageUser2.map(msg => {
                 toastr.success(msg)
             })
         }
@@ -58,7 +66,6 @@ const Perfil = () => {
 
     useEffect(() => {
         if (openEdit) {
-            // getPerfil()
             let { nombre, apellido, correo, celular } = perfil
             SetDataPerfil({ nombre, apellido, correo, celular })
         }
@@ -67,12 +74,10 @@ const Perfil = () => {
             let { nombre, apellido, correo, celular } = perfil
             SetDataPerfil({ nombre, apellido, correo, celular })
         }
-    }, [openEdit, perfil])
+    }, [openEdit, perfil, isAuthenticate])
 
     useEffect(() => {
-        if (openEdit) {
-            getPerfil()
-        }
+        getPerfil()
         let { nombre, apellido, correo, celular } = perfil
         SetDataPerfil({ nombre, apellido, correo, celular })
     }, [])
@@ -96,6 +101,7 @@ const Perfil = () => {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
+        height: isSmallScreen ? '70%' : '60%',
         width: isSmallScreen ? '100%' : '60%',
         p: 4,
         alignItems: 'center',
@@ -105,7 +111,7 @@ const Perfil = () => {
     return (
         <>
             <div className='perfil'>
-                <Box sx={style}
+                <Box sx={style} style={{overflow: 'auto', height: '70vh'}}
                     component="form"
                     id="crearUsuario"
                     noValidate
@@ -142,7 +148,7 @@ const Perfil = () => {
                                     labelId="demo-simple-select-standard-label"
                                     id="demo-simple-select-standard"
                                     label="Rol"
-                                    value={perfil.RolId ? perfil.RolId : 1}
+                                    value={perfil.RolId ? perfil.RolId : ''}
                                 >
                                     {
                                         roles.map((rol, i) => {

@@ -11,14 +11,21 @@ import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useCredentialContext } from "../../../../../context/AuthContext";
+import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
+import { RiShieldKeyholeLine } from "react-icons/ri";
+import { useGeneralContext } from "../../../../../context/GeneralContext";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 function UserList() {
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
     const { roles } = useCredentialContext()
+    const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
@@ -96,23 +103,40 @@ function UserList() {
 
     useEffect(() => {
         if (errorsUser.length != 0) {
-            errorsUser.map(error => {
+            const deleteDuplicidad = new Set(errorsUser);
+            const errorsUser2 = [...deleteDuplicidad]
+            errorsUser2.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsUser]);
 
-    useEffect(() => {
+        if (errors.length != 0) {
+            const deleteDuplicidad = new Set(errors);
+            const errors2 = [...deleteDuplicidad]
+            errors2.map(error => {
+                return toastr.error(error)
+            })
+        }
+
+        if (responseMessage.length != 0) {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
+                return toastr.success(msg)
+            })
+        }
+
         if (responseMessageUser.length != 0) {
-            responseMessageUser.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageUser);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
             getUsers();
             setOpenNew(false);
             resetForm();
         }
-
-    }, [responseMessageUser])
+    }, [errorsUser, errors, responseMessage, responseMessageUser]);
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)
@@ -127,12 +151,29 @@ function UserList() {
         {
             field: "actions",
             headerName: "Acciones",
-            width: 150,
+            width: 210,
             renderCell: (params) => (
                 <div
                     style={{
                         textAlign: "center",
                     }}>
+                    <Tooltip title="Permisos">
+                        <Button>
+                            <RiShieldKeyholeLine
+                                onClick={() => {
+                                    handleOpenPermit()
+                                    setLocalStorage('idUsuarioPermisos', params.row.id)
+                                }}
+                                style={{
+                                    textAlign: "center",
+                                    fontSize: "20px",
+                                    borderRadius: "5px",
+                                    color: "#000",
+                                }}
+
+                            />
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Editar">
                         <Button>
                             <FiEdit2
@@ -166,6 +207,7 @@ function UserList() {
                             />
                         </Button>
                     </Tooltip>
+                    
                 </div>
             ),
         },
@@ -238,6 +280,10 @@ function UserList() {
     const handleOpenNew = () => setOpenNew(true);
     const handleCloseNew = () => setOpenNew(false);
 
+    const [openPermit, setOpenPermit] = useState(false);
+    const handleOpenPermit = () => setOpenPermit(true);
+    const handleClosePermit = () => setOpenPermit(false);
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -245,6 +291,7 @@ function UserList() {
         transform: 'translate(-50%, -50%)',
         bgcolor: 'background.paper',
         border: '2px solid #000',
+        height: isSmallScreen ? '75%' : '65%',
         width: isSmallScreen ? '100%' : '50%',
         boxShadow: 24,
         p: 4,
@@ -298,21 +345,61 @@ function UserList() {
             setApellidoUpt(apellido)
             setNombreUpt(nombre)
             setRolIdUpt(RolId),
-            setEstadoUpt(estado)
+                setEstadoUpt(estado)
             setCelularUpt(celular)
             setCorreoUpt(correo)
         }
+    }
+    const buscarPermisos = () => {
+        const idUsuario = parseInt(getLocalStorage('idUsuarioPermisos'));
+        getDataPermisos(idUsuario)
     }
 
     useEffect(() => {
         if (openEdit) {
             buscarUsuario()
         }
-    }, [openEdit,])
+    }, [openEdit])
+
+    useEffect(() => {
+        if (openPermit) {
+            buscarPermisos()
+        } else {
+            removeLocalStorage('idUsuarioPermisos')
+            setPermisosData([])
+        }
+    }, [openPermit])
+
+    const hadlerChangePermiso = (e) => {
+        let { checked, name } = e.target
+        let UsuarioId = parseInt(getLocalStorage('idUsuarioPermisos'));
+        let PermisoId = parseInt(name)
+        if (checked) {
+            postDataPermisos(PermisoId, UsuarioId)
+        } else {
+            deleteDataPermisos(PermisoId, UsuarioId)
+        }
+    }
+
+    const [loader, setLoader] = useState(false);
+
+    const downloadPDF = () => {
+        const capture = document.querySelector('.datagrid');
+        setLoader(true);
+        html2canvas(capture).then((canvas) => {
+            const imgData = canvas.toDataURL('img/png');
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+            doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+            setLoader(false);
+            doc.save('data.pdf');
+        })
+    }
 
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-45px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: "100%", marginTop: '-45px' }}>
                 <Grid
                     container
                     direction="row"
@@ -328,6 +415,20 @@ function UserList() {
                     >
                         Añadir
                     </Button>
+                    <BotonExcel data={usuarios} />
+                    <Button
+                    variant='contained'
+                    color="success"
+                    className="receipt-modal-download-button"
+                    onClick={downloadPDF}
+                    disabled={!(loader === false)}
+                >
+                    {loader ? (
+                        <span>Downloading</span>
+                    ) : (
+                        <span>Descargar PDF</span>
+                    )}
+                </Button>
                 </Grid>
                 <DataGrid
                     rows={usuarios.map((user) => {
@@ -352,6 +453,7 @@ function UserList() {
                     editMode='row'
                     hideFooterSelectedRowCount
                     ignoreDiacritic
+                    className="datagrid"
                     disableDensitySelector
                     slots={{
                         toolbar: GridToolbar,
@@ -428,7 +530,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}
+                    <Box sx={style} style={{overflow: 'auto'}}
                         component="form"
                         id="crearUsuario"
                         noValidate
@@ -552,9 +654,14 @@ function UserList() {
                                     />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" type="submit" fullWidth style={{color:'#fff'}}>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="success" type="submit" fullWidth style={{ color: '#fff' }}>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -569,7 +676,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}
+                    <Box sx={style} style={{overflow: 'auto'}}
                         component="form"
                         id="editarUsuario"
                         noValidate
@@ -670,16 +777,54 @@ function UserList() {
                                     </FormControl>
                                 )}
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
-                                style={{ marginTop: '20px',  color: '#fff'}}
+                                style={{ marginTop: '20px', color: '#fff' }}
                                 fullWidth
                                 type="submit"
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
+                    </Box>
+                </Modal>
+            </div>
+            {/* //! Modal permisos */}
+            <div>
+                <Modal
+                    open={openPermit}
+                    onClose={handleClosePermit}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style} style={{overflow: 'auto'}}
+                        component="form"
+                        id="editarUsuario"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <h1 style={{ textAlign: 'center' }}>Permisos</h1>
+                        <Grid container spacing={2} sx={{ width: '100%' }} style={{ alignItems: 'center', textAlign: 'center' }}>
+                            {openPermit && permisosData.map((item, i) => (
+                                <Grid item sx={{ width: isSmallScreen ? '100%' : '50%', display: 'flex', alignItems: 'center' }} key={i}>
+                                    <Checkbox onChange={hadlerChangePermiso} key={i} color="success" name={`${item.id}`} defaultChecked={item.value} value={item.PermisoId} />
+                                    <div className="titulo">{item.permiso}</div>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Grid item xs={12}>
+                                <Button variant="contained" color="error" onClick={handleClosePermit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>

@@ -1,0 +1,120 @@
+.linkArchivos {
+    text-align: center;
+    width: 90%;
+    margin: 4vh auto;
+}
+
+.archivos-container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 10px;
+}
+
+.archivos-container .link {
+    background-color: var(--black-soft);
+    flex-basis: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 1;
+    margin-top: 7vh;
+    border-radius: 10px;
+    border: 1px solid #80808041;
+    padding: 20px;
+}
+
+.archivos-container .link h2 {
+    font-size: 18px;
+}
+
+.archivos-container .link p {
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.archivos-container .link .linkFile {
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.archivos-container .button {
+    position: relative;
+    width: 90%;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--success);
+    background-color: #209978;
+    overflow: hidden;
+    text-decoration: none;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.archivos-container .button,
+.archivos-container .button__icon,
+.archivos-container .button__text {
+    transition: all 0.5s ease-in-out;
+}
+
+.archivos-container .button .button__text {
+    width: 100%;
+    color: #fff;
+    font-weight: 600;
+    font-size: clamp(12px, 2vw, 16px);
+}
+
+.archivos-container .button .button__icon {
+    position: absolute;
+    transform: translateX(817%);
+    height: 100%;
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.archivos-container .button .svg {
+    width: 20px;
+    fill: #fff;
+}
+
+@media screen and (width > 500px) {
+
+    .archivos-container .button {
+        max-width: 450px;
+    }
+    .archivos-container .link {
+        flex-basis: 350px;
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+    
+}
+
+@media screen and (width > 700px) {
+    
+    .archivos-container .button:hover {
+        background: var(--success);
+    }
+    
+    .archivos-container .button:hover .button__text {
+        color: transparent;
+    }
+    
+    .archivos-container .button:hover .button__icon {
+        width: 90%;
+        transform: translateX(0);
+    }
+    .archivos-container .button:active .button__icon {
+        background-color: var(--success);
+    }
+    .archivos-container .button:active {
+        border: 1px solid var(--success);
+    }
+
+}

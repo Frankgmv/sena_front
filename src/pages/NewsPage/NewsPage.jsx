@@ -1,34 +1,20 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './NewsPage.css'
 import f1 from '../../assets/img/f1.jpg'
 import { Modal } from "@mui/material";
 import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { formateFecha } from "../../assets/includes/funciones";
-import Boton2 from "../../components/publicComponents/botones/boton2/Boton2";
-import { BASE_URL_API, MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
+import Footer from "../../components/publicComponents/Footer/Footer";
+import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 const NewsPage = () => {
-    const [data, setData] = useState([]);
+    const { noticias: data } = useDataGeneralContext()
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const endPoint = `${BASE_URL_API}/data/noticias`
-
-    const getData = async () => {
-        const response = await axios.get(endPoint);
-        setData(response.data.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const handleOpen = (item) => {
-        setSelectedItem(item);
-    };
-    const handleClose = () => {
-        setSelectedItem(null);
-    };
+    const handleOpen = (item) => setSelectedItem(item)
+    const handleClose = () => setSelectedItem(null)
 
     return (
         <>
@@ -48,7 +34,7 @@ const NewsPage = () => {
             {selectedItem && (
                 <Modal
                     open={true}
-                    onClose={handleClose}   
+                    onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
@@ -58,10 +44,11 @@ const NewsPage = () => {
                         <img className="cardImg-news" src={MOSTRAR_ARCHIVO(selectedItem.imgPath)} alt="Imagen" onError={(e) => e.target.src = f1} />
                         <h2>{selectedItem.encabezado}</h2>
                         <p className="descripcion">{selectedItem.descripcion}</p>
-                        <Boton2 onClick={handleClose} titulo='Cerrar'/>
                     </div>
                 </Modal>
             )}
+            <MenuInteractivo />
+            <Footer />
         </>
     );
 };

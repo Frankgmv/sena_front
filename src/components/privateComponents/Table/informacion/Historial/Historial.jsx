@@ -6,18 +6,21 @@ import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr";
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 
 
 function Historial() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { historial, deleteAllHistorial, responseMessage} = useGeneralContext()
+    const { historial, deleteAllHistorial, responseMessage } = useGeneralContext()
     const { usuarios } = useUserContext()
 
     useEffect(() => {
         if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+            const deleteDuplicidad = new Set(responseMessage);
+            const responseMessage2 = [...deleteDuplicidad]
+            responseMessage2.map(msg => {
                 toastr.success(msg)
             })
         }
@@ -27,7 +30,7 @@ function Historial() {
         {
             field: "cambio",
             headerName: "Cambio",
-            width: 150,
+            width: 250,
             headerAlign: "center",
             align: "center",
         },
@@ -64,13 +67,22 @@ function Historial() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '63%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '67%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-evenly"
                     alignItems="center"
-                    style={{ textAlign: 'center'}}
+                    style={{ textAlign: 'center', marginBottom: '15px', }}
+                >
+                    <BotonExcel data={historial} />
+                </Grid>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="center"
+                    style={{ textAlign: 'center' }}
                 >
                     <Button
                         variant="contained"

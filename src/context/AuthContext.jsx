@@ -5,10 +5,10 @@ import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../assets/
 import { registerActionHistorial } from "../assets/includes/historial";
 
 const CredentialContext = createContext({
-    isAuthenticate: false,
-    login: () => {},
-    logoutFn: () => {},
-    verificarToken: () => {}
+    isAuthenticate: null,
+    login: () => { },
+    logoutFn: () => { },
+    verificarToken: () => { }
 });
 
 export const useCredentialContext = () => {
@@ -33,7 +33,6 @@ export const CredentialProvider = ({ children }) => {
     useEffect(() => {
         getRoles();
         getRolName();
-        verificarToken();
     }, [])
 
     useEffect(() => {
@@ -41,7 +40,7 @@ export const CredentialProvider = ({ children }) => {
             if (errors.length != 0) {
                 setErrors([]);
             }
-        }, 5000);
+        }, 3000);
         return () => clearTimeout(timer);
     }, [errors])
 
@@ -50,7 +49,7 @@ export const CredentialProvider = ({ children }) => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);
             }
-        }, 5000);
+        }, 3000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
@@ -134,7 +133,7 @@ export const CredentialProvider = ({ children }) => {
                         }
                         return prevent
                     });
-                    
+
                     await verificarToken()
                 }
             }
@@ -169,12 +168,24 @@ export const CredentialProvider = ({ children }) => {
         }
     }
 
+    const verifyAuth = async () => {
+        try {
+            const response = await perfilRequest()
+            const data = await response.data
+            if (data.ok) {
+                setIsAuthenticate(true)
+            }
+        } catch (error) {
+
+        }
+    }
+
     const register = async (dataRegister) => {
         try {
             const response = await registroRequest(dataRegister)
             const data = await response.data
-
             if (data.ok) {
+                removeLocalStorage('token')
                 setResponseMessage((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -182,7 +193,6 @@ export const CredentialProvider = ({ children }) => {
                             data.message
                         ];
                     }
-                    return prevent
                 });
                 await registerActionHistorial(`Nuevo Usuario`, `Usuario '${dataRegister.nombre}'`)
             }
@@ -222,8 +232,6 @@ export const CredentialProvider = ({ children }) => {
             const response = await verificarTokenRequest()
             if (response.data.ok) {
                 setIsAuthenticate(true);
-            } else {
-                setIsAuthenticate(false);
             }
         } catch (error) {
             if (error.response.data.message) {
@@ -252,7 +260,8 @@ export const CredentialProvider = ({ children }) => {
         token,
         logoutFn,
         getRoles,
-        rolName
+        rolName,
+        verifyAuth
     }
 
     return (

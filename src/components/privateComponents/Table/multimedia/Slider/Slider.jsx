@@ -53,7 +53,9 @@ function Slider() {
     }, [openView])
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -61,7 +63,9 @@ function Slider() {
 
     useEffect(() => {
         if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageData);
+            const responseMessageData2 = [...deleteDuplicidad]
+            responseMessageData2.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()
@@ -203,7 +207,7 @@ function Slider() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '62%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '62%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -335,6 +339,7 @@ function Slider() {
                                         label="ImagenId"
                                         name="ImagenId"
                                         value={imagenId}
+                                        fullWidth
                                         onChange={e => setImagenId(e.target.value)}
                                     >
                                         {
@@ -347,9 +352,14 @@ function Slider() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -374,6 +384,11 @@ function Slider() {
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' , marginLeft: isSmallScreen ? 10 : 66}} alt={imagenView} />
                         </Grid>
+                        <Grid item xs={12}>
+                                <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                     </Box>
                 </Modal>
             </div>

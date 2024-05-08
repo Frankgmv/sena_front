@@ -9,6 +9,8 @@ export const getPQRSRequest = (id) => axios.get(`/informacion/pqrs/${id}`);
 
 export const putPQRSRequest = (id, PQRS) => axios.put(`/informacion/pqrs/${id}`, PQRS);
 
+export const postPQRSRequest = (PQRS) => axios.post(`/informacion/pqrs`, PQRS);
+
 export const deletePQRSRequest = (id) => axios.delete(`/informacion/pqrs/${id}`);
 
 // ! Notificaciones

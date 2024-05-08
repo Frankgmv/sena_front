@@ -26,7 +26,7 @@
     width: 100%;
     height: 100%;
     background-color: #00000073;
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: -1;
 }
 
@@ -37,7 +37,7 @@
     color: var(--white);
 }
 
-.registerBody .containerInput {
+.registerBody .containerInputRegister {
     width: 50%;
     height: 100vh;
     background-color: var(--white);
@@ -58,7 +58,7 @@
     text-align: center;
 }
 
-.registerBody .containerInput .encabezadoRegister {
+.registerBody .containerInputRegister .encabezadoRegister {
     width: 80%;
     margin: 0 30px;
     display: flex;
@@ -68,45 +68,40 @@
     padding: 20px 0 10px;
 }
 
-.registerBody .containerInput .encabezadoRegister h3 {
-    margin-top: 32px;
+.registerBody .containerInputRegister .encabezadoRegister h3 {
     font-size: 48px;
 }
 
-.registerBody .containerInput .encabezadoRegister p {
+.registerBody .containerInputRegister .encabezadoRegister p {
     margin-top: 0px;
     font-size: 20px;
     text-transform: capitalize;
 }
 
-.registerBody .containerInput .encabezadoRegister h2 {
+.registerBody .containerInputRegister .encabezadoRegister h2 {
     margin-top: 0px;
     font-size: 20px;
     text-transform: capitalize;
 
 }
 
-.registerBody .containerInput form{
+.registerBody .containerInputRegister form{
     width: 90%;
     margin: 30px auto;
 }
 
-.registerBody .containerInput .form .junto{
+.registerBody .containerInputRegister .form .junto{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
 }
 
-.registerBody .input-container {
+.registerBody .input-container,
+.registerBody .select-container {
     position: relative;
     margin: 20px auto;
     width: 40%;
-}
-
-
-.registerBody .input-container input {
-    font-size: 20px;  width: 90%;
 }
 
 .input-container input[type="text"],
@@ -114,17 +109,13 @@
 .input-container input[type="password"],
 .input-container input[type="email"],
 .input-container input[type="date"] {
-    font-size: 20px;
+    font-size: 16px;
     width: 90%;
     border: none;
     border-bottom: 2px solid var(--black);
     padding: 5px 0;
     background-color: transparent;
     outline: none;
-}
-
-.registerBody .input-container input[type="date"]{
-    margin-left: 35px;
 }
 
 .registerBody .input-container .label {
@@ -134,16 +125,6 @@
     color: var(--black);
     transition: all 0.3s ease;
     pointer-events: none;
-}
-
-.registerBody .input-container input[type="date"]~.label {
-    position: absolute;
-    top: -20px;
-    left: 0;
-    color: var(--black);
-    transition: all 0.3s ease;
-    pointer-events: none;
-    margin-left: 35px;
 }
 
 .registerBody .input-container input:focus~.label,
@@ -159,42 +140,14 @@
     color: var(--black);
 }
 
-.registerBody .input-container .underline {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background-color: var(--black);
-    transform: scaleX(0);
-    transition: all 0.3s ease;
-}
-
-.registerBody .input-container input[type="text"]:focus~.underline,
-.registerBody .input-container input[type="text"]:valid~.underline,
-.registerBody .input-container input[type="password"]:focus~.underline,
-.registerBody .input-container input[type="password"]:valid~.underline,
-.registerBody .input-container input[type="number"]:focus~.underline,
-.registerBody .input-container input[type="number"]:valid~.underline,
-.registerBody .input-container input[type="email"]:focus~.underline,
-.registerBody .input-container input[type="email"]:valid~.underline {
-    transform: scaleX(1);
-}
-
-.registerBody .select-container{
-    text-align: center;
-    width: 40%;
-}
-
 .registerBody .select-container select{
-    /* border-bottom: 1px solid var(--black); */
     width: 90%;
     outline: 0;
     height: 40px;
-    margin-left: 35px;
     font-size: 16px;
     border: 0px;
     border-bottom: 2px solid var(--black);
+    background-color: transparent;
 }
 
 .registerBody .select-container select option{
@@ -203,16 +156,18 @@
     height: 40px;
 }
 
+.eye-button{
+    margin-left: -20px;
+}
 
 .registerBody .botonRegister{
-    margin-top: 60px;
     margin-right: 20px;
     text-align: center;
     align-items: center;
 }
 
 .registerBody .footerInputsRegister{
-    margin-top: 60px;
+    margin-top: 20px;
     margin-right: 20px;
     text-align: center;
     align-items: center;
@@ -234,10 +189,9 @@
         font-size: 18px;
     }
 
-    .registerBody .containerInput {
+    .registerBody .containerInputRegister {
         width: 60%;
         height: 100vh;
-        background-color: var(--white);
         clip-path: polygon(0 0, 80% 0, 100% 29%, 90% 100%, 0 100%);
         z-index: 100;
     }
@@ -252,10 +206,14 @@
         padding: 0px;
     }
 
-    .registerBody .containerInput {
+    .registerBody .encabezadoRegister p,
+    .registerBody .encabezadoRegister h2{
+        display: none;
+    }
+
+    .registerBody .containerInputRegister {
         width: 100%;
-        height: 100vh;
-        background-color: var(--white);
+        height: 100%;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
         z-index: 100;
     }
@@ -293,10 +251,25 @@
     }
 }
 
-@media (width <=400px) {
-    .registerBody .containerInput{
+@media (width <=768px) and (width >=451px) {
+    .registerBody{
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .registerBody .containerInputRegister{
         height: 100vh;
         width: 100%;
+    }
+}
+
+@media (width <=450px) {
+    .registerBody .containerInputRegister{
+        height: 100%;
+        width: 100%;
+        overflow: auto;
     }
 
     .registerBody .encabezadoRegister {
@@ -306,16 +279,31 @@
         padding: 0px;
     }
 
+    .registerBody .encabezadoRegister p,
+    .registerBody .encabezadoRegister h2{
+        display: none;
+    }
+
     .registerBody .textoRegister {
         display: none;
     }
 
-    .registerBody .containerInput {
+    .registerBody .containerInputRegister {
         width: 100%;
         height: 100vh;
         background-color: var(--white);
         clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
         z-index: 100;
+    }
+
+    .registerBody .containerInputRegister .select-container label{
+        margin-bottom: 20px;
+    }
+
+    .registerBody .containerInputRegister .input-container,
+    .registerBody .containerInputRegister .select-container{
+        width: 90vw;
+        margin-block: 25px;
     }
 
     .footerInputsRegister {
@@ -342,32 +330,6 @@
         width: 100%;
     }
 
-    .registerBody .select-container select{
-        width: 90%;
-        outline: 0;
-        height: 40px;
-        margin-left: 15px;
-        font-size: 12px;
-        border: 0px;
-        border-bottom: 2px solid var(--black);
-    }
-
-    .registerBody .input-container input[type="date"]{
-        margin-left: 15px;
-    }
-
-    .registerBody .input-container input[type="date"]~.label {
-        position: absolute;
-        top: -20px;
-        left: 0;
-        color: var(--black);
-        transition: all 0.3s ease;
-        pointer-events: none;
-        margin-left: 15px;
-    }
-
-    /* s */
-
     .registerBody .select-container select option,
     .registerBody .input-container{
         font-size: 12px;
@@ -388,13 +350,13 @@
         color: var(--black);
         text-decoration: none;
         border-bottom: 2px solid var(--black);
-        font-size: 12px;
+        font-size: 15px;
         margin-right: 20px;
     }
 
     .registerBody .botonRegister{
         margin-top: 0px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         font-size: 12px;
         text-align: center;
         align-items: center;

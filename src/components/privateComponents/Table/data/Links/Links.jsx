@@ -24,8 +24,8 @@ function Links() {
     const { secciones, categorias } = useGeneralContext()
     const { usuarios } = useUserContext()
     const [formLink, setFormLink] = useState({
-        CategoriaId: 1,
-        SeccionId: 1,
+        CategoriaId: 9,
+        SeccionId: 16,
         link: '',
         descripcion: '',
         tipo: 'pdf',
@@ -42,7 +42,9 @@ function Links() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -308,7 +310,7 @@ function Links() {
 
     return (
         <>
-            <div style={{ height: 400, width: '100%', marginTop: '-100px' }}>
+            <div style={{ height:'80%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -453,6 +455,7 @@ function Links() {
                                     name="titulo"
                                     value={formLink.titulo}
                                     onChange={handlerChangeCreate}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -462,9 +465,11 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="link"
+                                    multiline
+                                    maxRows={2}
                                     value={formLink.link}
                                     onChange={handlerChangeCreate}
-
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -477,6 +482,7 @@ function Links() {
                                         name="tipo"
                                         value={formLink.tipo}
                                         onChange={handlerChangeCreate}
+                                        fullWidth
                                     >
                                         <MenuItem value='pdf'>PDF</MenuItem>
                                         <MenuItem value='blog'>Blog</MenuItem>
@@ -490,9 +496,11 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="descripcion"
+                                    multiline
+                                    maxRows={6}
                                     value={formLink.descripcion}
                                     onChange={handlerChangeCreate}
-
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -504,12 +512,14 @@ function Links() {
                                         label="Seccion"
                                         name="SeccionId"
                                         value={formLink.SeccionId}
+                                        fullWidth
                                         onChange={handlerChangeCreate}
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={!mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }
@@ -524,6 +534,7 @@ function Links() {
                                         id="demo-simple-select-standard"
                                         label="Categoria"
                                         name="CategoriaId"
+                                        fullWidth
                                         value={formLink.CategoriaId}
                                         onChange={handlerChangeCreate}
                                     >
@@ -537,9 +548,14 @@ function Links() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -570,6 +586,7 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="titulo"
+                                    fullWidth
                                     value={formLinkUpt.titulo}
                                     onChange={handlerChangeUpt}
                                 />
@@ -580,7 +597,10 @@ function Links() {
                                     label="Link"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     name="link"
+                                    multiline
+                                    maxRows={2}
                                     value={formLinkUpt.link}
                                     onChange={handlerChangeUpt}
 
@@ -595,6 +615,7 @@ function Links() {
                                         label="Tipo"
                                         name="tipo"
                                         value={formLinkUpt.tipo}
+                                        fullWidth
                                         onChange={handlerChangeUpt}
                                     >
                                         <MenuItem value='pdf'>PDF</MenuItem>
@@ -609,7 +630,10 @@ function Links() {
                                     variant="standard"
                                     type="text"
                                     name="descripcion"
+                                    multiline
+                                    maxRows={6}
                                     value={formLinkUpt.descripcion}
+                                    fullWidth
                                     onChange={handlerChangeUpt}
 
                                 />
@@ -627,8 +651,9 @@ function Links() {
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={!mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }
@@ -656,6 +681,7 @@ function Links() {
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            <Grid item xs={6}>
                             <Button
                                 variant="contained"
                                 color="success"
@@ -665,6 +691,12 @@ function Links() {
                             >
                                 Actualizar
                             </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

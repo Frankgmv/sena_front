@@ -14,6 +14,7 @@
 
 .cardEventos{
     width: 95%;
+    height: 225px;
     border: 1px solid;
     display: flex;
     border-radius: 20px;
@@ -24,11 +25,13 @@
 
 .cardEventos .eventos-img{
     width: 50%;
+    height: 100%;
 }
 
 .cardEventos .eventos-img img{
     width: 100%;
     height: 100%;
+    object-fit: cover;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -48,4 +51,11 @@
     font-size: 15px;
     font-weight: 400;
     margin: 30px;
+}
+
+@media screen and (width < 500px) {
+    .cardEventos{
+        width: 100%;
+        height: 160px;
+    }
 }

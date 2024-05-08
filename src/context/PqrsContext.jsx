@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { perfilRequest } from "../api/auth";
 import { deletePQRSRequest, getAllPQRSRequest, getPQRSRequest, putPQRSRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
 

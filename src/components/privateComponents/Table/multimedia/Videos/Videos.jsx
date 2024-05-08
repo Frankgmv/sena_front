@@ -64,7 +64,9 @@ function Videos() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -72,7 +74,9 @@ function Videos() {
 
     useEffect(() => {
         if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageData);
+            const responseMessageData2 = [...deleteDuplicidad]
+            responseMessageData2.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()
@@ -89,7 +93,7 @@ function Videos() {
                     style={{
                         textAlign: "center"
                     }}>
-                        <Tooltip title="Ver">
+                    <Tooltip title="Ver">
                         <Button>
                             <FiEye
                                 onClick={() => {
@@ -124,7 +128,7 @@ function Videos() {
                     <Tooltip title="Eliminar">
                         <Button>
                             <BsTrash3
-                                onClick={()=>{
+                                onClick={() => {
                                     showSwal()
                                     setLocalStorage('deleteVideoId', params.row.id)
                                 }}
@@ -280,7 +284,7 @@ function Videos() {
 
     return (
         <>
-            <div style={{ height: 400, width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '85%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -411,6 +415,7 @@ function Videos() {
                                     label="Titulo"
                                     variant="standard"
                                     type="text"
+                                    fullWidth
                                     value={titulo}
                                     name="titulo"
                                     onChange={e => setTitulo(e.target.value)}
@@ -423,24 +428,33 @@ function Videos() {
                                     variant="standard"
                                     type="text"
                                     value={link}
+                                    multiline
+                                    maxRows={6}
+                                    fullWidth
                                     name="link"
                                     onChange={e => setLink(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    fullWidth
                                     name="imagen"
                                     value={imagen}
                                     onChange={e => setImagen(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -455,16 +469,21 @@ function Videos() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%',}}
-                        component="form"
+                    <Box sx={{ ...style, width: isSmallScreen ? '100%' : '50%', height: isSmallScreen ? '60%' : '500px' }}
+                        component="div"
                         id="crear"
                         noValidate
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <span style={{ textAlign: 'center' }}><small style={{fontSize: '1.2em'}}><a href={linkView} target="_blank" style={{textDecoration: 'none'}}>{linkView}</a> </small></span>
-                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66}} alt={imagenView} />
+                        <span style={{ textAlign: 'center' }}><small style={{ fontSize: '1.2em' }}><a href={linkView} target="_blank" style={{ textDecoration: 'none' }}>{linkView}</a> </small></span>
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px'}}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover'}} alt={imagenView} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Cerrar
+                            </Button>
                         </Grid>
                     </Box>
                 </Modal>
@@ -493,6 +512,7 @@ function Videos() {
                                     variant="standard"
                                     type="text"
                                     name="titulo"
+                                    fullWidth
                                     value={tituloUpt}
                                     onChange={e => setTituloUpt(e.target.value)}
                                 />
@@ -505,27 +525,38 @@ function Videos() {
                                     type="text"
                                     name="link"
                                     value={linkUpt}
+                                    multiline
+                                    maxRows={6}
+                                    fullWidth
                                     onChange={e => setLinkUpt(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <TextField
                                     id="imgPath"
                                     label="Imagen"
                                     variant="standard"
                                     type="File"
+                                    fullWidth
                                     name="imagen"
                                 />
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: 'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: 'white' }}
+                                    type="submit"
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>

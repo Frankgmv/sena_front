@@ -19,6 +19,9 @@ import { useAnunciosContext } from "../../../../../context/AnunciosContext";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 
 function AnunciosList() {
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
@@ -66,7 +69,9 @@ function AnunciosList() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -320,9 +325,25 @@ function AnunciosList() {
         }
     }, [openEdit])
 
+    const [loader, setLoader] = useState(false);
+
+    const downloadPDF = () => {
+        const capture = document.querySelector('.datagrid');
+        setLoader(true);
+        html2canvas(capture).then((canvas) => {
+            const imgData = canvas.toDataURL('img/png');
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const componentWidth = doc.internal.pageSize.getWidth();
+            const componentHeight = doc.internal.pageSize.getHeight();
+            doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+            setLoader(false);
+            doc.save('data.pdf');
+        })
+    }
+
     return (
         <>
-            <div style={{ height: 500, width: "100%", marginTop: '-30px' }}>
+            <div style={{ height: isSmallScreen ? '70%' : '80%', width: isSmallScreen ? '100%' : '66%', marginTop: isSmallScreen ? '-10%' : '-5%' }}>
                 <Grid
                     container
                     direction="row"
@@ -337,6 +358,21 @@ function AnunciosList() {
                         onClick={handleOpenNew}
                     >
                         Añadir
+                    </Button>
+                    <BotonExcel data={anuncios} />
+                    <Button
+                        variant='contained'
+                        color="success"
+                        className="receipt-modal-download-button"
+                        onClick={downloadPDF}
+                        disabled={!(loader === false)}
+                    >
+                        {loader ? (
+                            <span>Downloading</span>
+                        ) : (
+                            <span>Descargar PDF</span>
+                        )}
+
                     </Button>
                 </Grid>
                 <DataGrid
@@ -379,6 +415,7 @@ function AnunciosList() {
                     hideFooterSelectedRowCount
                     ignoreDiacritic
                     disableDensitySelector
+                    className="datagrid"
                     slots={{
                         toolbar: GridToolbar,
                     }}
@@ -483,6 +520,8 @@ function AnunciosList() {
                                     label="Descripcion"
                                     variant="standard"
                                     value={descripcion}
+                                    multiline
+                                    maxRows={6}
                                     onChange={(e) => setDescripcion(e.target.value)}
 
                                 />
@@ -512,17 +551,23 @@ function AnunciosList() {
                                     >
                                         {
                                             secciones.map((seccion, i) => {
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem value={seccion.id} key={i}>{seccion.seccion}</MenuItem>
+                                                    <MenuItem value={seccion.id} hidden={mostrar} key={i}>{seccion.seccion}</MenuItem>
                                                 )
                                             })
                                         }
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="success" style={{color: '#fff'}} type="submit" fullWidth>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="success" style={{ color: '#fff' }} type="submit" fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -550,7 +595,7 @@ function AnunciosList() {
                                 <TextField sx={{ width: '90%' }} id="titulo" name="titulo" value={tituloUpt} onChange={(e) => setTituloUpt(e.target.value)} label="Titulo" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
-                                <TextField sx={{ width: '90%' }} id="apellido" name="descripcion" value={descripcionUpt} onChange={(e) => setDescripcionUpt(e.target.value)} label="Apellido" variant="standard" />
+                                <TextField sx={{ width: '90%' }} id="Apellido" name="descripcion" value={descripcionUpt} multiline maxRows={6} onChange={(e) => setDescripcionUpt(e.target.value)} label="Descripción" variant="standard" />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField sx={{ width: '90%' }} id="imagen" name="imagen" onChange={(e) => setImgPath(e.target.value)} label="Imagen" variant="standard" type="file" />
@@ -564,28 +609,36 @@ function AnunciosList() {
                                         label="SeccionId"
                                         name="SeccionId"
                                         value={SeccionIdUpt}
-                                        onChange={(e) => setSeccionId(e.target.value)}
+                                        onChange={(e) => setSeccionIdUpt(e.target.value)}
                                     >
                                         {
                                             secciones.map((seccion, i) => {
                                                 const isSelect = seccion.id === SeccionIdUpt
+                                                const mostrar = seccion.seccionKey === 'S_PLAT_ACADEMICAS' || seccion.seccionKey === 'ARCHIVO_PDF'
                                                 return (
-                                                    <MenuItem style={{ color: isSelect ? 'red' : '' }} value={seccion.id} key={i}>{seccion.seccion}{isSelect ? <>&nbsp;Por defecto</> : ''}</MenuItem>
+                                                    <MenuItem style={{ color: isSelect ? 'red' : '' }} hidden={mostrar} value={seccion.id} key={i}>{seccion.seccion}{isSelect ? <>&nbsp;Por defecto</> : ''}</MenuItem>
                                                 )
                                             })
                                         }
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px' }}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="submit"
+                                    style={{ color: '#fff' }}
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ color: '#fff' }}>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
@@ -608,9 +661,14 @@ function AnunciosList() {
                         <Grid container style={{ display: 'flex', justifyContent: 'space-evenly', flexGrow: '1', padding: '5px' }}>
                             <p>{descripcionView}</p>
                         </Grid>
-                        <Grid container style={{ display: imagenView ? 'none' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', justifyContent: 'center', alignItems: 'center', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
+                        <Grid container style={{ display: imagenView ? '' : 'none', maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px' }}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover' }} alt={imagenView} />
                             <h3 style={{ display: imagenView ? 'none' : '', textAlign: 'center' }}>No hay imagen</h3>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ color: '#fff', marginTop: '5%' }} fullWidth>
+                                Cerrar
+                            </Button>
                         </Grid>
                     </Box>
                 </Modal>

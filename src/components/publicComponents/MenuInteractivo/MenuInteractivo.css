@@ -6,14 +6,20 @@
 .menuBody .menuCards{
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
     margin: 50px 0px;
+    flex-wrap: wrap-reverse;
 }
 
 .menuBody .titulo{
     text-align: center;
     font-size: 28px;
     color: var(--black);
+}
+
+.cardMenuInteractivo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 @media (width <= 500px){

@@ -4,6 +4,22 @@
     text-align: center;
 }
 
+
+.videoBody a{
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--black);
+    transition: all .5s ease;
+}
+
+
+.videoBody a:hover{
+    text-decoration: underline;
+    font-size: 20px;
+    color: var(--success);
+}
+
+
 .videoBody .titulo{
     text-align: center;
     font-size: 28px;
@@ -17,6 +33,7 @@
 .videoBody .videoComplemento{
     margin: 30px 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
 }
 

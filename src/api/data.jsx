@@ -53,13 +53,14 @@ export const putUsuarioPerfilRequest = (id, usuario) => axios.put(`/data/usuario
 
 export const deleteUsuarioRequest = (id) => axios.delete(`/data/usuarios/${id}`);
 
+
 // ! Detalle Permisos
 
 export const getDetallePermisosByDocumentoRequest = (idUsuario) => axios.get(`/data/detalle-permisos/${idUsuario}`);
 
 export const postDetallePermisoRequest = (detallePermiso) => axios.post(`/data/detalle-permisos`, detallePermiso);
 
-export const deleteDetallePermisosRequest = (id) => axios.delete(`/data/detalle-permisos/${id}`);
+export const deleteDetallePermisosRequest = (PermisoId, UsuarioId) => axios.delete(`/data/detalle-permisos?PermisoId=${PermisoId}&UsuarioId=${UsuarioId}`);
 
 // ! Noticias
 
@@ -76,6 +77,10 @@ export const deleteNoticiaRequest = (id) => axios.delete(`/data/noticias/${id}`)
 // ! Links
 
 export const getAllLinkRequest = () => axios.get(`/data/links`);
+
+export const getAllLinkPDFRequest = () => axios.get(`/data/links?tipo=pdf`);
+
+export const getAllLinkBlogsRequest = () => axios.get(`/data/links?tipo=blog`);
 
 export const getLinkRequest = (id) => axios.get(`/data/links/${id}`);
 
@@ -136,3 +141,9 @@ export const postEventoRequest = (data) => axios.post(`/data/eventos`, data);
 export const putEventoRequest = (id, data) => axios.put(`/data/eventos/${id}`, data);
 
 export const deleteEventoRequest = (id) => axios.delete(`/data/eventos/${id}`);
+
+// ! Credenciales Email
+
+export const getCredencialesEmailRequest = () => axios.get(`/data/credenciales`);
+
+export const putCredencialesEmailRequest = (id, data) => axios.put(`/data/credenciales/${id}`, data);

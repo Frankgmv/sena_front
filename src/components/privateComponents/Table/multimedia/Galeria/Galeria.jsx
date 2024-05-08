@@ -40,7 +40,9 @@ function Galeria() {
 
     useEffect(() => {
         if (errorsData.length != 0) {
-            errorsData.map(error => {
+            const deleteDuplicidad = new Set(errorsData);
+            const errorsData2 = [...deleteDuplicidad]
+            errorsData2.map(error => {
                 return toastr.error(error)
             })
         }
@@ -48,7 +50,9 @@ function Galeria() {
 
     useEffect(() => {
         if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+            const deleteDuplicidad = new Set(responseMessageData);
+            const responseMessageData2 = [...deleteDuplicidad]
+            responseMessageData2.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()
@@ -257,16 +261,16 @@ function Galeria() {
             setImagenView(dt.imgPath)
         }
     }
-    
-        useEffect(() => {
-            if (openView) {
-                getViewEditGaleria()
-            } else {
-                setEventoView('')
-                setTituloView('')
-                setImagenView('')
-            }
-        }, [openView])
+
+    useEffect(() => {
+        if (openView) {
+            getViewEditGaleria()
+        } else {
+            setEventoView('')
+            setTituloView('')
+            setImagenView('')
+        }
+    }, [openView])
 
     useEffect(() => {
         if (openEdit) {
@@ -290,7 +294,7 @@ function Galeria() {
 
     return (
         <>
-            <div style={{ height: 400, maxWidth: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
+            <div style={{ height: isSmallScreen ? '80%' : '70%', width: isSmallScreen ? '100%' : '92%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -444,7 +448,7 @@ function Galeria() {
                                     onChange={(e) => setImagen(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="evento">Evento</InputLabel>
                                     <Select
@@ -465,9 +469,14 @@ function Galeria() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button variant="contained" color="success" type="submit" style={{ marginTop: '20px', color: 'white' }} fullWidth>
                                     Guardar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseNew} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
                                 </Button>
                             </Grid>
                         </Grid>
@@ -489,8 +498,13 @@ function Galeria() {
                         autoComplete="off"
                     >
                         <h1 style={{ textAlign: 'center' }}>{tituloView}</h1>
-                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: isSmallScreen ? 10 : 100 }} alt={imagenView} />
+                        <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '200px' : '320px'}}>
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ display: imagenView ? '' : 'none', width: '100%', height: '100%', objectFit: 'cover'}} alt={imagenView} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Cerrar
+                            </Button>
                         </Grid>
                     </Box>
                 </Modal>
@@ -532,7 +546,7 @@ function Galeria() {
                                     name="imagen"
                                 />
                             </Grid>
-                            <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
+                            <Grid item sx={{ width: '100%' }}>
                                 <FormControl variant="standard" sx={{ width: '90%' }}>
                                     <InputLabel id="evento">Evento</InputLabel>
                                     <Select
@@ -553,15 +567,22 @@ function Galeria() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: 'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
+                            <Grid item xs={6}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: 'white' }}
+                                    type="submit"
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                    Cerrar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
