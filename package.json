@@ -21,6 +21,7 @@
     "@nextui-org/react": "^2.2.10",
     "@react-pdf/renderer": "^3.4.2",
     "axios": "^1.6.7",
+    "client-sena-project": "file:",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
