@@ -5,13 +5,14 @@ import {
 import react from '@vitejs/plugin-react-swc';
 
 dotenv.config();
-const dato = parseInt(process.env.PORT) || 5372
-const PORT = 5372
+const PORT = parseInt(process.env.PORT) || 5372
 
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: PORT || 5371,
+    proxy: {
+      '/api': 'http://localhost:3222',
+    }
   },
   preview: {
     port: PORT
