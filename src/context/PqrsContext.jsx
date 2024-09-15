@@ -2,7 +2,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { deletePQRSRequest, getAllPQRSRequest, getPQRSRequest, putPQRSRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const PqrsContext = createContext();
+const PqrsContext = createContext({
+    getPqrs: () => {}
+});
 
 export const usePqrsContext = () => {
     const context = useContext(PqrsContext);
@@ -27,10 +29,6 @@ export const PqrsProvider = ({ children }) => {
         }, 5000);
         return () => clearTimeout(timer);
     }, [errorsData])
-
-    useEffect(() => {
-        getPqrs()
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {

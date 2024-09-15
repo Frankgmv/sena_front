@@ -5,13 +5,19 @@ import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import Footer from '../../components/publicComponents/Footer/Footer';
 import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
+import { useEffect } from 'react';
 
 const EventsPage = () => {
     
 
-    const { gallery, events, getAllGaleria } = useDataGeneralContext()
+    const { gallery, events, getAllGaleria, fetchEvents} = useDataGeneralContext()
+
     const handleEventChange = async (eventId) => getAllGaleria(eventId)
 
+    useEffect(()=>{
+        fetchEvents()
+    },[])
+    
     return (
         <>
             <NavBar />

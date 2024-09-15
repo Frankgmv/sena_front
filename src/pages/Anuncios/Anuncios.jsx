@@ -9,9 +9,14 @@ import Footer from '../../components/publicComponents/Footer/Footer'
 import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
 
 export default function Anuncios() {
-    const { anuncios } = useDataGeneralContext();
+    const { anuncios, getAnuncios} = useDataGeneralContext();
+
     const [seccionSeleccionada, setSeccionSeleccionada] = useState(null);
     const [headerMenu, setHeaderMenu] = useState([]);
+
+    useEffect(() => {
+        getAnuncios()
+    }, [])
 
     useEffect(() => {
         const datos = Object.keys(anuncios)

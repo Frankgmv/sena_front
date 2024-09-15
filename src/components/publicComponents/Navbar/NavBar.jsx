@@ -9,13 +9,18 @@ import { useDataGeneralContext } from '../../../context/publicContexts/DataGener
 
 const NavBar = () => {
 
-    const { navbar } = useDataGeneralContext()
+    const { navbar, getSeccionesYCategorias, getBlogs} = useDataGeneralContext()
     const [open, setOpen] = useState(false);
     const [keyss, setKeyss] = useState([]);
 
     const toggleDrawer = (newOpen) => () => setOpen(newOpen)
     const isSmallScreen = useMediaQuery('(max-width: 820px)');
 
+    useEffect(() => {
+        getSeccionesYCategorias()
+        getBlogs()
+    }, []);
+    
     useEffect(() => {
         const dato = Object.keys(navbar)
         setKeyss(dato)

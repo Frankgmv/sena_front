@@ -25,7 +25,7 @@ function App() {
       <NextUIProvider>
         <PqrsProvider>
           {/* Contextos habilitados para administración. */}
-          <CredentialProvider>
+          {/* <CredentialProvider>
             <UserProvider>
               <DataProvider>
                 <SeccionProvider>
@@ -55,7 +55,7 @@ function App() {
                 </SeccionProvider>
               </DataProvider>
             </UserProvider>
-          </CredentialProvider>
+          </CredentialProvider> */}
           {/* Contextos habilitados para páginas publicas */}
           <PublicRoutes />
         </PqrsProvider>

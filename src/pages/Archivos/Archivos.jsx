@@ -7,9 +7,16 @@ import { useMediaQuery } from '@mui/material';
 import { FiEye } from 'react-icons/fi';
 import Footer from '../../components/publicComponents/Footer/Footer';
 import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
+import { useEffect } from 'react';
 
 const Archivos = () => {
-    const { archivos: data, links, secciones, categorias } = useDataGeneralContext()
+    const { archivos: data, links, secciones, categorias, getSeccionesYCategorias, getLinks, getArchivos} = useDataGeneralContext()
+    useEffect(()=>{
+        getSeccionesYCategorias()
+        getArchivos()
+        getLinks()
+    }, [])
+    
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     return (
         <>

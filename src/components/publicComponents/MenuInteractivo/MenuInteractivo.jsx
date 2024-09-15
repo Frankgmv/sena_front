@@ -14,9 +14,14 @@ import pqrs from '../../../assets/img/pqrs.png'
 import pdf from '../../../assets/img/pdf.png'
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
+import { useEffect } from 'react'
 
 const MenuInteractivo = () => {
-    const {items: data} = useDataGeneralContext()
+    const {items: data, getItems} = useDataGeneralContext()
+
+    useEffect(()=>{
+        getItems()
+    }, [])
 
     return (
         <div className='menuBody'>

@@ -5,10 +5,15 @@ import Boton2 from "../botones/boton2/Boton2.jsx";
 import { formateFecha } from "../../../assets/includes/funciones.js";
 import { MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
 import { useDataGeneralContext } from "../../../context/publicContexts/DataGeneralContext.jsx";
+import { useEffect } from 'react';
 
 const Noticias = () => {
 
-    const {noticias: data} = useDataGeneralContext()
+    const {noticias: data, getNoticias} = useDataGeneralContext()
+    
+    useEffect(()=>{
+        getNoticias()
+    }, [])
 
     const ultimasNoticias = data
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

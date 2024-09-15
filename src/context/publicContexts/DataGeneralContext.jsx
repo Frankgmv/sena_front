@@ -17,7 +17,18 @@ const DataGeneralContext = createContext({
     eventoData: [],
     slider: [],
     gallery: [],
-    getAllGaleria: () => { }
+    getAllGaleria: () => { },
+    fetchEvents: () => { },
+    getDefaultData: () => { },
+    getSlider: () => { },
+    getVideos: () => { },
+    getItems: () => { },
+    getNoticias: () => { },
+    getArchivos: () => { },
+    getLinks: () => { },
+    getSeccionesYCategorias: () => { },
+    getBlogs: () => { },
+    getAnuncios: () => { }
 });
 
 export const useDataGeneralContext = () => {
@@ -49,20 +60,6 @@ export const DataGeneralProvider = ({ children }) => {
     const [categorias, setCategorias] = useState([]);
 
     useEffect(() => {
-        fetchEvents()
-        getDefaultData()
-        getSlider()
-        getVideos()
-        getItems()
-        getNoticias()
-        getArchivos()
-        getLinks()
-        getSeccionesYCategorias()
-        getBlogs()
-        getAnuncios()
-    }, []);
-
-    useEffect(() => {
         if (categorias.length > 1) {
             trasformaDataBlogs()
         }
@@ -92,14 +89,14 @@ export const DataGeneralProvider = ({ children }) => {
     };
     const trasformaDataAnuncios = () => {
         const seccionesTransform = secciones.filter(seccion => !(seccion.seccionKey == "S_PLAT_ACADEMICAS" || seccion.seccionKey == "ARCHIVO_PDF"))
-        .reduce((save, item) => {
-            let findAnuncios = anunciosData.filter(anuncio => anuncio.SeccionId === item.id)
-            if (!save[`${item.seccion}`]) {
-                save[`${item.seccion}`] = findAnuncios
-            }
+            .reduce((save, item) => {
+                let findAnuncios = anunciosData.filter(anuncio => anuncio.SeccionId === item.id)
+                if (!save[`${item.seccion}`]) {
+                    save[`${item.seccion}`] = findAnuncios
+                }
 
-            return save
-        }, {})
+                return save
+            }, {})
         setAnuncios(seccionesTransform)
     };
 
@@ -260,7 +257,18 @@ export const DataGeneralProvider = ({ children }) => {
         links,
         secciones,
         categorias,
-        anuncios
+        anuncios,
+        fetchEvents,
+        getDefaultData,
+        getSlider,
+        getVideos,
+        getItems,
+        getNoticias,
+        getArchivos,
+        getLinks,
+        getSeccionesYCategorias,
+        getBlogs,
+        getAnuncios
     }
 
     return (
