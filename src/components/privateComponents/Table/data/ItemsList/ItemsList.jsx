@@ -21,21 +21,20 @@ function ItemList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
-    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem } = useItemContext()
-    const { usuarios } = useUserContext()
+    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem} = useItemContext()
+    const { usuarios, getUsers} = useUserContext()
 
+    
     const [estado, setEstado] = useState(true)
-
     const [estadoUpt, setEstadoUpt] = useState(false)
     const [linkUpt, setLinkUpt] = useState('')
     const [tituloUpt, setTituloUpt] = useState('')
-
     const [estadoView, setEstadoView] = useState(false)
     const [linkView, setLinkView] = useState('')
     const [tituloView, setTituloView] = useState('')
     const [imagenView, setImagenView] = useState('')
-
     const [openView, setOpenView] = useState(false);
+
     const handleOpenView = () => setOpenView(true);
     const handleCloseView = () => setOpenView(false);
 
@@ -51,6 +50,11 @@ function ItemList() {
             setImagenView(dt.imgPath)
         }
     }
+
+    useEffect(()=>{
+        getUsers()
+        getItems()
+    }, [])
 
     useEffect(() => {
         if (openView) {

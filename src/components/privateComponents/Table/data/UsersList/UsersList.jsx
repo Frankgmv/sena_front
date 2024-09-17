@@ -24,7 +24,7 @@ import jsPDF from 'jspdf';
 
 function UserList() {
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
-    const { roles } = useCredentialContext()
+    const { roles, getRoles } = useCredentialContext()
     const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -51,6 +51,11 @@ function UserList() {
 
     const [passwordUpt, setPasswordUpt] = useState('')
     const [passwordValidUpt, setPasswordValidUpt] = useState('')
+
+    useEffect(() => {
+        getUsers()
+        getRoles()
+    }, [])
 
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
@@ -207,7 +212,7 @@ function UserList() {
                             />
                         </Button>
                     </Tooltip>
-                    
+
                 </div>
             ),
         },
@@ -417,18 +422,18 @@ function UserList() {
                     </Button>
                     <BotonExcel data={usuarios} />
                     <Button
-                    variant='contained'
-                    color="success"
-                    className="receipt-modal-download-button"
-                    onClick={downloadPDF}
-                    disabled={!(loader === false)}
-                >
-                    {loader ? (
-                        <span>Downloading</span>
-                    ) : (
-                        <span>Descargar PDF</span>
-                    )}
-                </Button>
+                        variant='contained'
+                        color="success"
+                        className="receipt-modal-download-button"
+                        onClick={downloadPDF}
+                        disabled={!(loader === false)}
+                    >
+                        {loader ? (
+                            <span>Downloading</span>
+                        ) : (
+                            <span>Descargar PDF</span>
+                        )}
+                    </Button>
                 </Grid>
                 <DataGrid
                     rows={usuarios.map((user) => {
@@ -530,7 +535,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style} style={{overflow: 'auto'}}
+                    <Box sx={style} style={{ overflow: 'auto' }}
                         component="form"
                         id="crearUsuario"
                         noValidate
@@ -676,7 +681,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style} style={{overflow: 'auto'}}
+                    <Box sx={style} style={{ overflow: 'auto' }}
                         component="form"
                         id="editarUsuario"
                         noValidate
@@ -778,15 +783,15 @@ function UserList() {
                                 )}
                             </Grid>
                             <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: '#fff' }}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: '#fff' }}
+                                    fullWidth
+                                    type="submit"
+                                >
+                                    Actualizar
+                                </Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
@@ -805,7 +810,7 @@ function UserList() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style} style={{overflow: 'auto'}}
+                    <Box sx={style} style={{ overflow: 'auto' }}
                         component="form"
                         id="editarUsuario"
                         noValidate
@@ -821,10 +826,10 @@ function UserList() {
                             ))}
                         </Grid>
                         <Grid item xs={12}>
-                                <Button variant="contained" color="error" onClick={handleClosePermit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
-                                    Cerrar
-                                </Button>
-                            </Grid>
+                            <Button variant="contained" color="error" onClick={handleClosePermit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>
+                                Cerrar
+                            </Button>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>

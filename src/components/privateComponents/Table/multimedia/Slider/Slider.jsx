@@ -20,7 +20,12 @@ function Slider() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { slider, responseMessageData, errorsData, postSlider, deleteSlider, getSlider, getSliderOne } = useSliderContext()
-    const { galeria } = useGaleriaContext()
+    const { galeria, getGalerias } = useGaleriaContext()
+
+    useEffect(() => {
+        getGalerias()
+        getSlider()
+    }, [])
 
     const [imagenId, setImagenId] = useState('')
 
@@ -382,13 +387,13 @@ function Slider() {
                     >
                         <h2 style={{ textAlign: 'center' }}>{tituloView}</h2>
                         <Grid container style={{ maxWidth: isSmallScreen ? '100%' : '600px', height: isSmallScreen ? '100%' : '460px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)' , marginLeft: isSmallScreen ? 10 : 66}} alt={imagenView} />
+                            <img src={MOSTRAR_ARCHIVO(imagenView)} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '2px solid var(--black)', marginLeft: isSmallScreen ? 10 : 66 }} alt={imagenView} />
                         </Grid>
                         <Grid item xs={12}>
-                                <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
-                                    Cerrar
-                                </Button>
-                            </Grid>
+                            <Button variant="contained" color="error" onClick={handleCloseView} style={{ marginTop: '20px', color: 'white' }} fullWidth>
+                                Cerrar
+                            </Button>
+                        </Grid>
                     </Box>
                 </Modal>
             </div>

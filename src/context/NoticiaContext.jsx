@@ -30,10 +30,6 @@ export const NoticiaProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getNoticias()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

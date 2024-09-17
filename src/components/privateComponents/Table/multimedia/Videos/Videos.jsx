@@ -22,8 +22,8 @@ function Videos() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
-    const { videos, responseMessageData, errorsData, putVideo, getVideo, postVideo, deleteVideo } = useVideoContext()
-    const { usuarios } = useUserContext()
+    const { videos, responseMessageData, errorsData, putVideo, getVideo, postVideo, deleteVideo, getVideos } = useVideoContext()
+    const { usuarios, getUsers} = useUserContext()
 
     const [titulo, setTitulo] = useState('')
     const [link, setLink] = useState('')
@@ -51,6 +51,11 @@ function Videos() {
             setImagenView(dt.imgPath)
         }
     }
+
+    useEffect(() => {
+        getUsers()
+        getVideos()
+    }, [])
 
     useEffect(() => {
         if (openView) {

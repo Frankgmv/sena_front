@@ -3,7 +3,6 @@ import AdminDashboard from "../pages/AdminDashboard/AdminDashboard"
 import Register from "../pages/Register/Register"
 import Login from "../pages/login/Login"
 
-
 const AdminRoutes = () => {
   return (
     <>

@@ -30,10 +30,6 @@ export const TokensProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getTokens()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

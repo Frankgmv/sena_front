@@ -11,7 +11,6 @@ export const useGeneralContext = () => {
     if (!context) {
         throw new Error("Error en el General Context");
     }
-
     return context;
 }
 
@@ -37,12 +36,6 @@ export const GeneralProvider = ({ children }) => {
         return () => clearTimeout(timer);
     }, [errors])
 
-    useEffect(() => {
-        getPerfil()
-        getSecciones()
-        getCategorias()
-        getHistorial()
-    }, [])
     useEffect(() => {
         if (permisos.length != 0 && detallePermiso.length != 0) {
             const transformResponse = permisos.map(permiso => {
@@ -208,7 +201,7 @@ export const GeneralProvider = ({ children }) => {
             setCredencialesEmail(data.data)
         } catch (error) {
             if (error.response.data.message) {
-                if (!errors.includes(error.response.data.message)) {
+                if (!errors.includes(error?.response?.data?.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -423,7 +416,7 @@ export const GeneralProvider = ({ children }) => {
         responseMessage,
         getRol,
         putRol,
-        deleteAllHistorial,
+            deleteAllHistorial,
         getSecciones,
         secciones,
         getCategorias,

@@ -13,21 +13,21 @@ import { perfilRequest } from '../../../api/auth';
 import { useCredentialContext } from '../../../context/AuthContext';
 
 export default function Sidebar() {
+    const { getSeccionesMenu } = useGeneralContext()
+    const { logoutFn } = useCredentialContext()
+
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
-    const { logoutFn } = useCredentialContext()
     const navegar = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
-    };
+    }
 
     const cerrarSesion = () => {
         logoutFn()
         navegar('/login')
     }
-
-    const { getSeccionesMenu } = useGeneralContext()
 
     const getPerfil = async () => {
         const response = await perfilRequest()

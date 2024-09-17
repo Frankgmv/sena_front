@@ -31,9 +31,9 @@ import CredencialesEmail from "../../components/privateComponents/Table/data/Cre
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { perfil } = useGeneralContext();
+  const { perfil, getPerfil} = useGeneralContext();
   const open = Boolean(anchorEl);
-  const { logoutFn, rolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
+  const { logoutFn, rolName,getRolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
   const navegar = useNavigate()
 
   useEffect(() => {
@@ -65,6 +65,9 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
+    getRolName()
+    getPerfil()
+    
     if (!getLocalStorage('token')) {
       navegar('/login')
     } else if (!isAuthenticate) {

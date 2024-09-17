@@ -8,7 +8,9 @@ const CredentialContext = createContext({
     isAuthenticate: null,
     login: () => { },
     logoutFn: () => { },
-    verificarToken: () => { }
+    verificarToken: () => { },
+    getRoles: () => { },
+    getRolName: () => { }
 });
 
 export const useCredentialContext = () => {
@@ -16,10 +18,8 @@ export const useCredentialContext = () => {
     if (!context) {
         throw new Error("Error en el credential context");
     }
-
     return context;
 }
-
 
 // eslint-disable-next-line react/prop-types
 export const CredentialProvider = ({ children }) => {
@@ -30,16 +30,12 @@ export const CredentialProvider = ({ children }) => {
     const [roles, setRoles] = useState([]);
     const [token, setToken] = useState('');
 
-    useEffect(() => {
-        getRoles();
-        getRolName();
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (errors.length != 0) {
                 setErrors([]);
-            }
+                }
         }, 3000);
         return () => clearTimeout(timer);
     }, [errors])
@@ -261,7 +257,8 @@ export const CredentialProvider = ({ children }) => {
         logoutFn,
         getRoles,
         rolName,
-        verifyAuth
+        verifyAuth,
+        getRolName
     }
 
     return (

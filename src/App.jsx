@@ -11,7 +11,6 @@ import { LinkProvider } from './context/LinkContext';
 import { NoticiaProvider } from './context/NoticiaContext';
 import { NotificacionesProvider } from './context/NotificacionesContext';
 import { PqrsProvider } from './context/PqrsContext';
-import { SeccionProvider } from './context/SeccionContext';
 import { SliderProvider } from './context/SliderContext';
 import { TokensProvider } from './context/TokenContext';
 import { UserProvider } from './context/UserContext';
@@ -25,10 +24,9 @@ function App() {
       <NextUIProvider>
         <PqrsProvider>
           {/* Contextos habilitados para administración. */}
-          {/* <CredentialProvider>
+          <CredentialProvider>
             <UserProvider>
               <DataProvider>
-                <SeccionProvider>
                   <GeneralProvider>
                     <EventProvider>
                       <ItemProvider>
@@ -52,11 +50,9 @@ function App() {
                       </ItemProvider>
                     </EventProvider>
                   </GeneralProvider>
-                </SeccionProvider>
               </DataProvider>
             </UserProvider>
-          </CredentialProvider> */}
-          {/* Contextos habilitados para páginas publicas */}
+          </CredentialProvider>
           <PublicRoutes />
         </PqrsProvider>
       </NextUIProvider>

@@ -11,7 +11,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 const Register = () => {
-    const { roles, setErrors, errors, responseMessage, register } = useCredentialContext();
+    const { roles, getRoles, setErrors, errors, responseMessage, register } = useCredentialContext();
     const [dataRegister, setDataRegister] = useState({});
     const navigate = useNavigate();
 
@@ -33,6 +33,9 @@ const Register = () => {
         }
     }, [errors]);
 
+    useEffect(()=>{
+        getRoles()
+    }, [])
 
     useEffect(() => {
         if (responseMessage.length != 0) {

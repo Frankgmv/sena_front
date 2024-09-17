@@ -29,10 +29,6 @@ export const VideoProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getVideos()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

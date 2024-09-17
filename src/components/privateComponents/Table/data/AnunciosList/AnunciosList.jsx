@@ -25,9 +25,15 @@ import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExc
 
 function AnunciosList() {
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
-    const { secciones } = useGeneralContext()
-    const { usuarios } = useUserContext()
-    const { roles } = useCredentialContext()
+    const { secciones, getSecciones } = useGeneralContext()
+    const { usuarios, getUsers } = useUserContext()
+    const { roles, getRoles } = useCredentialContext()
+
+    useEffect(()=>{
+        getSecciones()
+        getRoles()
+        getUsers()
+    })
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
@@ -58,6 +64,14 @@ function AnunciosList() {
         const formularioData = new FormData(e.currentTarget);
         postAnuncio(formularioData)
     }
+    const resetFormUpt = () => {
+        setTituloUpt('');
+        setDescripcionUpt('');
+        setImgPathUpt('');
+        setUsuarioIdUpt('');
+        setSeccionIdUpt('');
+    }
+
     const resetForm = () => {
         setId('');
         setTitulo('');
@@ -103,7 +117,10 @@ function AnunciosList() {
 
     const [openView, setOpenView] = useState(false);
     const handleOpenView = () => setOpenView(true);
-    const handleCloseView = () => setOpenView(false);
+    const handleCloseView = () => {
+        setOpenView(false)
+        resetFormUpt()
+    };
 
     const getViewAnuncio = async () => {
         let id = getLocalStorage('verAnuncioId')
@@ -241,10 +258,6 @@ function AnunciosList() {
         }
     ];
 
-    useEffect(() => {
-        getAnuncios();
-    }, []);
-
     const [openEdit, setOpenEdit] = useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
@@ -319,12 +332,6 @@ function AnunciosList() {
         }
     }
 
-    useEffect(() => {
-        if (openEdit) {
-            buscarAnuncio()
-        }
-    }, [openEdit])
-
     const [loader, setLoader] = useState(false);
 
     const downloadPDF = () => {
@@ -340,6 +347,18 @@ function AnunciosList() {
             doc.save('data.pdf');
         })
     }
+
+    useEffect(() => {
+        if (openEdit) {
+            buscarAnuncio()
+        }
+    }, [openEdit])
+
+    useEffect(() => {
+        getAnuncios();
+    }, []);
+
+    
 
     return (
         <>

@@ -21,10 +21,10 @@ import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria } = useGaleriaContext()
+    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias } = useGaleriaContext()
 
-    const { usuarios } = useUserContext()
-    const { eventos } = useEventContext()
+    const { usuarios, getUsers } = useUserContext()
+    const { eventos, getEventos } = useEventContext()
 
     const [evento, setEvento] = useState('')
     const [titulo, setTitulo] = useState('')
@@ -37,6 +37,12 @@ function Galeria() {
     const [eventoView, setEventoView] = useState('')
     const [tituloView, setTituloView] = useState('')
     const [imagenView, setImagenView] = useState('')
+
+    useEffect(()=>{
+        getUsers()
+        getEventos()
+        getGalerias()
+    }, [])
 
     useEffect(() => {
         if (errorsData.length != 0) {
