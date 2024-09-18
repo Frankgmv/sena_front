@@ -23,7 +23,6 @@ function App() {
     <>
       <NextUIProvider>
         <PqrsProvider>
-          {/* Contextos habilitados para administración. */}
           <CredentialProvider>
             <UserProvider>
               <DataProvider>

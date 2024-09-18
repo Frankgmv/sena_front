@@ -18,7 +18,7 @@ const Login = () => {
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
-    };
+    }
 
     useEffect(() => {
         if (errors.length != 0) {

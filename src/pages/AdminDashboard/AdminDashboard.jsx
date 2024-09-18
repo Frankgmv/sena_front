@@ -1,39 +1,42 @@
-import { Routes, Route, Outlet, Navigate, Link, useNavigate, NavLink } from "react-router-dom";
-import Sidebar from "../../components/privateComponents/SidebarAdmin/SidebarAdmin";
 import "./AdminDashboard.css";
-import { IoIosArrowDown } from "react-icons/io";
+import { Grid } from "@mui/material";
 import Menu from "@mui/material/Menu";
-import { useEffect, useState } from "react";
-import UserList from "../../components/privateComponents/Table/data/UsersList/UsersList";
-import RolList from "../../components/privateComponents/Table/data/RolList/RolList";
-import AnunciosList from "../../components/privateComponents/Table/data/AnunciosList/AnunciosList";
-import EventoList from "../../components/privateComponents/Table/data/EventoList/EventoList";
-import SeccionList from "../../components/privateComponents/Table/data/SeccionList/SeccionList";
-import ItemList from "../../components/privateComponents/Table/data/ItemsList/ItemsList";
-import Token from "../../components/privateComponents/Table/data/Token/Token";
-import Categoria from "../../components/privateComponents/Table/data/Categoria/Categoria";
-import Noticias from "../../components/privateComponents/Table/data/Noticias/Noticias";
-import Links from "../../components/privateComponents/Table/data/Links/Links";
-import Archivos from "../../components/privateComponents/Table/multimedia/Archivos/Archivos";
-import Galeria from "../../components/privateComponents/Table/multimedia/Galeria/Galeria";
-import Videos from "../../components/privateComponents/Table/multimedia/Videos/Videos";
-import Slider from "../../components/privateComponents/Table/multimedia/Slider/Slider";
-import Pqrs from "../../components/privateComponents/Table/informacion/Pqrs/Pqrs";
-import Historial from "../../components/privateComponents/Table/informacion/Historial/Historial";
-import Notificacion from "../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones";
+import { IoIosArrowDown } from "react-icons/io";
+import toastr from "../../assets/includes/Toastr";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useGeneralContext } from "../../context/GeneralContext";
 import { useCredentialContext } from "../../context/AuthContext";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
 import { getLocalStorage } from "../../assets/includes/localStorage";
-import toastr from "../../assets/includes/Toastr";
-import Perfil from "../../components/privateComponents/Table/data/Perfil/Perfil";
-import { Grid } from "@mui/material";
-import CredencialesEmail from "../../components/privateComponents/Table/data/Credenciales/CredencialesEmail";
+import { Routes, Route, Outlet, Link, useNavigate, NavLink } from "react-router-dom";
+
+const Links = lazy(()=> import("../../components/privateComponents/Table/data/Links/Links"))
+const Token = lazy(()=> import("../../components/privateComponents/Table/data/Token/Token"))
+const Perfil = lazy(()=> import("../../components/privateComponents/Table/data/Perfil/Perfil"))
+const Pqrs = lazy(()=> import("../../components/privateComponents/Table/informacion/Pqrs/Pqrs"))
+const Sidebar = lazy(()=> import("../../components/privateComponents/SidebarAdmin/SidebarAdmin"))
+const RolList = lazy(()=> import("../../components/privateComponents/Table/data/RolList/RolList"))
+const Noticias = lazy(()=> import("../../components/privateComponents/Table/data/Noticias/Noticias"))
+const Videos = lazy(()=> import("../../components/privateComponents/Table/multimedia/Videos/Videos"))
+const Slider = lazy(()=> import("../../components/privateComponents/Table/multimedia/Slider/Slider"))
+const UserList = lazy(()=> import("../../components/privateComponents/Table/data/UsersList/UsersList"))
+const ItemList = lazy(()=> import("../../components/privateComponents/Table/data/ItemsList/ItemsList"))
+const Categoria = lazy(()=> import("../../components/privateComponents/Table/data/Categoria/Categoria"))
+const Galeria = lazy(()=> import("../../components/privateComponents/Table/multimedia/Galeria/Galeria"))
+const EventoList = lazy(()=> import("../../components/privateComponents/Table/data/EventoList/EventoList"))
+const Archivos = lazy(()=> import("../../components/privateComponents/Table/multimedia/Archivos/Archivos"))
+const SeccionList = lazy(()=> import("../../components/privateComponents/Table/data/SeccionList/SeccionList"))
+const Historial = lazy(()=> import("../../components/privateComponents/Table/informacion/Historial/Historial"))
+const AnunciosList = lazy(()=> import("../../components/privateComponents/Table/data/AnunciosList/AnunciosList"))
+const Notificacion = lazy(()=> import("../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones"))
+const CredencialesEmail = lazy(()=> import("../../components/privateComponents/Table/data/Credenciales/CredencialesEmail"))
+
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { perfil, getPerfil} = useGeneralContext();
+  const { perfil, getPerfil } = useGeneralContext();
   const open = Boolean(anchorEl);
-  const { logoutFn, rolName,getRolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
+  const { logoutFn, rolName, getRolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
   const navegar = useNavigate()
 
   useEffect(() => {
@@ -67,7 +70,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     getRolName()
     getPerfil()
-    
+
     if (!getLocalStorage('token')) {
       navegar('/login')
     } else if (!isAuthenticate) {
@@ -81,111 +84,113 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="adminBody">
-      <div className="Navbar-Body">
-        <nav>
-          <div className="encabezado">
-            <Sidebar />
-            <h3>Centenario Pereira</h3>
-          </div>
-          <div className="info">
-            <div className="text">
-              <h4 className="user">
-                {perfil.nombre ? `${perfil.nombre} ${perfil.apellido}` : ""}
-              </h4>
-              <p className="rol">{rolName.rol}</p>
+    <Suspense fallback={<LoadingScreen />}>
+      <div className="adminBody">
+        <div className="Navbar-Body">
+          <nav>
+            <div className="encabezado">
+              <Sidebar />
+              <h3>Centenario Pereira</h3>
             </div>
-            <div className="icon">
-              <IoIosArrowDown
-                id="demo-positioned-button"
-                aria-controls={open ? "demo-positioned-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
+            <div className="info">
+              <div className="text">
+                <h4 className="user">
+                  {perfil.nombre ? `${perfil.nombre} ${perfil.apellido}` : ""}
+                </h4>
+                <p className="rol">{rolName.rol}</p>
+              </div>
+              <div className="icon">
+                <IoIosArrowDown
+                  id="demo-positioned-button"
+                  aria-controls={open ? "demo-positioned-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                />
+                <Grid container spacing={2} sx={{ width: '100%' }}>
+                  <Menu
+                    className="bodyMenuNavbar"
+                    id="demo-positioned-menu"
+                    aria-labelledby="demo-positioned-button"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <Grid item xs={12}>
+                      <NavLink
+                        className="link-sidebar"
+                        onClick={handleClose}
+                        to="./"
+                      >
+                        Perfil
+                      </NavLink>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <NavLink
+                        className="link-sidebar"
+                        onClick={handleClose}
+                        to="/"
+                      >
+                        Página principal
+                      </NavLink>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Link className="link-sidebar" onClick={(e) => {
+                        handleClose();
+                        cerrarSesion();
+                      }} to="/login">
+                        Cerrar Sesion
+                      </Link>
+                    </Grid>
+                  </Menu>
+                </Grid>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div className="contenido">
+          <div className="adminContent">
+            <Routes>
+              {/* // ! Data */}
+              <Route path="/" element={<Perfil />} />
+              <Route path="/usuarios" element={<UserList />} />
+              <Route path="/rol-list" element={<RolList />} />
+              <Route path="/seccion-list" element={<SeccionList />} />
+              <Route path="/categorias" element={<Categoria />} />
+              <Route path="/eventos-list" element={<EventoList />} />
+              <Route path="/anuncios-list" element={<AnunciosList />} />
+              <Route path="/item-list" element={<ItemList />} />
+              <Route path="/noticias" element={<Noticias />} />
+              <Route path="/link" element={<Links />} />
+              <Route path="/token" element={<Token />} />
+              {/* // ! Multimedia */}
+              <Route path="/archivos" element={<Archivos />} />
+              <Route path="/galeria" element={<Galeria />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/slider" element={<Slider />} />
+              {/* // ! Informacion */}
+              <Route path="/pqrs" element={<Pqrs />} />
+              <Route path="/notificacion" element={<Notificacion />} />
+              <Route path="/historial" element={<Historial />} />
+              <Route path="*" element={<Perfil />} />
+              {/* // ! Adicionales */}
+              <Route
+                path="/nodemailer" element={<CredencialesEmail />}
               />
-              <Grid container spacing={2} sx={{ width: '100%' }}>
-                <Menu
-                  className="bodyMenuNavbar"
-                  id="demo-positioned-menu"
-                  aria-labelledby="demo-positioned-button"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                >
-                  <Grid item xs={12}>
-                    <NavLink
-                      className="link-sidebar"
-                      onClick={handleClose}
-                      to="./"
-                    >
-                      Perfil
-                    </NavLink>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <NavLink
-                      className="link-sidebar"
-                      onClick={handleClose}
-                      to="/"
-                    >
-                      Página principal
-                    </NavLink>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className="link-sidebar" onClick={(e) => {
-                      handleClose();
-                      cerrarSesion();
-                    }} to="/login">
-                      Cerrar Sesion
-                    </Link>
-                  </Grid>
-                </Menu>
-              </Grid>
-            </div>
+            </Routes>
+            <Outlet />
           </div>
-        </nav>
-      </div>
-      <div className="contenido">
-        <div className="adminContent">
-          <Routes>
-            {/* // ! Data */}
-            <Route path="/" element={<Perfil />} />
-            <Route path="/usuarios" element={<UserList />} />
-            <Route path="/rol-list" element={<RolList />} />
-            <Route path="/seccion-list" element={<SeccionList />} />
-            <Route path="/categorias" element={<Categoria />} />
-            <Route path="/eventos-list" element={<EventoList />} />
-            <Route path="/anuncios-list" element={<AnunciosList />} />
-            <Route path="/item-list" element={<ItemList />} />
-            <Route path="/noticias" element={<Noticias />} />
-            <Route path="/link" element={<Links />} />
-            <Route path="/token" element={<Token />} />
-            {/* // ! Multimedia */}
-            <Route path="/archivos" element={<Archivos />} />
-            <Route path="/galeria" element={<Galeria />} />
-            <Route path="/videos" element={<Videos />} />
-            <Route path="/slider" element={<Slider />} />
-            {/* // ! Informacion */}
-            <Route path="/pqrs" element={<Pqrs />} />
-            <Route path="/notificacion" element={<Notificacion />} />
-            <Route path="/historial" element={<Historial />} />
-            <Route path="*" element={<Perfil />} />
-            {/* // ! Adicionales */}
-            <Route
-              path="/nodemailer" element={<CredencialesEmail />}
-            />
-          </Routes>
-          <Outlet />
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 
