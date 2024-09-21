@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import "./Anuncios.css"
 import f1 from '../../assets/img/default.jpeg'
-import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { encontrarSeccionConMasElementos } from "../../assets/includes/funciones";
-import Footer from '../../components/publicComponents/Footer/Footer'
-import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
+
+const NavBar = lazy(() => import("../../components/publicComponents/Navbar/NavBar.jsx"))
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
+const MenuInteractivo = lazy(() => import("../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx"))
 
 export default function Anuncios() {
-    const { anuncios, getAnuncios} = useDataGeneralContext();
+    const { anuncios, getAnuncios } = useDataGeneralContext();
 
     const [seccionSeleccionada, setSeccionSeleccionada] = useState(null);
     const [headerMenu, setHeaderMenu] = useState([]);
@@ -33,7 +34,7 @@ export default function Anuncios() {
                         <div
                             className={`seccion-item ${key === seccionSeleccionada ? "selected" : ""}`}
                             key={i}
-                            style={{color: (key === seccionSeleccionada) ? 'black': null}}
+                            style={{ color: (key === seccionSeleccionada) ? 'black' : null }}
                             onClick={() => setSeccionSeleccionada(key)}
                         >
                             {key} <b><small>({anuncios[key].length})</small></b>

@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import './NewsPage.css'
 import { Modal } from "@mui/material";
 import { formateFecha } from "../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import f1 from '../../assets/img/f1.jpg'
-import NavBar from "../../components/publicComponents/Navbar/NavBar";
-import Footer from "../../components/publicComponents/Footer/Footer";
-import MenuInteractivo from "../../components/publicComponents/MenuInteractivo/MenuInteractivo";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+const NavBar = lazy(() => import("../../components/publicComponents/Navbar/NavBar.jsx"))
+const Footer = lazy(() => import("../../components/publicComponents/Footer/Footer.jsx"))
+const MenuInteractivo = lazy(() => import("../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx"))
 
 const NewsPage = () => {
-    const { noticias: data, getNoticias} = useDataGeneralContext()
-    useEffect(()=>{
+    const { noticias: data, getNoticias } = useDataGeneralContext()
+    useEffect(() => {
         getNoticias()
     }, [])
     const [selectedItem, setSelectedItem] = useState(null);
@@ -20,7 +21,7 @@ const NewsPage = () => {
     const handleClose = () => setSelectedItem(null)
 
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <NavBar />
             <div className="cardBody-news">
                 {data.map((item) => (
@@ -52,7 +53,7 @@ const NewsPage = () => {
             )}
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     );
 };
 

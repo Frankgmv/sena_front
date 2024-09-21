@@ -1,25 +1,27 @@
-import NavBar from '../../components/publicComponents/Navbar/NavBar'
 import './Archivos.css'
 import { MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
 import { Link } from 'react-router-dom';
 import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
 import { useMediaQuery } from '@mui/material';
 import { FiEye } from 'react-icons/fi';
-import Footer from '../../components/publicComponents/Footer/Footer';
-import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+import LoadingScreen from '../../components/Loading/LoadingScreen';
+
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
+const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBar.jsx'))
+const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
 
 const Archivos = () => {
-    const { archivos: data, links, secciones, categorias, getSeccionesYCategorias, getLinks, getArchivos} = useDataGeneralContext()
-    useEffect(()=>{
+    const { archivos: data, links, secciones, categorias, getSeccionesYCategorias, getLinks, getArchivos } = useDataGeneralContext()
+    useEffect(() => {
         getSeccionesYCategorias()
         getArchivos()
         getLinks()
     }, [])
-    
+
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <NavBar />
             <div className='linkArchivos'>
                 <h2>Archivos Institucionales</h2>
@@ -54,7 +56,7 @@ const Archivos = () => {
                                 return (
                                     <div className='link' key={item.id}>
                                         <h2>{item.titulo}</h2>
-                                        {item.descripcion && <p style={{width: '90%'}}><small style={{ fontSize: '12px', color: 'black' }}>{item.createdAt}</small> <br />{item.descripcion} </p>}
+                                        {item.descripcion && <p style={{ width: '90%' }}><small style={{ fontSize: '12px', color: 'black' }}>{item.createdAt}</small> <br />{item.descripcion} </p>}
                                         <Link className="button" target='_blank' to={item.link}>
                                             <span className="button__text">Ver archivo</span>
                                             <span hidden={isSmallScreen} className="button__icon">
@@ -85,7 +87,7 @@ const Archivos = () => {
             </div >
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     )
 }
 

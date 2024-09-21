@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import NavBar from '../../components/publicComponents/Navbar/NavBar';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import './Magazine.css';
 import { MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
 import moment from 'moment/moment';
-import Footer from '../../components/publicComponents/Footer/Footer';
-import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
 import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
 import { Link } from 'react-router-dom';
 import LoadingScreen from '../../components/Loading/LoadingScreen';
+
+const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBar.jsx'))
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
+const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
 
 const Magazine = () => {
     const { archivos: data, getArchivos } = useDataGeneralContext()
@@ -22,7 +23,7 @@ const Magazine = () => {
     }, [])
 
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <div>
                 <NavBar />
                 <div className='link' style={{ display: 'flex', justifyContent: 'center' }}>
@@ -42,7 +43,7 @@ const Magazine = () => {
             </div>
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     );
 };
 

@@ -4,7 +4,7 @@ import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 import { lazy, Suspense } from "react"
 import LoadingScreen from "../components/Loading/LoadingScreen.jsx"
-
+import ButtonUp from "../components/publicComponents/botones/buttonUp/ButtonUp"
 // ! Rutas a los componentes
 
 const HomePage = lazy(() => import("../pages/HomePage/HomePage.jsx"))
@@ -16,7 +16,6 @@ const Recuperacion = lazy(() => import("../pages/Recuperacion/Recuperacion.jsx")
 const Archivos = lazy(() => import("../pages/Archivos/Archivos.jsx"))
 const Magazine = lazy(() => import("../pages/Magazine/Magazine.jsx"))
 const Anuncios = lazy(() => import("../pages/Anuncios/Anuncios.jsx"))
-const ButtonUp = lazy(() => import("../components/publicComponents/botones/buttonUp/ButtonUp.jsx"))
 
 const PublicRoutes = () => {
 

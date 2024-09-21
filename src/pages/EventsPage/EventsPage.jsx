@@ -1,25 +1,26 @@
 import './EventsPage.css'
 import f1 from '../../assets/img/f1.jpg'
-import NavBar from "../../components/publicComponents/Navbar/NavBar";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
-import Footer from '../../components/publicComponents/Footer/Footer';
-import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
-import { useEffect } from 'react';
+import LoadingScreen from '../../components/Loading/LoadingScreen';
+import { lazy, Suspense, useEffect } from 'react';
+
+const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
+const NavBar = lazy(() => import("../../components/publicComponents/Navbar/NavBar.jsx"))
 
 const EventsPage = () => {
-    
 
-    const { gallery, events, getAllGaleria, fetchEvents} = useDataGeneralContext()
+    const { gallery, events, getAllGaleria, fetchEvents } = useDataGeneralContext()
 
     const handleEventChange = async (eventId) => getAllGaleria(eventId)
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchEvents()
-    },[])
-    
+    }, [])
+
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <NavBar />
             <div className="events-selector">
                 <select onChange={(e) => handleEventChange(e.target.value)}>
@@ -40,7 +41,7 @@ const EventsPage = () => {
             </div>
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     );
 };
 
