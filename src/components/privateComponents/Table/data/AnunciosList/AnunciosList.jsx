@@ -25,18 +25,12 @@ import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExc
 
 function AnunciosList() {
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
-    const { secciones, getSecciones } = useGeneralContext()
-    const { usuarios, getUsers } = useUserContext()
-    const { roles, getRoles } = useCredentialContext()
-
-    useEffect(()=>{
-        getSecciones()
-        getRoles()
-        getUsers()
-    })
+    const { secciones  } = useGeneralContext()
+    const { usuarios } = useUserContext()
+    const { roles } = useCredentialContext()
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-
+    
     //  !Logica guardar 
     const [id, setId] = useState('')
     const [titulo, setTitulo] = useState('')

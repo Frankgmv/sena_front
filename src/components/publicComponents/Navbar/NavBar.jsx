@@ -9,7 +9,7 @@ import { useDataGeneralContext } from '../../../context/publicContexts/DataGener
 
 const NavBar = () => {
 
-    const { navbar, getSeccionesYCategorias, getBlogs} = useDataGeneralContext()
+    const { navbar, getBlogs} = useDataGeneralContext()
     const [open, setOpen] = useState(false);
     const [keyss, setKeyss] = useState([]);
 
@@ -17,7 +17,6 @@ const NavBar = () => {
     const isSmallScreen = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
-        getSeccionesYCategorias()
         getBlogs()
     }, []);
     
@@ -173,7 +172,7 @@ const NavBar = () => {
                             <p>Menú</p>
 
                         ) : (
-                            <p>Bienvenido</p>
+                            <p>Más...</p>
                         )
                     }
                 </div>

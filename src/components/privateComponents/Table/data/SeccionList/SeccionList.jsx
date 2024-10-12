@@ -1,5 +1,5 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { Grid, useMediaQuery } from "@mui/material";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
@@ -10,11 +10,7 @@ import jsPDF from 'jspdf';
 
 function SeccionList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { secciones, getSecciones } = useGeneralContext()
-
-    useEffect(() => {
-        getSecciones()
-    }, [])
+    const { secciones } = useGeneralContext()
 
     const columns = [
         {

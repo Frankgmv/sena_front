@@ -10,11 +10,7 @@ import jsPDF from 'jspdf';
 function Categoria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const {categorias, getCategorias} = useGeneralContext()
-
-    useEffect(() => {
-        getCategorias()
-    }, [])
+    const {categorias} = useGeneralContext()
 
     const columns = [
         {

@@ -60,10 +60,14 @@ export const DataGeneralProvider = ({ children }) => {
     const [categorias, setCategorias] = useState([]);
 
     useEffect(() => {
+        getSeccionesYCategorias()
+    }, []);
+
+    useEffect(() => {
         if (categorias.length > 1) {
             trasformaDataBlogs()
         }
-    }, [blogs, categorias]);
+    }, [blogs]);
 
     useEffect(() => {
         if (secciones.length > 1) {
@@ -78,7 +82,7 @@ export const DataGeneralProvider = ({ children }) => {
                 return { ...link, SeccionId: findSeccion.seccionKey }
             }).filter(link => link.SeccionId === "S_PLAT_ACADEMICAS")
 
-            if (!save[`${item.categoria}`] && item.categoria != "ARCHIVO_PDF") {
+            if (!save[`${item.categoria}`] && item.categoriaKey != "ARCHIVO_PDF") {
                 save[`${item.categoria}`] = findLinks
             }
 

@@ -12,9 +12,8 @@ const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBa
 const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
 
 const Archivos = () => {
-    const { archivos: data, links, secciones, categorias, getSeccionesYCategorias, getLinks, getArchivos } = useDataGeneralContext()
+    const { archivos: data, links, secciones, categorias, getLinks, getArchivos } = useDataGeneralContext()
     useEffect(() => {
-        getSeccionesYCategorias()
         getArchivos()
         getLinks()
     }, [])

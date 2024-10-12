@@ -49,6 +49,10 @@ export const CredentialProvider = ({ children }) => {
         return () => { clearTimeout(timer) }
     }, [responseMessage])
 
+    useEffect(()=>{
+        getRoles()
+    }, [])
+
     const getRoles = async () => {
         try {
             const response = await getRolesRequest()

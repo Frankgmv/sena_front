@@ -50,6 +50,11 @@ export const GeneralProvider = ({ children }) => {
     }, [permisos, detallePermiso])
 
     useEffect(() => {
+        getCategorias()
+        getSecciones()
+    },[])
+
+    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);

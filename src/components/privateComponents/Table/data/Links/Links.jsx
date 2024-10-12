@@ -21,13 +21,11 @@ function Links() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { links, errorsData, responseMessageData, getLink, getLinks, postLink, putLink, deleteLink } = useLinkContext()
-    const { secciones, categorias, getCategorias, getSecciones } = useGeneralContext()
+    const { secciones, categorias} = useGeneralContext()
     const { usuarios, getUsers } = useUserContext()
 
     useEffect(() => {
         getUsers()
-        getCategorias()
-        getSecciones()
         getLinks()
     }, [])
 
