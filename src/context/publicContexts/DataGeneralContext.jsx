@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAllGaleriaRequest, getAllSliderRequest, getAllVideosRequest, getArchivoRequest } from "../../api/multimedia";
-import { getAllAnunciosRequest, getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
+import { getAllAnunciosRequest, getAllCategoriasRequest, getAllEventosRequest, getAllItemRequest, getAllLinkBlogsRequest, getAllLinkBlogsRequestCpt, getAllLinkPDFRequest, getAllNoticiasRequest, getAllSeccionesRequest } from "../../api/data";
 import moment from "moment/moment";
 
 const DataGeneralContext = createContext({
@@ -27,7 +27,7 @@ const DataGeneralContext = createContext({
     getArchivos: () => { },
     getLinks: () => { },
     getSeccionesYCategorias: () => { },
-    getBlogs: () => { },
+    getNavbar: () => { },
     getAnuncios: () => { }
 });
 
@@ -63,11 +63,6 @@ export const DataGeneralProvider = ({ children }) => {
         getSeccionesYCategorias()
     }, []);
 
-    useEffect(() => {
-        if (categorias.length > 1) {
-            trasformaDataBlogs()
-        }
-    }, [blogs]);
 
     useEffect(() => {
         if (secciones.length > 1) {
@@ -75,22 +70,6 @@ export const DataGeneralProvider = ({ children }) => {
         }
     }, [anunciosData, secciones]);
 
-    const trasformaDataBlogs = () => {
-        const categoriaBlog = categorias.reduce((save, item) => {
-            let findLinks = blogs.filter(blog => blog.CategoriaId === item.id).map(link => {
-                let findSeccion = secciones.find(seccion => seccion.id === link.SeccionId)
-                return { ...link, SeccionId: findSeccion.seccionKey }
-            }).filter(link => link.SeccionId === "S_PLAT_ACADEMICAS")
-
-            if (!save[`${item.categoria}`] && item.categoriaKey != "ARCHIVO_PDF") {
-                save[`${item.categoria}`] = findLinks
-            }
-
-            return save
-        }, {})
-
-        setNavbar(categoriaBlog)
-    };
     const trasformaDataAnuncios = () => {
         const seccionesTransform = secciones.filter(seccion => !(seccion.seccionKey == "S_PLAT_ACADEMICAS" || seccion.seccionKey == "ARCHIVO_PDF"))
             .reduce((save, item) => {
@@ -126,10 +105,10 @@ export const DataGeneralProvider = ({ children }) => {
         }
     };
 
-    const getBlogs = async () => {
+    const getNavbar = async () => {
         try {
-            const response = await getAllLinkBlogsRequest()
-            setBlogs(response.data.data);
+            const response = await getAllLinkBlogsRequestCpt()
+            setNavbar(response.data.data)
         } catch (error) {
             console.error("Error al traer la Items:", error);
         }
@@ -271,7 +250,7 @@ export const DataGeneralProvider = ({ children }) => {
         getArchivos,
         getLinks,
         getSeccionesYCategorias,
-        getBlogs,
+        getNavbar,
         getAnuncios
     }
 
