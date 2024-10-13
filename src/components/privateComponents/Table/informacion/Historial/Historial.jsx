@@ -13,9 +13,14 @@ import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExc
 function Historial() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { historial, deleteAllHistorial, responseMessage } = useGeneralContext()
-    const { usuarios } = useUserContext()
+    const { historial, getHistorial, deleteAllHistorial, responseMessage } = useGeneralContext()
+    const { usuarios, getUsers } = useUserContext()
 
+    useEffect(() =>{
+        getUsers()
+        getHistorial()
+    }, [])
+    
     useEffect(() => {
         if (responseMessage.length != 0) {
             const deleteDuplicidad = new Set(responseMessage);
@@ -26,6 +31,8 @@ function Historial() {
         }
 
     }, [responseMessage])
+
+
     const columns = [
         {
             field: "cambio",

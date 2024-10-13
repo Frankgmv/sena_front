@@ -31,10 +31,6 @@ export const EventProvider = ({ children }) => {
     }, [errors])
 
     useEffect(() => {
-        getEventos()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessage.length != 0) {
                 setResponseMessage([]);

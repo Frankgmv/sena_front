@@ -30,10 +30,6 @@ export const LinkProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getLinks()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

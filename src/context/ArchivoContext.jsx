@@ -30,10 +30,6 @@ export const ArchivoProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getArchivo()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

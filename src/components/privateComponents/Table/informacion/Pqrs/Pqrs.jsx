@@ -12,8 +12,11 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Pqrs() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs } = usePqrsContext()
+    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs, getPqrs} = usePqrsContext()
 
+    useEffect(() => {
+        getPqrs()
+    }, [])
 
     useEffect(() => {
         if (errorsData.length != 0) {

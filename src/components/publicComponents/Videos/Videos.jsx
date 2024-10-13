@@ -1,8 +1,14 @@
+import { useEffect } from 'react'
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import './Videos.css'
 
 const Videos = () => {
-    const { videos } = useDataGeneralContext()
+    const { videos, getVideos} = useDataGeneralContext()
+
+    useEffect(()=>{
+        getVideos()
+    }, [])
+
     return (
         <div className='videoBody'>
             <div className="titulo">

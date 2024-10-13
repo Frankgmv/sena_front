@@ -28,10 +28,6 @@ export const NotificacionesProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getNotificaciones()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);

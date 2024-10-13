@@ -1,16 +1,18 @@
 import './Recuperacion.css'
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, lazy, Suspense, useEffect, useState } from 'react';
 import {
     Box, Stepper, Step, StepButton, Button, TextField, Typography, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import NavBar from '../../components/publicComponents/Navbar/NavBar';
 import toastr from '../../assets/includes/Toastr';
 import { useResetPasswordContext } from '../../context/ResetPassContext';
 import { validarPassword } from '../../assets/includes/funciones';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../../components/publicComponents/Footer/Footer';
-import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
+import LoadingScreen from '../../components/Loading/LoadingScreen';
+
+const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBar.jsx'))
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
+const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
 
 const steps = ['Datos de Cuenta', 'Código de Verificación', 'Nueva Contraseña'];
 
@@ -169,7 +171,7 @@ function Recuperacion() {
                         password
                     }
                     cambiarPassword(data).then(data => {
-                        if (data.ok) {
+                        if (data?.ok) {
                             toastr.clear()
                             toastr.info(data.message)
                             setTimeout(() => {
@@ -196,7 +198,7 @@ function Recuperacion() {
     };
 
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <NavBar />
             <div className="containerInput-recuperacion">
                 <Box sx={{ width: '100%' }}>
@@ -303,7 +305,7 @@ function Recuperacion() {
             </div>
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     );
 }
 

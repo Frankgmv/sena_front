@@ -21,8 +21,14 @@ function Links() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { links, errorsData, responseMessageData, getLink, getLinks, postLink, putLink, deleteLink } = useLinkContext()
-    const { secciones, categorias } = useGeneralContext()
-    const { usuarios } = useUserContext()
+    const { secciones, categorias} = useGeneralContext()
+    const { usuarios, getUsers } = useUserContext()
+
+    useEffect(() => {
+        getUsers()
+        getLinks()
+    }, [])
+
     const [formLink, setFormLink] = useState({
         CategoriaId: 9,
         SeccionId: 16,
@@ -39,6 +45,7 @@ function Links() {
         tipo: 'pdf',
         titulo: ''
     })
+
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -310,7 +317,7 @@ function Links() {
 
     return (
         <>
-            <div style={{ height:'80%', width: '100%', marginTop: '-100px' }}>
+            <div style={{ height: '80%', width: '100%', marginTop: '-100px' }}>
                 <Grid
                     container
                     direction="row"
@@ -682,15 +689,15 @@ function Links() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color: 'white' }}
-                                type="submit"
-                                fullWidth
-                            >
-                                Actualizar
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: 'white' }}
+                                    type="submit"
+                                    fullWidth
+                                >
+                                    Actualizar
+                                </Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Button variant="contained" color="error" onClick={handleCloseEdit} style={{ marginTop: '20px', color: 'white' }} fullWidth>

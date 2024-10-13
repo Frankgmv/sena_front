@@ -13,7 +13,11 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const AlertaAnuncios = () => {
     const navegate = useNavigate()
-    const { noticias: data } = useDataGeneralContext();
+    const { noticias: data, getNoticias} = useDataGeneralContext();
+
+    useEffect(()=>{
+        getNoticias()
+    }, [])
 
     const [open, setOpen] = useState(true);
     const [noticiaAlerta, setNoticiaAlerta] = useState({});
@@ -25,7 +29,6 @@ const AlertaAnuncios = () => {
                 .slice(0, 2);
             setNoticiaAlerta(ultimasNoticias[0]);
         }
-
     }, [data]);
 
     const handleClose = () => {

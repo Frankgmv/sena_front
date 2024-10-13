@@ -11,14 +11,14 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const { roles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
+    const { roles, getRoles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
     const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = useState(false);
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
-    };
+    }
 
     useEffect(() => {
         if (errors.length != 0) {
@@ -29,7 +29,9 @@ const Login = () => {
             })
         }
     }, [errors]);
+
     useEffect(() => {
+        getRoles()
         verifyAuth()
     }, []);
 

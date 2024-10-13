@@ -27,11 +27,7 @@ export const ItemProvider = ({ children }) => {
             }
         }, 5000);
         return () => clearTimeout(timer);
-    }, [errorsData])
-
-    useEffect(() => {
-        getItems()
-    }, [])
+        }, [errorsData])
 
     useEffect(() => {
         const timer = setTimeout(() => {

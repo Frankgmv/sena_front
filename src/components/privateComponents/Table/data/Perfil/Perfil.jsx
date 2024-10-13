@@ -11,8 +11,8 @@ const Perfil = () => {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { updatePerfil, responseMessageUser, errorsUser } = useUserContext();
-    const { perfil, getPerfil, errors, responseMessage } = useGeneralContext()
-    const { roles, isAuthenticate } = useCredentialContext()
+    const { perfil, getPerfil, errors, responseMessage} = useGeneralContext()
+    const { roles, isAuthenticate, getRoles} = useCredentialContext()
 
     const [dataPerfil, SetDataPerfil] = useState({});
     const [openEdit, setOpenEdit] = useState(false);
@@ -20,13 +20,18 @@ const Perfil = () => {
     const handleCloseEdit = () => setOpenEdit(false);
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
+    useEffect(() => {
+        getRoles() 
+        getPerfil()
+        
+        let { nombre, apellido, correo, celular } = perfil
+        SetDataPerfil({ nombre, apellido, correo, celular })
+    }, [])
+
     const handleChangePerfil = (e) => {
         let { name, value } = e.target
         SetDataPerfil(prevent => {
-            return {
-                ...prevent,
-                [name]: value
-            }
+            return {...prevent, [name]: value }
         })
     }
 
@@ -75,13 +80,6 @@ const Perfil = () => {
             SetDataPerfil({ nombre, apellido, correo, celular })
         }
     }, [openEdit, perfil, isAuthenticate])
-
-    useEffect(() => {
-        getPerfil()
-        let { nombre, apellido, correo, celular } = perfil
-        SetDataPerfil({ nombre, apellido, correo, celular })
-    }, [])
-
 
     const enviarForm = (e) => {
         e.preventDefault()
