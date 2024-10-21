@@ -1,7 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { crearCodigoRequest, nuevoPasswordRequest, validarCodigoRequest } from "../api/recuperacion";
 
-const ResetPasswordContext = createContext();
+const ResetPasswordContext = createContext({
+    errors: [],
+    responseMessage: [],
+    crearCodigo: () => { },
+    validarCodigo: () => { },
+    cambiarPassword: () => { }
+});
 
 export const useResetPasswordContext = () => {
     const context = useContext(ResetPasswordContext);
@@ -143,11 +149,11 @@ export const PasswordContext = ({ children }) => {
 
 
     const allMethods = {
+        errors,
+        responseMessage,
         crearCodigo,
         validarCodigo,
-        cambiarPassword,
-        errors,
-        responseMessage
+        cambiarPassword
     }
 
     return (

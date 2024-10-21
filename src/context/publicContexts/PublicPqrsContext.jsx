@@ -1,7 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { postPQRSRequest } from "../../api/informacion";
 
-const PublicPqrsContext = createContext();
+const PublicPqrsContext = createContext({
+    errors: [],
+    responseMessage: [],
+    postPqrs: () => { }
+});
 
 export const usePublicPqrsContext = () => {
     const context = useContext(PublicPqrsContext);

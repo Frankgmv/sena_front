@@ -3,7 +3,16 @@ import { deleteEventoRequest, getAllEventosRequest, getEventoRequest, postEvento
 import { registerActionHistorial } from "../assets/includes/historial";
 import { formateFecha, formateFechaGuion } from "../assets/includes/funciones";
 
-const EventContext = createContext();
+const EventContext = createContext({
+    errors: [],
+    responseMessage: [],
+    eventos: [],
+    putEvento: () => { },
+    getEvento: () => { },
+    getEventos: () => { },
+    deleteEvento: () => { },
+    createEvento: () => { }
+});
 
 export const useEventContext = () => {
     const context = useContext(EventContext);
@@ -54,7 +63,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
-                await registerActionHistorial(`Creó Evento`,`Evento '${dataEvent.evento}'`)
+                await registerActionHistorial(`Creó Evento`, `Evento '${dataEvent.evento}'`)
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
@@ -109,7 +118,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
-                await registerActionHistorial(`Modificó Evento`,`Evento '${infoEvento.data.data.evento} - ${formateFecha(infoEvento?.data?.data?.fecha)}' a '${dataEvent.evento} - ${dataEvent.fecha}'`)
+                await registerActionHistorial(`Modificó Evento`, `Evento '${infoEvento.data.data.evento} - ${formateFecha(infoEvento?.data?.data?.fecha)}' a '${dataEvent.evento} - ${dataEvent.fecha}'`)
             } else {
                 if (!errors.includes(data.message)) {
                     setErrors((prevent) => {
@@ -181,7 +190,7 @@ export const EventProvider = ({ children }) => {
                         })
                     }
                 }
-                await registerActionHistorial(`Eliminó Evento`,`Evento  '${infoEvento.data.data.evento}'`)
+                await registerActionHistorial(`Eliminó Evento`, `Evento  '${infoEvento.data.data.evento}'`)
             }
             return data
         } catch (error) {

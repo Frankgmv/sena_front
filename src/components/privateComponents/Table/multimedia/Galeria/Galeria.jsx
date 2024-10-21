@@ -17,13 +17,14 @@ import { useEventContext } from "../../../../../context/EventContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias } = useGaleriaContext()
 
-    const { usuarios, getUsers } = useUserContext()
+    const { usuarios, getUsers } = useDataContext()
     const { eventos, getEventos } = useEventContext()
 
     const [evento, setEvento] = useState('')
@@ -39,7 +40,7 @@ function Galeria() {
     const [imagenView, setImagenView] = useState('')
 
     useEffect(()=>{
-        getUsers()
+        if(usuarios.length == 0) getUsers()
         getEventos()
         getGalerias()
     }, [])

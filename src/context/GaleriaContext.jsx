@@ -3,7 +3,17 @@ import { perfilRequest } from "../api/auth";
 import { deleteGaleriaRequest, getAllGaleriaRequest, getGaleriaRequest, postGaleriaRequest, putGaleriaRequest } from "../api/multimedia";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const GaleriaContext = createContext();
+const GaleriaContext = createContext({
+    galeria: [],
+    errorsData: [],
+    responseMessageData: [],
+    setErrorsData: () => { },
+    getGalerias: () => { },
+    postGaleria: () => { },
+    getGaleria: () => { },
+    putGaleria: () => { },
+    deleteGaleria: () => { }
+});
 
 export const useGaleriaContext = () => {
     const context = useContext(GaleriaContext);
@@ -72,7 +82,7 @@ export const GaleriaProvider = ({ children }) => {
             }
         }
     }
-    
+
     const getGaleria = async (id) => {
         try {
             const response = await getGaleriaRequest(id)
@@ -134,7 +144,7 @@ export const GaleriaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Creó imagen en galeria`,`Imagen con titulo '${dataNoticia.get('titulo')}'`)
+                await registerActionHistorial(`Creó imagen en galeria`, `Imagen con titulo '${dataNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -193,7 +203,7 @@ export const GaleriaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Actualizó imagen en galeria`,`Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Actualizó imagen en galeria`, `Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -252,7 +262,7 @@ export const GaleriaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Eliminó imagen en galeria`,`Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Eliminó imagen en galeria`, `Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
                 getGalerias()
             }
         } catch (error) {

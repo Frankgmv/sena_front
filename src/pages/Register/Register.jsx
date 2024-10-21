@@ -3,15 +3,17 @@ import './Register.css'
 import fondo from '../../assets/img/f1.jpg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuthContext } from '../../context/migration/AuthContext'
+import { useBasicallyContext } from '../../context/migration/BasicallyContext'
 
 
 const Register = () => {
-    const { roles, getRoles, setErrors, errors, responseMessage, register } = useCredentialContext();
+    const { roles } = useBasicallyContext()
+    const { setErrors, errors, message, register } = useAuthContext();
     const [dataRegister, setDataRegister] = useState({});
     const navigate = useNavigate();
 
@@ -33,13 +35,9 @@ const Register = () => {
         }
     }, [errors]);
 
-    useEffect(()=>{
-        getRoles()
-    }, [])
-
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
+        if (message.length != 0) {
+            const deleteDuplicidad = new Set(message);
             const responseMessage2 = [...deleteDuplicidad]
             responseMessage2.map(msg => {
                 toastr.success(msg)
@@ -49,7 +47,7 @@ const Register = () => {
                 navigate("/login")
             }, 4000);
         }
-    }, [responseMessage, navigate]);
+    }, [message, navigate]);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -89,9 +87,12 @@ const Register = () => {
             </div>
             <div className="fondo"></div>
             <div className="redirecciones">
-                <Link className='link-redirecciones' to="/">Inicio</Link>
+                <a href="/" className="link-redirecciones">Inicio</a>
+                <a href="/login" className="link-redirecciones">Iniciar Sesion</a>
+                <a href="/register" className="link-redirecciones">Registarse</a>
+                {/* <Link className='link-redirecciones' to="/">Inicio</Link>
                 <Link className='link-redirecciones' to="/login">Iniciar Sesion</Link>
-                <Link className='link-redirecciones' to="/register">Registarse</Link>
+                <Link className='link-redirecciones' to="/register">Registarse</Link> */}
             </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
@@ -106,9 +107,12 @@ const Register = () => {
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
                 <div className="redireccionesMobile">
-                    <Link className='link-redireccionesMobile' to="/">Inicio</Link>
+                    {/* <Link className='link-redireccionesMobile' to="/">Inicio</Link>
                     <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
-                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
+                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link> */}
+                    <a href="/" className="link-redirecciones">Inicio</a>
+                    <a href="/login" className="link-redirecciones">Iniciar Sesion</a>
+                    <a href="/register" className="link-redirecciones">Registarse</a>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
@@ -121,7 +125,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="claveEspecial" name='claveEspecial' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="claveEspecila">Clave Especial</label>
-                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={handleShowPassword}>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={handleShowPassword}>
                                     {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
@@ -173,7 +177,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="password" name='password' type={showPassword2 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="password">Contraseña</label>
-                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={() => setShowPassword2(!showPassword2)}>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={() => setShowPassword2(!showPassword2)}>
                                     {showPassword2 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
@@ -181,7 +185,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="repetirPassword" name='repetirPassword' type={showPassword3 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
-                                <button type='button' className="eye-button" style={{color: 'black'}} onClick={()=>{setShowPassword3(!showPassword3)}}>
+                                <button type='button' className="eye-button" style={{ color: 'black' }} onClick={() => { setShowPassword3(!showPassword3) }}>
                                     {showPassword3 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>

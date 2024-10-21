@@ -2,7 +2,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { perfilRequest } from "../api/auth";
 import { deleteVideoRequest, getAllVideosRequest, getVideoRequest, postVideoRequest, putVideoRequest } from "../api/multimedia";
 
-const VideoContext = createContext();
+const VideoContext = createContext({
+    videos: [],
+    errorsData: [],
+    responseMessageData: [],
+    setErrorsData: () => { },
+    getVideos: () => { },
+    postVideo: () => { },
+    getVideo: () => { },
+    putVideo: () => { },
+    deleteVideo: () => { }
+});
 
 export const useVideoContext = () => {
     const context = useContext(VideoContext);
@@ -70,7 +80,7 @@ export const VideoProvider = ({ children }) => {
             }
         }
     }
-    
+
     const getVideo = async (id) => {
         try {
             const response = await getVideoRequest(id)
@@ -276,11 +286,11 @@ export const VideoProvider = ({ children }) => {
     }
 
     const allMethods = {
-        errorsData,
-        setErrorsData,
-        responseMessageData,
-        getVideos,
         videos,
+        errorsData,
+        responseMessageData,
+        setErrorsData,
+        getVideos,
         postVideo,
         getVideo,
         putVideo,

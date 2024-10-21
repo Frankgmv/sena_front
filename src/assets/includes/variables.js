@@ -1,5 +1,5 @@
-// const URL =  "http://localhost:3222"
-const URL =  "https://iecentenario.edu.co"
+const URL =  "http://localhost:3222"
+// const URL =  "https://iecentenario.edu.co"
 
 export const URL_CREADORES = 'https://senadevsportafolio.netlify.app/'
 

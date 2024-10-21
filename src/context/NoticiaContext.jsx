@@ -3,7 +3,17 @@ import { perfilRequest } from "../api/auth";
 import { deleteNoticiaRequest, getAllNoticiasRequest, getNoticiaRequest, postNoticiaRequest, putNoticiaRequest } from "../api/data";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const NoticiaContext = createContext();
+const NoticiaContext = createContext({
+    errorsData: [],
+    responseMessageData: [],
+    noticias: [],
+    setErrorsData: () => { },
+    getNoticias: () => { },
+    postNoticia: () => { },
+    getNoticia: () => { },
+    putNoticia: () => { },
+    deleteNoticia: () => { }
+});
 
 export const useNoticiaContext = () => {
     const context = useContext(NoticiaContext);
@@ -71,7 +81,7 @@ export const NoticiaProvider = ({ children }) => {
             }
         }
     }
-    
+
     const getNoticia = async (id) => {
         try {
             const response = await getNoticiaRequest(id)
@@ -133,7 +143,7 @@ export const NoticiaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Creó Noticia`,`Noticia con titulo '${datosNoticia.get('titulo')}'`)
+                await registerActionHistorial(`Creó Noticia`, `Noticia con titulo '${datosNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -191,7 +201,7 @@ export const NoticiaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Actualizó Noticia`,`Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Actualizó Noticia`, `Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -221,7 +231,7 @@ export const NoticiaProvider = ({ children }) => {
             }
 
             if (datos.message) {
-                
+
                 setErrorsData((prevent) => {
                     if (!prevent.includes(datos.message)) {
                         return [
@@ -250,7 +260,7 @@ export const NoticiaProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Eliminó Noticia`,`Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Eliminó Noticia`, `Noticia con titulo '${infoNoticia?.data?.data?.titulo}'`)
                 getNoticias()
             }
         } catch (error) {
@@ -282,10 +292,10 @@ export const NoticiaProvider = ({ children }) => {
 
     const allMethods = {
         errorsData,
-        setErrorsData,
         responseMessageData,
-        getNoticias,
         noticias,
+        setErrorsData,
+        getNoticias,
         postNoticia,
         getNoticia,
         putNoticia,

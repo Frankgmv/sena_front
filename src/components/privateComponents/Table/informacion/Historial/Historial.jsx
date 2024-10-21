@@ -3,10 +3,10 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { useEffect, useState } from "react";
 import { Button, Grid, useMediaQuery } from "@mui/material";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 
 
@@ -14,10 +14,10 @@ function Historial() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { historial, getHistorial, deleteAllHistorial, responseMessage } = useGeneralContext()
-    const { usuarios, getUsers } = useUserContext()
+    const { usuarios, getUsers } = useDataContext()
 
     useEffect(() =>{
-        getUsers()
+        if(usuarios.length == 0) getUsers()
         getHistorial()
     }, [])
     

@@ -3,52 +3,51 @@ import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuthContext } from '../../context/migration/AuthContext'
+import { useBasicallyContext } from '../../context/migration/BasicallyContext'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
-    const { roles, getRoles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
+    const { roles } = useBasicallyContext()
+    const { errors, setErrors, login, message, setMessages, isAuthenticate, verifyAuth } = useAuthContext();
     const navigate = useNavigate()
 
-    const [showPassword, setShowPassword] = useState(false);
 
+    const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     }
 
     useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
     }, [errors]);
 
     useEffect(() => {
-        getRoles()
         verifyAuth()
     }, []);
 
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
         }
 
-        if (isAuthenticate) {
-            navigate('/admin')
-        }
+        setTimeout(() =>{
+            if (isAuthenticate == true) {
+                navigate('/admin')
+            }
+        }, 2000)
 
-    }, [responseMessage, isAuthenticate, navigate]);
+    }, [message, isAuthenticate, navigate]);
 
 
     const handleSubmit = (e) => {

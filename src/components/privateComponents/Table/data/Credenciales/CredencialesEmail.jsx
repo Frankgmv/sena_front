@@ -1,40 +1,38 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Button, Grid, TextField, Tooltip } from "@mui/material";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
 import { FiEdit2 } from "react-icons/fi";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
-import { useCredentialContext } from "../../../../../context/AuthContext";
 import toastr from "../../../../../assets/includes/Toastr";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 const CredencialesEmail = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { responseMessage: response, errors, credencialesEmail, getCredencialesEmail, putCredencialesEmail} = useGeneralContext()
+    const { message, errors, credencialesEmail, getCredencialesEmail, putCredencialesEmail } = useDataContext()
+    const { perfil } = useAuthContext()
 
     const [correo, setCorreo] = useState('')
     const [clave, setClave] = useState('')
 
     useEffect(() => {
-        if (response.length != 0) {
-            response.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
         }
-    }, [response])
 
-    useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(msg => {
+            errors.map(msg => {
                 toastr.error(msg)
             })
         }
-    }, [errors])
+    }, [message, errors])
+
 
     useEffect(() => {
         getCredencialesEmail()
@@ -87,7 +85,7 @@ const CredencialesEmail = () => {
             width: 160,
             headerAlign: "center",
             align: "center",
-        }   
+        }
     ];
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -118,9 +116,9 @@ const CredencialesEmail = () => {
     const handleEditCredential = (event) => {
         event.preventDefault()
         let idCredencial = parseInt(getLocalStorage('editCredentialId'))
-        let data = {correo, clave}
+        let data = { correo, clave }
         setOpenEdit(false)
-        putCredencialesEmail(idCredencial, data)
+        putCredencialesEmail(idCredencial, data, perfil.id)
 
     }
 
@@ -232,7 +230,7 @@ const CredencialesEmail = () => {
                                     fullWidth
                                     type="text"
                                     value={correo}
-                                onChange={(e) => setCorreo(e.target.value)}
+                                    onChange={(e) => setCorreo(e.target.value)}
                                 />
                             </Grid>
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
@@ -243,7 +241,7 @@ const CredencialesEmail = () => {
                                     value={clave}
                                     type="text"
                                     fullWidth
-                                onChange={(e) => setClave(e.target.value)}
+                                    onChange={(e) => setClave(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={6}>

@@ -15,16 +15,19 @@ import toastr from '../../../../../assets/includes/Toastr'
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
-import { useCredentialContext } from "../../../../../context/AuthContext";
 import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 
 
 function UserList() {
-    const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
-    const { roles, getRoles } = useCredentialContext()
+    const { usuarios, getUsers, errors: errorsUsuario, message, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useDataContext();
+    const { perfil } = useAuthContext()
+    const { roles, getRoles } = useBasicallyContext()
     const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -53,9 +56,10 @@ function UserList() {
     const [passwordValidUpt, setPasswordValidUpt] = useState('')
 
     useEffect(() => {
-        getUsers()
-        getRoles()
+        if(usuarios.length == 0) getUsers()
+        if(roles.length == 0) getRoles()
     }, [])
+    
 
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
@@ -81,7 +85,7 @@ function UserList() {
         setOpenEdit(false);
         setShowPasswordInput(false);
         const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
-        updateUsuario(idUser, dataUpdated);
+        updateUsuario(idUser, dataUpdated, perfil.id);
     };
 
     const handleSubmit = (e) => {
@@ -107,41 +111,32 @@ function UserList() {
     }
 
     useEffect(() => {
-        if (errorsUser.length != 0) {
-            const deleteDuplicidad = new Set(errorsUser);
-            const errorsUser2 = [...deleteDuplicidad]
-            errorsUser2.map(error => {
+        if (errorsUsuario.length != 0) {
+            errorsUsuario.map(error => {
                 return toastr.error(error)
             })
         }
 
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
 
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 return toastr.success(msg)
             })
-        }
-
-        if (responseMessageUser.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageUser);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
-                toastr.success(msg)
-            })
-            getUsers();
             setOpenNew(false);
             resetForm();
         }
-    }, [errorsUser, errors, responseMessage, responseMessageUser]);
+
+        if (responseMessage.length != 0) {
+            responseMessage.map(msg => {
+                toastr.success(msg)
+            })
+        }
+    }, [errorsUsuario, errors, message, responseMessage]);
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)

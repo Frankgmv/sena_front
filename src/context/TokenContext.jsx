@@ -3,7 +3,17 @@ import { perfilRequest } from "../api/auth";
 import { deleteTokenRequest, getAllTokenRequest, getTokenRequest, postTokenRequest, putTokenRequest } from "../api/data";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const TokenProvider = createContext();
+const TokenProvider = createContext({
+    tokens: [],
+    errorsData: [],
+    responseMessageData: [],
+    setErrorsData: () => { },
+    getTokens: () => { },
+    postToken: () => { },
+    getToken: () => { },
+    putToken: () => { },
+    deleteToken: () => { }
+});
 
 export const useTokenProvider = () => {
     const context = useContext(TokenProvider);
@@ -292,11 +302,11 @@ export const TokensProvider = ({ children }) => {
     }
 
     const allMethods = {
-        errorsData,
-        setErrorsData,
-        responseMessageData,
-        getTokens,
         tokens,
+        errorsData,
+        responseMessageData,
+        setErrorsData,
+        getTokens,
         postToken,
         getToken,
         putToken,

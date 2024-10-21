@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Drawer, Grid, useMediaQuery } from '@mui/material'
 import { IoIosArrowDown, IoMdMenu } from 'react-icons/io'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
+import { useBasicallyContext } from '../../../context/migration/BasicallyContext'
 
 const NavBar = () => {
 
-    const { navbar, getNavbar} = useDataGeneralContext()
+    const { navbar, getNavbar } = useBasicallyContext()
     const [open, setOpen] = useState(false);
     const [keyss, setKeyss] = useState([]);
 
@@ -19,11 +19,10 @@ const NavBar = () => {
     useEffect(() => {
         getNavbar()
     }, []);
-    
+
     useEffect(() => {
         const dato = Object.keys(navbar)
         setKeyss(dato)
-        console.log(navbar)
     }, [navbar]);
 
     const DrawerList = (

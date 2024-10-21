@@ -19,7 +19,7 @@
     object-fit: cover;
 }
 
-.loginBody .fondo {
+.loginBody .filtro {
     position: absolute;
     top: 0;
     left: 0;
@@ -43,14 +43,13 @@
 .link-redirecciones{
     color:#e7e7e7;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
 }
 
 .link-redirecciones:hover{
     transition: all 0.3s ease;
     color:white;
-    /* scale: 1.05; */
     transform: translateY(5px);
 }
 
@@ -301,7 +300,7 @@
 
     .loginBody .img,
     .loginBody .img img,
-    .loginBody .fondo,
+    .loginBody .filtro,
     .loginBody .textoRegister {
         display: none;
     }

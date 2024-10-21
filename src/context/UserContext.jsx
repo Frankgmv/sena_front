@@ -5,9 +5,12 @@ import { perfilRequest } from "../api/auth";
 
 const UserContext = createContext({
     usuarios: [],
+    errorsUser: [],
+    responseMessageUser: [],
+    setErrorsUser: () => { },
     getUsers: () => { },
-    getUsuario: () => { },
     registrarUsuario: () => { },
+    getUsuario: () => { },
     updateUsuario: () => { },
     deleteUsuario: () => { },
     updatePerfil: () => { }
@@ -26,8 +29,7 @@ export const useUserContext = () => {
 export const UserProvider = ({ children }) => {
     const [errorsUser, setErrorsUser] = useState([]);
     const [responseMessageUser, setResponseMessageUser] = useState([]);
-    const [usuarios, setUsuarios] = useState([]);
-
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (errorsUser.length != 0) {
@@ -36,7 +38,7 @@ export const UserProvider = ({ children }) => {
         }, 5000);
         return () => clearTimeout(timer);
     }, [errorsUser])
-
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageUser.length != 0) {
@@ -45,40 +47,41 @@ export const UserProvider = ({ children }) => {
         }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessageUser])
+    
+        const [usuarios, setUsuarios] = useState([]);
+        const getUsers = async () => {
+            try {
+                const response = await getUsuariosRequest()
+                const data = await response.data
+                if (data.ok) {
+                    setUsuarios(data.data)
+                }
+            } catch (error) {
+                if (error.message) {
+                    setErrorsUser((prevent) => {
+                        if (!errorsUser.includes(error.message)) {
+                            return [
+                                ...prevent,
+                                error.message
+                            ]
+                        }
+                        return prevent
+                    })
+                }
 
-    const getUsers = async () => {
-        try {
-            const response = await getUsuariosRequest()
-            const data = await response.data
-            if (data.ok) {
-                setUsuarios(data.data)
-            }
-        } catch (error) {
-            if (error.message) {
-                setErrorsUser((prevent) => {
-                    if (!errorsUser.includes(error.message)) {
-                        return [
-                            ...prevent,
-                            error.message
-                        ]
-                    }
-                    return prevent
-                })
-            }
-
-            if (error?.response?.data?.message) {
-                setErrorsUser((prevent) => {
-                    if (!errorsUser.includes(error?.response?.data.message)) {
-                        return [
-                            ...prevent,
-                            error?.response?.data?.message
-                        ]
-                    }
-                    return prevent
-                })
+                if (error?.response?.data?.message) {
+                    setErrorsUser((prevent) => {
+                        if (!errorsUser.includes(error?.response?.data.message)) {
+                            return [
+                                ...prevent,
+                                error?.response?.data?.message
+                            ]
+                        }
+                        return prevent
+                    })
+                }
             }
         }
-    }
     const getUsuario = async (id) => {
         try {
             const response = await getUsuarioRequest(id)
@@ -346,11 +349,11 @@ export const UserProvider = ({ children }) => {
     }
 
     const allMethods = {
-        errorsUser,
-        setErrorsUser,
-        responseMessageUser,
-        getUsers,
         usuarios,
+        errorsUser,
+        responseMessageUser,
+        setErrorsUser,
+        getUsers,
         registrarUsuario,
         getUsuario,
         updateUsuario,

@@ -11,19 +11,18 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useVideoContext } from "../../../../../context/VideoContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
-import { Link } from "react-router-dom";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 function Videos() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     const { videos, responseMessageData, errorsData, putVideo, getVideo, postVideo, deleteVideo, getVideos } = useVideoContext()
-    const { usuarios, getUsers} = useUserContext()
+    const { usuarios, getUsers} = useDataContext()
 
     const [titulo, setTitulo] = useState('')
     const [link, setLink] = useState('')
@@ -53,7 +52,7 @@ function Videos() {
     }
 
     useEffect(() => {
-        getUsers()
+        if(usuarios.length == 0) getUsers()
         getVideos()
     }, [])
 

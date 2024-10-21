@@ -2,17 +2,18 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel,
 import './Perfil.css'
 import { useEffect, useState } from 'react';
 import { useUserContext } from '../../../../../context/UserContext';
-import { useGeneralContext } from '../../../../../context/GeneralContext';
 import toastr from '../../../../../assets/includes/Toastr';
 import { formateFechaGuion } from '../../../../../assets/includes/funciones';
-import { useCredentialContext } from '../../../../../context/AuthContext';
+import { useBasicallyContext } from '../../../../../context/migration/BasicallyContext';
+import { useDataContext } from '../../../../../context/migration/DataContext';
+import { useAuthContext } from '../../../../../context/migration/AuthContext';
 
 const Perfil = () => {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { updatePerfil, responseMessageUser, errorsUser } = useUserContext();
-    const { perfil, getPerfil, errors, responseMessage} = useGeneralContext()
-    const { roles, isAuthenticate, getRoles} = useCredentialContext()
+    const { roles, isAuthenticate } = useBasicallyContext()
+    const {  perfil, getPerfil, errors: errorsAuth, message: responseMessage, setErrors: setErrorsAuth, setMessages: setResponseMessages } = useAuthContext()
+    const { updatePerfil, errors, message } = useDataContext();
 
     const [dataPerfil, SetDataPerfil] = useState({});
     const [openEdit, setOpenEdit] = useState(false);
@@ -21,9 +22,8 @@ const Perfil = () => {
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
     useEffect(() => {
-        getRoles() 
-        getPerfil()
-        
+        if(!perfil?.id) getPerfil()
+
         let { nombre, apellido, correo, celular } = perfil
         SetDataPerfil({ nombre, apellido, correo, celular })
     }, [])
@@ -31,43 +31,31 @@ const Perfil = () => {
     const handleChangePerfil = (e) => {
         let { name, value } = e.target
         SetDataPerfil(prevent => {
-            return {...prevent, [name]: value }
+            return { ...prevent, [name]: value }
         })
     }
 
     useEffect(() => {
-        if (errorsUser.length != 0) {
-            const deleteDuplicidad = new Set(errorsUser);
-            const errorsUser2 = [...deleteDuplicidad]
-            errorsUser2.map(msg => {
+        if (errors.length != 0) {
+            errors.map(msg => {
                 toastr.error(msg)
             })
         }
-        if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(msg => {
-                toastr.error(msg)
-            })
+        if (errorsAuth.length != 0) {
+            errorsAuth.map(msg => toastr.error(msg))
         }
         if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
-                toastr.success(msg)
-            })
+            responseMessage.map(msg => toastr.success(msg))
         }
-        if (responseMessageUser.length != 0) {
+        if (message.length != 0) {
             getPerfil()
             handleCloseEdit()
-            const deleteDuplicidad = new Set(responseMessageUser);
-            const responseMessageUser2 = [...deleteDuplicidad]
-            responseMessageUser2.map(msg => {
+            message.map(msg => {
                 toastr.success(msg)
             })
         }
 
-    }, [responseMessage, errors, responseMessageUser, errorsUser])
+    }, [responseMessage, errorsAuth, message, errors])
 
     useEffect(() => {
         if (openEdit) {
@@ -109,7 +97,7 @@ const Perfil = () => {
     return (
         <>
             <div className='perfil'>
-                <Box sx={style} style={{overflow: 'auto', height: '70vh'}}
+                <Box sx={style} style={{ overflow: 'auto', height: '70vh' }}
                     component="form"
                     id="crearUsuario"
                     noValidate

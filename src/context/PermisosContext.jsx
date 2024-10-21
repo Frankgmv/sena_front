@@ -2,13 +2,23 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { getPermisosRequest, getPermisoRequest, postPermisoRequest, putPermisoRequest, deletePermisoRequest } from "../api/data";
 
 // eslint-disable-next-line react-refresh/only-export-components
-const PermisosContext = createContext();
+const PermisosContext = createContext({
+    errorsData: [],
+    responseMessageData: [],
+    permisos: [],
+    setErrorsData: () => { },
+    getPermisos: () => { },
+    postPermiso: () => { },
+    getPermiso: () => { },
+    putPermiso: () => { },
+    deletePermiso: () => { }
+});
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const usePermisosContext = () => {
     const context = useContext(PermisosContext);
     if (!context) {
-        throw new Error("Error en el credential context"); 
+        throw new Error("Error en el credential context");
     }
 
     return context;
@@ -273,10 +283,10 @@ export const dataProvider = ({ children }) => {
 
     const allMethods = {
         errorsData,
-        setErrorsData,
         responseMessageData,
-        getPermisos,
         permisos,
+        setErrorsData,
+        getPermisos,
         postPermiso,
         getPermiso,
         putPermiso,

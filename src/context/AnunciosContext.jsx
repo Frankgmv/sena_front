@@ -3,7 +3,17 @@ import { getAllAnunciosRequest, getAnuncioRequest, postAnuncioRequest, putAnunci
 import { perfilRequest } from "../api/auth";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const AnunciosContext = createContext();
+const AnunciosContext = createContext({
+    errorsData: [],
+    responseMessageData: [],
+    anuncios: [],
+    setErrorsData: () => { },
+    getAnuncios: () => { },
+    postAnuncio: () => { },
+    getAnuncio: () => { },
+    putAnuncio: () => { },
+    deleteAnuncio: () => { }
+});
 
 export const useAnunciosContext = () => {
     const context = useContext(AnunciosContext);
@@ -71,7 +81,7 @@ export const DataProvider = ({ children }) => {
             }
         }
     }
-    
+
     const getAnuncio = async (id) => {
         try {
             const response = await getAnuncioRequest(id)
@@ -87,7 +97,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
             }
-
+    
             return data
         } catch (error) {
             if (error.message) {
@@ -124,7 +134,7 @@ export const DataProvider = ({ children }) => {
             const response = await postAnuncioRequest(datosAnuncio)
             const data = await response.data
             if (data.ok) {
-                    setResponseMessageData((prevent) => {
+                setResponseMessageData((prevent) => {
                     if (!responseMessageData.includes(data.message)) {
                         return [
                             ...prevent,
@@ -133,7 +143,7 @@ export const DataProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Creó anuncio`,`con titulo '${datosAnuncio.get('titulo')}'`)
+                await registerActionHistorial(`Creó anuncio`, `con titulo '${datosAnuncio.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -192,7 +202,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
                 const anuncioInfo = await getAnuncioRequest(id)
-                await registerActionHistorial(`Actualizó anuncio`,`Anuncio con titulo '${anuncioInfo?.data?.data.titulo}'`)
+                await registerActionHistorial(`Actualizó anuncio`, `Anuncio con titulo '${anuncioInfo?.data?.data.titulo}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -252,7 +262,7 @@ export const DataProvider = ({ children }) => {
                     return prevent
                 })
                 getAnuncios()
-                await registerActionHistorial(`Eliminó anuncio`,`Anuncio con titulo '${anuncioInfo?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Eliminó anuncio`, `Anuncio con titulo '${anuncioInfo?.data?.data?.titulo}'`)
             }
         } catch (error) {
             if (error.message) {

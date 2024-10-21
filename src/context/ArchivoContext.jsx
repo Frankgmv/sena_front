@@ -3,7 +3,14 @@ import { perfilRequest } from "../api/auth";
 import { deleteArchivoRequest, getArchivoRequest, postArchivoRequest } from "../api/multimedia";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const ArchivoContext = createContext();
+const ArchivoContext = createContext({
+    archivo: [],
+    errorsData: [],
+    responseMessageData: [],
+    getArchivo: () => { },
+    postArchivo: () => { },
+    deleteArchivo: () => { }
+});
 
 export const useArchivoContext = () => {
     const context = useContext(ArchivoContext);
@@ -89,7 +96,7 @@ export const ArchivoProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Creó Archivo PDF`,`Archivo con titulo '${datosNoticia.get('titulo')}'`)
+                await registerActionHistorial(`Creó Archivo PDF`, `Archivo con titulo '${datosNoticia.get('titulo')}'`)
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -147,7 +154,7 @@ export const ArchivoProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Eliminó Archivo PDF`,`Archivo con titulo '${archivo[0].titulo}'`)
+                await registerActionHistorial(`Eliminó Archivo PDF`, `Archivo con titulo '${archivo[0].titulo}'`)
                 setArchivo([])
             }
         } catch (error) {

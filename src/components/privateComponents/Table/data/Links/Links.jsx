@@ -10,23 +10,24 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useLinkContext } from "../../../../../context/LinkContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 function Links() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { links, errorsData, responseMessageData, getLink, getLinks, postLink, putLink, deleteLink } = useLinkContext()
-    const { secciones, categorias} = useGeneralContext()
-    const { usuarios, getUsers } = useUserContext()
+    const {usuarios, getUsers, links, errors, message, getLink, getLinks, postLink, putLink, deleteLink } = useDataContext()
+    const { secciones, categorias} = useBasicallyContext()
+    const { perfil } = useAuthContext()
 
     useEffect(() => {
-        getUsers()
-        getLinks()
+        if(links.length == 0) getLinks()
+        if(usuarios.length == 0) getUsers()
     }, [])
 
     const [formLink, setFormLink] = useState({
@@ -48,18 +49,13 @@ function Links() {
 
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
-
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
             getLinks();
@@ -73,8 +69,8 @@ function Links() {
                 titulo: ''
             })
         }
+    }, [errors, message]);
 
-    }, [responseMessageData])
 
     const columns = [
         {
@@ -304,7 +300,7 @@ function Links() {
 
     const submitFormCreateLink = (e) => {
         e.preventDefault()
-        postLink(formLink)
+        postLink(formLink, perfil.id)
     }
 
     const submitUpdate = (event) => {

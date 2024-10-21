@@ -1,24 +1,36 @@
 import React, { lazy, useEffect, useState } from "react";
 import "./Anuncios.css"
 import f1 from '../../assets/img/default.jpeg'
-import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
 import { encontrarSeccionConMasElementos } from "../../assets/includes/funciones";
+import { useDataContext } from "../../context/migration/DataContext.jsx";
+import { useBasicallyContext } from "../../context/migration/BasicallyContext.jsx";
 
 const NavBar = lazy(() => import("../../components/publicComponents/Navbar/NavBar.jsx"))
 const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
 const MenuInteractivo = lazy(() => import("../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx"))
 
 export default function Anuncios() {
-    const { anuncios, getAnuncios } = useDataGeneralContext();
+    const { anuncios : dataAnuncios, mostrarAnuncios, anunciosView: anuncios, getAnuncios} = useDataContext();
+    const { secciones } = useBasicallyContext()
 
     const [seccionSeleccionada, setSeccionSeleccionada] = useState(null);
     const [headerMenu, setHeaderMenu] = useState([]);
 
     useEffect(() => {
-        getAnuncios()
+        if(dataAnuncios.length > 0){
+            mostrarAnuncios(dataAnuncios, secciones)
+        } else {
+            getAnuncios()
+        }
     }, [])
-
+    
+    useEffect(() => {
+        if(dataAnuncios){
+            mostrarAnuncios(dataAnuncios, secciones)
+        }
+    }, [dataAnuncios])
+    
     useEffect(() => {
         const datos = Object.keys(anuncios)
         setSeccionSeleccionada(encontrarSeccionConMasElementos(anuncios))

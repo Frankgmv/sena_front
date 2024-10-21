@@ -8,35 +8,25 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useGeneralContext } from '../../../context/GeneralContext';
-import { perfilRequest } from '../../../api/auth';
-import { useCredentialContext } from '../../../context/AuthContext';
+import { useAuthContext } from '../../../context/migration/AuthContext';
 
 export default function Sidebar() {
-    const { getSeccionesMenu } = useGeneralContext()
-    const { logoutFn } = useCredentialContext()
+    const { logout, getSeccionesMenu, perfil } = useAuthContext()
 
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
     const navegar = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
+        setOpen(newOpen)
     }
 
     const cerrarSesion = () => {
-        logoutFn()
+        logout()
         navegar('/login')
     }
 
-    const getPerfil = async () => {
-        const response = await perfilRequest()
-        const data = await response.data
-        return data.data
-    }
-
     const obtenerMenuData = async () => {
-        const perfil = await getPerfil()
         const menuData = await getSeccionesMenu(perfil.id, perfil.RolId)
         let datosMenu = menuData.data.map(permiso => permiso.permisoKey)
         setSeccionesMenu(datosMenu)
@@ -47,16 +37,14 @@ export default function Sidebar() {
     }
 
     useEffect(() => {
-        obtenerMenuData()
-    }, [])
+        if (perfil.RolId) obtenerMenuData()
+    }, [perfil])
 
     const hiddenSeccion = { display: 'none' }
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
-        >
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'>
             <List>
-                {/* // !General */}
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
                     <li key="mi-perfil">

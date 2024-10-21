@@ -1,5 +1,5 @@
 import './App.css';
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 import { DataProvider } from './context/AnunciosContext';
 import { ArchivoProvider } from './context/ArchivoContext';
 import { CredentialProvider } from './context/AuthContext';
@@ -18,42 +18,54 @@ import { VideoProvider } from './context/VideoContext';
 import AdminRoutes from './routes/AdminRoutes';
 import PublicRoutes from './routes/PublicRoutes';
 
+import { BasicallyProvider } from './context/migration/BasicallyContext';
+import { AuthProvider } from './context/migration/AuthContext';
+import { DataContextProvider } from './context/migration/DataContext';
+
 function App() {
   return (
     <>
       <NextUIProvider>
-        <PqrsProvider>
-          <CredentialProvider>
-            <UserProvider>
-              <DataProvider>
-                  <GeneralProvider>
-                    <EventProvider>
-                      <ItemProvider>
-                        <NoticiaProvider>
-                          <LinkProvider>
-                            <TokensProvider>
-                              <ArchivoProvider>
-                                <GaleriaProvider>
-                                  <VideoProvider>
-                                    <SliderProvider>
-                                      <NotificacionesProvider>
-                                        <AdminRoutes />
-                                      </NotificacionesProvider>
-                                    </SliderProvider>
-                                  </VideoProvider>
-                                </GaleriaProvider>
-                              </ArchivoProvider>
-                            </TokensProvider>
-                          </LinkProvider>
-                        </NoticiaProvider>
-                      </ItemProvider>
-                    </EventProvider>
-                  </GeneralProvider>
-              </DataProvider>
-            </UserProvider>
-          </CredentialProvider>
-          <PublicRoutes />
-        </PqrsProvider>
+        <BasicallyProvider>
+          <AuthProvider>
+            <DataContextProvider>
+
+              <PqrsProvider>
+                {/* <CredentialProvider> */}
+                  <UserProvider>
+                    {/* <DataProvider> */}
+                      <GeneralProvider>
+                        <EventProvider>
+                          <ItemProvider>
+                            <NoticiaProvider>
+                              <LinkProvider>
+                                <TokensProvider>
+                                  <ArchivoProvider>
+                                    <GaleriaProvider>
+                                      <VideoProvider>
+                                        <SliderProvider>
+                                          <NotificacionesProvider>
+                                            <AdminRoutes />
+                                          </NotificacionesProvider>
+                                        </SliderProvider>
+                                      </VideoProvider>
+                                    </GaleriaProvider>
+                                  </ArchivoProvider>
+                                </TokensProvider>
+                              </LinkProvider>
+                            </NoticiaProvider>
+                          </ItemProvider>
+                        </EventProvider>
+                      </GeneralProvider>
+                    {/* </DataProvider> */}
+                  </UserProvider>
+                {/* </CredentialProvider> */}
+                <PublicRoutes />
+              </PqrsProvider>
+
+            </DataContextProvider>
+          </AuthProvider>
+        </BasicallyProvider>
       </NextUIProvider>
     </>
   );

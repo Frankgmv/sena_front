@@ -6,18 +6,17 @@ import { formateFecha } from "../../../assets/includes/funciones.js";
 import { MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
 import { useDataGeneralContext } from "../../../context/publicContexts/DataGeneralContext.jsx";
 import { useEffect } from 'react';
+import { useDataContext } from '../../../context/migration/DataContext.jsx';
 
 const Noticias = () => {
 
-    const {noticias: data, getNoticias} = useDataGeneralContext()
-    
-    useEffect(()=>{
-        getNoticias()
+    const { noticias: data, getNoticias } = useDataContext()
+
+    useEffect(() => {
+        if(data.length == 0) getNoticias()
     }, [])
 
-    const ultimasNoticias = data
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 2);
+    const ultimasNoticias = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 2);
 
     return (
         <div className="newsBody" id="noticias">
@@ -31,7 +30,7 @@ const Noticias = () => {
                         linkBoton='/noticias'
                         textBoton='Ver Más Noticias'
                     />
-                </div>  
+                </div>
             </div>
             <div className="containerCard">
                 {ultimasNoticias.map((item) => (

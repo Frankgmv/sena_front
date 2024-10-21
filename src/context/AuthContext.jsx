@@ -25,7 +25,7 @@ export const useCredentialContext = () => {
 export const CredentialProvider = ({ children }) => {
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
-    const [isAuthenticate, setIsAuthenticate] = useState(false);
+    const [isAuthenticate, setisAuthenticate] = useState(false);
     const [rolName, setRolName] = useState([]);
     const [roles, setRoles] = useState([]);
     const [token, setToken] = useState('');
@@ -95,7 +95,7 @@ export const CredentialProvider = ({ children }) => {
     const logoutFn = () => {
         setLocalStorage('token', '')
         removeLocalStorage('token')
-        setIsAuthenticate(false)
+        setisAuthenticate(false)
         setToken(null)
     }
 
@@ -173,7 +173,7 @@ export const CredentialProvider = ({ children }) => {
             const response = await perfilRequest()
             const data = await response.data
             if (data.ok) {
-                setIsAuthenticate(true)
+                setisAuthenticate(true)
             }
         } catch (error) {
 
@@ -231,7 +231,7 @@ export const CredentialProvider = ({ children }) => {
         try {
             const response = await verificarTokenRequest()
             if (response.data.ok) {
-                setIsAuthenticate(true);
+                setisAuthenticate(true);
             }
         } catch (error) {
             if (error.response.data.message) {

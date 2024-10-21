@@ -3,8 +3,8 @@ import { deletePQRSRequest, getAllPQRSRequest, getPQRSRequest, putPQRSRequest } 
 import { registerActionHistorial } from "../assets/includes/historial";
 
 const PqrsContext = createContext({
-    getPqrs: () => { },
     pqrs: [],
+    getPqrs: () => { },
     putPqrs: () => { },
     deletePqr: () => { }
 });

@@ -1,21 +1,19 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import { Button } from "reactstrap";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
 
 
 function SeccionList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { secciones } = useGeneralContext()
+    const { secciones } = useBasicallyContext()
 
     const columns = [
-        {
-            field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center",
-        },
+        { field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center" },
         { field: "seccionKey", headerName: "Codigo de la Seccion", width: 340, headerAlign: "center", align: "center" }
     ];
 

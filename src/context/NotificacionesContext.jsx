@@ -1,7 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { deleteNotificacionRequest, getAllNotificacionesRequest, getNotificacionRequest, putNotificacionRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
-const NotificacionContext = createContext();
+const NotificacionContext = createContext({
+    errorsData: [],
+    responseMessageData: [],
+    notificaciones: [],
+    getNotificaciones: () => { },
+    putNotificacion: () => { },
+    deleteNotificacion: () => { }
+});
 
 export const useNotificacionContext = () => {
     const context = useContext(NotificacionContext);
@@ -85,10 +92,10 @@ export const NotificacionesProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                if(dataNotificaciones.estado !== infoNotific.data.data.estado) {
-                    let estadoInfo = dataNotificaciones.estado ? 'Activo': 'Inactivo'
-                    let estadoDb = !estadoInfo ? 'Activo': 'Inactivo'
-                    await registerActionHistorial(`Actualizó notificación`,`${infoNotific.data.data.titulo} notificación de '${estadoDb}' a '${estadoInfo}'`)
+                if (dataNotificaciones.estado !== infoNotific.data.data.estado) {
+                    let estadoInfo = dataNotificaciones.estado ? 'Activo' : 'Inactivo'
+                    let estadoDb = !estadoInfo ? 'Activo' : 'Inactivo'
+                    await registerActionHistorial(`Actualizó notificación`, `${infoNotific.data.data.titulo} notificación de '${estadoDb}' a '${estadoInfo}'`)
                 }
             } else {
                 setErrorsData((prevent) => {
@@ -149,7 +156,7 @@ export const NotificacionesProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Eliminó Notificación`,`Notificación con titulo '${infoNotific?.data?.data?.titulo}'`)
+                await registerActionHistorial(`Eliminó Notificación`, `Notificación con titulo '${infoNotific?.data?.data?.titulo}'`)
                 getNotificaciones()
             }
         } catch (error) {
@@ -182,8 +189,8 @@ export const NotificacionesProvider = ({ children }) => {
     const allMethods = {
         errorsData,
         responseMessageData,
-        getNotificaciones,
         notificaciones,
+        getNotificaciones,
         putNotificacion,
         deleteNotificacion
     }

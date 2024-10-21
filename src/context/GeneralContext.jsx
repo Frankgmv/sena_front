@@ -4,7 +4,31 @@ import { deleteHistorialRequest, getHistorialRequest } from "../api/informacion"
 import { registerActionHistorial } from "../assets/includes/historial";
 import { perfilRequest } from "../api/auth";
 
-const GeneralContext = createContext();
+const GeneralContext = createContext({
+    errors: [],
+    secciones: [],
+    responseMessage: [],
+    permisosData: [],
+    categorias: [],
+    credencialesEmail: [],
+    historial: [],
+    perfil: {},
+    setErrors: () => { },
+    getRol: () => { },
+    putRol: () => { },
+    deleteAllHistorial: () => { },
+    getSecciones: () => { },
+    getCategorias: () => { },
+    getHistorial: () => { },
+    getPerfil: () => { },
+    getSeccionesMenu: () => { },
+    getDataPermisos: () => { },
+    setPermisosData: () => { },
+    postDataPermisos: () => { },
+    deleteDataPermisos: () => { },
+    getCredencialesEmail: () => { },
+    putCredencialesEmail: () => { }
+});
 
 export const useGeneralContext = () => {
     const context = useContext(GeneralContext);
@@ -52,7 +76,7 @@ export const GeneralProvider = ({ children }) => {
     useEffect(() => {
         getCategorias()
         getSecciones()
-    },[])
+    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -187,8 +211,8 @@ export const GeneralProvider = ({ children }) => {
             const data = await response.data
             setSecciones(data.data)
         } catch (error) {
-            if (error.response.data.message) {
-                if (!errors.includes(error.response.data.message)) {
+            if (error?.response?.data?.message) {
+                if (!errors.includes(error?.response?.data?.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
@@ -281,12 +305,12 @@ export const GeneralProvider = ({ children }) => {
             const data = await response.data
             setCategorias(data.data)
         } catch (error) {
-            if (error.response.data.message) {
-                if (!errors.includes(error.response.data.message)) {
+            if (error?.response?.data?.message) {
+                if (!errors?.includes(error?.response?.data?.message)) {
                     setErrors((prevent) => {
                         return [
                             ...prevent,
-                            error.response.data.message
+                            error?.response?.data?.message
                         ]
                     })
                 }
@@ -424,7 +448,7 @@ export const GeneralProvider = ({ children }) => {
         responseMessage,
         getRol,
         putRol,
-            deleteAllHistorial,
+        deleteAllHistorial,
         getSecciones,
         secciones,
         getCategorias,

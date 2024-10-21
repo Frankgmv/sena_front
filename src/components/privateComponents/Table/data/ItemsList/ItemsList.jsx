@@ -16,13 +16,15 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from '../../../../../assets/includes/Toastr'
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import { useDataContext } from "../../../../../context/migration/DataContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
 
 function ItemList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
-    const { items, postItem, errorsData, responseMessageData, getItems, deleteItem, getItem, putItem} = useItemContext()
-    const { usuarios, getUsers} = useUserContext()
+    const { usuarios, getUsers, items, postItem, errors, message, getItems, deleteItem, getItem, putItem} = useDataContext()
+    const { perfil } = useAuthContext()
 
     
     const [estado, setEstado] = useState(true)
@@ -52,8 +54,8 @@ function ItemList() {
     }
 
     useEffect(()=>{
-        getUsers()
-        getItems()
+        if(usuarios.length == 0) getUsers()
+        if(items.length == 0) getItems()
     }, [])
 
     useEffect(() => {
@@ -68,24 +70,20 @@ function ItemList() {
     }, [openView])
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
             getItems();
             setOpenNew(false);
         }
-    }, [responseMessageData])
+    }, [errors,  message]);
 
     const columns = [
         {
@@ -283,7 +281,7 @@ function ItemList() {
     const submitFormCreateItem = (e) => {
         e.preventDefault()
         const dataItem = new FormData(e.currentTarget)
-        postItem(dataItem)
+        postItem(dataItem, perfil.id)
     }
 
     const submitUpdate = (event) => {
