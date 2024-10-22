@@ -12,19 +12,20 @@ import { FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { useSliderContext } from "../../../../../context/SliderContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
-import { useGaleriaContext } from "../../../../../context/GaleriaContext";
 import toastr from "../../../../../assets/includes/Toastr"
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
+import { useMultimediaContext } from "../../../../../context/migration/MultimediaContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
 function Slider() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { slider, responseMessageData, errorsData, postSlider, deleteSlider, getSlider, getSliderOne } = useSliderContext()
-    const { galeria, getGalerias } = useGaleriaContext()
+    const { slider, success, errorsR, postSlider, deleteSlider, getSlider, getSliderOne, galeria, getGalerias  } = useMultimediaContext()
+    const { perfil } = useAuthContext()
 
     useEffect(() => {
-        getGalerias()
-        getSlider()
+        if(galeria.length == 0) getGalerias()
+        if(slider.length == 0)getSlider()
     }, [])
 
     const [imagenId, setImagenId] = useState('')
@@ -57,27 +58,21 @@ function Slider() {
         }
     }, [openView])
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errorsR.length != 0) {
+            errorsR.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageData);
-            const responseMessageData2 = [...deleteDuplicidad]
-            responseMessageData2.map(msg => {
+        if (success.length != 0) {
+            success.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()
             getSlider()
             setImagenId('')
         }
-    }, [responseMessageData])
+    }, [errorsR, success]);
 
     const columns = [
         {
@@ -190,7 +185,7 @@ function Slider() {
                 });
                 let id = parseInt(getLocalStorage('deleteSliderId'))
                 id = parseInt(id)
-                deleteSlider(id)
+                deleteSlider(id, perfil?.id)
             } else if (
 
                 result.dismiss === Swal.DismissReason.cancel
@@ -206,9 +201,8 @@ function Slider() {
 
     const submitFormSlider = (e) => {
         e.preventDefault()
-        postSlider({ ImagenId: imagenId })
+        postSlider({ ImagenId: imagenId }, perfil.id)
     }
-
 
     return (
         <>

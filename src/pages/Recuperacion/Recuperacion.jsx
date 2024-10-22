@@ -5,10 +5,10 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import toastr from '../../assets/includes/Toastr';
-import { useResetPasswordContext } from '../../context/ResetPassContext';
 import { validarPassword } from '../../assets/includes/funciones';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../../components/Loading/LoadingScreen';
+import { useDataContext } from '../../context/migration/DataContext.jsx';
 
 const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBar.jsx'))
 const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
@@ -19,23 +19,19 @@ const steps = ['Datos de Cuenta', 'Código de Verificación', 'Nueva Contraseña
 function Recuperacion() {
     const navegar = useNavigate()
 
-    const { responseMessage, errors: responseErrors, crearCodigo, validarCodigo, cambiarPassword } = useResetPasswordContext()
+    const { message: responseMessage, errors: responseErrors, crearCodigo, validarCodigo, cambiarPassword } = useDataContext()
     useEffect(() => {
         toastr.clear()
 
         if (responseErrors.length != 0) {
-            const deleteDuplicidad = new Set(responseErrors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            responseErrors.map(error => {
                 return toastr.error(error)
             })
         }
 
 
         if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+            responseMessage.map(msg => {
                 return toastr.success(msg)
             })
         }

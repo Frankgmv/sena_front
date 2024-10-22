@@ -25,11 +25,10 @@ export const useEventContext = () => {
 
 // eslint-disable-next-line react/prop-types
 export const EventProvider = ({ children }) => {
-    const [eventos, setEventos] = useState([]);
-
+    
     const [errors, setErrors] = useState([]);
     const [responseMessage, setResponseMessage] = useState([]);
-
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (errors.length != 0) {
@@ -38,7 +37,7 @@ export const EventProvider = ({ children }) => {
         }, 5000);
         return () => clearTimeout(timer);
     }, [errors])
-
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessage.length != 0) {
@@ -47,7 +46,9 @@ export const EventProvider = ({ children }) => {
         }, 5000);
         return () => { clearTimeout(timer) }
     }, [responseMessage])
-
+    
+    const [eventos, setEventos] = useState([]);
+    
     const createEvento = async (dataEvent) => {
         try {
             const response = await postEventoRequest(dataEvent)

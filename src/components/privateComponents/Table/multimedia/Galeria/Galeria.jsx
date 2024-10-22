@@ -10,21 +10,22 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useGaleriaContext } from "../../../../../context/GaleriaContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useEventContext } from "../../../../../context/EventContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 import { useDataContext } from "../../../../../context/migration/DataContext";
+import { useMultimediaContext } from "../../../../../context/migration/MultimediaContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
 
 function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { galeria, errorsData, responseMessageData, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias } = useGaleriaContext()
-
     const { usuarios, getUsers } = useDataContext()
+    const { galeria, errorsR, success, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias } = useMultimediaContext()
+    const { perfil } = useAuthContext()
+    
     const { eventos, getEventos } = useEventContext()
 
     const [evento, setEvento] = useState('')
@@ -41,31 +42,25 @@ function Galeria() {
 
     useEffect(()=>{
         if(usuarios.length == 0) getUsers()
+        if(galeria.length == 0) getGalerias()
         getEventos()
-        getGalerias()
     }, [])
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errorsR.length != 0) {
+            errorsR.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
-
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageData);
-            const responseMessageData2 = [...deleteDuplicidad]
-            responseMessageData2.map(msg => {
+        if (success.length != 0) {
+            success.map(msg => {
                 toastr.success(msg)
             })
             handleCloseNew()
             resetNew()
         }
-    }, [responseMessageData])
+
+    }, [errorsR, success]);
 
     const resetNew = () => {
         setImagen('')
@@ -137,14 +132,14 @@ function Galeria() {
         {
             field: "titulo",
             headerName: "Titulo",
-            width: 250,
+            width: 290,
             headerAlign: "center",
             align: "center",
         },
         {
             field: "Evento",
             headerName: "Evento",
-            width: 200,
+            width: 230,
             headerAlign: "center",
             align: "center",
         },
@@ -158,14 +153,7 @@ function Galeria() {
         {
             field: "UsuarioId",
             headerName: "Id del Usuario",
-            width: 150,
-            headerAlign: "center",
-            align: "center",
-        },
-        {
-            field: "imgPath",
-            headerName: "Imagen",
-            width: 150,
+            width: 140,
             headerAlign: "center",
             align: "center",
         },
@@ -249,8 +237,10 @@ function Galeria() {
         id = parseInt(id)
 
         const dataGaleria = await getGaleria(id)
-        if (dataGaleria.ok) {
-            let dt = dataGaleria.data
+
+        console.log(id)
+        if (dataGaleria?.ok) {
+            let dt = dataGaleria?.data
             setEventoUpt(dt.EventoId)
             setTituloUpt(dt.titulo)
             setImagenUpt(dt.imgPath)
@@ -288,7 +278,7 @@ function Galeria() {
     const submitFormNew = (e) => {
         e.preventDefault()
         const dataGaleria = new FormData(e.currentTarget)
-        postGaleria(dataGaleria)
+        postGaleria(dataGaleria, perfil?.id)
     }
 
     const submitUpdate = (event) => {
@@ -296,7 +286,7 @@ function Galeria() {
         const formularioDataUpdate = new FormData(event.currentTarget);
         setOpenEdit(false);
         const idItem = parseInt(getLocalStorage('editGaleriaId'));
-        putGaleria(idItem, formularioDataUpdate);
+        putGaleria(idItem, formularioDataUpdate, perfil.id);
     };
 
     return (

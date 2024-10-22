@@ -35,7 +35,7 @@ const CredencialesEmail = () => {
 
 
     useEffect(() => {
-        getCredencialesEmail()
+        if(credencialesEmail.length == 0) getCredencialesEmail()
     }, [])
 
     const columns = [

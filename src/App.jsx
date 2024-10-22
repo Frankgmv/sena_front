@@ -21,6 +21,7 @@ import PublicRoutes from './routes/PublicRoutes';
 import { BasicallyProvider } from './context/migration/BasicallyContext';
 import { AuthProvider } from './context/migration/AuthContext';
 import { DataContextProvider } from './context/migration/DataContext';
+import { MultimediaProvider } from './context/migration/MultimediaContext';
 
 function App() {
   return (
@@ -29,40 +30,41 @@ function App() {
         <BasicallyProvider>
           <AuthProvider>
             <DataContextProvider>
+              <MultimediaProvider>
 
-              <PqrsProvider>
-                {/* <CredentialProvider> */}
+                <PqrsProvider>
+                  {/* <CredentialProvider> */}
                   <UserProvider>
                     {/* <DataProvider> */}
-                      <GeneralProvider>
-                        <EventProvider>
-                          <ItemProvider>
-                            <NoticiaProvider>
-                              <LinkProvider>
-                                <TokensProvider>
-                                  <ArchivoProvider>
-                                    <GaleriaProvider>
-                                      <VideoProvider>
-                                        <SliderProvider>
-                                          <NotificacionesProvider>
-                                            <AdminRoutes />
-                                          </NotificacionesProvider>
-                                        </SliderProvider>
-                                      </VideoProvider>
-                                    </GaleriaProvider>
-                                  </ArchivoProvider>
-                                </TokensProvider>
-                              </LinkProvider>
-                            </NoticiaProvider>
-                          </ItemProvider>
-                        </EventProvider>
-                      </GeneralProvider>
+                    <GeneralProvider>
+                      <EventProvider>
+                        <ItemProvider>
+                          <NoticiaProvider>
+                            <LinkProvider>
+                              <TokensProvider>
+                                <ArchivoProvider>
+                                  <GaleriaProvider>
+                                    <VideoProvider>
+                                      <SliderProvider>
+                                        <NotificacionesProvider>
+                                          <AdminRoutes />
+                                        </NotificacionesProvider>
+                                      </SliderProvider>
+                                    </VideoProvider>
+                                  </GaleriaProvider>
+                                </ArchivoProvider>
+                              </TokensProvider>
+                            </LinkProvider>
+                          </NoticiaProvider>
+                        </ItemProvider>
+                      </EventProvider>
+                    </GeneralProvider>
                     {/* </DataProvider> */}
                   </UserProvider>
-                {/* </CredentialProvider> */}
-                <PublicRoutes />
-              </PqrsProvider>
-
+                  {/* </CredentialProvider> */}
+                  <PublicRoutes />
+                </PqrsProvider>
+              </MultimediaProvider>
             </DataContextProvider>
           </AuthProvider>
         </BasicallyProvider>

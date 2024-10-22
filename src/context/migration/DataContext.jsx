@@ -5,6 +5,7 @@ import { registerActionHistorial } from "../../assets/includes/historial";
 import moment from "moment";
 import { deleteArchivoRequest, getArchivoRequest, postArchivoRequest } from "../../api/multimedia";
 import { perfilRequest } from "../../api/auth";
+import { crearCodigoRequest, nuevoPasswordRequest, validarCodigoRequest } from "../../api/recuperacion";
 
 const DataContext = createContext({
     // ? Variables Globales de apoyo
@@ -35,6 +36,7 @@ const DataContext = createContext({
     tokens: [], getTokens: () => { }, getToken: () => { }, putToken: () => { }, deleteToken: () => { },
 
     // todo reset password
+
     crearCodigo: () => { },
     validarCodigo: () => { },
     cambiarPassword: () => { },
@@ -42,9 +44,7 @@ const DataContext = createContext({
 
 export const useDataContext = () => {
     const context = useContext(DataContext)
-
     if (!context) throw new Error("DataContext isn't working")
-
     return context
 }
 
@@ -763,7 +763,53 @@ export const DataContextProvider = ({ children }) => {
         }
     }
 
+    // ! Reset password
+    
+    const crearCodigo = async (data) => {
+        try {
+            const response = await crearCodigoRequest(data);
+            return response.data
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrors, error?.message)
+                    })
+            }
+            if (datos?.message) handlerMessages(setErrors, datos?.message)
+            }
+    }
+    
+    const validarCodigo = async (data) => {
+        try {
+            const response = await validarCodigoRequest(data);
+            return response.data
 
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrors, error?.message)
+                    })
+            }
+            if (datos?.message) handlerMessages(setErrors, datos?.message)
+            }
+    }
+    const cambiarPassword = async (data) => {
+        try {
+            const response = await nuevoPasswordRequest(data);
+            return response.data
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrors, error?.message)
+                })
+            }
+            if (datos?.message) handlerMessages(setErrors, datos?.message)
+        }
+    }
+    
     const content = {
         errors, message, setErrors, setMessages,
         anuncios, getAnuncios, getAnuncio, postAnuncio, putAnuncio, deleteAnuncio, anunciosView, mostrarAnuncios,
@@ -775,7 +821,7 @@ export const DataContextProvider = ({ children }) => {
         credencialesEmail, getCredencialesEmail, putCredencialesEmail,
         noticias, getNoticias, getNoticia, postNoticia, putNoticia, deleteNoticia,
         usuarios, getUsers, getUsuario, registrarUsuario, updatePerfil, deleteUsuario, updateUsuario,
-
+        crearCodigo, validarCodigo, cambiarPassword
     }
 
     return (
