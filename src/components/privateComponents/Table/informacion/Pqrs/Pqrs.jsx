@@ -9,34 +9,28 @@ import { BsTrash3 } from "react-icons/bs";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useInfoContext } from "../../../../../context/migration/InfoContext";
 
 function Pqrs() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { pqrs, errorsData, responseMessageData, putPqrs, deletePqrs, getPqrs } = usePqrsContext()
+    const { pqrs, errorsI, successI, putPqrs, deletePqrs, getPqrs } = useInfoContext()
 
     useEffect(() => {
-        getPqrs()
+        if(pqrs.length == 0) getPqrs()
     }, [])
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errorsI.length != 0) {
+            errorsI.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
-
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageData);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (successI.length != 0) {
+            successI.map(msg => {
                 toastr.success(msg)
             })
         }
-    }, [responseMessageData])
+    }, [errorsI, successI]);
 
     const columns = [
         {

@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
+import { useMultimediaContext } from '../../../context/migration/MultimediaContext'
 import './Videos.css'
 
 const Videos = () => {
-    const { videos, getVideos} = useDataGeneralContext()
+    const { videos, getVideos} = useMultimediaContext()
 
     useEffect(()=>{
-        getVideos()
+        if(videos.length == 0) getVideos()
     }, [])
 
     return (

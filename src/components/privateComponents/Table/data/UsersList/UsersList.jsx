@@ -13,7 +13,7 @@ import { RiShieldKeyholeLine } from "react-icons/ri";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import toastr from '../../../../../assets/includes/Toastr'
 import { formateFecha } from "../../../../../assets/includes/funciones";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { usePermisosContext } from "../../../../../context/migration/GeneralContext";
 import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
@@ -24,16 +24,16 @@ import { useDataContext } from "../../../../../context/migration/DataContext";
 
 
 function UserList() {
-    const { usuarios, getUsers, errors: errorsUsuario, message, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useDataContext();
+    const { usuarios, getUsers, errors, message, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useDataContext();
     const { perfil } = useAuthContext()
     const { roles, getRoles } = useBasicallyContext()
-    const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
+    const { getDataPermisos, permisosData, errorsP, successP, setPermisosData, postDataPermisos, deleteDataPermisos } = usePermisosContext()
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
-    //  !Logica guardar usuarios
+    //  ! Logica guardar usuarios
     const [id, setId] = useState('')
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
@@ -110,14 +110,14 @@ function UserList() {
     }
 
     useEffect(() => {
-        if (errorsUsuario.length != 0) {
-            errorsUsuario.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
 
-        if (errors.length != 0) {
-            errors.map(error => {
+        if (errorsP.length != 0) {
+            errorsP.map(error => {
                 return toastr.error(error)
             })
         }
@@ -130,12 +130,12 @@ function UserList() {
             resetForm();
         }
 
-        if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+        if (successP.length != 0) {
+            successP.map(msg => {
                 toastr.success(msg)
             })
         }
-    }, [errorsUsuario, errors, message, responseMessage]);
+    }, [errors, errorsP, message, successP]);
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)

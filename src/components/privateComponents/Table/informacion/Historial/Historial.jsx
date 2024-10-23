@@ -1,36 +1,37 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Grid, useMediaQuery } from "@mui/material";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import { useDataContext } from "../../../../../context/migration/DataContext";
-
-
+import { useInfoContext } from "../../../../../context/migration/InfoContext";
 
 function Historial() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { historial, getHistorial, deleteAllHistorial, responseMessage } = useGeneralContext()
     const { usuarios, getUsers } = useDataContext()
+    const { historial, getHistorial, deleteAllHistorial, errorsI, successI } = useInfoContext()
 
     useEffect(() =>{
         if(usuarios.length == 0) getUsers()
-        getHistorial()
+        if(historial.length == 0) getHistorial()
     }, [])
     
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (errorsI.length != 0) {
+            errorsI.map(msg => {
+                toastr.error(msg)
+            })
+        }
+        if (successI.length != 0) {
+            successI.map(msg => {
                 toastr.success(msg)
             })
         }
 
-    }, [responseMessage])
+    }, [successI, errorsI])
 
 
     const columns = [

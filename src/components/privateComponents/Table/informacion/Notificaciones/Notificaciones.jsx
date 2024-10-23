@@ -2,41 +2,33 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Button, Tooltip, useMediaQuery } from "@mui/material";
 import Swal from 'sweetalert2'
-
-
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { useNotificacionContext } from "../../../../../context/NotificacionesContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
+import { useInfoContext } from "../../../../../context/migration/InfoContext";
 
 function Notificacion() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { notificaciones, putNotificacion, deleteNotificacion, errorsData, responseMessageData, getNotificaciones} = useNotificacionContext()
+    const { notificaciones, putNotificacion, deleteNotificacion, errorsI, successI, getNotificaciones} = useInfoContext()
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errorsI.length != 0) {
+            errorsI.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageData);
-            const responseMessageData2 = [...deleteDuplicidad]
-            responseMessageData2.map(msg => {
+        if (successI.length != 0) {
+            successI.map(msg => {
                 toastr.success(msg)
             })
         }
-    }, [responseMessageData])
+    }, [errorsI, successI]);
 
     useEffect(() => {
-        getNotificaciones()
+       if(notificaciones.length == 0) getNotificaciones()
     }, [])
 
     const columns = [

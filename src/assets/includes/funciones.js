@@ -38,11 +38,11 @@ export function encontrarSeccionConMasElementos(datos) {
   return seccionConMasElementos;
 }
 
-export function handlerMessages(setState, message2) {
+export function handlerMessages(setState, state) {
 
   setState((prevMessage) => {
-    if (!prevMessage.includes(message2)) {
-      let datos = [...prevMessage, message2];
+    if (!prevMessage.includes(state)) {
+      let datos = [...prevMessage, state];
       datos = new Set(datos);
       return [...datos]
     }
@@ -50,8 +50,8 @@ export function handlerMessages(setState, message2) {
   });
 
   setTimeout(() => {
-    if (message2.length != 0) {
+    if (state.length != 0) {
       setState([])
     }
-  }, 5000)
+  }, 400)
 }

@@ -10,7 +10,6 @@ import { useMediaQuery } from '@mui/material';
 import { BsTrash3 } from "react-icons/bs";
 import { FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useSliderContext } from "../../../../../context/SliderContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr"
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react"
-import { deleteGaleriaRequest, deleteSliderRequest, getAllGaleriaRequest, getAllSliderRequest, getGaleriaRequest, getSliderRequest, postGaleriaRequest, postSliderRequest, putGaleriaRequest} from "../../api/multimedia"
-import { getAllEventosRequest, getEventoRequest, postEventoRequest, putEventoRequest, deleteEventoRequest } from "../../api/data"
+import { deleteGaleriaRequest, deleteSliderRequest, getAllGaleriaRequest, getAllSliderRequest, getGaleriaRequest, getSliderRequest, postGaleriaRequest, postSliderRequest, putGaleriaRequest, getAllVideosRequest ,getVideoRequest ,postVideoRequest ,putVideoRequest ,deleteVideoRequest} from "../../api/multimedia"
+import { getAllEventosRequest, getEventoRequest, postEventoRequest, putEventoRequest, deleteEventoRequest } from "../../api/data" 
+
 
 import { registerActionHistorial } from "../../assets/includes/historial"
 import { handlerMessages } from "../../assets/includes/funciones"
@@ -18,6 +19,8 @@ const MultimediaContext = createContext({
     // ! eventos
     eventos: [], putEvento: () => { }, getEvento: () => { }, getEventos: () => { }, deleteEvento: () => { }, createEvento: () => { },
 
+    // ! videos 
+    videos: [], getVideos: () => { }, postVideo: () => { }, getVideo: () => { }, putVideo: () => { }, deleteVideo: () => { }
 })
 
 export const useMultimediaContext = () => {
@@ -111,7 +114,7 @@ export const MultimediaProvider = ({children}) =>{
             const response = await deleteGaleriaRequest(id)
             const data = await response.data
             if (data.ok) {
-                handlerMessages(set, datos?.message)
+                handlerMessages(setSuccess, data?.message)
                 await registerActionHistorial(`Eliminó imagen en galeria`, `Imagen con titulo '${infoGaleria?.data?.data?.titulo}'`)
                 getGalerias()
             }
@@ -278,11 +281,101 @@ export const MultimediaProvider = ({children}) =>{
         }
     }
 
+    // ! videos
+
+    const [videos, setVideos] = useState([])
+
+    const getVideos = async () => {
+        try {
+            const response = await getAllVideosRequest()
+            const data = await response.data
+            if (data.ok) setVideos(data.data)
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.message) handlerMessages(setErrorsR, datos?.message)
+            if (error?.message) handlerMessages(setErrorsR, error?.message)
+        }
+    }
+
+    const getVideo = async (id) => {
+        try {
+            const response = await getVideoRequest(id)
+            const data = await response.data
+            if (data.ok) handlerMessages(setSuccess, data?.message)
+            return data
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.message) handlerMessages(setErrorsR, datos?.message)
+            if (error?.message) handlerMessages(setErrorsR, error?.message)
+        }
+    }
+
+    const postVideo = async (dataVideo, perfil_id) => {
+        try {
+            const datosNoticia = dataVideo
+            datosNoticia.set('UsuarioId', perfil_id)
+            const response = await postVideoRequest(datosNoticia)
+            const data = await response.data
+            if (data.ok) {
+                getVideos()
+                handlerMessages(setSuccess, data?.message)
+                await registerActionHistorial(`Creo un video`, `Video publicado por [usuario id, ${perfil_id}]`)
+            } else handlerMessages(setErrorsR, data?.message)
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrorsR, error?.message)
+                })
+            }
+            if (datos?.message) handlerMessages(setErrorsR, datos?.message)
+            if (error?.message) handlerMessages(setErrorsR, error?.message)
+        }
+    }
+
+    const putVideo = async (id, dataVideo, perfil_id) => {
+        try {
+            const response = await putVideoRequest(id, dataVideo)
+            const data = await response.data
+            if (data.ok) {
+                getVideos()
+                handlerMessages(setSuccess, data?.message)
+                await registerActionHistorial(`Modifico un video`, `Modifico un video por [usuario id, ${perfil_id}]`)
+            } else handlerMessages(setErrorsR, data?.message)
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrorsR, error?.message)
+                })
+            }
+            if (datos?.message) handlerMessages(setErrorsR, datos?.message)
+            if (error?.message) handlerMessages(setErrorsR, error?.message)
+        }
+    }
+
+    const deleteVideo = async (id, perfil_id) => {
+        try {
+            const response = await deleteVideoRequest(id)
+            const data = await response.data
+            if (data.ok) {
+                await registerActionHistorial(`Eliminó un video`, `video eliminado por [usuario id, ${perfil_id}]`)
+                getVideos()
+                handlerMessages(setSuccess, data?.message)
+            }
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.message) handlerMessages(setErrorsR, datos?.message)
+            if (error?.message) handlerMessages(setErrorsR, error?.message)
+        }
+    }
+
     const content = {
         errorsR, success,
         galeria, getGalerias, getGaleria, postGaleria, putGaleria, deleteGaleria,
         slider ,getSlider ,getSliderOne ,postSlider ,deleteSlider,
-        eventos, createEvento, getEventos, deleteEvento, getEvento, putEvento
+        eventos, createEvento, getEventos, deleteEvento, getEvento, putEvento,
+        videos, getVideos, getVideo, postVideo, putVideo, deleteVideo
     }
 
     return (<MultimediaContext.Provider value={content}>

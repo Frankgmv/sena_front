@@ -11,8 +11,6 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useNoticiaContext } from "../../../../../context/NoticiaContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";

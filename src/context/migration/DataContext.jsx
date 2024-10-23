@@ -793,7 +793,7 @@ export const DataContextProvider = ({ children }) => {
                     })
             }
             if (datos?.message) handlerMessages(setErrors, datos?.message)
-            }
+        }
     }
     const cambiarPassword = async (data) => {
         try {

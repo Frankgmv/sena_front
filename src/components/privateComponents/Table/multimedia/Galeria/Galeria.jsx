@@ -11,7 +11,6 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { formateFecha } from "../../../../../assets/includes/funciones";
-import { useEventContext } from "../../../../../context/EventContext";
 import toastr from "../../../../../assets/includes/Toastr";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
@@ -23,11 +22,9 @@ function Galeria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { usuarios, getUsers } = useDataContext()
-    const { galeria, errorsR, success, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias } = useMultimediaContext()
+    const { galeria, errorsR, success, getGaleria, postGaleria, deleteGaleria, putGaleria, getGalerias, eventos, getEventos } = useMultimediaContext()
     const { perfil } = useAuthContext()
     
-    const { eventos, getEventos } = useEventContext()
-
     const [evento, setEvento] = useState('')
     const [titulo, setTitulo] = useState('')
     const [imagen, setImagen] = useState('')
@@ -43,7 +40,7 @@ function Galeria() {
     useEffect(()=>{
         if(usuarios.length == 0) getUsers()
         if(galeria.length == 0) getGalerias()
-        getEventos()
+        if(eventos.length == 0) getEventos()
     }, [])
 
     useEffect(() => {
