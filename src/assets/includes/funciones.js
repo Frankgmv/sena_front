@@ -43,15 +43,15 @@ export function handlerMessages(setState, state) {
   setState((prevMessage) => {
     if (!prevMessage.includes(state)) {
       let datos = [...prevMessage, state];
-      datos = new Set(datos);
-      return [...datos]
+      let datos2 = new Set(datos);
+      return [...datos2]
     }
-    return prevMessage;
+      return prevMessage;
   });
 
   setTimeout(() => {
     if (state.length != 0) {
       setState([])
     }
-  }, 400)
+  }, 6000)
 }

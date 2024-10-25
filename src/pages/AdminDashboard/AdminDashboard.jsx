@@ -40,9 +40,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (message.length != 0) {
-      const deleteDuplicidad = new Set(message);
-      const message2 = [...deleteDuplicidad]
-      message2.map(msg => {
+      message.map(msg => {
         toastr.success(msg)
       })
     }
@@ -50,9 +48,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (errors.length != 0) {
-      const deleteDuplicidad = new Set(errors);
-      const errors2 = [...deleteDuplicidad]
-      errors2.map(msg => {
+      errors.map(msg => {
         toastr.error(msg)
       })
     }

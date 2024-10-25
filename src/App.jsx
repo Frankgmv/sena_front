@@ -18,9 +18,11 @@ function App() {
           <DataContextProvider>
             <MultimediaProvider>
               <InfoContextProvider>
+
                 <PermisosProvider>
                   <AdminRoutes />
                 </PermisosProvider>
+                
                 <PublicRoutes />
               </InfoContextProvider>
             </MultimediaProvider>

@@ -76,9 +76,7 @@ function AnunciosList() {
 
     useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }

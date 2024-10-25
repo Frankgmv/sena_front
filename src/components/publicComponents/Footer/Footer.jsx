@@ -17,7 +17,7 @@ const Footer = () => {
                 <div className="footerInfo">
                     <div className="encabezado">
                         <img src={f1} alt="Logo.png" />
-                        <p className="footerText">Formando para la gente</p>
+                        <p className="footerText">Formando para la vida</p>
                     </div>
                     <div className="containerUbicacion">
                         <iframe
@@ -48,7 +48,7 @@ const Footer = () => {
                         </div>
                         <div className="junto">
                             <div className="telefonos">
-                                <h4>Telefonos</h4>
+                                <h4>Teléfonos</h4>
                                 <p>Tel: 331 4725</p>
                             </div>
                             <div className="redes">

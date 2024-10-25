@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useState } from "react"
-import { deleteHistorialRequest, deleteNotificacionRequest, deletePQRSRequest, getAllNotificacionesRequest, getAllPQRSRequest, getHistorialRequest, getNotificacionRequest, getPQRSRequest, putNotificacionRequest, putPQRSRequest } from './../../api/informacion';
+import { deleteHistorialRequest, deleteNotificacionRequest, deletePQRSRequest, getAllNotificacionesRequest, getAllPQRSRequest, getHistorialRequest, getNotificacionRequest, getPQRSRequest, postPQRSRequest, putNotificacionRequest, putPQRSRequest } from './../../api/informacion';
 import { handlerMessages } from './../../assets/includes/funciones'
 import { registerActionHistorial } from "../../assets/includes/historial";
 const InfoContext = createContext({
@@ -13,7 +13,7 @@ const InfoContext = createContext({
     notificaciones: [], getNotificaciones: () => { }, putNotificacion: () => { }, deleteNotificacion: () => { },
 
     // ! PQRS
-    pqrs: [], getPqrs: () => { }, putPqrs: () => { }, deletePqr: () => { }
+    pqrs: [], getPqrs: () => { }, postPqrs: () => { }, putPqrs: () => { }, deletePqr: () => { }
 })
 
 export const useInfoContext = () => {
@@ -129,6 +129,25 @@ export const InfoContextProvider = ({children}) => {
         }
     }, [])
 
+    const postPqrs = async (dataPqrs) => {
+        try {
+            const response = await postPQRSRequest(dataPqrs)
+            const data = await response.data
+            if (data.ok) {
+                handlerMessages(setSuccessI, data?.message)
+            } else handlerMessages(setErrorsI, data?.message)
+        } catch (error) {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos.zodError.issues.map(error => {
+                    if (error?.message) handlerMessages(setErrorsI, error?.message)
+                })
+            }
+            if (datos?.message) handlerMessages(setErrorsI, datos?.message)
+        }
+    }
+
+
     const putPqrs = useCallback(async (id, dataPqrs) => {
         try {
             const infoPqrs = await getPQRSRequest(id)
@@ -184,7 +203,7 @@ export const InfoContextProvider = ({children}) => {
         notificaciones ,getNotificaciones, putNotificacion, deleteNotificacion,
         
         // !
-        pqrs ,getPqrs ,putPqrs ,deletePqrs
+        pqrs ,getPqrs,  postPqrs, putPqrs ,deletePqrs
         
     }
 

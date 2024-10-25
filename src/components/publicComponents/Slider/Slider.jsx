@@ -1,14 +1,14 @@
 import f2 from '../../../assets/img/f2.jpg'
 import './slider.css'
 import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
-import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import { useEffect } from 'react'
+import { useMultimediaContext } from '../../../context/migration/MultimediaContext'
 
 const Slider = () => {
-    const { slider: data, getSlider } = useDataGeneralContext()
+    const { slider: data, getSlider } = useMultimediaContext()
 
     useEffect(() => {
-        getSlider()
+        if (data.length == 0) getSlider()
     }, [])
 
     return (

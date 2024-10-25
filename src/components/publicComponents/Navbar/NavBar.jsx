@@ -18,12 +18,17 @@ const NavBar = () => {
 
     useEffect(() => {
         getNavbar()
+        console.log(isSmallScreen)
     }, []);
 
     useEffect(() => {
         const dato = Object.keys(navbar)
         setKeyss(dato)
     }, [navbar]);
+
+    useEffect(()=>{
+        console.log(isSmallScreen)
+    }, [isSmallScreen])
 
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
@@ -161,7 +166,7 @@ const NavBar = () => {
             </div>
             <div className="links">
                 <Link className='link' to='/'><span>Inicio</span> <p></p></Link>
-                <Link className='link' to='/la-institucion'><span>Institucion</span> <p></p></Link>
+                <Link className='link' to='/la-institucion'><span>Institución</span> <p></p></Link>
                 <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
                 <Link className='link' to='/galeria'><span>Galería</span> <p></p></Link>
             </div>

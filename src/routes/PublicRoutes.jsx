@@ -1,6 +1,4 @@
 import { Outlet, Route, Routes } from "react-router-dom"
-import { PasswordContext } from "../context/ResetPassContext"
-import { PublicPqrsProvider } from "../context/publicContexts/PublicPqrsContext"
 import { DataGeneralProvider } from "../context/publicContexts/DataGeneralContext"
 import { lazy, Suspense } from "react"
 import LoadingScreen from "../components/Loading/LoadingScreen.jsx"
@@ -22,11 +20,9 @@ const PublicRoutes = () => {
   return (
     <Suspense fallback={<LoadingScreen />}>
       <ButtonUp />
-      <PublicPqrsProvider>
         <Routes>
           <Route path="/pqrs" element={<Pqrs />} />
         </Routes>
-      </PublicPqrsProvider>
 
       <DataGeneralProvider>
         <Routes>
@@ -39,11 +35,9 @@ const PublicRoutes = () => {
           <Route path="/anuncios" element={<Anuncios />} />
         </Routes>
       </DataGeneralProvider>
-      <PasswordContext>
-        <Routes>
-          <Route path="/recuperar-contraseña" element={<Recuperacion />} />
-        </Routes>
-      </PasswordContext>
+      <Routes>
+        <Route path="/recuperar-contraseña" element={<Recuperacion />} />
+      </Routes>
       <Outlet />
     </Suspense>
   )

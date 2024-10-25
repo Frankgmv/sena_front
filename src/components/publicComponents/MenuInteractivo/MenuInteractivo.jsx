@@ -29,7 +29,7 @@ const MenuInteractivo = () => {
     return (
         <div className='menuBody'>
             <div className="titulo">
-                <h2>Nuestro Menú intuitivo</h2>
+                <h2>Menú intuitivo</h2>
             </div>
             <div className="menuCards">
                 <CardMenuInteractivo

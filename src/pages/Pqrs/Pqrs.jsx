@@ -1,12 +1,12 @@
+import './Pqrs.css'
 import { Box, Button, Grid, TextField, useMediaQuery, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import NavBar from '../../components/publicComponents/Navbar/NavBar'
-import './Pqrs.css'
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { usePublicPqrsContext } from '../../context/publicContexts/PublicPqrsContext';
 import toastr from '../../assets/includes/Toastr';
 import LoadingScreen from '../../components/Loading/LoadingScreen';
-const  MenuInteractivo = lazy(()=> import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
-const  Footer = lazy(()=> import('../../components/publicComponents/Footer/Footer.jsx'))
+import { useInfoContext } from '../../context/migration/InfoContext.jsx';
+const MenuInteractivo = lazy(() => import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
+const Footer = lazy(() => import('../../components/publicComponents/Footer/Footer.jsx'))
 
 const Pqrs = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
@@ -14,22 +14,23 @@ const Pqrs = () => {
     const [datos, setDatos] = useState({})
     const [disable, setDisabled] = useState(false)
 
-    const { errors, responseMessage, postPqrs } = usePublicPqrsContext()
+    const { errorsI, successI, postPqrs } = useInfoContext()
 
     useEffect(() => {
-        if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+        if (errorsI.length != 0) {
+            errorsI.map(error => {
                 return toastr.error(error)
             })
         }
-        setDisabled(false)
-    }, [errors]);
+        
+        setTimeout(() => {
+            setDisabled(false)
+        }, 1000)
+    }, [errorsI]);
 
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+        if (successI.length != 0) {
+            successI.map(msg => {
                 toastr.success(msg)
             })
         }
@@ -37,7 +38,7 @@ const Pqrs = () => {
         setTimeout(() => {
             setDisabled(false)
         }, 1000)
-    }, [responseMessage])
+    }, [successI])
 
     const handlerDatos = (e) => {
         let { name, value } = e.target

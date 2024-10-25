@@ -99,7 +99,7 @@ const Login = () => {
                 </div>
                 <div className="redireccionesMobile">
                     <Link className='link-redireccionesMobile' to="/">Inicio</Link>
-                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
+                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesión</Link>
                     <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
                 </div>
                 <div className="form">
@@ -107,7 +107,7 @@ const Login = () => {
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
-                                <label className="label" htmlFor="id">Identificacion</label>
+                                <label className="label" htmlFor="id">Identificación</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
