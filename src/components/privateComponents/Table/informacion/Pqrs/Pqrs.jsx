@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { Button, Grid, Tooltip} from "@mui/material";
 import Swal from 'sweetalert2'
 import { useMediaQuery } from '@mui/material';
-import { usePqrsContext } from "../../../../../context/PqrsContext";
-import { FiEdit2 } from "react-icons/fi";
 import { BsTrash3 } from "react-icons/bs";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
