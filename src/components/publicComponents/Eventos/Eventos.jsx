@@ -3,10 +3,15 @@ import f1 from '../../../assets/img/f1.jpg'
 import Boton2 from '../botones/boton2/Boton2';
 import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables';
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext';
+import { useEffect } from 'react';
 
 const Eventos = () => {  
-    const { eventoData: data } = useDataGeneralContext()
+    const { eventoData: data, getDefaultData} = useDataGeneralContext()
 
+    useEffect(() => {
+        getDefaultData()
+    }, []);
+    
     return (
         <div className='eventosBody'>
             <div className="titulo">

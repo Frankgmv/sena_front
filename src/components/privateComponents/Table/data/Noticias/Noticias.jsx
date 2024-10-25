@@ -24,7 +24,7 @@ function Noticias() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { noticias, getNoticia, getNoticias, postNoticia, errorsData, responseMessageData, deleteNoticia, putNoticia } = useNoticiaContext()
-    const { usuarios } = useUserContext()
+    const { usuarios, getUsers } = useUserContext()
 
     const [titulo, setTitulo] = useState('')
     const [descripcion, setDescripcion] = useState('')
@@ -57,6 +57,11 @@ function Noticias() {
             setEncabezadoView(dt.encabezado)
         }
     }
+
+    useEffect(()=>{
+        getUsers()
+        getNoticias()
+    }, [])
 
     useEffect(() => {
         if (openView) {

@@ -13,7 +13,7 @@ import { formateFecha } from "../../../../../assets/includes/funciones";
 
 function Notificacion() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const { notificaciones, putNotificacion, deleteNotificacion, errorsData, responseMessageData} = useNotificacionContext()
+    const { notificaciones, putNotificacion, deleteNotificacion, errorsData, responseMessageData, getNotificaciones} = useNotificacionContext()
 
     useEffect(() => {
         if (errorsData.length != 0) {
@@ -34,6 +34,11 @@ function Notificacion() {
             })
         }
     }, [responseMessageData])
+
+    useEffect(() => {
+        getNotificaciones()
+    }, [])
+
     const columns = [
         {
             field: "actions",

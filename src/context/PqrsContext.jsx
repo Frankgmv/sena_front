@@ -1,8 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { deletePQRSRequest, getAllPQRSRequest, getPQRSRequest, putPQRSRequest } from "../api/informacion";
 import { registerActionHistorial } from "../assets/includes/historial";
 
-const PqrsContext = createContext();
+const PqrsContext = createContext({
+    getPqrs: () => { },
+    pqrs: [],
+    putPqrs: () => { },
+    deletePqr: () => { }
+});
+
 
 export const usePqrsContext = () => {
     const context = useContext(PqrsContext);
@@ -29,10 +35,6 @@ export const PqrsProvider = ({ children }) => {
     }, [errorsData])
 
     useEffect(() => {
-        getPqrs()
-    }, [])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (responseMessageData.length != 0) {
                 setResponseMessageData([]);
@@ -41,7 +43,7 @@ export const PqrsProvider = ({ children }) => {
         return () => { clearTimeout(timer) }
     }, [responseMessageData])
 
-    const getPqrs = async () => {
+    const getPqrs = useCallback(async () => {
         try {
             const response = await getAllPQRSRequest()
             const data = await response.data
@@ -49,7 +51,7 @@ export const PqrsProvider = ({ children }) => {
                 setPqrs(data.data)
             }
         } catch (error) {
-            if (error.message) {
+            if (error?.message) {
                 setErrorsData((prevent) => {
                     if (!errorsData.includes(error.message)) {
                         return [
@@ -61,7 +63,7 @@ export const PqrsProvider = ({ children }) => {
                 })
             }
 
-            if (error.response.data.message) {
+            if (error?.response?.data?.message) {
                 setErrorsData((prevent) => {
                     if (!errorsData.includes(error.response.data.message)) {
                         return [
@@ -73,9 +75,9 @@ export const PqrsProvider = ({ children }) => {
                 })
             }
         }
-    }
+    }, [])
 
-    const putPqrs = async (id, dataPqrs) => {
+    const putPqrs = useCallback(async (id, dataPqrs) => {
         try {
             const infoPqrs = await getPQRSRequest(id)
             const response = await putPQRSRequest(id, dataPqrs)
@@ -90,11 +92,12 @@ export const PqrsProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                if(dataPqrs.estado !== infoPqrs.data.data.estado) {
-                    let estadoInfo = dataPqrs.estado ? 'Leido': 'No Leido'
-                    let estadoDb = !estadoInfo ? 'Leido': 'No Leido'
-                    await registerActionHistorial(`Actualizó PQRS`,`Remitente [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}] paso de '${estadoDb}' a '${estadoInfo}'`)
+                if (dataPqrs.estado !== infoPqrs.data.data.estado) {
+                    let estadoInfo = dataPqrs.estado ? 'Leido' : 'No Leido'
+                    let estadoDb = !estadoInfo ? 'Leido' : 'No Leido'
+                    await registerActionHistorial(`Actualizó PQRS`, `Remitente [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}] paso de '${estadoDb}' a '${estadoInfo}'`)
                 }
+                getPqrs()
             } else {
                 setErrorsData((prevent) => {
                     if (!prevent.includes(data.message)) {
@@ -106,7 +109,6 @@ export const PqrsProvider = ({ children }) => {
                     return prevent
                 })
             }
-            getPqrs()
         } catch (error) {
             const datos = error.response.data
             if (datos.zodError) {
@@ -136,10 +138,10 @@ export const PqrsProvider = ({ children }) => {
                 })
             }
         }
-    }
+    }, [getPqrs])
 
 
-    const deletePqrs = async (id) => {
+    const deletePqrs = useCallback(async (id) => {
         try {
             const infoPqrs = await getPQRSRequest(id)
             const response = await deletePQRSRequest(id)
@@ -154,7 +156,7 @@ export const PqrsProvider = ({ children }) => {
                     }
                     return prevent
                 })
-                await registerActionHistorial(`Eliminó PQRS`,`PQRS de [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}]'`)
+                await registerActionHistorial(`Eliminó PQRS`, `PQRS de [${infoPqrs?.data?.data?.nombre} ${infoPqrs?.data?.data?.apellido}]'`)
                 getPqrs()
             }
         } catch (error) {
@@ -182,7 +184,7 @@ export const PqrsProvider = ({ children }) => {
                 })
             }
         }
-    }
+    }, [getPqrs])
 
     const allMethods = {
         errorsData,

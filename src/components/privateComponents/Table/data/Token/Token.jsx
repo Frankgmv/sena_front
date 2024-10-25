@@ -19,13 +19,17 @@ function Token() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const { tokens, deleteToken, errorsData, responseMessageData, getTokens, getToken, putToken } = useTokenProvider()
-    const { usuarios } = useUserContext()
+    const { usuarios, getUsers } = useUserContext()
     const [formDataToken, setFormDataToken] = useState({
         token: '',
         nombre: '',
         tokenKey: '',
     })
 
+    useEffect(()=>{
+        getTokens()
+        getUsers()
+    }, [])
 
     useEffect(() => {
         if (errorsData.length != 0) {

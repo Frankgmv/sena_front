@@ -21,7 +21,12 @@ function Archivos() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
     const { archivo, getArchivo, deleteArchivo, errorsData, responseMessageData, postArchivo } = useArchivoContext()
-    const { usuarios } = useUserContext()
+    const { usuarios, getUsers} = useUserContext()
+
+    useEffect(()=>{
+        getUsers()
+        getArchivo()
+    }, [])
 
     useEffect(() => {
         if (errorsData.length != 0) {

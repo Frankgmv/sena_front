@@ -1,11 +1,12 @@
 import { Box, Button, Grid, TextField, useMediaQuery, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import NavBar from '../../components/publicComponents/Navbar/NavBar'
 import './Pqrs.css'
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { usePublicPqrsContext } from '../../context/publicContexts/PublicPqrsContext';
 import toastr from '../../assets/includes/Toastr';
-import Footer from '../../components/publicComponents/Footer/Footer';
-import MenuInteractivo from '../../components/publicComponents/MenuInteractivo/MenuInteractivo';
+import LoadingScreen from '../../components/Loading/LoadingScreen';
+const  MenuInteractivo = lazy(()=> import('../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx'))
+const  Footer = lazy(()=> import('../../components/publicComponents/Footer/Footer.jsx'))
 
 const Pqrs = () => {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
@@ -50,7 +51,7 @@ const Pqrs = () => {
     }
 
     return (
-        <>
+        <Suspense fallback={<LoadingScreen />}>
             <div>
                 <NavBar />
                 <div className="container-pqrs">
@@ -155,7 +156,7 @@ const Pqrs = () => {
             </div>
             <MenuInteractivo />
             <Footer />
-        </>
+        </Suspense>
     )
 }
 

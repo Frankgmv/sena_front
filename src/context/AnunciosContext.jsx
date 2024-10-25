@@ -71,6 +71,7 @@ export const DataProvider = ({ children }) => {
             }
         }
     }
+    
     const getAnuncio = async (id) => {
         try {
             const response = await getAnuncioRequest(id)

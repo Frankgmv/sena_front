@@ -1,33 +1,33 @@
+import './SidebarAdmin.css'
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
-import './SidebarAdmin.css'
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useGeneralContext } from '../../../context/GeneralContext';
-import { useState } from 'react';
 import { perfilRequest } from '../../../api/auth';
 import { useCredentialContext } from '../../../context/AuthContext';
 
 export default function Sidebar() {
+    const { getSeccionesMenu } = useGeneralContext()
+    const { logoutFn } = useCredentialContext()
+
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
-    const { logoutFn } = useCredentialContext()
     const navegar = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
-    };
+    }
 
     const cerrarSesion = () => {
         logoutFn()
         navegar('/login')
     }
-
-    const { getSeccionesMenu } = useGeneralContext()
 
     const getPerfil = async () => {
         const response = await perfilRequest()

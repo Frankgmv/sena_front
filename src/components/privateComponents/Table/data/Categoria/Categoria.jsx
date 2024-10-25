@@ -11,10 +11,11 @@ function Categoria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const {categorias} = useGeneralContext()
+
     const columns = [
         {
             field: "categoria",
-            headerName: "Categoria",
+                headerName: "Categoria",
             width: 300,
             headerAlign: "center",
             align: "center",

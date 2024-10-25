@@ -29,9 +29,6 @@ export const GaleriaProvider = ({ children }) => {
         return () => clearTimeout(timer);
     }, [errorsData])
 
-    useEffect(() => {
-        getGalerias()
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {

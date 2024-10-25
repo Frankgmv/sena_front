@@ -3,7 +3,15 @@ import { deleteUsuarioRequest, getUsuarioRequest, getUsuariosRequest, postUsuari
 import { registerActionHistorial } from "../assets/includes/historial";
 import { perfilRequest } from "../api/auth";
 
-const UserContext = createContext();
+const UserContext = createContext({
+    usuarios: [],
+    getUsers: () => { },
+    getUsuario: () => { },
+    registrarUsuario: () => { },
+    updateUsuario: () => { },
+    deleteUsuario: () => { },
+    updatePerfil: () => { }
+});
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useUserContext = () => {
@@ -11,7 +19,6 @@ export const useUserContext = () => {
     if (!context) {
         throw new Error("Error en el credential context");
     }
-
     return context;
 }
 
@@ -29,10 +36,6 @@ export const UserProvider = ({ children }) => {
         }, 5000);
         return () => clearTimeout(timer);
     }, [errorsUser])
-
-    useEffect(()=>{
-        getUsers()
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -63,12 +66,12 @@ export const UserProvider = ({ children }) => {
                 })
             }
 
-            if (error.response.data.message) {
+            if (error?.response?.data?.message) {
                 setErrorsUser((prevent) => {
-                    if (!errorsUser.includes(error.response.data.message)) {
+                    if (!errorsUser.includes(error?.response?.data.message)) {
                         return [
                             ...prevent,
-                            error.response.data.message
+                            error?.response?.data?.message
                         ]
                     }
                     return prevent
@@ -119,7 +122,7 @@ export const UserProvider = ({ children }) => {
             }
         }
     }
-    
+
     const registrarUsuario = async (dataUsuario) => {
         try {
             const response = await postUsuarioRequest(dataUsuario)
@@ -135,8 +138,8 @@ export const UserProvider = ({ children }) => {
                     return prevent
                 })
                 getUsers()
-                await registerActionHistorial(`Insertó usuario`,`Usuario con id ${dataUsuario.id} y nombre ${dataUsuario.nombre} ${dataUsuario.apellido}`)
-            }else{
+                await registerActionHistorial(`Insertó usuario`, `Usuario con id ${dataUsuario.id} y nombre ${dataUsuario.nombre} ${dataUsuario.apellido}`)
+            } else {
                 setErrorsUser((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -194,8 +197,8 @@ export const UserProvider = ({ children }) => {
                     return prevent
                 })
                 getUsers()
-                await registerActionHistorial(`Actualizó usuario`,`Actualizó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
-            }else{
+                await registerActionHistorial(`Actualizó usuario`, `Actualizó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
+            } else {
                 setErrorsUser((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -205,7 +208,7 @@ export const UserProvider = ({ children }) => {
                     }
                     return prevent
                 })
-            } 
+            }
             getUsers()
         } catch (error) {
             const datos = error.response.data
@@ -253,8 +256,8 @@ export const UserProvider = ({ children }) => {
                     return prevent
                 })
                 getUsers()
-                await registerActionHistorial(`Actualizó su perfil`,`Usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido} actualizo su perfil`)
-            }else{
+                await registerActionHistorial(`Actualizó su perfil`, `Usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido} actualizo su perfil`)
+            } else {
                 setErrorsUser((prevent) => {
                     if (!prevent.includes(data.message)) {
                         return [
@@ -264,7 +267,7 @@ export const UserProvider = ({ children }) => {
                     }
                     return prevent
                 })
-            } 
+            }
             getUsers()
         } catch (error) {
             const datos = error.response.data
@@ -313,7 +316,7 @@ export const UserProvider = ({ children }) => {
                     return prevent
                 })
                 getUsers()
-                await registerActionHistorial(`Eliminó usuario`,`Eliminó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
+                await registerActionHistorial(`Eliminó usuario`, `Eliminó usuario con id ${infoUsuario?.data?.data?.id} y nombre ${infoUsuario?.data?.data?.nombre} ${infoUsuario?.data?.data?.apellido}`)
             }
         } catch (error) {
             if (error.message) {

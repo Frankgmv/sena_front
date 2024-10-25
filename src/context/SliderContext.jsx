@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { perfilRequest } from "../api/auth";
 import { deleteSliderRequest, getAllSliderRequest, getSliderRequest, postSliderRequest } from "../api/multimedia";
 import { registerActionHistorial } from "../assets/includes/historial";
 
@@ -28,10 +27,6 @@ export const SliderProvider = ({ children }) => {
         }, 5000);
         return () => clearTimeout(timer);
     }, [errorsData])
-
-    useEffect(() => {
-        getSlider()
-    }, [])
 
     useEffect(() => {
         const timer = setTimeout(() => {
