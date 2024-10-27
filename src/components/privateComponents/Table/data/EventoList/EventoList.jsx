@@ -176,6 +176,8 @@ function EventoList() {
     const getDataEventUpt = async (idEventEdit) => {
         const eventData = await getEvento(idEventEdit)
         let fechaNueva = formateFechaGuion(eventData.fecha)
+        console.log("Normal "+eventData.fecha)
+        console.log("Formateo "+fechaNueva)
         setFechaUpt(fechaNueva)
         setEventoUpt(eventData.evento)
     }
@@ -382,7 +384,7 @@ function EventoList() {
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="fecha"
-                                    label="Fecha"
+                                    label="Fecha MM-DD-YYYY"
                                     variant="standard"
                                     value={fechaupt}
                                     type="date"

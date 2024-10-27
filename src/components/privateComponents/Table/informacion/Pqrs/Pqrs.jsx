@@ -8,6 +8,7 @@ import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes
 import toastr from "../../../../../assets/includes/Toastr";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useInfoContext } from "../../../../../context/migration/InfoContext";
+import { FiEdit2 } from 'react-icons/fi';
 
 function Pqrs() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');

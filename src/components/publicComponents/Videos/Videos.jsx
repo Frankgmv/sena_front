@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import { useMultimediaContext } from '../../../context/migration/MultimediaContext'
 import './Videos.css'
 

@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import './Magazine.css';
 import { MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
 import moment from 'moment/moment';
-import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
 import { Link } from 'react-router-dom';
 import LoadingScreen from '../../components/Loading/LoadingScreen';
 import { useDataContext } from '../../context/migration/DataContext.jsx';

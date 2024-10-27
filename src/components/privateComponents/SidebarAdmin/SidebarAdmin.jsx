@@ -145,8 +145,8 @@ export default function Sidebar() {
                 </ul>
                 <Divider />
                 {/* // !Informacion */}
-                <h4 className='subtitleSide' style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>Herramientas</h4>
-                <ul style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>
+                <h4 className='subtitleSide'>Herramientas</h4>
+                <ul>
                     <li key="pqrs" style={mostrar('P_PQRS') ? hiddenSeccion : {}}>
                         <NavLink to="./pqrs" className="link">
                             Pqrs

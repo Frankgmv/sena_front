@@ -1,7 +1,6 @@
 import './Archivos.css'
 import { MOSTRAR_ARCHIVO } from '../../assets/includes/variables';
 import { Link } from 'react-router-dom';
-import { useDataGeneralContext } from '../../context/publicContexts/DataGeneralContext';
 import { useMediaQuery } from '@mui/material';
 import { FiEye } from 'react-icons/fi';
 import { lazy, Suspense, useEffect } from 'react';

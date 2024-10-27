@@ -35,11 +35,8 @@ const DataContext = createContext({
     // ! token
     tokens: [], getTokens: () => { }, getToken: () => { }, putToken: () => { }, deleteToken: () => { },
 
-    // todo reset password
-
-    crearCodigo: () => { },
-    validarCodigo: () => { },
-    cambiarPassword: () => { },
+    // ! reset password
+    crearCodigo: () => { }, validarCodigo: () => { }, cambiarPassword: () => { },
 })
 
 export const useDataContext = () => {
@@ -741,7 +738,6 @@ export const DataContextProvider = ({ children }) => {
                     if (error?.message) handlerMessages(setErrors, error?.message)
                 })
             }
-            if (error?.message) handlerMessages(setErrors, error?.message)
             if (datos?.message) handlerMessages(setErrors, datos?.message)
         }
     }

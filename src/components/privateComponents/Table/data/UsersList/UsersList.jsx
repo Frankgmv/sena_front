@@ -55,10 +55,10 @@ function UserList() {
     const [passwordValidUpt, setPasswordValidUpt] = useState('')
 
     useEffect(() => {
-        if(usuarios.length == 0) getUsers()
-        if(roles.length == 0) getRoles()
+        if (usuarios.length == 0) getUsers()
+        if (roles.length == 0) getRoles()
     }, [])
-    
+
 
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
@@ -77,14 +77,19 @@ function UserList() {
                     ...dataUpdated,
                     'password': passwordUpt
                 }
+                setOpenEdit(false);
+                setShowPasswordInput(false);
+                const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
+                updateUsuario(idUser, dataUpdated, perfil.id);
             } else {
                 toastr.error('Las contraseñas no coinciden')
             }
+        }else{
+            setOpenEdit(false);
+            setShowPasswordInput(false);
+            const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
+            updateUsuario(idUser, dataUpdated, perfil.id);
         }
-        setOpenEdit(false);
-        setShowPasswordInput(false);
-        const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
-        updateUsuario(idUser, dataUpdated, perfil.id);
     };
 
     const handleSubmit = (e) => {
@@ -337,6 +342,7 @@ function UserList() {
     const buscarUsuario = async () => {
         const idUsuario = parseInt(getLocalStorage('UsuarioIdEdit'));
         const usuario = await getUsuario(idUsuario);
+        console.log(usuario)
         if (!usuario.ok || !idUsuario) {
             setOpenEdit(false)
         } else {
@@ -758,7 +764,7 @@ function UserList() {
                                                 label="Contraseña"
                                                 variant="standard"
                                                 name="password"
-                                                type="password"
+                                                type="text"
                                                 onChange={(e) => setPasswordUpt(e.target.value)}
                                                 style={{ marginLeft: '12px' }}
                                             />
@@ -768,7 +774,7 @@ function UserList() {
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 name="password_valid"
-                                                type="password"
+                                                type="text"
                                                 onChange={(e) => setPasswordValidUpt(e.target.value)}
                                                 style={{ marginLeft: '12px' }}
                                             />

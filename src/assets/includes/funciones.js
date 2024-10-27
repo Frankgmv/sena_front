@@ -12,6 +12,7 @@ export const getTodayDate = () => {
 }
 
 export const formateFechaGuion = (fecha) => {
+  // return moment(fecha).format('YYYY-MM-DD')
   return moment(fecha).format('YYYY-MM-DD')
 };
 

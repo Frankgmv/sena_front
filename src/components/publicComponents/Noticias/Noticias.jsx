@@ -4,7 +4,6 @@ import './Noticias.css'
 import Boton2 from "../botones/boton2/Boton2.jsx";
 import { formateFecha } from "../../../assets/includes/funciones.js";
 import { MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
-import { useDataGeneralContext } from "../../../context/publicContexts/DataGeneralContext.jsx";
 import { useEffect } from 'react';
 import { useDataContext } from '../../../context/migration/DataContext.jsx';
 

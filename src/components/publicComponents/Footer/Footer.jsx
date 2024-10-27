@@ -49,7 +49,7 @@ const Footer = () => {
                         <div className="junto">
                             <div className="telefonos">
                                 <h4>Teléfonos</h4>
-                                <p>Tel: 331 4725</p>
+                                <p>Tel: 606 344 41 77</p>
                             </div>
                             <div className="redes">
                                 <h4>Redes</h4>
