@@ -11,8 +11,9 @@
 }
 
 .menuBody .titulo{
+    margin-top: 2rem;
     text-align: center;
-    font-size: 28px;
+    font-size: 2.4rem;
     color: var(--black);
 }
 

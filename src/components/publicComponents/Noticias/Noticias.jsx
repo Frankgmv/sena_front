@@ -4,6 +4,7 @@ import './Noticias.css'
 import Boton2 from "../botones/boton2/Boton2.jsx";
 import { formateFecha } from "../../../assets/includes/funciones.js";
 import { MOSTRAR_ARCHIVO } from "../../../assets/includes/variables.js";
+<<<<<<< HEAD
 import { useDataGeneralContext } from "../../../context/publicContexts/DataGeneralContext.jsx";
 import { useEffect } from 'react';
 
@@ -14,10 +15,20 @@ const Noticias = () => {
     useEffect(()=>{
         getNoticias()
     }, [])
+=======
+import { useEffect } from 'react';
+import { useDataContext } from '../../../context/migration/DataContext.jsx';
 
-    const ultimasNoticias = data
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 2);
+const Noticias = () => {
+
+    const { noticias: data, getNoticias } = useDataContext()
+>>>>>>> improve_response
+
+    useEffect(() => {
+        if(data.length == 0) getNoticias()
+    }, [])
+
+    const ultimasNoticias = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 2);
 
     return (
         <div className="newsBody" id="noticias">
@@ -31,7 +42,7 @@ const Noticias = () => {
                         linkBoton='/noticias'
                         textBoton='Ver Más Noticias'
                     />
-                </div>  
+                </div>
             </div>
             <div className="containerCard">
                 {ultimasNoticias.map((item) => (

@@ -12,38 +12,37 @@ import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
-import { useEventContext } from "../../../../../context/EventContext";
 import { formateFecha, formateFechaGuion, getTodayDate } from "../../../../../assets/includes/funciones";
+import { useMultimediaContext } from "../../../../../context/migration/MultimediaContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
 
 function EventoList() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const [fechaEventCreate, setFechaEventCreate] = useState(getTodayDate())
     const [nameEvento, setNameEvento] = useState('')
-    const { eventos, createEvento, responseMessage, errors, getEventos, deleteEvento, getEvento, putEvento } = useEventContext()
+    const { eventos, createEvento, success, errorsR, getEventos, deleteEvento, getEvento, putEvento } = useMultimediaContext()
+    const { perfil } = useAuthContext()
     const [fechaupt, setFechaUpt] = useState('')
     const [eventoUpt, setEventoUpt] = useState('')
 
     useEffect(() => {
-        if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+        if (errorsR.length != 0) {
+            errorsR.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errors]);
 
-    useEffect(() => {
-        if (responseMessage.length != 0) {
-            responseMessage.map(msg => {
+        if (success.length != 0) {
+            success.map(msg => {
                 toastr.success(msg)
             })
         }
-        getEventos()
-    }, [responseMessage])
+    }, [errorsR, success]);
 
-
+    useEffect(() => {
+        if (eventos.length == 0) getEventos()
+    }, [])
 
     const columns = [
         {
@@ -177,6 +176,8 @@ function EventoList() {
     const getDataEventUpt = async (idEventEdit) => {
         const eventData = await getEvento(idEventEdit)
         let fechaNueva = formateFechaGuion(eventData.fecha)
+        console.log("Normal " + eventData.fecha)
+        console.log("Formateo " + fechaNueva)
         setFechaUpt(fechaNueva)
         setEventoUpt(eventData.evento)
     }
@@ -184,8 +185,7 @@ function EventoList() {
     const submitFormCreate = (e) => {
         e.preventDefault()
         const dataEvento = { evento: nameEvento, fecha: fechaEventCreate }
-        createEvento(dataEvento)
-        getEventos()
+        createEvento(dataEvento, perfil?.id)
         handleCloseNew()
         setNameEvento('')
     }
@@ -194,15 +194,11 @@ function EventoList() {
         const dataEvento = { evento: eventoUpt, fecha: fechaupt }
         let idEventEdit = getLocalStorage('idEventedit')
         idEventEdit = parseInt(idEventEdit)
-        putEvento(idEventEdit, dataEvento)
-        getEventos()
+        putEvento(idEventEdit, dataEvento, perfil?.id)
         handleCloseEdit()
         setEventoUpt('')
         setFechaUpt('')
     }
-
-
-
 
     return (
         <>
@@ -301,6 +297,15 @@ function EventoList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>
@@ -388,7 +393,7 @@ function EventoList() {
                             <Grid item sx={{ width: isSmallScreen ? '100%' : '50%' }}>
                                 <TextField
                                     id="fecha"
-                                    label="Fecha"
+                                    label="Fecha MM-DD-YYYY"
                                     variant="standard"
                                     value={fechaupt}
                                     type="date"

@@ -11,20 +11,26 @@ import toastr from "../../../../../assets/includes/Toastr";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useNoticiaContext } from "../../../../../context/NoticiaContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 function Noticias() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+<<<<<<< HEAD
     const { noticias, getNoticia, getNoticias, postNoticia, errorsData, responseMessageData, deleteNoticia, putNoticia } = useNoticiaContext()
     const { usuarios, getUsers } = useUserContext()
+=======
+    const {usuarios, getUsers, noticias, getNoticia, getNoticias, postNoticia, errors, message, deleteNoticia, putNoticia } = useDataContext()
+    const { perfil } = useAuthContext()
+    
+>>>>>>> improve_response
 
     const [titulo, setTitulo] = useState('')
     const [descripcion, setDescripcion] = useState('')
@@ -59,8 +65,13 @@ function Noticias() {
     }
 
     useEffect(()=>{
+<<<<<<< HEAD
         getUsers()
         getNoticias()
+=======
+        if(usuarios.length == 0) getUsers()
+        if(noticias.length == 0) getNoticias()
+>>>>>>> improve_response
     }, [])
 
     useEffect(() => {
@@ -75,25 +86,19 @@ function Noticias() {
     }, [openView])
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
-            getNoticias();
             setOpenNew(false);
         }
-
-    }, [responseMessageData])
+    }, [errors, message]);
 
     const columns = [
         {
@@ -298,7 +303,7 @@ function Noticias() {
     const submitFormCreateNoticia = (e) => {
         e.preventDefault()
         const dataNoticia = new FormData(e.currentTarget)
-        postNoticia(dataNoticia)
+        postNoticia(dataNoticia, perfil.id)
     }
 
     const submitUpdate = (event) => {
@@ -450,6 +455,15 @@ function Noticias() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

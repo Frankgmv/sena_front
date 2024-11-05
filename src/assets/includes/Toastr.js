@@ -1,7 +1,7 @@
 import toastr from "toastr";
 
 toastr.options = {
-    "positionClass": "toast-top-right",
+    "positionClass": "toast-bottom-right",
     "progressBar": true,
     "onclick": null,
     "showDuration": "300",

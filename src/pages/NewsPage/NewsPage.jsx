@@ -3,17 +3,29 @@ import './NewsPage.css'
 import { Modal } from "@mui/material";
 import { formateFecha } from "../../assets/includes/funciones";
 import { MOSTRAR_ARCHIVO } from "../../assets/includes/variables";
+<<<<<<< HEAD
 import { useDataGeneralContext } from "../../context/publicContexts/DataGeneralContext";
 import f1 from '../../assets/img/f1.jpg'
 import LoadingScreen from "../../components/Loading/LoadingScreen";
+=======
+import f1 from '../../assets/img/f1.jpg'
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import { useDataContext } from "../../context/migration/DataContext.jsx";
+>>>>>>> improve_response
 const NavBar = lazy(() => import("../../components/publicComponents/Navbar/NavBar.jsx"))
 const Footer = lazy(() => import("../../components/publicComponents/Footer/Footer.jsx"))
 const MenuInteractivo = lazy(() => import("../../components/publicComponents/MenuInteractivo/MenuInteractivo.jsx"))
 
 const NewsPage = () => {
+<<<<<<< HEAD
     const { noticias: data, getNoticias } = useDataGeneralContext()
     useEffect(() => {
         getNoticias()
+=======
+    const { noticias: data, getNoticias } = useDataContext()
+    useEffect(() => {
+        if (data.length == 0) getNoticias()
+>>>>>>> improve_response
     }, [])
     const [selectedItem, setSelectedItem] = useState(null);
 

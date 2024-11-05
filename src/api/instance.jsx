@@ -2,6 +2,7 @@ import axios from 'axios'
 import { getLocalStorage } from '../assets/includes/localStorage';
 import { BASE_URL_API } from '../assets/includes/variables';
 const getCredential = () => {
+
     const token = getLocalStorage('token');
     return token ? `Bearer ${token}` : '';
 }

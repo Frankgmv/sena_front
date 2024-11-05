@@ -1,16 +1,20 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
+import { useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import { Button } from "reactstrap";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
 
 function Categoria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+<<<<<<< HEAD
     const {categorias} = useGeneralContext()
+=======
+    const { categorias } = useBasicallyContext()
+>>>>>>> improve_response
 
     const columns = [
         {
@@ -146,6 +150,15 @@ function Categoria() {
                         fontWeight: "500",
                         transition: "all 0.3s ease-in-out",
                     },
+                    '.MuiDataGrid-icon': {
+                        color: 'white',
+                    },
+                    '.MuiSvgIcon-root': {
+                        color: 'white',
+                    },
+                    '.MuiTablePagination-actions .MuiIconButton-root': {
+                        color: 'white',
+                    }
                 }}
             />
         </div>

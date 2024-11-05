@@ -3,28 +3,32 @@ import fondo from '../../assets/img/f1.jpg'
 import Boton4 from '../../components/publicComponents/botones/boton4/Boton4'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuthContext } from '../../context/migration/AuthContext'
+import { useBasicallyContext } from '../../context/migration/BasicallyContext'
 
 const Login = () => {
     const [dataLogin, setDataLogin] = useState({});
+<<<<<<< HEAD
     const { roles, getRoles, errors, login, responseMessage, isAuthenticate, verifyAuth } = useCredentialContext();
+=======
+    const { roles } = useBasicallyContext()
+    const { errors, setErrors, login, message, setMessages, isAuthenticate, verifyAuth } = useAuthContext();
+>>>>>>> improve_response
     const navigate = useNavigate()
 
-    const [showPassword, setShowPassword] = useState(false);
 
+    const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     }
 
     useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
@@ -36,19 +40,19 @@ const Login = () => {
     }, []);
 
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
         }
 
-        if (isAuthenticate) {
-            navigate('/admin')
-        }
+        setTimeout(() =>{
+            if (isAuthenticate == true) {
+                navigate('/admin')
+            }
+        }, 2000)
 
-    }, [responseMessage, isAuthenticate, navigate]);
+    }, [message, isAuthenticate, navigate]);
 
 
     const handleSubmit = (e) => {
@@ -80,7 +84,7 @@ const Login = () => {
             <div className="redirecciones">
                 <Link className='link-redirecciones' to="/">Inicio</Link>
                 <Link className='link-redirecciones' to="/login">Iniciar Sesión</Link>
-                <Link className='link-redirecciones' to="/register">Registarse</Link>
+                <Link className='link-redirecciones' to="/register">Registrarse</Link>
             </div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
@@ -100,15 +104,15 @@ const Login = () => {
                 </div>
                 <div className="redireccionesMobile">
                     <Link className='link-redireccionesMobile' to="/">Inicio</Link>
-                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
-                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
+                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesión</Link>
+                    <Link className='link-redireccionesMobile' to="/register">Registrarse</Link>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' onChange={handleChange} maxLength={12} type="text" />
-                                <label className="label" htmlFor="id">Identificacion</label>
+                                <label className="label" htmlFor="id">Identificación</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">

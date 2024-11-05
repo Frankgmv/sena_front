@@ -1,21 +1,28 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
+=======
+import { useState } from "react";
+>>>>>>> improve_response
 import { Grid, useMediaQuery } from "@mui/material";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import { Button } from "reactstrap";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
 
 
 function SeccionList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+<<<<<<< HEAD
     const { secciones } = useGeneralContext()
+=======
+    const { secciones } = useBasicallyContext()
+>>>>>>> improve_response
 
     const columns = [
-        {
-            field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center",
-        },
+        { field: "seccion", headerName: "Sección", width: 350, headerAlign: "center", align: "center" },
         { field: "seccionKey", headerName: "Codigo de la Seccion", width: 340, headerAlign: "center", align: "center" }
     ];
 
@@ -136,6 +143,15 @@ function SeccionList() {
                         fontWeight: "500",
                         transition: "all 0.3s ease-in-out",
                     },
+                    '.MuiDataGrid-icon': {
+                        color: 'white',
+                    },
+                    '.MuiSvgIcon-root': {
+                        color: 'white',
+                    },
+                    '.MuiTablePagination-actions .MuiIconButton-root': {
+                        color: 'white',
+                    }
                 }}
             />
         </div>

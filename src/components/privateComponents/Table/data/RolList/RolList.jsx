@@ -6,12 +6,11 @@ import Modal from '@mui/material/Modal';
 import { useMediaQuery } from '@mui/material';
 import { FiEdit2 } from "react-icons/fi";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
-import { useCredentialContext } from "../../../../../context/AuthContext";
 import toastr from "../../../../../assets/includes/Toastr";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
 
 function RolList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
@@ -19,23 +18,21 @@ function RolList() {
     const [estadoUpt, setEstadoUpt] = useState('')
     const [valueEdit, setValueEdit] = useState(true)
 
-    const { roles, getRoles } = useCredentialContext()
-    const { putRol, getRol, responseMessage: response, errors } = useGeneralContext()
+    const { roles, getRoles, putRol, getRol, message, errors, setErrors, setMessages
+    } = useBasicallyContext()
 
     useEffect(() => {
-        if (response.length != 0) {
-            response.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
         }
         getRoles()
-    }, [response])
+    }, [message])
 
     useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(msg => {
+            errors.map(msg => {
                 toastr.error(msg)
             })
         }
@@ -147,8 +144,8 @@ function RolList() {
 
     return (
         <>
-            <div style={{ height: isSmallScreen ? '90%' : '70%', width: isSmallScreen ? '100%' : '35%',}}>
-            <Grid
+            <div style={{ height: isSmallScreen ? '90%' : '70%', width: isSmallScreen ? '100%' : '35%', }}>
+                <Grid
                     container
                     direction="row"
                     justifyContent="space-evenly"
@@ -157,18 +154,18 @@ function RolList() {
                 >
                     <BotonExcel data={roles} />
                     <Button
-                    variant='contained'
-                    color="success"
-                    className="receipt-modal-download-button"
-                    onClick={downloadPDF}
-                    disabled={!(loader === false)}
-                >
-                    {loader ? (
-                        <span>Downloading</span>
-                    ) : (
-                        <span>Descargar PDF</span>
-                    )}
-                </Button>
+                        variant='contained'
+                        color="success"
+                        className="receipt-modal-download-button"
+                        onClick={downloadPDF}
+                        disabled={!(loader === false)}
+                    >
+                        {loader ? (
+                            <span>Downloading</span>
+                        ) : (
+                            <span>Descargar PDF</span>
+                        )}
+                    </Button>
                 </Grid>
                 <DataGrid
                     rows={roles.map(rol => {
@@ -183,7 +180,7 @@ function RolList() {
                     hideFooterSelectedRowCount
                     ignoreDiacritics
                     disableColumnSelector
-                    className="datagrid"    
+                    className="datagrid"
                     disableDensitySelector
                     slots={{
                         toolbar: GridToolbar,
@@ -249,6 +246,15 @@ function RolList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>
@@ -286,15 +292,15 @@ function RolList() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                style={{ marginTop: '20px', color:'#fff'}}
-                                fullWidth
-                                type="submit"
-                            >
-                                Actualizar
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    style={{ marginTop: '20px', color: '#fff' }}
+                                    fullWidth
+                                    type="submit"
+                                >
+                                    Actualizar
+                                </Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Button variant="contained" color="error" onClick={handleCloseEdit} fullWidth style={{ marginTop: '20px', color: '#fff' }}>

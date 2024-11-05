@@ -12,6 +12,7 @@ import { useMediaQuery } from '@mui/material';
 import { RiShieldKeyholeLine } from "react-icons/ri";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import toastr from '../../../../../assets/includes/Toastr'
+<<<<<<< HEAD
 import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { useGeneralContext } from "../../../../../context/GeneralContext";
@@ -19,19 +20,36 @@ import { useCredentialContext } from "../../../../../context/AuthContext";
 import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+=======
+import { formateFecha } from "../../../../../assets/includes/funciones";
+import { usePermisosContext } from "../../../../../context/migration/GeneralContext";
+import BotonExcel from '../../../../publicComponents/botones/BotonExcel/BotonExcel'
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
+import { Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
+>>>>>>> improve_response
 
 
 
 function UserList() {
+<<<<<<< HEAD
     const { usuarios, getUsers, errorsUser, responseMessageUser, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useUserContext();
     const { roles, getRoles } = useCredentialContext()
     const { getDataPermisos, permisosData, errors, responseMessage, setPermisosData, postDataPermisos, deleteDataPermisos } = useGeneralContext()
+=======
+    const { usuarios, getUsers, errors, message, registrarUsuario, getUsuario, updateUsuario, deleteUsuario } = useDataContext();
+    const { perfil } = useAuthContext()
+    const { roles, getRoles } = useBasicallyContext()
+    const { getDataPermisos, permisosData, errorsP, successP, setPermisosData, postDataPermisos, deleteDataPermisos } = usePermisosContext()
+>>>>>>> improve_response
 
     const [showPasswordInput, setShowPasswordInput] = useState(false);
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
 
-    //  !Logica guardar usuarios
+    //  ! Logica guardar usuarios
     const [id, setId] = useState('')
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
@@ -53,10 +71,18 @@ function UserList() {
     const [passwordValidUpt, setPasswordValidUpt] = useState('')
 
     useEffect(() => {
+<<<<<<< HEAD
         getUsers()
         getRoles()
     }, [])
 
+=======
+        if (usuarios.length == 0) getUsers()
+        if (roles.length == 0) getRoles()
+    }, [])
+
+
+>>>>>>> improve_response
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
         let dataUpdated = {
@@ -74,14 +100,19 @@ function UserList() {
                     ...dataUpdated,
                     'password': passwordUpt
                 }
+                setOpenEdit(false);
+                setShowPasswordInput(false);
+                const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
+                updateUsuario(idUser, dataUpdated, perfil.id);
             } else {
                 toastr.error('Las contraseñas no coinciden')
             }
+        }else{
+            setOpenEdit(false);
+            setShowPasswordInput(false);
+            const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
+            updateUsuario(idUser, dataUpdated, perfil.id);
         }
-        setOpenEdit(false);
-        setShowPasswordInput(false);
-        const idUser = parseInt(getLocalStorage('UsuarioIdEdit'));
-        updateUsuario(idUser, dataUpdated);
     };
 
     const handleSubmit = (e) => {
@@ -107,41 +138,32 @@ function UserList() {
     }
 
     useEffect(() => {
-        if (errorsUser.length != 0) {
-            const deleteDuplicidad = new Set(errorsUser);
-            const errorsUser2 = [...deleteDuplicidad]
-            errorsUser2.map(error => {
-                return toastr.error(error)
-            })
-        }
-
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
 
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (errorsP.length != 0) {
+            errorsP.map(error => {
+                return toastr.error(error)
+            })
+        }
+
+        if (message.length != 0) {
+            message.map(msg => {
                 return toastr.success(msg)
             })
-        }
-
-        if (responseMessageUser.length != 0) {
-            const deleteDuplicidad = new Set(responseMessageUser);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
-                toastr.success(msg)
-            })
-            getUsers();
             setOpenNew(false);
             resetForm();
         }
-    }, [errorsUser, errors, responseMessage, responseMessageUser]);
+
+        if (successP.length != 0) {
+            successP.map(msg => {
+                toastr.success(msg)
+            })
+        }
+    }, [errors, errorsP, message, successP]);
 
     const navegarAUsuario = (usuarioId) => {
         setLocalStorage('UsuarioIdEdit', usuarioId)
@@ -343,6 +365,7 @@ function UserList() {
     const buscarUsuario = async () => {
         const idUsuario = parseInt(getLocalStorage('UsuarioIdEdit'));
         const usuario = await getUsuario(idUsuario);
+        console.log(usuario)
         if (!usuario.ok || !idUsuario) {
             setOpenEdit(false)
         } else {
@@ -437,8 +460,8 @@ function UserList() {
                 </Grid>
                 <DataGrid
                     rows={usuarios.map((user) => {
-                        if (user.estado) return { ...user, estado: 'activo' }
-                        return { ...user, estado: 'inactivo' }
+                        if (user.estado) return { ...user, estado: 'Activo' }
+                        return { ...user, estado: 'Inactivo' }
                     }).map(user => {
                         for (let rol of roles) {
                             if (rol.id === user.RolId) {
@@ -524,6 +547,15 @@ function UserList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>
@@ -764,7 +796,7 @@ function UserList() {
                                                 label="Contraseña"
                                                 variant="standard"
                                                 name="password"
-                                                type="password"
+                                                type="text"
                                                 onChange={(e) => setPasswordUpt(e.target.value)}
                                                 style={{ marginLeft: '12px' }}
                                             />
@@ -774,7 +806,7 @@ function UserList() {
                                                 label="Repetir Contraseña"
                                                 variant="standard"
                                                 name="password_valid"
-                                                type="password"
+                                                type="text"
                                                 onChange={(e) => setPasswordValidUpt(e.target.value)}
                                                 style={{ marginLeft: '12px' }}
                                             />

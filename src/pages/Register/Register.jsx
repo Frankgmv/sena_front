@@ -3,15 +3,21 @@ import './Register.css'
 import fondo from '../../assets/img/f1.jpg'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useCredentialContext } from '../../context/AuthContext'
 import toastr from '../../assets/includes/Toastr'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuthContext } from '../../context/migration/AuthContext'
+import { useBasicallyContext } from '../../context/migration/BasicallyContext'
 
 
 const Register = () => {
+<<<<<<< HEAD
     const { roles, getRoles, setErrors, errors, responseMessage, register } = useCredentialContext();
+=======
+    const { roles } = useBasicallyContext()
+    const { setErrors, errors, message, register } = useAuthContext();
+>>>>>>> improve_response
     const [dataRegister, setDataRegister] = useState({});
     const navigate = useNavigate();
 
@@ -25,23 +31,22 @@ const Register = () => {
 
     useEffect(() => {
         if (errors.length != 0) {
-            const deleteDuplicidad = new Set(errors);
-            const errors2 = [...deleteDuplicidad]
-            errors2.map(error => {
+            errors.map(error => {
                 toastr.error(error)
             })
         }
     }, [errors]);
 
+<<<<<<< HEAD
     useEffect(()=>{
         getRoles()
     }, [])
 
+=======
+>>>>>>> improve_response
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
             document.querySelector('form').reset();
@@ -49,7 +54,7 @@ const Register = () => {
                 navigate("/login")
             }, 4000);
         }
-    }, [responseMessage, navigate]);
+    }, [message, navigate]);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -88,10 +93,10 @@ const Register = () => {
                 <img src={fondo} alt="logo.png" />
             </div>
             <div className="fondo"></div>
-            <div className="redirecciones">
-                <Link className='link-redirecciones' to="/">Inicio</Link>
-                <Link className='link-redirecciones' to="/login">Iniciar Sesion</Link>
-                <Link className='link-redirecciones' to="/register">Registarse</Link>
+            <div className="redirecciones2">
+                <a href="/" className="link-redirecciones2">Inicio</a>
+                <a href="/login" className="link-redirecciones2">Iniciar Sesión</a>
+                <a href="/register" className="link-redirecciones2">Registrarse</a>
             </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
@@ -105,23 +110,23 @@ const Register = () => {
                     <p>A la plataforma educativa</p>
                     <h2>I. E. Centenario Pereira</h2>
                 </div>
-                <div className="redireccionesMobile">
-                    <Link className='link-redireccionesMobile' to="/">Inicio</Link>
-                    <Link className='link-redireccionesMobile' to="/login">Iniciar Sesion</Link>
-                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
+                <div className="redireccionesMobile2">
+                    <a href="/" className="link-redireccionesMobile2">Inicio</a>
+                    <a href="/login" className="link-redireccionesMobile2">Iniciar Sesión</a>
+                    <a href="/register" className="link-redireccionesMobile2">Registrarse</a>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>
                         <div className="junto">
                             <div className="input-container">
                                 <input id="id" name='id' type="text" maxLength={10} onChange={handleChange} />
-                                <label className="label" htmlFor="id">Identificacion</label>
+                                <label className="label" htmlFor="id">Identificación</label>
                                 <div className="underline"></div>
                             </div>
                             <div className="input-container">
                                 <input id="claveEspecial" name='claveEspecial' type={showPassword ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="claveEspecila">Clave Especial</label>
-                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={handleShowPassword}>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={handleShowPassword}>
                                     {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
@@ -147,7 +152,7 @@ const Register = () => {
                             </div>
                             <div className="input-container">
                                 <input id="celular" name='celular' type="text" maxLength={10} onChange={handleChange} />
-                                <label className="label" htmlFor="celular">Numero de celular</label>
+                                <label className="label" htmlFor="celular">Número de celular</label>
                                 <div className="underline"></div>
                             </div>
                         </div>
@@ -173,7 +178,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="password" name='password' type={showPassword2 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="password">Contraseña</label>
-                                <button type='button' style={{color: 'black'}} className="eye-button" onClick={() => setShowPassword2(!showPassword2)}>
+                                <button type='button' style={{ color: 'black' }} className="eye-button" onClick={() => setShowPassword2(!showPassword2)}>
                                     {showPassword2 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>
@@ -181,7 +186,7 @@ const Register = () => {
                             <div className="input-container">
                                 <input id="repetirPassword" name='repetirPassword' type={showPassword3 ? "text" : "password"} onChange={handleChange} />
                                 <label className="label" htmlFor="repetirPassword">Repetir Contraseña</label>
-                                <button type='button' className="eye-button" style={{color: 'black'}} onClick={()=>{setShowPassword3(!showPassword3)}}>
+                                <button type='button' className="eye-button" style={{ color: 'black' }} onClick={() => { setShowPassword3(!showPassword3) }}>
                                     {showPassword3 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                                 </button>
                                 <div className="underline"></div>

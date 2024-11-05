@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+<<<<<<< HEAD
 import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
 import './Videos.css'
 
@@ -7,6 +8,16 @@ const Videos = () => {
 
     useEffect(()=>{
         getVideos()
+=======
+import { useMultimediaContext } from '../../../context/migration/MultimediaContext'
+import './Videos.css'
+
+const Videos = () => {
+    const { videos, getVideos} = useMultimediaContext()
+
+    useEffect(()=>{
+        if(videos.length == 0) getVideos()
+>>>>>>> improve_response
     }, [])
 
     return (

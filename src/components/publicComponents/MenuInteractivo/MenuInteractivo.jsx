@@ -11,6 +11,7 @@ import ubication from '../../../assets/img/3425077.png'
 import files from '../../../assets/img/files.jpeg'
 import pqrs from '../../../assets/img/pqrs.png'
 import pdf from '../../../assets/img/pdf.png'
+<<<<<<< HEAD
 import { useEffect } from 'react'
 import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
 import CardMenuInteractivo from '../Cards/CardMenuInteractivo/CardMenuInteractivo'
@@ -21,12 +22,27 @@ const MenuInteractivo = () => {
 
     useEffect(()=>{
         getItems()
+=======
+import { useEffect, useState} from 'react'
+import { MOSTRAR_ARCHIVO } from '../../../assets/includes/variables'
+import { getLocalStorage } from '../../../assets/includes/localStorage'
+import { useDataContext } from '../../../context/migration/DataContext'
+import CardMenuInteractivo from '../Cards/CardMenuInteractivo/CardMenuInteractivo'
+
+const MenuInteractivo = () => {
+    const {items: data, getItems} = useDataContext()
+    let [ocultarAdmin, setOcultarAdmin] = useState(true)
+
+    useEffect(()=>{
+        if(data.length == 0) getItems()
+        if(getLocalStorage('token')) setOcultarAdmin(false)
+>>>>>>> improve_response
     }, [])
 
     return (
         <div className='menuBody'>
             <div className="titulo">
-                <h2>Nuestro Menú Interactivo</h2>
+                <h2>Menú intuitivo</h2>
             </div>
             <div className="menuCards">
                 <CardMenuInteractivo
@@ -89,6 +105,7 @@ const MenuInteractivo = () => {
                     link="/admin"
                     name="Administrar"
                     img={admin}
+                    hidden={ocultarAdmin}
                 />
                 {data.map((item) => (
                     <div className='containerMenuCard' key={item.id} hidden={!item.estado}>

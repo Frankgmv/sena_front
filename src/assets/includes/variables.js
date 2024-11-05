@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // const URL =  "http://localhost:3222"
+=======
+>>>>>>> improve_response
 const URL =  "https://iecentenario.edu.co"
 
 export const URL_CREADORES = 'https://senadevsportafolio.netlify.app/'

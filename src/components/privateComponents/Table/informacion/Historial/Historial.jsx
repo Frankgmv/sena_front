@@ -1,36 +1,50 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Grid, useMediaQuery } from "@mui/material";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import toastr from "../../../../../assets/includes/Toastr";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
-
-
+import { useDataContext } from "../../../../../context/migration/DataContext";
+import { useInfoContext } from "../../../../../context/migration/InfoContext";
 
 function Historial() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+<<<<<<< HEAD
     const { historial, getHistorial, deleteAllHistorial, responseMessage } = useGeneralContext()
     const { usuarios, getUsers } = useUserContext()
 
     useEffect(() =>{
         getUsers()
         getHistorial()
+=======
+    const { usuarios, getUsers } = useDataContext()
+    const { historial, getHistorial, deleteAllHistorial, errorsI, successI } = useInfoContext()
+
+    useEffect(() =>{
+        if(usuarios.length == 0) getUsers()
+        if(historial.length == 0) getHistorial()
+>>>>>>> improve_response
     }, [])
     
     useEffect(() => {
-        if (responseMessage.length != 0) {
-            const deleteDuplicidad = new Set(responseMessage);
-            const responseMessage2 = [...deleteDuplicidad]
-            responseMessage2.map(msg => {
+        if (errorsI.length != 0) {
+            errorsI.map(msg => {
+                toastr.error(msg)
+            })
+        }
+        if (successI.length != 0) {
+            successI.map(msg => {
                 toastr.success(msg)
             })
         }
 
+<<<<<<< HEAD
     }, [responseMessage])
+=======
+    }, [successI, errorsI])
+>>>>>>> improve_response
 
 
     const columns = [
@@ -193,6 +207,15 @@ function Historial() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

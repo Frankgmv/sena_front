@@ -4,6 +4,7 @@ import Menu from "@mui/material/Menu";
 import { IoIosArrowDown } from "react-icons/io";
 import toastr from "../../assets/includes/Toastr";
 import { lazy, Suspense, useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useGeneralContext } from "../../context/GeneralContext";
 import { useCredentialContext } from "../../context/AuthContext";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
@@ -30,30 +31,59 @@ const Historial = lazy(()=> import("../../components/privateComponents/Table/inf
 const AnunciosList = lazy(()=> import("../../components/privateComponents/Table/data/AnunciosList/AnunciosList.jsx"))
 const Notificacion = lazy(()=> import("../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones.jsx"))
 const CredencialesEmail = lazy(()=> import("../../components/privateComponents/Table/data/Credenciales/CredencialesEmail.jsx"))
+=======
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import { getLocalStorage, setLocalStorage } from "../../assets/includes/localStorage";
+import { Routes, Route, Outlet, Link, useNavigate, NavLink } from "react-router-dom";
+import { useAuthContext } from "../../context/migration/AuthContext.jsx";
+
+const Links = lazy(() => import("../../components/privateComponents/Table/data/Links/Links.jsx"))
+const Token = lazy(() => import("../../components/privateComponents/Table/data/Token/Token.jsx"))
+const Perfil = lazy(() => import("../../components/privateComponents/Table/data/Perfil/Perfil.jsx"))
+const Pqrs = lazy(() => import("../../components/privateComponents/Table/informacion/Pqrs/Pqrs.jsx"))
+const Sidebar = lazy(() => import("../../components/privateComponents/SidebarAdmin/SidebarAdmin.jsx"))
+const RolList = lazy(() => import("../../components/privateComponents/Table/data/RolList/RolList.jsx"))
+const Noticias = lazy(() => import("../../components/privateComponents/Table/data/Noticias/Noticias.jsx"))
+const Videos = lazy(() => import("../../components/privateComponents/Table/multimedia/Videos/Videos.jsx"))
+const Slider = lazy(() => import("../../components/privateComponents/Table/multimedia/Slider/Slider.jsx"))
+const UserList = lazy(() => import("../../components/privateComponents/Table/data/UsersList/UsersList.jsx"))
+const ItemList = lazy(() => import("../../components/privateComponents/Table/data/ItemsList/ItemsList.jsx"))
+const Categoria = lazy(() => import("../../components/privateComponents/Table/data/Categoria/Categoria.jsx"))
+const Galeria = lazy(() => import("../../components/privateComponents/Table/multimedia/Galeria/Galeria.jsx"))
+const EventoList = lazy(() => import("../../components/privateComponents/Table/data/EventoList/EventoList.jsx"))
+const Archivos = lazy(() => import("../../components/privateComponents/Table/multimedia/Archivos/Archivos.jsx"))
+const SeccionList = lazy(() => import("../../components/privateComponents/Table/data/SeccionList/SeccionList.jsx"))
+const Historial = lazy(() => import("../../components/privateComponents/Table/informacion/Historial/Historial.jsx"))
+const AnunciosList = lazy(() => import("../../components/privateComponents/Table/data/AnunciosList/AnunciosList.jsx"))
+const Notificacion = lazy(() => import("../../components/privateComponents/Table/informacion/Notificaciones/Notificaciones.jsx"))
+const CredencialesEmail = lazy(() => import("../../components/privateComponents/Table/data/Credenciales/CredencialesEmail.jsx"))
+>>>>>>> improve_response
 
 
 const AdminDashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+<<<<<<< HEAD
   const { perfil, getPerfil } = useGeneralContext();
   const open = Boolean(anchorEl);
   const { logoutFn, rolName, getRolName, isAuthenticate, errors, responseMessage, verificarToken } = useCredentialContext()
+=======
+  const open = Boolean(anchorEl);
+  const { Logout, perfil, getPerfil, isAuthenticate, errors, message, verificarToken,
+    setMessages, setErrors } = useAuthContext()
+>>>>>>> improve_response
   const navegar = useNavigate()
 
   useEffect(() => {
-    if (responseMessage.length != 0) {
-      const deleteDuplicidad = new Set(responseMessage);
-      const responseMessage2 = [...deleteDuplicidad]
-      responseMessage2.map(msg => {
+    if (message.length != 0) {
+      message.map(msg => {
         toastr.success(msg)
       })
     }
-  }, [responseMessage])
+  }, [message])
 
   useEffect(() => {
     if (errors.length != 0) {
-      const deleteDuplicidad = new Set(errors);
-      const errors2 = [...deleteDuplicidad]
-      errors2.map(msg => {
+      errors.map(msg => {
         toastr.error(msg)
       })
     }
@@ -67,20 +97,31 @@ const AdminDashboard = () => {
     setAnchorEl(null);
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     getRolName()
     getPerfil()
 
+=======
+  const callVerify = async () =>{
+>>>>>>> improve_response
     if (!getLocalStorage('token')) {
+      Logout()
       navegar('/login')
     } else if (!isAuthenticate) {
-      verificarToken()
+      await verificarToken()
     }
+    
+  }
+
+  useEffect(() => {
+    getPerfil()
+    callVerify()
   }, [])
 
   const cerrarSesion = () => {
-    logoutFn()
-    navegar('/login')
+    setLocalStorage('token', 'vacio')
+    Logout()
   }
 
   return (
@@ -97,7 +138,11 @@ const AdminDashboard = () => {
                 <h4 className="user">
                   {perfil.nombre ? `${perfil.nombre} ${perfil.apellido}` : ""}
                 </h4>
+<<<<<<< HEAD
                 <p className="rol">{rolName.rol}</p>
+=======
+                <p className="rol">{perfil.rol}</p>
+>>>>>>> improve_response
               </div>
               <div className="icon">
                 <IoIosArrowDown
@@ -147,7 +192,11 @@ const AdminDashboard = () => {
                         handleClose();
                         cerrarSesion();
                       }} to="/login">
+<<<<<<< HEAD
                         Cerrar Sesion
+=======
+                        Cerrar Sesión
+>>>>>>> improve_response
                       </Link>
                     </Grid>
                   </Menu>

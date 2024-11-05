@@ -10,20 +10,20 @@ import { useMediaQuery } from '@mui/material';
 
 import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import { formateFecha } from "../../../../../assets/includes/funciones";
-import { useCredentialContext } from "../../../../../context/AuthContext";
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import SendIcon from '@mui/icons-material/Send';
-import { useAnunciosContext } from "../../../../../context/AnunciosContext";
-import { useGeneralContext } from "../../../../../context/GeneralContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { MOSTRAR_ARCHIVO } from "../../../../../assets/includes/variables";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
+import { useBasicallyContext } from "../../../../../context/migration/BasicallyContext";
+import { useDataContext } from "../../../../../context/migration/DataContext";
+import { useAuthContext } from "../../../../../context/migration/AuthContext";
 
 function AnunciosList() {
+<<<<<<< HEAD
     const { anuncios, getAnuncios, errorsData, responseMessageData, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useAnunciosContext();
     const { secciones  } = useGeneralContext()
     const { usuarios } = useUserContext()
@@ -32,6 +32,15 @@ function AnunciosList() {
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     
     //  !Logica guardar 
+=======
+    const {usuarios, getUsers, anuncios, getAnuncios, errors, message, postAnuncio, getAnuncio, putAnuncio, deleteAnuncio } = useDataContext();
+    const { perfil } = useAuthContext()
+    const { roles, secciones } = useBasicallyContext()
+
+    const isSmallScreen = useMediaQuery('(max-width: 700px)');
+
+    //  ! Logica guardar 
+>>>>>>> improve_response
     const [id, setId] = useState('')
     const [titulo, setTitulo] = useState('')
     const [descripcion, setDescripcion] = useState('')
@@ -39,6 +48,7 @@ function AnunciosList() {
     const [UsuarioId, setUsuarioId] = useState('')
     const [SeccionId, setSeccionId] = useState('')
 
+    //  ! Logica actualizar 
     const [tituloUpt, setTituloUpt] = useState('')
     const [descripcionUpt, setDescripcionUpt] = useState('')
     const [imgPathUpt, setImgPathUpt] = useState('')
@@ -56,7 +66,7 @@ function AnunciosList() {
     const handleSubmitCreate = (e) => {
         e.preventDefault()
         const formularioData = new FormData(e.currentTarget);
-        postAnuncio(formularioData)
+        postAnuncio(formularioData, perfil)
     }
     const resetFormUpt = () => {
         setTituloUpt('');
@@ -76,26 +86,20 @@ function AnunciosList() {
     }
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
-            getAnuncios();
             setOpenNew(false);
             resetForm();
         }
-
-    }, [responseMessageData])
+    }, [errors, message]);
 
     const navegarAAnuncio = (anuncioId) => {
         setLocalStorage('AnuncioIdEdit', anuncioId)
@@ -110,7 +114,11 @@ function AnunciosList() {
     const [descripcionView, setDescripcionView] = useState('')
 
     const [openView, setOpenView] = useState(false);
+<<<<<<< HEAD
     const handleOpenView = () => setOpenView(true);
+=======
+    const handleOpenView = () => { setOpenView(true) }
+>>>>>>> improve_response
     const handleCloseView = () => {
         setOpenView(false)
         resetFormUpt()
@@ -349,10 +357,18 @@ function AnunciosList() {
     }, [openEdit])
 
     useEffect(() => {
+<<<<<<< HEAD
         getAnuncios();
     }, []);
 
     
+=======
+        if(anuncios.length == 0) getAnuncios();
+        if(usuarios.length == 0) getUsers();
+    }, []);
+
+
+>>>>>>> improve_response
 
     return (
         <>
@@ -493,6 +509,15 @@ function AnunciosList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

@@ -5,17 +5,22 @@ import { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Drawer, Grid, useMediaQuery } from '@mui/material'
 import { IoIosArrowDown, IoMdMenu } from 'react-icons/io'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDataGeneralContext } from '../../../context/publicContexts/DataGeneralContext'
+import { useBasicallyContext } from '../../../context/migration/BasicallyContext'
 
 const NavBar = () => {
 
+<<<<<<< HEAD
     const { navbar, getNavbar} = useDataGeneralContext()
+=======
+    const { navbar, getNavbar } = useBasicallyContext()
+>>>>>>> improve_response
     const [open, setOpen] = useState(false);
     const [keyss, setKeyss] = useState([]);
 
     const toggleDrawer = (newOpen) => () => setOpen(newOpen)
     const isSmallScreen = useMediaQuery('(max-width: 820px)');
 
+<<<<<<< HEAD
     useEffect(() => {
         getNavbar()
     }, []);
@@ -26,6 +31,8 @@ const NavBar = () => {
         console.log(navbar)
     }, [navbar]);
 
+=======
+>>>>>>> improve_response
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
             <Grid container spacing={2} sx={{ width: '100%', marginTop: '1em' }}>
@@ -162,7 +169,7 @@ const NavBar = () => {
             </div>
             <div className="links">
                 <Link className='link' to='/'><span>Inicio</span> <p></p></Link>
-                <Link className='link' to='/la-institucion'><span>Institucion</span> <p></p></Link>
+                <Link className='link' to='/la-institucion'><span>Institución</span> <p></p></Link>
                 <Link className='link' to='/noticias'><span>Noticias</span> <p></p></Link>
                 <Link className='link' to='/galeria'><span>Galería</span> <p></p></Link>
             </div>

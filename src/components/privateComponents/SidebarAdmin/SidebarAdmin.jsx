@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+<<<<<<< HEAD
 import { useGeneralContext } from '../../../context/GeneralContext';
 import { perfilRequest } from '../../../api/auth';
 import { useCredentialContext } from '../../../context/AuthContext';
@@ -16,27 +17,45 @@ export default function Sidebar() {
     const { getSeccionesMenu } = useGeneralContext()
     const { logoutFn } = useCredentialContext()
 
+=======
+import { useAuthContext } from '../../../context/migration/AuthContext';
+import { useLocation } from 'react-router-dom';
+export default function Sidebar() {
+    const { logout, getSeccionesMenu, perfil } = useAuthContext()
+
+    const location = useLocation()
+>>>>>>> improve_response
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
     const navegar = useNavigate()
 
+<<<<<<< HEAD
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     }
 
+=======
+>>>>>>> improve_response
     const cerrarSesion = () => {
-        logoutFn()
+        logout()
         navegar('/login')
     }
 
+<<<<<<< HEAD
     const getPerfil = async () => {
         const response = await perfilRequest()
         const data = await response.data
         return data.data
     }
+=======
+    useEffect(()=>{
+        setTimeout(() => {
+            setOpen(false)
+        }, 1000)
+    }, [location])
+>>>>>>> improve_response
 
     const obtenerMenuData = async () => {
-        const perfil = await getPerfil()
         const menuData = await getSeccionesMenu(perfil.id, perfil.RolId)
         let datosMenu = menuData.data.map(permiso => permiso.permisoKey)
         setSeccionesMenu(datosMenu)
@@ -47,16 +66,14 @@ export default function Sidebar() {
     }
 
     useEffect(() => {
-        obtenerMenuData()
-    }, [])
+        if (perfil.RolId) obtenerMenuData()
+    }, [perfil])
 
     const hiddenSeccion = { display: 'none' }
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'
-        >
+        <Box sx={{ width: 250 }} role="presentation"  className='Sidebar-body'>
             <List>
-                {/* // !General */}
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
                     <li key="mi-perfil">
@@ -157,8 +174,8 @@ export default function Sidebar() {
                 </ul>
                 <Divider />
                 {/* // !Informacion */}
-                <h4 className='subtitleSide' style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>Herramientas</h4>
-                <ul style={mostrar('P_PQRS') || mostrar('P_NOTIFICACIONES') || mostrar('P_HISTORIAL') ? hiddenSeccion : {}}>
+                <h4 className='subtitleSide'>Herramientas</h4>
+                <ul>
                     <li key="pqrs" style={mostrar('P_PQRS') ? hiddenSeccion : {}}>
                         <NavLink to="./pqrs" className="link">
                             Pqrs
@@ -186,8 +203,8 @@ export default function Sidebar() {
 
     return (
         <div>
-            <MenuIcon onClick={toggleDrawer(true)} className='icon_menu' />
-            <Drawer open={open} onClose={toggleDrawer(false)}>
+            <MenuIcon onClick={() => setOpen(true)} className='icon_menu' />
+            <Drawer open={open} onClose={() => setOpen(false)}>
                 {DrawerList}
             </Drawer>
         </div>

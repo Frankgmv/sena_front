@@ -90,7 +90,7 @@ export const DataGeneralProvider = ({ children }) => {
             const responseGaleria = await getAllGaleriaRequest()
             setGallery(responseGaleria.data.data);
         } catch (error) {
-            console.error("Error al traer los eventos:", error);
+            // console.log("Error al traer los eventos:", error);
         }
     };
 
@@ -101,7 +101,7 @@ export const DataGeneralProvider = ({ children }) => {
             setCategorias(catResponse.data.data);
             setSecciones(seccResponse.data.data);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
 
@@ -110,7 +110,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllLinkBlogsRequestCpt()
             setNavbar(response.data.data)
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
 
@@ -126,7 +126,7 @@ export const DataGeneralProvider = ({ children }) => {
             })
             setLinks(linkReset);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
 
@@ -142,7 +142,7 @@ export const DataGeneralProvider = ({ children }) => {
             })
             setAnunciosData(dataAnuncios);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
 
@@ -152,7 +152,7 @@ export const DataGeneralProvider = ({ children }) => {
             let dataReset = response.data.data
             setArchivos(dataReset);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
     const getNoticias = async () => {
@@ -160,7 +160,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllNoticiasRequest()
             setNoticias(response.data.data);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
     const getItems = async () => {
@@ -168,7 +168,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllItemRequest()
             setItems(response.data.data);
         } catch (error) {
-            console.error("Error al traer la Items:", error);
+            // console.log("Error al traer la Items:", error);
         }
     };
 
@@ -177,7 +177,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllGaleriaRequest(eventId)
             setGallery(response.data.data);
         } catch (error) {
-            console.error("Error al traer la imagen:", error);
+            // console.log("Error al traer la imagen:", error);
         }
     };
 
@@ -186,7 +186,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllSliderRequest()
             setSlider(response.data.data);
         } catch (error) {
-            console.error("Error al traer el slider:", error);
+            // console.log("Error al traer el slider:", error);
         }
     };
 
@@ -195,7 +195,7 @@ export const DataGeneralProvider = ({ children }) => {
             const response = await getAllVideosRequest()
             setVideos(response.data.data);
         } catch (error) {
-            console.error("Error al traer el videos:", error);
+            // console.log("Error al traer el videos:", error);
         }
     };
 
@@ -205,7 +205,7 @@ export const DataGeneralProvider = ({ children }) => {
             const datos = response.data.data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).slice(0, 2);
             setEventoDataPura(datos);
         } catch (error) {
-            console.error("Error al traer los eventos imagen:", error);
+            // console.log("Error al traer los eventos imagen:", error);
         }
     };
 
@@ -221,7 +221,7 @@ export const DataGeneralProvider = ({ children }) => {
             AddImgs().then(data => {
                 setEventoData(data)
             }).catch(error => {
-                console.error("Error al traer los eventos imagen:", error);
+                // console.log("Error al traer los eventos imagen:", error);
             })
         }
     }, [eventoDataPura]);

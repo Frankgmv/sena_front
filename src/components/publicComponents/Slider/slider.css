@@ -1,13 +1,32 @@
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: 16px;
+}
+
+.body_slider h2 {
+    font-size: 3.2rem;
+}
+
 .body_slider{
     background-color: #ffffff;
     position: relative;
-    top: -15px;
+    top: -1.5rem;
+    height: 45rem;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
-.body_slider .fondo{
+.body_slider .filtro{
     background: rgba(0, 0, 0, 0.55);
     width: 100%;
-    height: 98%;
+    height: 100%;
     margin: 0 auto;
     position: absolute;
     top: 0;
@@ -19,6 +38,8 @@
     height: 100%;
     margin: 10px auto 0;
     overflow: hidden;
+    /* max-width: 1280px;
+    margin: 0 auto; */
 }
 
 .body_slider .slider ul{
@@ -34,9 +55,8 @@
     position: relative;
 }
 
-.body_slider .slider .slider_texto{
+/* .body_slider .slider .slider_texto{
     position: absolute;
-    text-align: center;
     width: 100%;
     height: 100%;
     display: flex;
@@ -45,13 +65,30 @@
     justify-content: center;
     align-items: center;
     padding: 0 250px;
-    color: #FFFFFF;
     z-index: 10;
+    color: #FFFFFF;
+    text-align: center;
 }
 
 .body_slider .slider .slider_texto h2{
     font-size: 45px;
     margin-bottom: 35px;
+} */
+
+
+.filtro .slider_texto {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.filtro .slider_texto h2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .body_slider .slider img{
@@ -74,11 +111,35 @@
     100% { margin-left: -300%; }
 }
 
-@media (width <= 820px) {
-    .body_slider .fondo{
+/* @media (max-width: 480px) { */
+@media (width <= 480px) {
+
+    .body_slider h2 {
+        font-size: 2rem;
+    }
+    
+    .body_slider{
+        height: 30rem;
+    }
+    
+    .body_slider .filtro{
+        height: 30rem !important;
+    }
+    
+    .body_slider .slider{
+        height: 30rem;
+    }
+    .body_slider .slider_texto{
+        height: 30rem;
+    }
+
+}
+
+@media (width <= 768px) {
+    .body_slider .filtro{
         background: rgba(0, 0, 0, 0.55);
         width: 100%;
-        height: 90vw;
+        height: 45rem;
         margin: 0 auto;
         position: absolute;
         top: 0;
@@ -87,7 +148,7 @@
 
     .body_slider .slider img{
         width: 100%;
-        height: 90vw;
+        height: 45rem;
         z-index: -10;
     }
 

@@ -16,6 +16,6 @@ export const registerActionHistorial = async (cambio, descripcion) => {
             await postHistorialRequest(dataHistorial)
         }
     }catch(e){
-        console.log(e.message)
+        // console.log(e.message)
     }
 }

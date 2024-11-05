@@ -8,18 +8,21 @@ import { useMediaQuery } from '@mui/material';
 
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { useTokenProvider } from "../../../../../context/TokenContext";
-import { useUserContext } from "../../../../../context/UserContext";
 import { formateFecha } from "../../../../../assets/includes/funciones";
 import { getLocalStorage, setLocalStorage } from "../../../../../assets/includes/localStorage";
 import toastr from "../../../../../assets/includes/Toastr";
 import BotonExcel from "../../../../publicComponents/botones/BotonExcel/BotonExcel";
+import { useDataContext } from "../../../../../context/migration/DataContext";
 
 function Token() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
+<<<<<<< HEAD
     const { tokens, deleteToken, errorsData, responseMessageData, getTokens, getToken, putToken } = useTokenProvider()
     const { usuarios, getUsers } = useUserContext()
+=======
+    const { usuarios, getUsers, tokens, deleteToken, errors, message, getTokens, getToken, putToken } = useDataContext()
+>>>>>>> improve_response
     const [formDataToken, setFormDataToken] = useState({
         token: '',
         nombre: '',
@@ -27,29 +30,29 @@ function Token() {
     })
 
     useEffect(()=>{
+<<<<<<< HEAD
         getTokens()
         getUsers()
+=======
+        if(tokens.length == 0) getTokens()
+        if(usuarios.length == 0) getUsers()
+>>>>>>> improve_response
     }, [])
 
     useEffect(() => {
-        if (errorsData.length != 0) {
-            const deleteDuplicidad = new Set(errorsData);
-            const errorsData2 = [...deleteDuplicidad]
-            errorsData2.map(error => {
+        if (errors.length != 0) {
+            errors.map(error => {
                 return toastr.error(error)
             })
         }
-    }, [errorsData]);
 
-    useEffect(() => {
-        if (responseMessageData.length != 0) {
-            responseMessageData.map(msg => {
+        if (message.length != 0) {
+            message.map(msg => {
                 toastr.success(msg)
             })
             getTokens();
         }
-
-    }, [responseMessageData])
+    }, [errors, message]);
 
     const columns = [
         {
@@ -337,6 +340,15 @@ function Token() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>
