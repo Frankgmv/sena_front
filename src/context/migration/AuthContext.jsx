@@ -1,4 +1,3 @@
-import { Logout } from "@mui/icons-material";
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginRequest, perfilRequest, registroRequest, verificarTokenRequest } from "../../api/auth";
 import { handlerMessages } from "../../assets/includes/funciones";
@@ -117,19 +116,21 @@ export const AuthProvider = ({ children }) => {
     const register = async (dataRegister) => {
         try {
             const response = await registroRequest(dataRegister)
-            const data = await response.data
+            const data = await response?.data
             if (data.ok) {
                 removeLocalStorage('token')
-                handlerMessages(setMessages, data.message)
+                handlerMessages(setMessages, data?.message)
                 await registerActionHistorial(`Nuevo Usuario`, `Usuario '${dataRegister.nombre}'`)
-            }
+            } else handlerMessages(setErrors, data?.message)
         } catch (error) {
-            const datos = error.response.data
-            if (datos.zodError) {
-                error.response.data.zodError.issues.map(error => {
+            const datos = error?.response?.data
+            if (datos?.zodError) {
+                datos?.zodError?.issues.map(error => {
                     handlerMessages(setErrors, error.message)
                 })
             }
+            if (datos?.message) handlerMessages(setErrors, datos?.message)
+            if (error?.message) handlerMessages(setErrors, error?.message)
         }
     }
 
@@ -165,7 +166,6 @@ export const AuthProvider = ({ children }) => {
             let datoLocal = getLocalStorage('token')
             if ([...datoLocal].length > 10) {
                 // await verificarToken()
-                // todo // console.log([...datoLocal].length > 10)
             }
         } catch (error) {
             if (error?.response?.data?.message) handlerMessages(setErrors, error?.response?.data?.message)

@@ -9,22 +9,25 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useAuthContext } from '../../../context/migration/AuthContext';
-
+import { useLocation } from 'react-router-dom';
 export default function Sidebar() {
     const { logout, getSeccionesMenu, perfil } = useAuthContext()
 
+    const location = useLocation()
     const [open, setOpen] = useState(false);
     const [seccionesMenu, setSeccionesMenu] = useState([]);
     const navegar = useNavigate()
-
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen)
-    }
 
     const cerrarSesion = () => {
         logout()
         navegar('/login')
     }
+
+    useEffect(()=>{
+        setTimeout(() => {
+            setOpen(false)
+        }, 1000)
+    }, [location])
 
     const obtenerMenuData = async () => {
         const menuData = await getSeccionesMenu(perfil.id, perfil.RolId)
@@ -43,7 +46,7 @@ export default function Sidebar() {
     const hiddenSeccion = { display: 'none' }
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} className='Sidebar-body'>
+        <Box sx={{ width: 250 }} role="presentation"  className='Sidebar-body'>
             <List>
                 <h4 className='subtitleSide'>Perfil</h4>
                 <ul>
@@ -174,8 +177,8 @@ export default function Sidebar() {
 
     return (
         <div>
-            <MenuIcon onClick={toggleDrawer(true)} className='icon_menu' />
-            <Drawer open={open} onClose={toggleDrawer(false)}>
+            <MenuIcon onClick={() => setOpen(true)} className='icon_menu' />
+            <Drawer open={open} onClose={() => setOpen(false)}>
                 {DrawerList}
             </Drawer>
         </div>

@@ -41,7 +41,7 @@ function EventoList() {
     }, [errorsR, success]);
 
     useEffect(() => {
-        if(eventos.length == 0) getEventos()
+        if (eventos.length == 0) getEventos()
     }, [])
 
     const columns = [
@@ -176,8 +176,8 @@ function EventoList() {
     const getDataEventUpt = async (idEventEdit) => {
         const eventData = await getEvento(idEventEdit)
         let fechaNueva = formateFechaGuion(eventData.fecha)
-        console.log("Normal "+eventData.fecha)
-        console.log("Formateo "+fechaNueva)
+        console.log("Normal " + eventData.fecha)
+        console.log("Formateo " + fechaNueva)
         setFechaUpt(fechaNueva)
         setEventoUpt(eventData.evento)
     }
@@ -297,6 +297,15 @@ function EventoList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

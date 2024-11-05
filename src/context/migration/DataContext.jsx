@@ -512,11 +512,11 @@ export const DataContextProvider = ({ children }) => {
             const response = await deleteTokenRequest(id)
             const data = await response.data
             if (data.ok) {
-                handlerMessages(setMessages, datos?.message)
+                handlerMessages(setMessages, data?.message)
                 getTokens()
                 await registerActionHistorial(`Eliminó token ${infoToken.data.data.nombre}`, `Token con tokenKey ${infoToken.data.data.tokenKey}`)
             } else {
-                handlerMessages(setErrors, datos?.message)
+                handlerMessages(setErrors, data?.message)
             }
         } catch (error) {
             const datos = error?.response?.data

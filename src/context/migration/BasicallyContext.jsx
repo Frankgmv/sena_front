@@ -108,7 +108,7 @@ export const BasicallyProvider = ({ children }) => {
     const getSecciones = async () => {
         try {
             const dataSecciones = await getAllSeccionesRequest()
-            setSecciones(dataSecciones.data.data)
+            setSecciones(dataSecciones?.data?.data)
         } catch (error) {
             handlerMessages(setErrors, "Error al cargar Secciones")
         }

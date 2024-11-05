@@ -234,8 +234,6 @@ function Galeria() {
         id = parseInt(id)
 
         const dataGaleria = await getGaleria(id)
-
-        console.log(id)
         if (dataGaleria?.ok) {
             let dt = dataGaleria?.data
             setEventoUpt(dt.EventoId)
@@ -400,6 +398,15 @@ function Galeria() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

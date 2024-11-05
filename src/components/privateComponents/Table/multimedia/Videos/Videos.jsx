@@ -389,6 +389,15 @@ function Videos() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

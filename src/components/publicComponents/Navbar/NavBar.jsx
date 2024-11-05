@@ -16,20 +16,6 @@ const NavBar = () => {
     const toggleDrawer = (newOpen) => () => setOpen(newOpen)
     const isSmallScreen = useMediaQuery('(max-width: 820px)');
 
-    useEffect(() => {
-        getNavbar()
-        console.log(isSmallScreen)
-    }, []);
-
-    useEffect(() => {
-        const dato = Object.keys(navbar)
-        setKeyss(dato)
-    }, [navbar]);
-
-    useEffect(()=>{
-        console.log(isSmallScreen)
-    }, [isSmallScreen])
-
     const DrawerList = (
         <div className='sideMenu' onClick={toggleDrawer(true)}>
             <Grid container spacing={2} sx={{ width: '100%', marginTop: '1em' }}>

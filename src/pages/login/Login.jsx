@@ -79,7 +79,7 @@ const Login = () => {
             <div className="redirecciones">
                 <Link className='link-redirecciones' to="/">Inicio</Link>
                 <Link className='link-redirecciones' to="/login">Iniciar Sesión</Link>
-                <Link className='link-redirecciones' to="/register">Registarse</Link>
+                <Link className='link-redirecciones' to="/register">Registrarse</Link>
             </div>
             <div className="textoRegister">
                 <h2>¿Aún no tienes cuenta?</h2>
@@ -100,7 +100,7 @@ const Login = () => {
                 <div className="redireccionesMobile">
                     <Link className='link-redireccionesMobile' to="/">Inicio</Link>
                     <Link className='link-redireccionesMobile' to="/login">Iniciar Sesión</Link>
-                    <Link className='link-redireccionesMobile' to="/register">Registarse</Link>
+                    <Link className='link-redireccionesMobile' to="/register">Registrarse</Link>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>

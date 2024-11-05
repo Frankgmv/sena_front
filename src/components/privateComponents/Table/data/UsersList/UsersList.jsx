@@ -437,8 +437,8 @@ function UserList() {
                 </Grid>
                 <DataGrid
                     rows={usuarios.map((user) => {
-                        if (user.estado) return { ...user, estado: 'activo' }
-                        return { ...user, estado: 'inactivo' }
+                        if (user.estado) return { ...user, estado: 'Activo' }
+                        return { ...user, estado: 'Inactivo' }
                     }).map(user => {
                         for (let rol of roles) {
                             if (rol.id === user.RolId) {
@@ -524,6 +524,15 @@ function UserList() {
                             fontWeight: "500",
                             transition: "all 0.3s ease-in-out",
                         },
+                        '.MuiDataGrid-icon': {
+                            color: 'white',
+                        },
+                        '.MuiSvgIcon-root': {
+                            color: 'white',
+                        },
+                        '.MuiTablePagination-actions .MuiIconButton-root': {
+                            color: 'white',
+                        }
                     }}
                 />
             </div>

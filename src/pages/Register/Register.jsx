@@ -85,7 +85,7 @@ const Register = () => {
             <div className="redirecciones2">
                 <a href="/" className="link-redirecciones2">Inicio</a>
                 <a href="/login" className="link-redirecciones2">Iniciar Sesión</a>
-                <a href="/register" className="link-redirecciones2">Registarse</a>
+                <a href="/register" className="link-redirecciones2">Registrarse</a>
             </div>
             <div className="textoRegister">
                 <h2>Ya tienes una cuenta?</h2>
@@ -102,7 +102,7 @@ const Register = () => {
                 <div className="redireccionesMobile2">
                     <a href="/" className="link-redireccionesMobile2">Inicio</a>
                     <a href="/login" className="link-redireccionesMobile2">Iniciar Sesión</a>
-                    <a href="/register" className="link-redireccionesMobile2">Registarse</a>
+                    <a href="/register" className="link-redireccionesMobile2">Registrarse</a>
                 </div>
                 <div className="form">
                     <form method='POST' onSubmit={handleSubmit}>

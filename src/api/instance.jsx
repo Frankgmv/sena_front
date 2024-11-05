@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getLocalStorage, setLocalStorage } from '../assets/includes/localStorage';
+import { getLocalStorage } from '../assets/includes/localStorage';
 import { BASE_URL_API } from '../assets/includes/variables';
 const getCredential = () => {
 

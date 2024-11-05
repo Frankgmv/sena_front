@@ -10,12 +10,12 @@ import { useBasicallyContext } from "../../../../../context/migration/BasicallyC
 function Categoria() {
 
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
-    const {categorias} = useBasicallyContext()
+    const { categorias } = useBasicallyContext()
 
     const columns = [
         {
             field: "categoria",
-                headerName: "Categoria",
+            headerName: "Categoria",
             width: 300,
             headerAlign: "center",
             align: "center",
@@ -146,6 +146,15 @@ function Categoria() {
                         fontWeight: "500",
                         transition: "all 0.3s ease-in-out",
                     },
+                    '.MuiDataGrid-icon': {
+                        color: 'white',
+                    },
+                    '.MuiSvgIcon-root': {
+                        color: 'white',
+                    },
+                    '.MuiTablePagination-actions .MuiIconButton-root': {
+                        color: 'white',
+                    }
                 }}
             />
         </div>
