@@ -59,7 +59,6 @@ function UserList() {
         if (roles.length == 0) getRoles()
     }, [])
 
-
     const submitUpdateUsuario = (event) => {
         event.preventDefault()
         let dataUpdated = {

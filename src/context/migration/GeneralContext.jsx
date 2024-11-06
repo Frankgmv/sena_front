@@ -39,6 +39,11 @@ export const PermisosProvider = ({ children }) => {
                 return { ...permiso, value: false }
             })
             setPermisosData(transformResponse)
+        }else if(permisos.length != 0) {
+            const transformResponse = permisos.map(permiso => {
+                return { ...permiso, value: false }
+            })
+            setPermisosData(transformResponse)
         }
     }, [permisos, detallePermiso])
 

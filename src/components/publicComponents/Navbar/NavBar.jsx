@@ -13,6 +13,15 @@ const NavBar = () => {
     const [open, setOpen] = useState(false);
     const [keyss, setKeyss] = useState([]);
 
+    useEffect(()=>{
+        if(navbar.length == 0)getNavbar()
+    }, [])
+
+    useEffect(() => {
+        const dato = Object.keys(navbar)
+        setKeyss(dato)
+    }, [navbar]);
+
     const toggleDrawer = (newOpen) => () => setOpen(newOpen)
     const isSmallScreen = useMediaQuery('(max-width: 820px)');
 

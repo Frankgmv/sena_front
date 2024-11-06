@@ -26,7 +26,7 @@ export default function Sidebar() {
     useEffect(()=>{
         setTimeout(() => {
             setOpen(false)
-        }, 1000)
+        },350)
     }, [location])
 
     const obtenerMenuData = async () => {

@@ -773,7 +773,8 @@ export const DataContextProvider = ({ children }) => {
                     })
             }
             if (datos?.message) handlerMessages(setErrors, datos?.message)
-            }
+            if (error?.message) handlerMessages(setErrors, error?.message)
+        }
     }
     
     const validarCodigo = async (data) => {
@@ -789,6 +790,7 @@ export const DataContextProvider = ({ children }) => {
                     })
             }
             if (datos?.message) handlerMessages(setErrors, datos?.message)
+            if (error?.message) handlerMessages(setErrors, error?.message)
         }
     }
     const cambiarPassword = async (data) => {
@@ -803,6 +805,7 @@ export const DataContextProvider = ({ children }) => {
                 })
             }
             if (datos?.message) handlerMessages(setErrors, datos?.message)
+            if (error?.message) handlerMessages(setErrors, error?.message)
         }
     }
     
