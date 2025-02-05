@@ -4,6 +4,7 @@ import vision from '../../assets/img/vision.jpg'
 import logo from '../../assets/img/logo.png'
 import bandera from '../../assets/img/bandera.jpeg'
 import { lazy, Suspense } from 'react'
+import { Margin, Padding } from '@mui/icons-material'
 const Slider = lazy(() => import('../../components/publicComponents/Slider/Slider.jsx'))
 const LoadingScreen = lazy(() => import('../../components/Loading/LoadingScreen.jsx'))
 const NavBar = lazy(() => import('../../components/publicComponents/Navbar/NavBar.jsx'))
@@ -20,7 +21,9 @@ const Institucion = () => {
                     <div className="mision">
                         <div className="container-text">
                             <h3 className='uppercase'>MISIÓN</h3>
-                            <p>La Institución Educativa Centenario propende por formar estudiantes reflexivos, críticos, analíticos, responsables, con capacidad para resolver sus problemas y liderar procesos en la comunidad. Del mismo modo, busca la formación integral de los estudiantes, desarrollando las competencias básicas para desenvolverse en la vida diaria y los valores como pilares de la convivencia pacífica y del reconocimiento a la diferencia, promoviendo un espíritu de liderazgo e investigación científica y tecnológica para que puedan ser seres formados para la vida y puedan vincularse a la educación superior en condiciones de dignidad e igualdad, contribuyendo de manera efectiva a la construcción y realización de su proyecto de vida.
+                            <p>Formar estudiantes reflexivos, críticos y responsables, capaces de resolver problemas y liderar en su comunidad. Promovemos una educación integral que desarrolla competencias básicas para la vida diaria y valores como el respeto a la diferencia y la convivencia pacífica.
+
+                                Fomentamos el liderazgo y el acceso a la educación superior en condiciones dedignidad e igualdad, contribuyendo a la construcción de su proyecto de vida. Además,impulsamos proyectos culturales, deportivos y recreativos que promueven laconservación de la vida, el respeto mutuo y el desarrollo personal, brindandoespacios para el uso adecuado del tiempo libre.
                             </p>
                         </div>
                         <div className="imagen">
@@ -33,7 +36,9 @@ const Institucion = () => {
                         </div>
                         <div className="container-text">
                             <h3 className='uppercase'>VISIÓN</h3>
-                            <p>La Institución Educativa Centenario propende por formar estudiantes reflexivos, críticos, analíticos, responsables, con capacidad para resolver sus problemas y liderar procesos en la comunidad. Del mismo modo, busca la formación integral de los estudiantes, desarrollando las competencias básicas para desenvolverse en la vida diaria y los valores como pilares de la convivencia pacífica y del reconocimiento a la diferencia, promoviendo un espíritu de liderazgo e investigación científica y tecnológica para que puedan ser seres formados para la vida y puedan vincularse a la educación superior en condiciones de dignidad e igualdad, contribuyendo de manera efectiva a la construcción y realización de su proyecto de vida.
+                            <p>Para el año 2027, nuestra Institución Educativa Centenario, será reconocida como una de las mejores del núcleo 7, con una oferta ampliada hacia la educación media, facilitando que un mayor número de egresados continúe su formación en la educación superior.
+
+                                Formaremos integralmente a hombres y mujeres que respeten la vida en todas sus manifestaciones, capaces de aceptar y respetar la diferencia, autónomos y hábiles en la resolución de conflictos mediante el diálogo, transformando positivamente su entorno y contribuyendo a la sociedad.
                             </p>
                         </div>
                         <div className="imagen2">
@@ -47,10 +52,8 @@ const Institucion = () => {
                         <div className="escudo-bandera">
                             <div className="escudo">
                                 <div className="text-escudo">
-                                    <h3>ESCUDO</h3>
-                                    <p>El escudo de la I.E Centenario, tiene una forma caprichosa, que es el resultado de transformaciones más estéticas de escudos para la guerra en la heráldica española, ya que no se quiere dar la impresión de ser utilizado para combates. Tiene en su interior dos símbolos, el búho y el libro abierto, cuyo significado se describe a continuación:</p>
-                                    <p className="list">El Búho: simboliza la sabiduría y la observación que son las virtudes que ha de poseer la justicia. Los ojos del búho que ven en la oscuridad, indican que se debe analizar la verdad con objetividad y que la institución busca formar personas claras de juicio, capaces de tomar con lucidez decisiones rigurosas.</p>
-                                    <p className="list">El Libro Abierto: Permite vislumbrar el anhelo de la institución en el que se quiere compartir todo: ciencia-conocimientos-virtud–valores-sabiduría-objetividad en los procedimientos. Además, recuerda que el conocimiento debe ser de libre acceso en una sociedad que cada vez está más expuesta a las desigualdades e inequidades sociales.</p>
+                                    <h3 style={{marginBottom:"20px"}}>ESCUDO</h3>
+                                    <p>El búho, símbolo de sabiduría y observación, representa las virtudes fundamentales para alcanzar la justicia. Sus ojos, capaces de ver en la oscuridad, nos recuerdan la importancia de analizar la verdad con objetividad, incluso en los momentos más difíciles. </p>
                                 </div>
                                 <div className="imagen-escudo">
                                     <img src={logo} alt="logo.png" title='logo' />
@@ -58,10 +61,11 @@ const Institucion = () => {
                             </div>
                             <div className="bandera">
                                 <div className="text-bandera">
-                                    <h3>BANDERA</h3>
-                                    <p>La forma de la bandera de la I. E Centenario obedece a un homenaje a la forma de la bandera del municipio de Pereira, al igual que el nombre de la institución. Posee dos colores: azul y blanco, cuyo significado se explica a continuación:</p>
-                                    <p className="list">Color Azul: El color azul es un color fresco, tranquilizante y se asocia a la parte intelectual donde el conocimiento es atemporal, es decir, que el aprendizaje es para siempre. Además, se habla de él como un color que se asocia a la tranquilidad y a claridad de ideas. Los elementos que aporta a la bandera y a la institución el color azul son estabilidad, profundidad, lealtad, confianza, sabiduría, inteligencia, fe, verdad, eternidad, conocimiento, integridad, poder, seriedad, generosidad, salud, frescor, entendimiento y tranquilidad..</p>
-                                    <p className="list">Color Blanco: representa pureza, aporta paz, ayuda a limpiar y aclarar las emociones, los pensamientos y el espíritu. Los elementos que aporta a la bandera y a la institución el color blanco son luz, bondad, pureza, optimismo, perfección e inocencia.</p>
+                                    <h3 style={{marginBottom:"20px"}}>BANDERA</h3>
+                                    <p>El color azul de nuestra bandera simboliza la serenidad y la profundidad del conocimiento, recordándonos que el aprendizaje es un proceso continuo y atemporal. Este color, asociado con la tranquilidad y la claridad mental, refleja el ambiente académico que buscamos promover en nuestra institución, donde el pensamiento crítico y la reflexión constante son pilares fundamentales de la formación.
+                                    </p>
+                                    <p className="list">El color blanco, por su parte, representa la pureza de espíritu y el compromiso con la honestidad y la integridad. Es un símbolo de paz que invita a la comunidad educativa a mantener un espacio armónico, donde las emociones y pensamientos se aclaran y orientan hacia el crecimiento personal y colectivo, siempre en un ambiente de respeto y equidad.</p>
+
                                 </div>
                                 <div className="imagen-bandera">
                                     <img src={bandera} alt="logo.png" title='logo' />

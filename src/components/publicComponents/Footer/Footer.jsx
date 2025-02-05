@@ -53,7 +53,7 @@ const Footer = () => {
                             </div>
                             <div className="redes">
                                 <h4>Redes</h4>
-                                <p>iecentenariopereira</p>
+                                <p>rectoria@iecentenario.edu.co</p>
                                 <p>iecentenario@gmail.com</p>
                             </div>
                         </div>
